@@ -70,40 +70,40 @@ const Demo: React.FC = (props: any) => {
         })
 
 
-        session.on('accepted', function (data: any) {
-          console.info('onAccepted - ', data)
-          // if (data.originator == 'remote' && currentSession == null) {
-          //   currentSession = incomingSession
-          //   incomingSession = null
-          //   console.info('setCurrentSession - ', currentSession)
-          // }
-          if (data.session._connection.getLocalStreams().length > 0) {
-            // 接听后，判断localStream
-            oursAudioRef.current.srcObject = e.session._connection.getLocalStreams()[0];
-            oursAudioRef.current.volume = 4;
-          }
-          if (data.session._connection.getRemoteStreams().length > 0) {
-            remoteAudioRef.current.srcObject = e.session._connection.getRemoteStreams()[0];
-          }
-        })
-        session.on('confirmed', function (data: any) {
-          console.info('onConfirmed - ', data)
-          // if (data.originator == 'remote' && currentSession == null) {
-          //   currentSession = incomingSession
-          //   incomingSession = null
-          //   console.info('setCurrentSession - ', currentSession)
-          // }
-        })
-        session.on('sdp', function (data: any) {
-          console.info('onSDP, type - ', data.type, ' sdp - ', data.sdp)
-        })
+        // session.on('accepted', function (data: any) {
+        //   console.info('onAccepted - ', data)
+        //   // if (data.originator == 'remote' && currentSession == null) {
+        //   //   currentSession = incomingSession
+        //   //   incomingSession = null
+        //   //   console.info('setCurrentSession - ', currentSession)
+        //   // }
+        //   if (data.session._connection.getLocalStreams().length > 0) {
+        //     // 接听后，判断localStream
+        //     oursAudioRef.current.srcObject = e.session._connection.getLocalStreams()[0];
+        //     oursAudioRef.current.volume = 4;
+        //   }
+        //   if (data.session._connection.getRemoteStreams().length > 0) {
+        //     remoteAudioRef.current.srcObject = e.session._connection.getRemoteStreams()[0];
+        //   }
+        // })
+        // session.on('confirmed', function (data: any) {
+        //   console.info('onConfirmed - ', data)
+        //   // if (data.originator == 'remote' && currentSession == null) {
+        //   //   currentSession = incomingSession
+        //   //   incomingSession = null
+        //   //   console.info('setCurrentSession - ', currentSession)
+        //   // }
+        // })
+        // session.on('sdp', function (data: any) {
+        //   console.info('onSDP, type - ', data.type, ' sdp - ', data.sdp)
+        // })
 
-        session.on('progress', function (data: any) {
-          console.info('onProgress - ', data.originator)
-          if (data.originator == 'remote') {
-            console.info('onProgress, response - ', data.response)
-          }
-        })
+        // session.on('progress', function (data: any) {
+        //   console.info('onProgress - ', data.originator)
+        //   if (data.originator == 'remote') {
+        //     console.info('onProgress, response - ', data.response)
+        //   }
+        // })
         // session.on('peerconnection', function (data: any) {
         //   console.info('onPeerconnection - ', data.peerconnection)
         //   data.peerconnection.onaddstream = function (ev: any) {
