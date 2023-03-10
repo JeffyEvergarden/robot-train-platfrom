@@ -9,7 +9,13 @@ export default [
   {
     path: '/demo',
     component: './demo',
-    name: 'demo测试',
+    name: '语音聊天demo测试',
+    layout: true,
+  },
+  {
+    path: '/drawdemo',
+    component: './draw-demo',
+    name: '画布demo测试',
     layout: true,
   },
   {

@@ -1,9 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useModel } from 'umi';
-import { Button } from 'antd';
+import { Button, Input, message } from 'antd';
 import style from './style.less';
 import JsSIP from 'jssip';
 
+
+import { startCall } from './test';
+
+let currentSession = null;
+
+let currentConnection = null;
 
 // 首页
 const Demo: React.FC = (props: any) => {
@@ -16,7 +22,25 @@ const Demo: React.FC = (props: any) => {
   // 远方的音频
   const remoteAudioRef = useRef<any>(null);
 
+
+  const [val1, setVal1] = useState<any>('1000');
+
+  const [val2, setVal2] = useState<any>('1002');
+
+  const onChange1 = (e: any) => {
+    setVal1(e.target.value);
+  }
+
+  const onChange2 = (e: any) => {
+    setVal2(e.target.value);
+  }
+
   const startConfig = () => {
+
+    if (!val1 || !val2) {
+      message.warning('请填写输入框')
+      return null;
+    }
 
     const curUrl: any = window.location.href;
     const type = curUrl.includes('http://') ? 'ws' : 'wss'
@@ -29,7 +53,7 @@ const Demo: React.FC = (props: any) => {
     // 注册信息  
     const configuration = {
       sockets: [socket],
-      uri: 'sip:' + '1000' + registerUrl,
+      uri: 'sip:' + val1 + registerUrl,
       password: 'yiwise',  // 公司freeswitch,
       outbound_proxy_set: linkUrl,
       display_name: 'JeffyLiang',
@@ -39,84 +63,151 @@ const Demo: React.FC = (props: any) => {
 
     const ua = new JsSIP.UA(configuration);
 
-    ua.start();
+    sipSession.current.ua = ua;
 
+    sipSession.current.currentSession = null;
+    sipSession.current.currentConnection = null;
+
+
+    ua.start();
+    // 注册
     ua.on('registered', function (data) {
       console.info("registered: ", data.response);
     });
 
-    ua.on('newRTCSession', function (e: any) {
-      console.log('newRTCSession: ---', e)
-      if (e.session._direction == "outgoing") {
-        console.log("打电话");
-      } else {
-        console.log("来电话啦");
-        // 绑定session
-        const session = e.session
-        sipSession.current = e.session;
-        console.log(e.session);
-        // 接听
-        // RTCSession 的 answer 方法做了自动接听。实际开发中，你需要弹出一个提示框，让用户选择是否接听
-        session.answer({
-          'mediaConstraints': { 'audio': true, 'video': false },
-          // 'mediaStream': localStream
-        });
-        //拿到远程的音频流
-        session.connection.addEventListener("addstream", function (ev: any) {
-          console.info('onaddstream from remote - ', ev.stream);
-          console.log(remoteAudioRef.current)
-          remoteAudioRef.current.srcObject = ev.stream;
-          remoteAudioRef.current.play();
-        })
+    ua.on('newRTCSession', function (res: any) {
+      console.log('newRTCSession: ---', res);
+      let { session, originator } = res;
 
-
-        // session.on('accepted', function (data: any) {
-        //   console.info('onAccepted - ', data)
-        //   // if (data.originator == 'remote' && currentSession == null) {
-        //   //   currentSession = incomingSession
-        //   //   incomingSession = null
-        //   //   console.info('setCurrentSession - ', currentSession)
-        //   // }
-        //   if (data.session._connection.getLocalStreams().length > 0) {
-        //     // 接听后，判断localStream
-        //     oursAudioRef.current.srcObject = e.session._connection.getLocalStreams()[0];
-        //     oursAudioRef.current.volume = 4;
-        //   }
-        //   if (data.session._connection.getRemoteStreams().length > 0) {
-        //     remoteAudioRef.current.srcObject = e.session._connection.getRemoteStreams()[0];
-        //   }
-        // })
-        // session.on('confirmed', function (data: any) {
-        //   console.info('onConfirmed - ', data)
-        //   // if (data.originator == 'remote' && currentSession == null) {
-        //   //   currentSession = incomingSession
-        //   //   incomingSession = null
-        //   //   console.info('setCurrentSession - ', currentSession)
-        //   // }
-        // })
-        // session.on('sdp', function (data: any) {
-        //   console.info('onSDP, type - ', data.type, ' sdp - ', data.sdp)
-        // })
-
-        // session.on('progress', function (data: any) {
-        //   console.info('onProgress - ', data.originator)
-        //   if (data.originator == 'remote') {
-        //     console.info('onProgress, response - ', data.response)
-        //   }
-        // })
-        // session.on('peerconnection', function (data: any) {
-        //   console.info('onPeerconnection - ', data.peerconnection)
-        //   data.peerconnection.onaddstream = function (ev: any) {
-        //     console.info('onaddstream from remote ----------- ', ev)
-        //     // 需要连接页面的 vidio 标签
-        //     let videoView: any = document.getElementById('videoView')
-        //     videoView.srcObject = ev.stream
-        //   }
-        // })
+      if (originator === 'remote') {
+        console.log("接电话啦");
+        handleAnswerWebRTCSession(session);
+      } else if (originator === 'local') {
+        console.log("打电话啦");
+        handleCallWebRTCSession(session);
       }
+      res.session.on('peerconnection', function (data: any) {
+        console.log("peerconnection");
+        console.log(data);
+        data.peerconnection.onaddstream = function (ev: any) {
+          console.log('onaddStream');
+          console.log(ev);
+          remoteAudioRef.current.src = URL.createObjectURL(ev.stream);
+          remoteAudioRef.current.onloadstart = () => {
+            remoteAudioRef.current.play()
+          }
+          remoteAudioRef.current.onerror = () => {
+            alert('录音加载失败...')
+          }
+        }
+      });
     });
   }
 
+  const autoCall = () => {
+    var eventHandlers = {
+      progress: function (e: any) {
+        console.log('call is in progress')
+      },
+      failed: function (e: any) {
+        console.log('call failed: ', e)
+      },
+      ended: function (e: any) {
+        console.log('call ended : ', e)
+      },
+      confirmed: function (e: any) {
+        console.log('call confirmed')
+      }
+    }
+
+
+    var options = {
+      eventHandlers: eventHandlers,
+      mediaConstraints: { audio: true, video: false }
+      //'mediaStream': localStream
+    }
+
+    const userAgent = sipSession.current.ua
+    //outgoingSession = userAgent.call('sip:3000@192.168.40.96:5060', options);
+    /*
+         * 拨打多媒体电话。不需要自己调用 getUserMedia 来捕获音视频了， JsSIP 会根据你传给JsSIP.UA.call方法的参数来自己调用
+
+             参数
+
+             Target 通话的目的地。String表示目标用户名或完整的SIP URI或JsSIP.URI实例。
+
+             Options 可选Object附加参数（见下文）。
+                 options对象中的字段；
+                 mediaConstraints Object有两个有效的字段（audio和video）指示会话是否打算使用音频和/或视频以及要使用的约束。默认值是audio并且video设置为true。
+                 mediaStream MediaStream 传送到另一端。
+                 eventHandlers Object事件处理程序的可选项将被注册到每个呼叫事件。为每个要通知的事件定义事件处理程序。
+             */
+    userAgent.call(`sip:${val2}@11.112.0.42:5070`, options)
+  }
+
+
+
+  const handleAnswerWebRTCSession = (session: any) => {
+    /** session 要单独存下，后面接听挂断需要
+        挂断: session.terminate();
+        接听：session.answer({'mediaConstraints': { 'audio': true, 'video': false }})
+    */
+    let { _connection } = session;
+    currentSession = session;
+    currentConnection = _connection;
+    session.answer({ 'mediaConstraints': { 'audio': true, 'video': false } });
+
+    session.on("accepted", () => {
+      console.log('answer accepted', session);
+      handleStreamsSrcObject(session._connection);
+    });
+
+    // 来电=>自定义来电弹窗，让用户选择接听和挂断
+    // session.on("progress", () => { });
+    // 挂断-来电已挂断
+    session.on("ended", () => {
+      console.log('挂断-来电已挂断')
+    });
+    // 当会话无法建立时触发
+    session.on("failed", () => {
+      console.log('当会话无法建立时触发')
+    });
+  }
+
+  const handleCallWebRTCSession = (session: any) => {
+    let { _connection } = session;
+    currentSession = session;
+    currentConnection = _connection;
+    session.on('confirmed', () => {
+      console.log('call confirmed');
+      handleStreamsSrcObject(session._connection);
+    });
+  }
+
+  const handleStreamsSrcObject = (connection: any) => {
+    console.log('connection:')
+    console.log(connection) // 输出了RTCPeerConnection 类
+    console.log(connection.getRemoteStreams().length);
+
+
+
+    // if (connection.getRemoteStreams().length > 0) {
+    //   console.log('获取远程媒体流', connection.getLocalStreams().length)
+    //   // 获取远程媒体流
+    //   let srcObject = connection.getRemoteStreams()[0];
+    //   console.log(srcObject);
+    //   remoteAudioRef.current.srcObject = srcObject;
+
+    // };
+    if (connection.getLocalStreams().length > 0) {
+      console.log('获取本地媒体流', connection.getLocalStreams().length)
+      // 获取本地媒体流
+      let srcObject = connection.getLocalStreams()[0];
+      console.log(srcObject);
+      oursAudioRef.current.srcObject = srcObject;
+      oursAudioRef.current.play()
+    };
+  }
 
 
   useEffect(() => { }, []);
@@ -124,14 +215,22 @@ const Demo: React.FC = (props: any) => {
   return (
     <div className={style['demo-box']}>
 
-      <Button type="primary" onClick={startConfig}>free-switch</Button>
+      <div className={style['box-item']}>
+        <Input value={val1} onChange={onChange1} style={{ width: '200px' }}></Input>
+      </div>
+      <div className={style['box-item']}>
+        <Input value={val2} onChange={onChange2} style={{ width: '200px' }}></Input>
+      </div>
+
+      <Button type="primary" onClick={startConfig} style={{ marginBottom: '20px' }}>free-switch</Button>
+
+      <Button type="primary" onClick={autoCall}>autoCall</Button>
 
       <audio id="remote-audio" ref={remoteAudioRef} controls></audio>
 
       <audio id="ours-audio" ref={oursAudioRef} controls></audio>
 
-
-      <video id="videoView" ref={oursAudioRef} controls></video>
+      <video id="video" controls></video>
     </div>
   );
 };
