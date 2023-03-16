@@ -1,72 +1,74 @@
-import React, { useEffect, useRef, useState } from 'react';
-import LogicFlow from '@logicflow/core';
-import { DndPanel, SelectionSelect } from '@logicflow/extension';
-// 样式
-import "@logicflow/core/dist/style/index.css";
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useModel } from 'umi';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
+import DrawPanel from '../draw-panel';
 import style from './style.less';
-import DndDiyPanel from './components/dnd-panel';
-import { registerNode } from './components/node';
+import { useDrawModel } from './model';
 
 
 // 首页
-const DrawDemo: React.FC = (props: any) => {
-  // const { initialState, setInitialState } = useModel('@@initialState');
+const DrawDemo: React.FC<any> = (props: any) => {
 
-  // const curLf: any = useRef<any>(null);
-  const drawBoxRef: any = useRef<any>(null);
-  const [curLf, setLf] = useState<any>(null);
+  const drawLf: any = useRef<any>(null);
+  // -------
+  // 获取画布
+  const { getDrawPanel, saveDrawPanel, addNode, deleteNode } = useDrawModel();
 
-  const init = () => {
-    const lf: any = new LogicFlow({
-      container: drawBoxRef.current,
-      plugins: [DndPanel, SelectionSelect],
-      grid: true
-    });
-    lf.render({
-      nodes: [
-        {
-          id: "1",
-          type: "rect",
-          x: 300,
-          y: 100,
-          text: "节点1"
-        },
-        {
-          id: "2",
-          type: "circle",
-          x: 700,
-          y: 200,
-          text: "节点2"
-        }
-      ],
-      edges: [
-        {
-          sourceNodeId: "1",
-          targetNodeId: "2",
-          type: "polyline",
-          text: "连线"
-        }
-      ]
+  // 事件监听
 
-    })
-    // 节点注册
-    registerNode(lf);
-    // 赋值到curLf
-    setLf(lf);
+  //初始化
+  const init = async () => {
+
+    let res = await getDrawPanel({});
+    if (res) {
+      drawLf.current?.initPanel(res);
+    }
+  }
+
+  // 保存画布
+  const onSave = (data: any) => {
+    const { nodes, edges } = data;
+    saveDrawPanel({ nodes, edges })
+  }
+
+  // 监听节点添加  return true / false
+
+  const _addNode = async (data: any) => {
+    return addNode(data);
+  }
+
+  // 删除节点删除 return true / false
+  const _deleteNode = async (data: any) => {
+    return deleteNode(data);
+  }
+
+  // 双击节点
+  const onNodeDbClick = async (data: any) => {
+    console.log(data);
+  }
+
+  // 双击连线
+  const onEdgeDbClick = async (data: any) => {
+    console.log(data);
   }
 
 
   useEffect(() => {
+    //初始化画布
     init();
   }, []);
 
   return (
-    <div className={style['demo-box']}>
-      <DndDiyPanel lf={curLf}></DndDiyPanel>
-      <div id="draw-box" ref={drawBoxRef} className={style['draw-box']}></div>
-    </div>
+    <>
+      <DrawPanel
+        cref={drawLf}
+        onSave={onSave}
+        addNode={_addNode} // 添加
+        deleteNode={_deleteNode} // 删除
+        onNodeDbClick={onNodeDbClick} // 双击点击节点
+        onEdgeDbClick={onEdgeDbClick} // 双击连线
+      />
+    </>
   );
 };
 

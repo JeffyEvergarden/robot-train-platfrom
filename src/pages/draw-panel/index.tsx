@@ -1,0 +1,166 @@
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import LogicFlow from '@logicflow/core';
+import { DndPanel, SelectionSelect, Menu } from '@logicflow/extension';
+// 样式
+import "@logicflow/core/dist/style/index.css";
+import '@logicflow/extension/lib/style/index.css'
+
+import { useModel } from 'umi';
+import { Button, message } from 'antd';
+import style from './style.less';
+import DndDiyPanel from './components/dnd-panel';
+import { registerNode } from './components/node';
+
+import { setMenuConfig, checkEdge } from './config';
+
+import { useDrawModel } from '../draw-demo/model';
+
+
+// 首页
+const DrawPanel: React.FC<any> = (props: any) => {
+
+  const {
+    cref,
+    onSave,
+    onNodeDbClick,
+    onEdgeDbClick,
+    addNode = () => true,
+    deleteNode = () => true,
+  } = props;
+
+  // const { initialState, setInitialState } = useModel('@@initialState');
+
+  // const curLf: any = useRef<any>(null);
+  const drawDomRef: any = useRef<any>(null);
+  const drawPanelRef: any = useRef<any>(null);
+  const [curLf, setLf] = useState<any>(null);
+
+  // -------
+
+  // 事件监听
+
+  const addEvent = (lf: any) => {
+    const { eventCenter } = lf.graphModel;
+
+    // 双击节点
+    eventCenter.on('node:dbclick', (info: any) => {
+      const { data, e, position } = info
+      // console.log('node:dbclick', data, e, position);
+      onNodeDbClick?.(data);
+    })
+    // 双击连线
+    eventCenter.on('edge:dbclick', (info: any) => {
+      const { data, e } = info
+      console.log('edge:dbclick', data, e)
+      onEdgeDbClick?.(data);
+    })
+
+    // 拖动节点创建
+    eventCenter.on('node:dnd-add', async (e: any) => {
+      console.log(e);
+      // 测试删除节点 // 调接口
+      if (e.data.type === 'student') {
+        // lf.deleteNode(e.data.id);
+      }
+      let res: any = await addNode(e.data);
+      if (!res) {
+        lf.deleteNode(e.data.id);
+      }
+    })
+
+
+    eventCenter.on('node:dnd-add', async (e: any) => {
+      console.log(e);
+      // 测试删除节点 // 调接口
+      if (e.data.type === 'student') {
+        // lf.deleteNode(e.data.id);
+      }
+      let res: any = await addNode(e.data);
+      if (!res) {
+        lf.deleteNode(e.data.id);
+      }
+    })
+
+
+    // 拖动节点创建
+    eventCenter.on('edge:add', async (e: any) => {
+      console.log(e);
+
+      if (!checkEdge(e.data, lf)) {
+        lf.deleteEdge(e.data.id);
+        message.warning('同个节点不能作为2个节点的出口');
+      }
+      // 测试删除节点 // 调接口
+      // if (e.data.type === 'student') {
+      //   // lf.deleteEdge(e.data.id);
+      // }
+    })
+
+  }
+
+  //初始化
+  const init = () => {
+    const lf: any = new LogicFlow({
+      container: drawDomRef.current,
+      plugins: [DndPanel, SelectionSelect, Menu],
+      grid: true,
+      edgeType: 'line',
+    });
+
+    lf.render({});
+    // 节点注册
+    registerNode(lf);
+    console.log('节点注册');
+    // 赋值到curLf
+    setLf(lf);
+    // 设置菜单
+    setMenuConfig(lf, {
+      deleteNode
+    });
+    // 添加监听事件
+    addEvent(lf);
+    // ----
+    drawPanelRef.current = lf;
+  }
+
+  // 保存
+  const _save = () => {
+    const { nodes, edges } = curLf.getGraphData();
+    // console.log('信息保存');
+    // console.log(nodes, edges);
+    onSave?.({ nodes, edges })
+  }
+
+  useImperativeHandle(cref, () => ({
+    initPanel: (data: any) => {
+      if (drawPanelRef.current) {
+        // console.log(curLf);
+        drawPanelRef.current?.render(data);
+      }
+    }
+  }))
+
+
+
+  useEffect(() => {
+    // 初始化画布
+    init();
+  }, []);
+
+  return (
+    <div className={style['draw-box_bg']}>
+      <div className={style['menu-box']}>
+        <div className={style['content_left']}></div>
+        <div className={style['content_right']}>
+          <Button className={style['bt-item']}>校验</Button>
+          <Button type="primary" onClick={_save}>保存</Button>
+        </div>
+      </div>
+      {/* 拖动面板 */}
+      <DndDiyPanel lf={curLf}></DndDiyPanel>
+      <div id="draw-box" ref={drawDomRef} className={style['draw-box']}></div>
+    </div>
+  );
+};
+
+export default DrawPanel;
