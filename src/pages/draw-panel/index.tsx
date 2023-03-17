@@ -1,6 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import LogicFlow from '@logicflow/core';
-import { DndPanel, SelectionSelect, Menu } from '@logicflow/extension';
+import { DndPanel, SelectionSelect, Menu, Control } from '@logicflow/extension';
 // 样式
 import "@logicflow/core/dist/style/index.css";
 import '@logicflow/extension/lib/style/index.css'
@@ -11,9 +11,7 @@ import style from './style.less';
 import DndDiyPanel from './components/dnd-panel';
 import { registerNode } from './components/node';
 
-import { setMenuConfig, checkEdge } from './config';
-
-import { useDrawModel } from '../draw-demo/model';
+import { setMenuConfig, setControlConfig, checkEdge } from './config';
 
 
 // 首页
@@ -102,17 +100,16 @@ const DrawPanel: React.FC<any> = (props: any) => {
   const init = () => {
     const lf: any = new LogicFlow({
       container: drawDomRef.current,
-      plugins: [DndPanel, SelectionSelect, Menu],
+      plugins: [DndPanel, SelectionSelect, Menu, Control],
       grid: true,
       edgeType: 'line',
     });
-
-    lf.render({});
     // 节点注册
     registerNode(lf);
     console.log('节点注册');
     // 赋值到curLf
     setLf(lf);
+    setControlConfig(lf);
     // 设置菜单
     setMenuConfig(lf, {
       deleteNode

@@ -37,6 +37,12 @@ export const setMenuConfig = (lf: any, options: any) => {
   });
 };
 
+export const setControlConfig = (lf: any) => {
+  lf.extension.control.removeItem('undo');
+  lf.extension.control.removeItem('redo');
+  console.log(lf.extension.control.controlItems);
+};
+
 export const checkEdge = (edge: any, lf: any) => {
   const { edges } = lf.graphModel;
   const id = edge.id;
