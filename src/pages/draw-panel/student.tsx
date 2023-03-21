@@ -12,6 +12,7 @@ import DndDiyPanel from './components/dnd-panel/student';
 import { registerNode } from './components/node/student';
 
 import { setMenuConfig, setControlConfig, checkEdge } from './config';
+import e from 'express';
 
 
 // 首页
@@ -96,16 +97,130 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
   }
 
+  const getDeepNode: (id: any) => any = (id: any) => {
+    const _lf = drawPanelRef.current;
+    const edges = _lf.getNodeEdges(id) || []; // 获取所有连线
+    let _edges = edges.filter((item: any) => item.sourceNodeId === id).map((item: any) => item.targetNodeId);
+    console.log(_lf, _lf.getNodeModelById);
+    if (_edges.length === 0) {
+      const node = _lf.getNodeModelById(id);
+      console.log(node);
+      return node;
+    } else if (_edges.length === 1) {
+      console.log('继续走:' + _edges[0]);
+      return getDeepNode(_edges[0]);
+    } else {
+      return null
+    }
+  }
+
+  // 添加子任务
+  const addSubTask = async (node: any) => {
+    const _lf = drawPanelRef.current;
+    const { nodes, edges } = _lf.getGraphData();
+
+    let newInfo: any = {
+      type: 'task',
+      x: node.x - 200 < 250 ? 250 : node.x - 200,
+      y: node.y + 140,
+      text: '子任务',
+    }
+    // 找到所有连线
+    let _edges = edges.filter((item: any) => item.sourceNodeId === node.id).map((item: any) => item.targetNodeId)
+    // 找到对应对应节点
+    let _nodes = _edges.map((item: any) => _lf.getNodeModelById(item))
+    if (_edges.length === 0) {
+      // 添加节点 ----可能要调接口
+    } else {
+      let max = _nodes?.[0]?.x;
+      _nodes.forEach((item: any) => {
+        if (item.x > max) {
+          max = item.x
+        }
+      });
+      newInfo.x = max + 300;
+    }
+
+    let _node = _lf.getNodeModelById(node.id)
+    // 添加节点
+    let newNode = _lf.addNode(newInfo);
+
+
+    let aAnchor = _node.getDefaultAnchor()[2];
+    let bAnchor = newNode.getDefaultAnchor()[0];
+    // 添加连线
+    let newLine = _lf.addEdge({
+      sourceNodeId: node.id, targetNodeId: newNode.id,
+      startPoint: {
+        ...aAnchor,
+      },
+      endPoint: {
+        ...bAnchor
+      },
+      type: 'polyline',
+    });
+  }
+  // 添加子步骤
+  const addSubStep = (node: any) => {
+    const _lf = drawPanelRef.current;
+
+    const edges = _lf.getNodeEdges(node.id);
+
+    let _edges = edges.filter((item: any) => item.sourceNodeId === node.id).map((item: any) => item.targetNodeId)
+    console.log(_edges);
+    let parentNode = null;
+    if (_edges.length === 0) {
+      parentNode = _lf.getNodeModelById(node.id);
+    } else if (_edges.length === 1) {
+      parentNode = getDeepNode(_edges[0]);
+    } else {
+      parentNode = null;
+    }
+
+    console.log('parentNode:', parentNode);
+
+    if (!parentNode) {
+      return
+    }
+
+    let newInfo: any = {
+      type: 'step',
+      x: parentNode.x,
+      y: parentNode.y + 140,
+      text: '子步骤',
+    }
+
+    let newNode = _lf.addNode(newInfo);
+
+    let aAnchor = parentNode.getDefaultAnchor()[2];
+    let bAnchor = newNode.getDefaultAnchor()[0];
+    // 添加连线
+    let newLine = _lf.addEdge({
+      sourceNodeId: node.id, targetNodeId: newNode.id,
+      startPoint: {
+        ...aAnchor,
+      },
+      endPoint: {
+        ...bAnchor
+      },
+      type: 'line',
+    });
+  }
+
+
   //初始化
   const init = () => {
     const lf: any = new LogicFlow({
       container: drawDomRef.current,
       plugins: [DndPanel, SelectionSelect, Menu, Control],
       grid: true,
-      edgeType: 'polyline',
+      edgeType: 'line',
     });
     // 节点注册
-    registerNode(lf);
+    registerNode(lf, {
+      addSubTask,
+      addSubStep,
+    });
     console.log('节点注册');
     // 赋值到curLf
     setLf(lf);

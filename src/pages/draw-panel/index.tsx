@@ -102,7 +102,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       container: drawDomRef.current,
       plugins: [DndPanel, SelectionSelect, Menu, Control],
       grid: true,
-      edgeType: 'line',
+      edgeType: 'polyline',
     });
     // 节点注册
     registerNode(lf);

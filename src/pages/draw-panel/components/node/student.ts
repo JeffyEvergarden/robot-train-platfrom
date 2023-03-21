@@ -145,8 +145,8 @@ class StepNodeModel extends RectNodeModel {
   }
 }
 
-export function registerNode(lf: any) {
-  // 注册结束节点
+export function registerNode(lf: any, options: any) {
+  // 任务节点注册
   lf.batchRegister([
     {
       type: 'course', // 标题
@@ -164,4 +164,58 @@ export function registerNode(lf: any) {
       model: StepNodeModel,
     },
   ]);
+
+  // 任务节点菜单
+  lf.extension.menu.setMenuByType({
+    type: 'course',
+    menu: [
+      {
+        text: '添加子任务',
+        callback(node: any) {
+          //
+          options?.addSubTask?.(node);
+        },
+      },
+      {
+        text: '删除',
+        callback: async (node: any) => {
+          if (options.deleteNode) {
+            let res: any = options.deleteNode(node.id);
+            if (res) {
+              lf.deleteNode(node.id);
+            }
+          } else {
+            // 扩散删除
+            lf.deleteNode(node.id);
+          }
+        },
+      },
+    ],
+  });
+
+  lf.extension.menu.setMenuByType({
+    type: 'task',
+    menu: [
+      {
+        text: '添加子步骤',
+        callback(node: any) {
+          //
+          options?.addSubStep?.(node);
+        },
+      },
+      {
+        text: '删除',
+        callback: async (node: any) => {
+          if (options.deleteNode) {
+            let res: any = options.deleteNode(node.id);
+            if (res) {
+              lf.deleteNode(node.id);
+            }
+          } else {
+            lf.deleteNode(node.id);
+          }
+        },
+      },
+    ],
+  });
 }
