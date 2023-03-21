@@ -18,6 +18,20 @@ export default [
     name: '画布demo测试',
     layout: true,
   },
+  // -----学员端
+  {
+    path: '/student/course',
+    component: './student-web/course',
+    name: '学习课程',
+    layout: true,
+  },
+  {
+    path: '/student/course/detail',
+    component: './student-web/detail',
+    name: '课程详情',
+    hideInMenu: true,
+    layout: true,
+  },
   {
     path: '/login',
     layout: false,

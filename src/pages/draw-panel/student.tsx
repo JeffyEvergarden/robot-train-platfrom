@@ -8,8 +8,8 @@ import '@logicflow/extension/lib/style/index.css'
 import { useModel } from 'umi';
 import { Button, message } from 'antd';
 import style from './style.less';
-import DndDiyPanel from './components/dnd-panel';
-import { registerNode } from './components/node';
+import DndDiyPanel from './components/dnd-panel/student';
+import { registerNode } from './components/node/student';
 
 import { setMenuConfig, setControlConfig, checkEdge } from './config';
 
@@ -102,7 +102,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       container: drawDomRef.current,
       plugins: [DndPanel, SelectionSelect, Menu, Control],
       grid: true,
-      edgeType: 'line',
+      edgeType: 'polyline',
     });
     // 节点注册
     registerNode(lf);
@@ -132,12 +132,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
     initPanel: (data: any) => {
       if (drawPanelRef.current) {
         // console.log(curLf);
-        drawPanelRef.current?.render(data);
+        drawPanelRef.current?.render(data || {});
       }
     }
   }))
-
-
 
   useEffect(() => {
     // 初始化画布

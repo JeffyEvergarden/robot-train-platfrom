@@ -6,24 +6,20 @@ import style from './index.less';
 
 const shapeList: any = [
   {
-    type: 'start',
-    text: '开始节点',
+    type: 'course',
+    text: '课程节点',
   },
   {
-    type: 'student',
-    text: '学员节点',
+    type: 'task',
+    text: '任务节点',
   },
   {
-    type: 'customer',
-    text: '客服节点',
-  },
-  {
-    type: 'finish',
-    text: '结束节点',
+    type: 'step',
+    text: '步骤节点',
   },
 ]
 
-const DndDiyPanel: React.FC<any> = (props: any) => {
+const StudentDiyPanel: React.FC<any> = (props: any) => {
 
   // 鼠标点击事件
   const { lf } = props;
@@ -32,21 +28,8 @@ const DndDiyPanel: React.FC<any> = (props: any) => {
 
     // 开始节点只允许创建一个
     // 结束节点只允许创建一个
-
-    //
     const { nodes } = lf.graphModel;
     console.log('节点 创建nodes:', shape);
-
-    if (shape.type === 'start' || shape.type === 'finish') {
-
-      let node = nodes.find((item: any) => item.type === shape.type)
-
-      if (node) {
-        message.warn(`${shape.type === 'start' ? '开始' : '结束'}节点已存在，不能重复创建`)
-        return;
-      }
-    }
-
 
     lf.dnd.startDrag({
       type: shape.type,
@@ -76,4 +59,4 @@ const DndDiyPanel: React.FC<any> = (props: any) => {
   )
 }
 
-export default DndDiyPanel;
+export default StudentDiyPanel;

@@ -84,9 +84,101 @@ const getPanelDetail = (req: any, res: any) => {
   });
 };
 
+const getTaskPanelDetail = (req: any, res: any) => {
+  res.json({
+    code: successCode,
+    data: {
+      nodes: [
+        {
+          id: 'bd84a36e-6da2-4c18-8052-2f3a49b28fe5',
+          type: 'course',
+          x: 520,
+          y: 100,
+          properties: {},
+          text: { x: 520, y: 100, value: '课程节点' },
+        },
+        {
+          id: 'abbfb89c-7bb3-4174-9430-ecc467259dcb',
+          type: 'task',
+          x: 360,
+          y: 240,
+          properties: {},
+          text: { x: 360, y: 240, value: '任务节点' },
+        },
+        {
+          id: '7da1f738-cae1-4550-8bef-c669f068d8a9',
+          type: 'task',
+          x: 620,
+          y: 240,
+          properties: {},
+          text: { x: 620, y: 240, value: '任务节点' },
+        },
+        {
+          id: 'd1782302-fb90-415d-b080-a4f07d95cc1f',
+          type: 'step',
+          x: 360,
+          y: 400,
+          properties: {},
+          text: { x: 360, y: 400, value: '步骤节点' },
+        },
+      ],
+      edges: [
+        {
+          id: '29c5c2d6-b5c7-424b-967b-22289a5ff239',
+          type: 'polyline',
+          sourceNodeId: 'bd84a36e-6da2-4c18-8052-2f3a49b28fe5',
+          targetNodeId: 'abbfb89c-7bb3-4174-9430-ecc467259dcb',
+          startPoint: { x: 520, y: 137 },
+          endPoint: { x: 360, y: 203 },
+          properties: {},
+          pointsList: [
+            { x: 520, y: 137 },
+            { x: 520, y: 173 },
+            { x: 360, y: 173 },
+            { x: 360, y: 203 },
+          ],
+        },
+        {
+          id: '300e1a19-587d-44a1-b2ed-3dad6a4690d4',
+          type: 'polyline',
+          sourceNodeId: 'bd84a36e-6da2-4c18-8052-2f3a49b28fe5',
+          targetNodeId: '7da1f738-cae1-4550-8bef-c669f068d8a9',
+          startPoint: { x: 520, y: 137 },
+          endPoint: { x: 620, y: 203 },
+          properties: {},
+          pointsList: [
+            { x: 520, y: 137 },
+            { x: 520, y: 170 },
+            { x: 620, y: 170 },
+            { x: 620, y: 203 },
+          ],
+        },
+        {
+          id: '50eed6b3-81cb-42bd-833b-6342b828904d',
+          type: 'polyline',
+          sourceNodeId: 'abbfb89c-7bb3-4174-9430-ecc467259dcb',
+          targetNodeId: 'd1782302-fb90-415d-b080-a4f07d95cc1f',
+          startPoint: { x: 360, y: 277 },
+          endPoint: { x: 360, y: 363 },
+          properties: {},
+          pointsList: [
+            { x: 360, y: 277 },
+            { x: 360, y: 363 },
+          ],
+        },
+      ],
+    },
+  });
+};
+
 export default {
   // 保存画布
   [`POST ${baseUrl}/draw/save`]: normalDeal,
   // 获取画布内容
   [`GET ${baseUrl}/draw/detail`]: getPanelDetail,
+  [`GET ${baseUrl}/draw/taskDetail`]: getTaskPanelDetail,
+  // 添加节点
+  [`POST ${baseUrl}/draw/addNode`]: normalDeal,
+  // 删除节点
+  [`POST ${baseUrl}/draw/deleteNode`]: normalDeal,
 };
