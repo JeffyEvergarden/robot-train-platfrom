@@ -19,6 +19,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
   const {
     cref,
+    extra,
     onSave,
     onNodeDbClick,
     onEdgeDbClick,
@@ -134,6 +135,9 @@ const DrawPanel: React.FC<any> = (props: any) => {
         // console.log(curLf);
         drawPanelRef.current?.render(data);
       }
+    },
+    getLf: () => {
+      return curLf
     }
   }))
 
@@ -147,7 +151,9 @@ const DrawPanel: React.FC<any> = (props: any) => {
   return (
     <div className={style['draw-box_bg']}>
       <div className={style['menu-box']}>
-        <div className={style['content_left']}></div>
+        <div className={style['content_left']}>
+          {extra}
+        </div>
         <div className={style['content_right']}>
           <Button className={style['bt-item']}>校验</Button>
           <Button type="primary" onClick={_save}>保存</Button>
