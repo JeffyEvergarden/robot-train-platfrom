@@ -1,18 +1,11 @@
-
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useModel } from 'umi';
 import { Button, message, Input } from 'antd';
-import DrawPanel from "@/pages/draw-panel/student";
+import DrawPanel from '@/pages/draw-panel/student';
 import { useDrawModel } from './model';
 import style from './style.less';
 
-
-
-
-
 const StudentDrawPanel: any = (props: any) => {
-
-
   const drawLf: any = useRef<any>(null);
 
   const curNodeRef: any = useRef<any>({});
@@ -23,14 +16,12 @@ const StudentDrawPanel: any = (props: any) => {
   const [inputVal, setInputVal] = useState<any>('');
   const onChangeInput = (e: any) => {
     setInputVal(e.target.value);
-  }
+  };
   const onBtClick = () => {
     let lf = drawLf.current.getLf();
-    lf.updateText(curNodeRef.current.id, inputVal)
+    lf.updateText(curNodeRef.current.id, inputVal);
     // curNodeRef.current.text.value = inputVal
-  }
-
-
+  };
 
   // -------
   // 获取画布
@@ -40,30 +31,29 @@ const StudentDrawPanel: any = (props: any) => {
 
   //初始化
   const init = async () => {
-
     let res = await getDrawPanel({});
     drawLf.current?.initPanel({});
     if (res) {
       drawLf.current?.initPanel(res);
     }
-  }
+  };
 
   // 保存画布
   const onSave = (data: any) => {
     const { nodes, edges } = data;
-    saveDrawPanel({ nodes, edges })
-  }
+    saveDrawPanel({ nodes, edges });
+  };
 
   // 监听节点添加  return true / false
 
   const _addNode = async (data: any) => {
     return addNode(data);
-  }
+  };
 
   // 删除节点删除 return true / false
   const _deleteNode = async (data: any) => {
     return deleteNode(data);
-  }
+  };
 
   // 双击节点
   const onNodeDbClick = async (data: any) => {
@@ -72,14 +62,13 @@ const StudentDrawPanel: any = (props: any) => {
     if (data.type === 'step-html') {
       setStatusNum(2);
     }
-    setNameVal(data.text.value)
-  }
+    setNameVal(data.text.value);
+  };
 
   // 双击连线
   const onEdgeDbClick = async (data: any) => {
     console.log(data);
-  }
-
+  };
 
   const [statusNum, setStatusNum] = useState<any>(0);
 
@@ -87,7 +76,7 @@ const StudentDrawPanel: any = (props: any) => {
 
   const changeStatus = async (data: any) => {
     if (!curNodeRef.current.id) {
-      message.warning('请先双击选中节点')
+      message.warning('请先双击选中节点');
       return null;
     }
 
@@ -96,23 +85,20 @@ const StudentDrawPanel: any = (props: any) => {
       status = statusList[statusNum + 1];
       setStatusNum(statusNum + 1);
     } else {
-      status = statusList[0]
+      status = statusList[0];
       setStatusNum(0);
     }
 
     let lf = drawLf.current.getLf();
     lf.setProperties(curNodeRef.current.id, {
-      status
-    })
-
-  }
-
+      status,
+    });
+  };
 
   useEffect(() => {
     //初始化画布
     init();
   }, []);
-
 
   return (
     <>
@@ -120,14 +106,22 @@ const StudentDrawPanel: any = (props: any) => {
         cref={drawLf}
         extra={
           <div className={style['extra-box']}>
-            <Input value={inputVal} onChange={onChangeInput} style={{ width: '200px' }} placeholder={'测试修改文本'} />
+            <Input
+              value={inputVal}
+              onChange={onChangeInput}
+              style={{ width: '200px' }}
+              placeholder={'测试修改文本'}
+            />
 
-            <Button type="primary" style={{ margin: '0 10px' }} onClick={onBtClick}>修改</Button>
+            <Button type="primary" style={{ margin: '0 10px' }} onClick={onBtClick}>
+              修改
+            </Button>
 
             <span>{nameVal}</span>
 
-            <Button type="primary" style={{ margin: '0 10px' }} onClick={changeStatus}>切换状态</Button>
-
+            <Button type="primary" style={{ margin: '0 10px' }} onClick={changeStatus}>
+              切换状态
+            </Button>
           </div>
         }
         onSave={onSave} // 保存
@@ -137,8 +131,7 @@ const StudentDrawPanel: any = (props: any) => {
         onEdgeDbClick={onEdgeDbClick} // 双击连线
       />
     </>
-  )
-}
-
+  );
+};
 
 export default StudentDrawPanel;

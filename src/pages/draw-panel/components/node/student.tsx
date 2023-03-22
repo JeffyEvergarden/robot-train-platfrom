@@ -30,15 +30,15 @@ class CourseNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: false, // 不可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: false,
-        };
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 74;
@@ -74,15 +74,15 @@ class TaskNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: false, // 不可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: false,
-        };
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 74;
@@ -118,15 +118,15 @@ class StepNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: false, // 不可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: false,
-        };
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 74;
@@ -152,21 +152,20 @@ class StepNodeModel extends RectNodeModel {
 
 // html 节点测试
 class StepHtmlNodeModel extends HtmlNodeModel {
-
   initNodeData(data: any) {
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: false, // 不可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: false,
-        };
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 74;
@@ -195,12 +194,10 @@ class StepHtmlNodeModel extends HtmlNodeModel {
     style.display = 'none';
     return style;
   }
-
 }
 
 // status: wait ==> 置灰 // doing ==> 进行中 // finish ==> 完成
 const StepHtmlBox = (props: any) => {
-
   const { properties, text } = props;
 
   const { status } = properties;
@@ -208,11 +205,11 @@ const StepHtmlBox = (props: any) => {
   let icon = null;
 
   if (status === 'finish') {
-    icon = <CheckCircleOutlined style={{ color: '#20C783' }} />
+    icon = <CheckCircleOutlined style={{ color: '#20C783' }} />;
   }
 
   return (
-    <div className={`${style['step-box']} ${status == 'wait' ? style['step-box_disabled'] : ''}`} >
+    <div className={`${style['step-box']} ${status == 'wait' ? style['step-box_disabled'] : ''}`}>
       <div className={style['step-header']}>
         <div className={style['step-title']}>{text}</div>
         <div className={style['step-status']}>{icon}</div>
@@ -227,7 +224,6 @@ class StepHtmlNode extends HtmlNode {
     console.log(properties);
     ReactDOM.render(<StepHtmlBox text={text.value} properties={properties} />, rootEl);
   }
-
 }
 
 export function registerNode(lf: any, options: any) {
