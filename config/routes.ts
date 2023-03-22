@@ -33,6 +33,13 @@ export default [
     layout: true,
   },
   {
+    path: '/student/course/chat',
+    component: './chat-page',
+    name: '聊天窗口',
+    // hideInMenu: true,
+    layout: true,
+  },
+  {
     path: '/login',
     layout: false,
     hideInMenu: true,
