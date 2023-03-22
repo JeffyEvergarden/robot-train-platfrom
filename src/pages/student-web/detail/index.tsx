@@ -15,7 +15,7 @@ const StudentDrawPanel: any = (props: any) => {
 
   const drawLf: any = useRef<any>(null);
 
-  const curNodeRef: any = useRef<any>(null);
+  const curNodeRef: any = useRef<any>({});
 
   // 输入框
   const [nameVal, setNameVal] = useState<any>('');
@@ -69,12 +69,42 @@ const StudentDrawPanel: any = (props: any) => {
   const onNodeDbClick = async (data: any) => {
     console.log(data);
     curNodeRef.current = data;
+    if (data.type === 'step-html') {
+      setStatusNum(2);
+    }
     setNameVal(data.text.value)
   }
 
   // 双击连线
   const onEdgeDbClick = async (data: any) => {
     console.log(data);
+  }
+
+
+  const [statusNum, setStatusNum] = useState<any>(0);
+
+  const statusList = ['doing', 'wait', 'finish'];
+
+  const changeStatus = async (data: any) => {
+    if (!curNodeRef.current.id) {
+      message.warning('请先双击选中节点')
+      return null;
+    }
+
+    let status = null;
+    if (statusNum < 2) {
+      status = statusList[statusNum + 1];
+      setStatusNum(statusNum + 1);
+    } else {
+      status = statusList[0]
+      setStatusNum(0);
+    }
+
+    let lf = drawLf.current.getLf();
+    lf.setProperties(curNodeRef.current.id, {
+      status
+    })
+
   }
 
 
@@ -95,6 +125,9 @@ const StudentDrawPanel: any = (props: any) => {
             <Button type="primary" style={{ margin: '0 10px' }} onClick={onBtClick}>修改</Button>
 
             <span>{nameVal}</span>
+
+            <Button type="primary" style={{ margin: '0 10px' }} onClick={changeStatus}>切换状态</Button>
+
           </div>
         }
         onSave={onSave} // 保存
