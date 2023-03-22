@@ -18,6 +18,13 @@ export default [
     name: '画布demo测试',
     layout: true,
   },
+  // -----导师端
+  {
+    path: '/teacher/course',
+    component: './teacher-web/course',
+    name: '课程管理',
+    layout: true,
+  },
   //-------导师端
   {
     path: '/teacher/paramsManage',
@@ -66,6 +73,13 @@ export default [
     component: './student-web/detail',
     name: '课程详情',
     hideInMenu: true,
+    layout: true,
+  },
+  {
+    path: '/student/course/chat',
+    component: './chat-page',
+    name: '聊天窗口',
+    // hideInMenu: true,
     layout: true,
   },
   {

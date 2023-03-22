@@ -114,7 +114,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     waterMarkProps: {
       // content: initialState?.currentUser?.name,
     },
-    title: '模型开发平台',
+    title: '教培系统平台',
     footerRender: () => '', // <Footer />
     onPageChange: () => {
       const { location } = history;
