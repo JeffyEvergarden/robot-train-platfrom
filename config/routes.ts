@@ -76,7 +76,7 @@ export default [
     layout: true,
   },
   {
-    path: '/student/course/chat',
+    path: '/student/chat',
     component: './chat-page',
     name: '聊天窗口',
     // hideInMenu: true,
