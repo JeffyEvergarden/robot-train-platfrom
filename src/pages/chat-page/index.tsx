@@ -5,7 +5,6 @@ import MessageBox from './components/message-box';
 import style from './style.less';
 import testList from './test';
 
-
 const ChatPage: any = (props: any) => {
 
 
@@ -45,16 +44,11 @@ const ChatPage: any = (props: any) => {
       </div>
 
       <div className={style['page-right']}>
-        <div className={style['page-tips-box']}>
-
-        </div>
-        <div className={style['page-step-box']}>
-
-        </div>
+        <div className={style['page-tips-box']}></div>
+        <div className={style['page-step-box']}></div>
       </div>
     </div>
-  )
-
-}
+  );
+};
 
 export default ChatPage;
