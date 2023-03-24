@@ -6,18 +6,6 @@ export default [
     layout: true,
     hideInMenu: true,
   },
-  {
-    path: '/demo',
-    component: './demo',
-    name: '语音聊天demo测试',
-    layout: true,
-  },
-  {
-    path: '/drawdemo',
-    component: './draw-demo',
-    name: '画布demo测试',
-    layout: true,
-  },
   // -----导师端
   {
     path: '/teacher/course',
@@ -53,7 +41,7 @@ export default [
   {
     path: '/student/personalInfo',
     component: './student-web/personal-info',
-    name: '首页',
+    name: '学生端-首页',
     layout: true,
   },
   {
@@ -73,6 +61,18 @@ export default [
     component: './student-web/detail',
     name: '课程详情',
     hideInMenu: true,
+    layout: true,
+  },
+  {
+    path: '/demo',
+    component: './demo',
+    name: '语音聊天demo测试',
+    layout: true,
+  },
+  {
+    path: '/drawdemo',
+    component: './draw-demo',
+    name: '画布demo测试',
     layout: true,
   },
   {
