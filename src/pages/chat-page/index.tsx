@@ -7,29 +7,22 @@ import style from './style.less';
 import testList from './test';
 
 const ChatPage: any = (props: any) => {
-
-
   const { getCourseInfo } = useChatModel();
-
 
   const [title, setTitle] = useState<any>('');
 
   // contentRef
   const contentRef = useRef<any>(null);
 
-
   const getInfo = async () => {
     let res: any = await getCourseInfo();
     setTitle(res.name);
-  }
-
+  };
 
   useEffect(() => {
     // 获取基础信息
     getInfo();
-  }, [])
-
-
+  }, []);
 
   return (
     <div className={style['chat-page']}>
