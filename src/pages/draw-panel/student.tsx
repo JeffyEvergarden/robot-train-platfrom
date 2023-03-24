@@ -102,7 +102,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     const _lf = drawPanelRef.current;
     const edges = _lf.getNodeEdges(id) || []; // 获取所有连线
     let _edges = edges.filter((item: any) => item.sourceNodeId === id).map((item: any) => item.targetNodeId);
-    console.log(_lf, _lf.getNodeModelById);
+    // console.log(_lf, _lf.getNodeModelById);
     if (_edges.length === 0) {
       const node = _lf.getNodeModelById(id);
       console.log(node);
@@ -165,16 +165,20 @@ const DrawPanel: React.FC<any> = (props: any) => {
   const addSubStep = (node: any) => {
     const _lf = drawPanelRef.current;
 
-    const edges = _lf.getNodeEdges(node.id);
+    const { edges } = _lf.getGraphData();
+
 
     let _edges = edges.filter((item: any) => item.sourceNodeId === node.id).map((item: any) => item.targetNodeId)
     console.log(_edges);
     let parentNode = null;
     if (_edges.length === 0) {
+      console.log('0')
       parentNode = _lf.getNodeModelById(node.id);
     } else if (_edges.length === 1) {
+      console.log('1')
       parentNode = getDeepNode(_edges[0]);
     } else {
+      console.log('2')
       parentNode = null;
     }
 
@@ -197,7 +201,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     let bAnchor = newNode.getDefaultAnchor()[0];
     // 添加连线
     let newLine = _lf.addEdge({
-      sourceNodeId: node.id, targetNodeId: newNode.id,
+      sourceNodeId: parentNode.id, targetNodeId: newNode.id,
       startPoint: {
         ...aAnchor,
       },
