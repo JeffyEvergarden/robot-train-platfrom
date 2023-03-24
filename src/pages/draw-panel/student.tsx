@@ -2,8 +2,8 @@ import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import LogicFlow from '@logicflow/core';
 import { DndPanel, SelectionSelect, Menu, Control } from '@logicflow/extension';
 // 样式
-import "@logicflow/core/dist/style/index.css";
-import '@logicflow/extension/lib/style/index.css'
+import '@logicflow/core/dist/style/index.css';
+import '@logicflow/extension/lib/style/index.css';
 
 import { useModel } from 'umi';
 import { Button, message } from 'antd';
@@ -14,10 +14,8 @@ import { registerNode } from './components/node/student';
 import { setMenuConfig, setControlConfig, checkEdge } from './config';
 import e from 'express';
 
-
 // 首页
 const DrawPanel: React.FC<any> = (props: any) => {
-
   const {
     cref,
     extra,
@@ -44,16 +42,16 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
     // 双击节点
     eventCenter.on('node:dbclick', (info: any) => {
-      const { data, e, position } = info
+      const { data, e, position } = info;
       // console.log('node:dbclick', data, e, position);
       onNodeDbClick?.(data);
-    })
+    });
     // 双击连线
     eventCenter.on('edge:dbclick', (info: any) => {
-      const { data, e } = info
-      console.log('edge:dbclick', data, e)
+      const { data, e } = info;
+      console.log('edge:dbclick', data, e);
       onEdgeDbClick?.(data);
-    })
+    });
 
     // 拖动节点创建
     eventCenter.on('node:dnd-add', async (e: any) => {
@@ -66,8 +64,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       if (!res) {
         lf.deleteNode(e.data.id);
       }
-    })
-
+    });
 
     eventCenter.on('node:dnd-add', async (e: any) => {
       console.log(e);
@@ -79,8 +76,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       if (!res) {
         lf.deleteNode(e.data.id);
       }
-    })
-
+    });
 
     // 拖动节点创建
     eventCenter.on('edge:add', async (e: any) => {
@@ -94,15 +90,16 @@ const DrawPanel: React.FC<any> = (props: any) => {
       // if (e.data.type === 'student') {
       //   // lf.deleteEdge(e.data.id);
       // }
-    })
-
-  }
+    });
+  };
 
   const getDeepNode: (id: any) => any = (id: any) => {
     const _lf = drawPanelRef.current;
     const edges = _lf.getNodeEdges(id) || []; // 获取所有连线
-    let _edges = edges.filter((item: any) => item.sourceNodeId === id).map((item: any) => item.targetNodeId);
-    console.log(_lf, _lf.getNodeModelById);
+    let _edges = edges
+      .filter((item: any) => item.sourceNodeId === id)
+      .map((item: any) => item.targetNodeId);
+    // console.log(_lf, _lf.getNodeModelById);
     if (_edges.length === 0) {
       const node = _lf.getNodeModelById(id);
       console.log(node);
@@ -111,9 +108,9 @@ const DrawPanel: React.FC<any> = (props: any) => {
       console.log('继续走:' + _edges[0]);
       return getDeepNode(_edges[0]);
     } else {
-      return null
+      return null;
     }
-  }
+  };
 
   // 添加子任务
   const addSubTask = async (node: any) => {
@@ -125,63 +122,70 @@ const DrawPanel: React.FC<any> = (props: any) => {
       x: node.x - 200 < 250 ? 250 : node.x - 200,
       y: node.y + 140,
       text: '子任务',
-    }
+    };
     // 找到所有连线
-    let _edges = edges.filter((item: any) => item.sourceNodeId === node.id).map((item: any) => item.targetNodeId)
+    let _edges = edges
+      .filter((item: any) => item.sourceNodeId === node.id)
+      .map((item: any) => item.targetNodeId);
     // 找到对应对应节点
-    let _nodes = _edges.map((item: any) => _lf.getNodeModelById(item))
+    let _nodes = _edges.map((item: any) => _lf.getNodeModelById(item));
     if (_edges.length === 0) {
       // 添加节点 ----可能要调接口
     } else {
       let max = _nodes?.[0]?.x;
       _nodes.forEach((item: any) => {
         if (item.x > max) {
-          max = item.x
+          max = item.x;
         }
       });
       newInfo.x = max + 300;
     }
 
-    let _node = _lf.getNodeModelById(node.id)
+    let _node = _lf.getNodeModelById(node.id);
     // 添加节点
     let newNode = _lf.addNode(newInfo);
-
 
     let aAnchor = _node.getDefaultAnchor()[2];
     let bAnchor = newNode.getDefaultAnchor()[0];
     // 添加连线
     let newLine = _lf.addEdge({
-      sourceNodeId: node.id, targetNodeId: newNode.id,
+      sourceNodeId: node.id,
+      targetNodeId: newNode.id,
       startPoint: {
         ...aAnchor,
       },
       endPoint: {
-        ...bAnchor
+        ...bAnchor,
       },
       type: 'polyline',
     });
-  }
+  };
   // 添加子步骤
   const addSubStep = (node: any) => {
     const _lf = drawPanelRef.current;
 
-    const edges = _lf.getNodeEdges(node.id);
+    const { edges } = _lf.getGraphData();
 
-    let _edges = edges.filter((item: any) => item.sourceNodeId === node.id).map((item: any) => item.targetNodeId)
+    let _edges = edges
+      .filter((item: any) => item.sourceNodeId === node.id)
+      .map((item: any) => item.targetNodeId);
     console.log(_edges);
     let parentNode = null;
     if (_edges.length === 0) {
+      console.log('0');
       parentNode = _lf.getNodeModelById(node.id);
     } else if (_edges.length === 1) {
+      console.log('1');
       parentNode = getDeepNode(_edges[0]);
     } else {
+      console.log('2');
       parentNode = null;
     }
 
     console.log('parentNode:', parentNode);
 
     if (!parentNode) {
-      return
+      return;
     }
 
     let newInfo: any = {
@@ -189,7 +193,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       x: parentNode.x,
       y: parentNode.y + 140,
       text: '子步骤',
-    }
+    };
 
     let newNode = _lf.addNode(newInfo);
 
@@ -197,17 +201,17 @@ const DrawPanel: React.FC<any> = (props: any) => {
     let bAnchor = newNode.getDefaultAnchor()[0];
     // 添加连线
     let newLine = _lf.addEdge({
-      sourceNodeId: node.id, targetNodeId: newNode.id,
+      sourceNodeId: parentNode.id,
+      targetNodeId: newNode.id,
       startPoint: {
         ...aAnchor,
       },
       endPoint: {
-        ...bAnchor
+        ...bAnchor,
       },
       type: 'line',
     });
-  }
-
+  };
 
   //初始化
   const init = () => {
@@ -228,21 +232,21 @@ const DrawPanel: React.FC<any> = (props: any) => {
     setControlConfig(lf);
     // 设置菜单
     setMenuConfig(lf, {
-      deleteNode
+      deleteNode,
     });
     // 添加监听事件
     addEvent(lf);
     // ----
     drawPanelRef.current = lf;
-  }
+  };
 
   // 保存
   const _save = () => {
     const { nodes, edges } = curLf.getGraphData();
     // console.log('信息保存');
     // console.log(nodes, edges);
-    onSave?.({ nodes, edges })
-  }
+    onSave?.({ nodes, edges });
+  };
 
   useImperativeHandle(cref, () => ({
     initPanel: (data: any) => {
@@ -252,9 +256,9 @@ const DrawPanel: React.FC<any> = (props: any) => {
       }
     },
     getLf: () => {
-      return curLf
-    }
-  }))
+      return curLf;
+    },
+  }));
 
   useEffect(() => {
     // 初始化画布
@@ -264,12 +268,12 @@ const DrawPanel: React.FC<any> = (props: any) => {
   return (
     <div className={style['draw-box_bg']}>
       <div className={style['menu-box']}>
-        <div className={style['content_left']}>
-          {extra}
-        </div>
+        <div className={style['content_left']}>{extra}</div>
         <div className={style['content_right']}>
           <Button className={style['bt-item']}>校验</Button>
-          <Button type="primary" onClick={_save}>保存</Button>
+          <Button type="primary" onClick={_save}>
+            保存
+          </Button>
         </div>
       </div>
       {/* ------ 拖动面板 ------ */}

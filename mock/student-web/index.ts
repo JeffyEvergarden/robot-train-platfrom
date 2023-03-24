@@ -27,7 +27,19 @@ const getNormalList = (req: any, res: any) => {
   });
 };
 
+const getCourseInfo = (req: any, res: any) => {
+  res.json({
+    code: successCode,
+    desc: '成功',
+    data: {
+      name: '新世纪福音战士',
+      duration: 300,
+    },
+  });
+};
+
 export default {
   // 获取课程信息
   [`GET ${baseUrl}/student/course/list`]: getNormalList,
+  [`GET ${baseUrl}/student/course/info`]: getCourseInfo,
 };
