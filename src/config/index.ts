@@ -1,5 +1,5 @@
 export default {
-  basePath: process.env.devmock ? '/dev' : '/robot-train',
-  originPath: '/robot-train',
-  successCode: '0000',
+  basePath: process.env.devmock ? '/dev' : '/ai-teach',
+  originPath: '/ai-teach',
+  successCode: '100',
 };

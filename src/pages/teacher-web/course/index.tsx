@@ -1,53 +1,99 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
-import { Button, Popconfirm } from 'antd';
+import { Button, Popconfirm, Select } from 'antd';
 import { useTableModel } from '../model';
+import { history } from 'umi';
+import DuplicateForm from './components/duplicateForm';
+import TableForm from './components/tableForm';
 
 const TeacherWeb: React.FC<any> = (props: any) => {
-  const { tableList, tableLoading, getTableList } = useTableModel();
+  const {
+    allTableList,
+    tableLoading,
+    getTableList,
+    getAllTablelist,
+    courseAdd,
+    courseEdit,
+    courseDelete,
+    coursePublish,
+    courseDown,
+  } = useTableModel();
+
+  const duplicateRef = useRef<any>(null);
+  const tableFormRef = useRef<any>(null);
 
   let columns: any = [
     {
       title: '课程名称',
       dataIndex: 'courseName',
+      search: false,
     },
     {
-      title: '课程样式',
-      dataIndex: 'courseStyle',
+      title: '课程名称',
+      dataIndex: 'courseId',
+      hideInTable: true,
+      renderFormItem: (t: any, r: any, i: any) => {
+        return (
+          <Select mode="multiple" showSearch allowClear>
+            {allTableList?.map((item: any, index: any) => (
+              <Select.Option key={index} value={item.id}>
+                {item.courseName}
+              </Select.Option>
+            ))}
+          </Select>
+        );
+      },
     },
     {
       title: '合格分',
-      dataIndex: 'point',
+      dataIndex: 'passMark',
+      search: false,
     },
     {
       title: '课程状态',
+      dataIndex: 'courseStatus',
+      valueEnum: {
+        0: { text: '未上线', status: 'default' },
+        1: { text: '已发布', status: 'success' },
+      },
+    },
+    {
+      title: '课程样式',
       dataIndex: 'courseType',
+      valueEnum: {
+        0: { text: '常规' },
+        1: { text: '剧情' },
+      },
     },
     {
       title: '创建者',
       dataIndex: 'creator',
+      search: false,
     },
     {
       title: '操作',
       dataIndex: 'op',
+      search: false,
       fixed: 'right',
-      width: 350,
+      width: 320,
       render: (val: any, row: any, index: number) => {
         return (
           <>
             <div style={{ display: 'flex' }}>
               <Button
-                type="text"
+                type="link"
                 onClick={() => {
-                  // viewReport(row);
+                  tableFormRef?.current?.open('edit');
                 }}
               >
                 信息编辑
               </Button>
 
               <Button
-                type="text"
-                // onClick={() => exportFile(row)}
+                type="link"
+                onClick={() => {
+                  history.push(`/teacher/course/draw?id=${row.id}`);
+                }}
               >
                 流程编辑
               </Button>
@@ -56,11 +102,14 @@ const TeacherWeb: React.FC<any> = (props: any) => {
                 title="点击发布课程，请确认！"
                 okText="确定"
                 cancelText="取消"
+                disabled={row?.courseStatus == 1}
                 onConfirm={() => {
                   // deleteRow(row);
                 }}
               >
-                <Button type="text">发布</Button>
+                <Button type="link" disabled={row?.courseStatus == 1}>
+                  发布
+                </Button>
               </Popconfirm>
 
               <Popconfirm
@@ -68,11 +117,14 @@ const TeacherWeb: React.FC<any> = (props: any) => {
                 无法选择配置，请确认"
                 okText="确定"
                 cancelText="取消"
+                disabled={row?.courseStatus == 0}
                 onConfirm={() => {
                   // deleteRow(row);
                 }}
               >
-                <Button type="text">下线</Button>
+                <Button type="link" disabled={row?.courseStatus == 0}>
+                  下线
+                </Button>
               </Popconfirm>
 
               <Popconfirm
@@ -80,7 +132,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
                 okText="确定"
                 cancelText="取消"
                 onConfirm={() => {
-                  // deleteRow(row);
+                  courseDelete();
                 }}
               >
                 <Button type="link" danger>
@@ -101,24 +153,49 @@ const TeacherWeb: React.FC<any> = (props: any) => {
       }}
     >
       <ProTable
+        headerTitle={'课程管理'}
         pagination={{
           showSizeChanger: true,
           defaultPageSize: 10,
         }}
         toolBarRender={() => {
-          return [<Button>复制</Button>, <Button type="primary">新建</Button>];
+          return [
+            <Button
+              onClick={() => {
+                duplicateRef?.current?.open();
+              }}
+            >
+              复制
+            </Button>,
+            <Button
+              type="primary"
+              onClick={() => {
+                tableFormRef?.current?.open('add');
+              }}
+            >
+              新建
+            </Button>,
+          ];
         }}
         search={{
           labelWidth: 100,
+          span: 8,
+          defaultCollapsed: false,
+          collapseRender: () => null,
         }}
         columns={columns}
-        scroll={{ x: columns.length * 200, y: 480 }}
+        scroll={{ x: columns.length * 200, y: 400 }}
         rowKey="id"
         loading={tableLoading}
-        request={() => {
-          return getTableList();
+        request={async (params = {}, sort, filter) => {
+          await getAllTablelist();
+          return getTableList({ page: params?.current, ...params });
         }}
       />
+      {/* //复制弹窗 */}
+      <DuplicateForm cref={duplicateRef}></DuplicateForm>
+      {/* 新增编辑表单 */}
+      <TableForm cref={tableFormRef} courseAdd={courseAdd} courseEdit={courseEdit}></TableForm>
     </PageContainer>
   );
 };
