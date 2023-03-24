@@ -1,5 +1,20 @@
 import { useState } from 'react';
-import { userPageApi, userListApi, groupListApi, userSynchApi, editApi } from './api';
+import {
+  //---用户管理
+  userPageApi,
+  userListApi,
+  groupListApi,
+  userSynchApi,
+  editApi,
+  groupPageApi,
+  addGroupApi,
+  editGroupApi,
+  deleteGroupApi,
+
+  //----规则管理
+  scoreSaveApi,
+  gradeConfigApi,
+} from './api';
 
 //用户管理
 
@@ -12,7 +27,6 @@ export const useUserManageModel = () => {
     setLoading(true);
     let res: any = await userPageApi(params);
     setLoading(false);
-
     return res;
   };
 
@@ -44,6 +58,34 @@ export const useUserManageModel = () => {
     return res;
   };
 
+  const groupPage = async (params?: any) => {
+    setLoading(true);
+    let res: any = await groupPageApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const addGroupRequest = async (params?: any) => {
+    setLoading(true);
+    let res: any = await addGroupApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const editGroupRequest = async (params?: any) => {
+    setLoading(true);
+    let res: any = await editGroupApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const deleteGroupRequest = async (params?: any) => {
+    setLoading(true);
+    let res: any = await deleteGroupApi(params);
+    setLoading(false);
+    return res;
+  };
+
   return {
     loading,
     setLoading,
@@ -54,5 +96,34 @@ export const useUserManageModel = () => {
     groupList,
     sameStepRequest,
     editRequest,
+    groupPage,
+    addGroupRequest,
+    editGroupRequest,
+    deleteGroupRequest,
+  };
+};
+
+export const useRuleManageModel = () => {
+  const [loading, setLoading] = useState<any>(false);
+
+  const scoreSave = async (params?: any) => {
+    setLoading(true);
+    let res: any = await scoreSaveApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const gradeConfig = async (params?: any) => {
+    setLoading(true);
+    let res: any = await gradeConfigApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  return {
+    loading,
+    setLoading,
+    scoreSave,
+    gradeConfig,
   };
 };

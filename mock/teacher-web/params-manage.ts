@@ -74,8 +74,29 @@ const groupList = (req: any, res: any) => {
 
 const normalDeal = (req: any, res: any) => {
   res.json({
+    resultCode: 12,
+    resultDesc: '是备案表改',
+  });
+};
+
+const groupPage = (req: any, res: any) => {
+  let data: any = gen(11).map((item: any, index: number) => {
+    return {
+      id: index,
+      groupName: '组别名称' + index,
+      updateTime: '2023-12-12',
+      creator: '创建人' + index,
+      create_time: '2022-12-12',
+    };
+  });
+  res.json({
     resultCode: successCode,
     resultDesc: '成功',
+    data: {
+      pageSize: 20,
+      totalPage: 11,
+      list: data,
+    },
   });
 };
 
@@ -85,4 +106,9 @@ export default {
   [`POST ${baseUrl}/ai-teach/services/group/groupList`]: groupList,
   [`POST ${baseUrl}/ai-teach/services/user/userSynch`]: normalDeal,
   [`POST ${baseUrl}/ai-teach/services/user/userEdit`]: normalDeal,
+
+  [`POST ${baseUrl}/ai-teach/services/group/groupPage`]: groupPage,
+  [`POST ${baseUrl}/ai-teach/services/group/groupAdd`]: normalDeal,
+  [`POST ${baseUrl}/ai-teach/services/group/groupEdit`]: normalDeal,
+  [`POST ${baseUrl}/ai-teach/services/group/groupDelete`]: normalDeal,
 };
