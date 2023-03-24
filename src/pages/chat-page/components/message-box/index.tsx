@@ -31,7 +31,7 @@ const KeyTipsHtml: React.FC<any> = (props: any) => {
           }
 
           return (
-            <div className={style['key-row']}>
+            <div className={style['key-row']} key={i}>
               <div className={style['icon']}>{icon}</div>
               <div className={style['icon']}>关键点：</div>
               <div className={style['desc']}>
@@ -65,7 +65,7 @@ const MessageBox: React.FC<any> = (props: any) => {
 
           if (type === 'customer') {
             return (
-              <div className={style['box_customer']}>
+              <div className={style['box_customer']} key={index}>
 
                 <div className={style['box-avator']}>
                   {lastType !== type && <img className={style['avator']} src={customerPhoto} alt='客方'></img>}
@@ -79,7 +79,7 @@ const MessageBox: React.FC<any> = (props: any) => {
 
           } else if (type === 'system') {
             return (
-              <div className={style['box_system']}>
+              <div className={style['box_system']} key={index}>
                 <div>
                   <div className={style['box-content']}>
                     {text}
@@ -94,7 +94,7 @@ const MessageBox: React.FC<any> = (props: any) => {
             )
           } else if (type === 'tips') {
             return (
-              <div className={style['box_tips']}>
+              <div className={style['box_tips']} key={index}>
                 {text}
               </div>
             )

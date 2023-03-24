@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { useChatModel } from './model';
 import MessageBox from './components/message-box';
+import PhoneCall from './components/phone-call';
 import style from './style.less';
 import testList from './test';
 
@@ -35,7 +36,12 @@ const ChatPage: any = (props: any) => {
       <div className={style['page-left']}>
         {/* 标题模块 */}
         <div className={style['page-header']}>
-          <div className={style['title']}>{title}</div>
+          <div>
+            <div className={style['title']}>{title}</div>
+          </div>
+          <div className={style['header-right']}>
+            <PhoneCall oursNumber={'1000'} sysPhone={'1002'}></PhoneCall>
+          </div>
         </div>
 
         <div className={style['page-content']} ref={contentRef}>
