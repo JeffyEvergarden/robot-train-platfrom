@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Row, Col, Form, InputNumber, Button, message } from 'antd';
 import { useRuleManageModel } from './../model';
+import styles from './../index.less';
 
 import config from '@/config';
 const successCode = config.successCode;
 
 const layout = {
-  labelCol: { span: 12 },
-  wrapperCol: { span: 12 },
+  labelCol: { span: 14 },
+  wrapperCol: { span: 10 },
 };
 
 export default () => {
@@ -58,7 +59,7 @@ export default () => {
   };
 
   return (
-    <Form form={form} {...layout}>
+    <Form form={form} {...layout} className={styles.commonFormSty}>
       <Row gutter={12}>
         <Col span={4}>
           <Form.Item label="话术评分占比" name="actionRate">

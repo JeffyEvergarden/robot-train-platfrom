@@ -94,3 +94,35 @@ export async function gradeConfigApi(params?: Record<string, any>) {
     data: params,
   });
 }
+
+/** 服务规则配置 **/
+export async function ruleConfigApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/setting/ruleConfig`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 服务规则保存 **/
+export async function ruleSaveApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/setting/ruleConfigSave`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 话术标准配置 **/
+export async function dialogConfigApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/setting/dialogConfig`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 话术标准保存 **/
+export async function dialogSaveApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/setting/dialogConfigSave`, {
+    method: 'POST',
+    data: params,
+  });
+}

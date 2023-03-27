@@ -4,6 +4,7 @@ import { Tabs } from 'antd';
 import styles from './../index.less';
 import ScoreSet from './../components/scoreSet';
 import ServiceSet from './../components/serviceSet';
+import DialogCom from './../components/dialogCom';
 
 const RuleManage: React.FC = (props: any) => {
   return (
@@ -22,7 +23,7 @@ const RuleManage: React.FC = (props: any) => {
             <ServiceSet />
           </Tabs.TabPane>
           <Tabs.TabPane tab="话术合格配置" key="3">
-            123
+            <DialogCom />
           </Tabs.TabPane>
         </Tabs>
       </PageContainer>

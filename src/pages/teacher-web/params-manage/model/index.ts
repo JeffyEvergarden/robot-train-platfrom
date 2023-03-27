@@ -14,6 +14,10 @@ import {
   //----规则管理
   scoreSaveApi,
   gradeConfigApi,
+  ruleConfigApi,
+  ruleSaveApi,
+  dialogConfigApi,
+  dialogSaveApi,
 } from './api';
 
 //用户管理
@@ -120,10 +124,42 @@ export const useRuleManageModel = () => {
     return res;
   };
 
+  const ruleConfig = async (params?: any) => {
+    setLoading(true);
+    let res: any = await ruleConfigApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const ruleSave = async (params?: any) => {
+    setLoading(true);
+    let res: any = await ruleSaveApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const dialogConfig = async (params?: any) => {
+    setLoading(true);
+    let res: any = await dialogConfigApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const dialogSave = async (params?: any) => {
+    setLoading(true);
+    let res: any = await dialogSaveApi(params);
+    setLoading(false);
+    return res;
+  };
+
   return {
     loading,
     setLoading,
     scoreSave,
     gradeConfig,
+    ruleConfig,
+    ruleSave,
+    dialogConfig,
+    dialogSave,
   };
 };

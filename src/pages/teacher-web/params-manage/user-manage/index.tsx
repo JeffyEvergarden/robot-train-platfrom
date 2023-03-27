@@ -78,7 +78,6 @@ const UserManage: React.FC = (props: any) => {
     } else if (pageType == 'editGroup') {
       res = await editGroupRequest(params);
     }
-    debugger;
     if (res?.resultCode == successCode) {
       message.success(res?.resultDesc || '成功');
       editUserRef?.current?.close();
