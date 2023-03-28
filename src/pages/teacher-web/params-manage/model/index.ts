@@ -18,6 +18,13 @@ import {
   ruleSaveApi,
   dialogConfigApi,
   dialogSaveApi,
+
+  //-----系统管理
+  courceListApi,
+  courceDataApi,
+  deleteCourceApi,
+  modelAddApi,
+  modelEditApi,
 } from './api';
 
 //用户管理
@@ -161,5 +168,53 @@ export const useRuleManageModel = () => {
     ruleSave,
     dialogConfig,
     dialogSave,
+  };
+};
+
+export const useCourceModel = () => {
+  const [loading, setLoading] = useState<any>(false);
+
+  const courceList = async (params?: any) => {
+    setLoading(true);
+    let res: any = await courceListApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const courceData = async (params?: any) => {
+    setLoading(true);
+    let res: any = await courceDataApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const deleteCource = async (params?: any) => {
+    setLoading(true);
+    let res: any = await deleteCourceApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const modelAdd = async (params?: any) => {
+    setLoading(true);
+    let res: any = await modelAddApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  const modelEdit = async (params?: any) => {
+    setLoading(true);
+    let res: any = await modelEditApi(params);
+    setLoading(false);
+    return res;
+  };
+
+  return {
+    loading,
+    courceList,
+    courceData,
+    deleteCource,
+    modelAdd,
+    modelEdit,
   };
 };

@@ -126,3 +126,43 @@ export async function dialogSaveApi(params?: Record<string, any>) {
     data: params,
   });
 }
+
+/** 课程模型列表 **/
+export async function courceListApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/model/modelPage`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 课程模型列表--不分页 **/
+export async function courceDataApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/model/modelList`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 课程模型列表--删除 **/
+export async function deleteCourceApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/model/modelDelete`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 课程模型列表--新增 **/
+export async function modelAddApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/model/modelAdd`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 课程模型列表--编辑 **/
+export async function modelEditApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/model/modelEdit`, {
+    method: 'POST',
+    data: params,
+  });
+}

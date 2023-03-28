@@ -75,6 +75,12 @@ export default [
         component: './teacher-web/params-manage/system-manage',
         name: '系统管理',
       },
+      {
+        path: '/teacher/paramsManage/intention',
+        component: './teacher-web/params-manage/intention',
+        name: '意图',
+        hideInMenu: true,
+      },
     ],
   },
   // -----学员端

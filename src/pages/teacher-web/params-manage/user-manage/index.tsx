@@ -39,7 +39,9 @@ const UserManage: React.FC = (props: any) => {
   const getUserList = async (payload: any) => {
     let params = {
       ...payload,
+      page: payload?.current,
     };
+    delete params?.current;
     params.startTime = payload?.updateTime?.[0];
     params.endTime = payload?.updateTime?.[1];
     delete params?.updateTime;
@@ -94,7 +96,9 @@ const UserManage: React.FC = (props: any) => {
   const getGroupList = async (payload: any) => {
     let params = {
       ...payload,
+      page: payload?.current,
     };
+    delete params?.current;
     params.startTime = payload?.createTime?.[0];
     params.endTime = payload?.createTime?.[1];
     delete params?.createTime;
