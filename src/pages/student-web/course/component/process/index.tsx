@@ -10,7 +10,7 @@ const Process: React.FC<any> = (props: any) => {
 
   return (
     <div className={style['process-bg']}>
-      <div className={style['process-bar']} style={{ width: percent * 100 + '%' }}></div>
+      <div className={style['process-bar']} style={{ width: percent * 100 + '%' }} />
     </div>
   );
 };
