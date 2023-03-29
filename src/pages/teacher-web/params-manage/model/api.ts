@@ -166,3 +166,51 @@ export async function modelEditApi(params?: Record<string, any>) {
     data: params,
   });
 }
+
+/** 课程模型列表--客户意图列表 **/
+export async function customerIntentionListApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/intent/intentPage`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 课程模型列表--客户意图列表--不分页 **/
+export async function intentListApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/intent/intentList`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 课程模型列表--客户意图--删除**/
+export async function delIntentApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/intent/intentDelete`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 课程模型列表--客户意图列表--新建 **/
+export async function intentAddApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/intent/intentAdd`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 课程模型列表--客户意图列表--编辑 **/
+export async function intentEditApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/intent/intentEdit`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/** 课程模型列表--客户意图列表--详情 **/
+export async function intentDetailApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/intent/intentDetail`, {
+    method: 'POST',
+    data: params,
+  });
+}
