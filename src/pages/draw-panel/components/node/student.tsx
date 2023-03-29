@@ -250,7 +250,9 @@ export function registerNode(lf: any, options: any) {
       model: StepHtmlNodeModel,
     },
   ]);
-
+  if (!lf.extension.menu) {
+    return;
+  }
   // 任务节点菜单
   lf.extension.menu.setMenuByType({
     type: 'course',

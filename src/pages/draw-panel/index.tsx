@@ -1,9 +1,9 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import LogicFlow from '@logicflow/core';
-import { DndPanel, SelectionSelect, Menu, Control } from '@logicflow/extension';
+import { DndPanel, SelectionSelect, Menu, Control, MiniMap } from '@logicflow/extension';
 // 样式
-import "@logicflow/core/dist/style/index.css";
-import '@logicflow/extension/lib/style/index.css'
+import '@logicflow/core/dist/style/index.css';
+import '@logicflow/extension/lib/style/index.css';
 
 import { useModel } from 'umi';
 import { Button, message } from 'antd';
@@ -13,10 +13,8 @@ import { registerNode } from './components/node';
 
 import { setMenuConfig, setControlConfig, checkEdge } from './config';
 
-
 // 首页
 const DrawPanel: React.FC<any> = (props: any) => {
-
   const {
     cref,
     extra,
@@ -43,16 +41,16 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
     // 双击节点
     eventCenter.on('node:dbclick', (info: any) => {
-      const { data, e, position } = info
+      const { data, e, position } = info;
       // console.log('node:dbclick', data, e, position);
       onNodeDbClick?.(data);
-    })
+    });
     // 双击连线
     eventCenter.on('edge:dbclick', (info: any) => {
-      const { data, e } = info
-      console.log('edge:dbclick', data, e)
+      const { data, e } = info;
+      console.log('edge:dbclick', data, e);
       onEdgeDbClick?.(data);
-    })
+    });
 
     // 拖动节点创建
     eventCenter.on('node:dnd-add', async (e: any) => {
@@ -65,8 +63,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       if (!res) {
         lf.deleteNode(e.data.id);
       }
-    })
-
+    });
 
     eventCenter.on('node:dnd-add', async (e: any) => {
       console.log(e);
@@ -78,8 +75,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       if (!res) {
         lf.deleteNode(e.data.id);
       }
-    })
-
+    });
 
     // 拖动节点创建
     eventCenter.on('edge:add', async (e: any) => {
@@ -93,15 +89,14 @@ const DrawPanel: React.FC<any> = (props: any) => {
       // if (e.data.type === 'student') {
       //   // lf.deleteEdge(e.data.id);
       // }
-    })
-
-  }
+    });
+  };
 
   //初始化
   const init = () => {
     const lf: any = new LogicFlow({
       container: drawDomRef.current,
-      plugins: [DndPanel, SelectionSelect, Menu, Control],
+      plugins: [DndPanel, SelectionSelect, Menu, Control, MiniMap],
       grid: true,
       edgeType: 'polyline',
     });
@@ -113,21 +108,21 @@ const DrawPanel: React.FC<any> = (props: any) => {
     setControlConfig(lf);
     // 设置菜单
     setMenuConfig(lf, {
-      deleteNode
+      deleteNode,
     });
     // 添加监听事件
     addEvent(lf);
     // ----
     drawPanelRef.current = lf;
-  }
+  };
 
   // 保存
   const _save = () => {
     const { nodes, edges } = curLf.getGraphData();
     // console.log('信息保存');
     // console.log(nodes, edges);
-    onSave?.({ nodes, edges })
-  }
+    onSave?.({ nodes, edges });
+  };
 
   useImperativeHandle(cref, () => ({
     initPanel: (data: any) => {
@@ -137,11 +132,9 @@ const DrawPanel: React.FC<any> = (props: any) => {
       }
     },
     getLf: () => {
-      return curLf
-    }
-  }))
-
-
+      return curLf;
+    },
+  }));
 
   useEffect(() => {
     // 初始化画布
@@ -151,12 +144,12 @@ const DrawPanel: React.FC<any> = (props: any) => {
   return (
     <div className={style['draw-box_bg']}>
       <div className={style['menu-box']}>
-        <div className={style['content_left']}>
-          {extra}
-        </div>
+        <div className={style['content_left']}>{extra}</div>
         <div className={style['content_right']}>
           <Button className={style['bt-item']}>校验</Button>
-          <Button type="primary" onClick={_save}>保存</Button>
+          <Button type="primary" onClick={_save}>
+            保存
+          </Button>
         </div>
       </div>
       {/* ------ 拖动面板 ------ */}

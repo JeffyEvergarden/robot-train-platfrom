@@ -7,6 +7,13 @@ const baseUrl: string = config.basePath;
 export async function GetCourseInfo_API(data?: { [key: string]: any }) {
   return request(`${baseUrl}/student/course/info`, {
     method: 'GET',
-    data,
+    params: data,
+  });
+}
+
+export async function GetStepResult_API(data?: { [key: string]: any }) {
+  return request(`${baseUrl}/student/course/step/detail`, {
+    method: 'GET',
+    params: data,
   });
 }
