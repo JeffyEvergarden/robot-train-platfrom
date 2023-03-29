@@ -6,3 +6,74 @@
     }
   }
 }
+
+.commonTips {
+  display: block;
+  margin-bottom: 24px;
+  padding-left: 30px;
+  color: #00000073;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: 'PingFang SC';
+}
+
+.commonFormSty {
+  :global {
+    .ant-form-item-label {
+      min-width: 150px;
+    }
+  }
+}
+
+.tagsSty {
+  :global {
+    .site-tag-plus {
+      background: #fff;
+      border-style: dashed;
+    }
+    .edit-tag {
+      user-select: none;
+    }
+    .tag-input {
+      width: 100px;
+      margin-top: 5px;
+      margin-right: 8px;
+      vertical-align: top;
+    }
+  }
+}
+
+.slotBox {
+  display: flex;
+  align-content: flex-start;
+  margin-bottom: 24px;
+}
+.slotTxt {
+  display: inline-block;
+  // width: 80px;
+  padding-top: 5px;
+  padding-left: 30px;
+}
+.slotList {
+  display: inline-block;
+  width: 640px;
+  max-height: 400px;
+  padding-left: 10px;
+  overflow-y: auto;
+  text-align: left;
+  span {
+    // display: inline-block;
+    margin: 5px;
+    // padding: 5px 10px;
+    // background: rgba(240, 242, 245, 1);
+    // border-radius: 99999px;
+    // cursor: pointer;
+  }
+}
+.exceteBox {
+  :global {
+    .ant-form-item {
+      padding-left: 30px;
+    }
+  }
+}

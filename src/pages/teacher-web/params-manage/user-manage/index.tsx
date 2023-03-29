@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { Tabs, Select, Button, message, Spin } from 'antd';
+import { Tabs, Select, Button, message, Spin, Space, notification } from 'antd';
 import styles from './../index.less';
 import { useUserManageModel } from './../model';
 import EditUserModal from '../components/editUserModal';
+import { CloseCircleOutlined } from '@ant-design/icons';
 
 import config from '@/config';
 const successCode = config.successCode;
@@ -20,10 +21,15 @@ const UserManage: React.FC = (props: any) => {
     groupList,
     sameStepRequest,
     editRequest,
+    groupPage,
+    addGroupRequest,
+    editGroupRequest,
+    deleteGroupRequest,
   } = useUserManageModel();
 
   const editUserRef = useRef<any>();
   const userActionRef = useRef<any>();
+  const groupActionRef = useRef<any>();
 
   useEffect(() => {
     userListRequest();
@@ -33,8 +39,12 @@ const UserManage: React.FC = (props: any) => {
   const getUserList = async (payload: any) => {
     let params = {
       ...payload,
+      page: payload?.current,
     };
-    params.updateTime = payload?.updateTime?.formate('YYYY-MM-DD');
+    delete params?.current;
+    params.startTime = payload?.updateTime?.[0];
+    params.endTime = payload?.updateTime?.[1];
+    delete params?.updateTime;
     let res = await userPage(params);
     return {
       data: res?.data?.list,
@@ -54,21 +64,86 @@ const UserManage: React.FC = (props: any) => {
   };
 
   const editUser = (record: any) => {
-    editUserRef?.current?.open(record);
+    editUserRef?.current?.open(record, 'editUser');
   };
 
-  const editComfirm = async (formVal: any, rowData: any) => {
+  const comfirmSubmit = async (formVal: any, rowData: any, pageType: any) => {
     let params = {
       id: rowData?.id,
-      groupId: formVal?.groupId,
+      ...formVal,
     };
-    let res = await editRequest(params);
+    let res;
+    if (pageType == 'editUser') {
+      res = await editRequest(params);
+    } else if (pageType == 'addGroup') {
+      res = await addGroupRequest(params);
+    } else if (pageType == 'editGroup') {
+      res = await editGroupRequest(params);
+    }
     if (res?.resultCode == successCode) {
       message.success(res?.resultDesc || '成功');
       editUserRef?.current?.close();
-      userActionRef?.current?.reloadAndRest();
+      if (pageType == 'editUser') {
+        userActionRef?.current?.reloadAndRest();
+      } else {
+        groupActionRef?.current?.reloadAndRest();
+      }
     } else {
       message.error(res?.resultDesc || '失败');
+    }
+  };
+
+  const getGroupList = async (payload: any) => {
+    let params = {
+      ...payload,
+      page: payload?.current,
+    };
+    delete params?.current;
+    params.startTime = payload?.createTime?.[0];
+    params.endTime = payload?.createTime?.[1];
+    delete params?.createTime;
+    let res = await groupPage(params);
+    return {
+      data: res?.data?.list,
+      total: res?.data?.totalPage,
+      current: payload?.current || 1,
+      pageSize: payload?.pageSize || 10,
+    };
+  };
+
+  const addGroup = () => {
+    editUserRef?.current?.open({}, 'addGroup');
+  };
+  const editGroup = (record: any) => {
+    editUserRef?.current?.open(record, 'editGroup');
+  };
+  const deleteGroup = async (record: any) => {
+    let params = {
+      id: record?.id,
+    };
+    let res = await deleteGroupRequest(params);
+    if (res?.resultCode == successCode) {
+      message.success(res?.resultDesc || '成功');
+      groupActionRef?.current?.reloadAndRest();
+    } else {
+      const key = `open${Date.now()}`;
+      notification.open({
+        message: '',
+        icon: <CloseCircleOutlined style={{ color: 'red' }} />,
+        description: (
+          <Fragment>
+            <div>删除失败</div>
+            <div>{res?.resultDesc || '该组别存在学员，请先修改学员组别'}</div>
+          </Fragment>
+        ),
+        duration: null,
+        key,
+        btn: (
+          <Button type="primary" size="small" onClick={() => notification.close(key)}>
+            知道了
+          </Button>
+        ),
+      });
     }
   };
 
@@ -138,8 +213,16 @@ const UserManage: React.FC = (props: any) => {
       dataIndex: 'updateTime',
       key: 'updateTime',
       ellipsis: true,
+      search: false,
+    },
+    {
+      title: '同步时间',
+      dataIndex: 'updateTime',
+      key: 'updateTime',
+      ellipsis: true,
       search: true,
-      valueType: 'date',
+      valueType: 'dateRange',
+      hideInTable: true,
       fieldProps: {
         placeholder: '请选择同步时间',
       },
@@ -151,6 +234,69 @@ const UserManage: React.FC = (props: any) => {
       valueType: 'option',
       render: (t: any, r: any, i: any) => {
         return <a onClick={() => editUser(r)}>编辑</a>;
+      },
+    },
+  ];
+
+  const groupColumns: any[] = [
+    {
+      title: '部门组别',
+      dataIndex: 'groupName',
+      key: 'groupName',
+      ellipsis: true,
+      search: true,
+      fieldProps: {
+        placeholder: '请选择部门组别',
+      },
+      renderFormItem: () => (
+        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择部门组别">
+          {groupList?.map((item: any) => {
+            return (
+              <Select.Option key={item?.id} value={item?.id}>
+                {item?.groupName}
+              </Select.Option>
+            );
+          })}
+        </Select>
+      ),
+    },
+    {
+      title: '创建人',
+      dataIndex: 'creator',
+      key: 'creator',
+      ellipsis: true,
+      search: false,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'create_time',
+      key: 'create_time',
+      ellipsis: true,
+      search: false,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'create_time',
+      key: 'create_time',
+      ellipsis: true,
+      search: true,
+      hideInTable: true,
+      valueType: 'dateRange',
+    },
+    {
+      title: '操作',
+      key: 'option',
+      fixed: 'right',
+      valueType: 'option',
+      render: (t: any, r: any, i: any) => {
+        return (
+          <Space>
+            <a onClick={() => editGroup(r)}>编辑</a>
+            <a style={{ color: 'red' }} onClick={() => deleteGroup(r)}>
+              删除
+            </a>
+          </Space>
+        );
       },
     },
   ];
@@ -192,14 +338,39 @@ const UserManage: React.FC = (props: any) => {
             </Spin>
           </Tabs.TabPane>
           <Tabs.TabPane tab="组别管理" key="2">
-            组别管理
+            <Spin spinning={loading}>
+              <ProTable
+                rowKey={(record: any) => record?.id}
+                actionRef={groupActionRef}
+                headerTitle="组别列表"
+                toolBarRender={() => [
+                  <Button type="primary" key="sameStep" onClick={() => addGroup()}>
+                    新建
+                  </Button>,
+                ]}
+                options={false}
+                bordered
+                pagination={{
+                  pageSize: 10,
+                  showSizeChanger: true,
+                }}
+                search={{
+                  labelWidth: 'auto',
+                }}
+                columns={groupColumns}
+                scroll={{ x: groupColumns?.length * 150 }}
+                request={async (params = {}, sort, filter) => {
+                  return getGroupList({ ...params });
+                }}
+              />
+            </Spin>
           </Tabs.TabPane>
         </Tabs>
         <EditUserModal
           cref={editUserRef}
           loading={loading}
           groupList={groupList}
-          editComfirm={editComfirm}
+          comfirmSubmit={comfirmSubmit}
         />
       </PageContainer>
     </div>

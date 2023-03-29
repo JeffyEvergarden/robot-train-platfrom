@@ -9,9 +9,49 @@ export default [
   // -----导师端
   {
     path: '/teacher/course',
-    component: './teacher-web/course',
+    component: './teacher-web/course/home',
     name: '课程管理',
     layout: true,
+    routes: [
+      {
+        path: '/teacher/course/tablepage',
+        component: './teacher-web/course',
+        name: '课程管理',
+        hideInMenu: true,
+      },
+      {
+        path: '/teacher/course/draw',
+        component: './teacher-web/course/teacher-draw',
+        name: '课程流程',
+        hideInMenu: true,
+      },
+      {
+        redirect: '/teacher/course/tablepage',
+      },
+    ],
+  },
+  {
+    path: '/teacher/task',
+    component: './teacher-web/task/home',
+    name: '任务管理',
+    layout: true,
+    routes: [
+      {
+        path: '/teacher/task/tablepage',
+        component: './teacher-web/task',
+        name: '任务管理',
+        hideInMenu: true,
+      },
+      {
+        path: '/teacher/task/draw',
+        component: './teacher-web/task/task-draw',
+        name: '任务流程',
+        hideInMenu: true,
+      },
+      {
+        redirect: '/teacher/task/tablepage',
+      },
+    ],
   },
   //-------导师端
   {
@@ -34,6 +74,12 @@ export default [
         path: '/teacher/paramsManage/systemManage',
         component: './teacher-web/params-manage/system-manage',
         name: '系统管理',
+      },
+      {
+        path: '/teacher/paramsManage/intention',
+        component: './teacher-web/params-manage/intention',
+        name: '意图',
+        hideInMenu: true,
       },
     ],
   },
