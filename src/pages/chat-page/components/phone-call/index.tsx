@@ -17,7 +17,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
   const { oursNumber, sysPhone } = props;
 
-  const [status, setStatus] = useState<any>('waiting'); // waiting / calling 
+  const [status, setStatus] = useState<any>('waiting'); // waiting / calling /doing
 
   // const []
   // 存储会话
@@ -37,6 +37,17 @@ const PhoneCall: React.FC<any> = (props: any) => {
   const registerUrl = '@11.112.0.42:5070'
 
   const startConfig = () => {
+
+    if (sipSession.current.lastTime) {
+      let second = Date.now() - sipSession.current.lastTime;
+      if (second <= 4000) {
+        message.warning('播打太频繁，请稍后尝试');
+        return;
+      }
+      sipSession.current.lastTime = Date.now();
+    } else {
+      sipSession.current.lastTime = Date.now();
+    }
 
     if (!oursNumber || !sysPhone) {
       message.warning('请设置呼叫号码')
@@ -177,6 +188,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
     session.on("accepted", () => {
       console.log('answer accepted', session);
+      setStatus('doing');
       handleStreamsSrcObject(session._connection);
     });
 
@@ -198,6 +210,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     currentSession = session;
     currentConnection = _connection;
     session.on('confirmed', () => {
+      setStatus('doing');
       pauseMusic(); // 停止铃声
       console.log('call confirmed');
       handleStreamsSrcObject(session._connection);
@@ -266,13 +279,17 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
 
   return (
-    <div>
+    <div style={{ display: 'inline-flex' }}>
       <Condition r-if={status === 'waiting'}>
-        <Button type="primary" onClick={startConfig}>拨打</Button>
+        <Button type="primary" onClick={startConfig}>拨打电话</Button>
       </Condition>
 
       <Condition r-if={status === 'calling'}>
         <Button onClick={stop}>拨打中...</Button>
+      </Condition>
+
+      <Condition r-if={status === 'doing'}>
+        <Button type="primary" danger onClick={stop}>结束对话</Button>
       </Condition>
 
       <div className={style['hidden-auto']}>

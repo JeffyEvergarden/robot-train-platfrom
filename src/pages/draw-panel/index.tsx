@@ -1,6 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import LogicFlow from '@logicflow/core';
-import { DndPanel, SelectionSelect, Menu, Control } from '@logicflow/extension';
+import { DndPanel, SelectionSelect, Menu, Control, MiniMap } from '@logicflow/extension';
 // 样式
 import "@logicflow/core/dist/style/index.css";
 import '@logicflow/extension/lib/style/index.css'
@@ -101,7 +101,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
   const init = () => {
     const lf: any = new LogicFlow({
       container: drawDomRef.current,
-      plugins: [DndPanel, SelectionSelect, Menu, Control],
+      plugins: [DndPanel, SelectionSelect, Menu, Control, MiniMap],
       grid: true,
       edgeType: 'polyline',
     });
