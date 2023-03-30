@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { PageContainer, ProBreadcrumb } from '@ant-design/pro-layout';
 import { useChatModel } from './model';
-import { Button } from 'antd';
+import { Button, Skeleton } from 'antd';
 import MessageBox from './components/message-box';
 import PhoneCall from './components/phone-call';
 import TipsBox from './components/tips-box';
@@ -25,6 +25,13 @@ const ChatPage: any = (props: any) => {
   const [keyPoint, setKeyPoint] = useState<any>(''); // 关键点
   const [hasResult, setHasResult] = useState<boolean>(true); // 关键点
 
+
+  // 消息盒子
+  const messageRef: any = useRef<any>({});
+  const socketRef: any = useRef<any>(null);
+
+
+  // 画布
   const [renderData, setRenderData] = useState<any>({});
 
   const miniPanelRef: any = useRef<any>(null);
@@ -51,6 +58,59 @@ const ChatPage: any = (props: any) => {
 
   };
 
+  const formateMessage = (data: any) => {
+    console.log('formate-message')
+
+    if (!messageRef.current.push) {
+      console.log('-----无法进行消息处理')
+      return
+    }
+    const msgRef = messageRef.current;
+
+    if (typeof data === 'string' && data.startsWith('{')) {
+      data = JSON.parse(data);
+    } else {
+      return
+    }
+    if (typeof data === 'object') {
+      msgRef.push(data);
+    } else {
+      console.log('formate-msg error')
+    }
+  }
+
+
+  const initSocket = () => {
+    const sk = new WebSocket('ws://localhost:4000/websocket');
+    socketRef.current = sk;
+    sk.onopen = (event) => {
+      console.log('WebSocket 连接建立');
+      sk.send('Hello Server!');
+    };
+
+    sk.onmessage = (event) => {
+      console.log(`从服务器收到消息：`, event);
+      // 处理信息
+      formateMessage(event.data);
+    };
+
+    sk.onclose = (event) => {
+      console.log('WebSocket 连接已关闭');
+    };
+    sk.onerror = (event) => {
+      console.log('error')
+    }
+    console.log('---------')
+  }
+
+
+  const onEnd = () => {
+    socketRef.current?.close?.()
+  }
+
+
+
+  // --------------------
   const openScoreModal = () => {
     scoreModalRef.current.open();
   }
@@ -58,7 +118,13 @@ const ChatPage: any = (props: any) => {
   useEffect(() => {
     // 获取基础信息
     getInfo();
+
+    return () => {
+      socketRef.current?.close?.();
+    }
   }, []);
+
+
 
 
   const startChangePageType = () => {
@@ -89,7 +155,7 @@ const ChatPage: any = (props: any) => {
               style={{ marginRight: '16px' }}>
               查看结果
             </Button>
-            <PhoneCall oursNumber={'1000'} sysPhone={'1002'}></PhoneCall>
+            <PhoneCall oursNumber={'1000'} sysPhone={'1002'} onCall={initSocket} onEnd={onEnd}></PhoneCall>
           </div>
         </div>
       }
@@ -102,7 +168,10 @@ const ChatPage: any = (props: any) => {
             <div className={style['page-left']}>
               <TipsBox tips={tips}></TipsBox>
               <div className={style['page-content']} ref={contentRef}>
-                <MessageBox list={testList}></MessageBox>
+                <div className={style['page-tips_bg']}>
+                  <div className={style['tips-box']}>{tips}</div>
+                </div>
+                <MessageBox cref={messageRef}></MessageBox>
               </div>
             </div>
 

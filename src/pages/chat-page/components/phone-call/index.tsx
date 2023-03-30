@@ -15,7 +15,7 @@ let currentConnection = null;
 const PhoneCall: React.FC<any> = (props: any) => {
 
 
-  const { oursNumber, sysPhone } = props;
+  const { oursNumber, sysPhone, onCall, onEnd } = props;
 
   const [status, setStatus] = useState<any>('waiting'); // waiting / calling /doing
 
@@ -246,6 +246,8 @@ const PhoneCall: React.FC<any> = (props: any) => {
       musicAudioRef.current.play();
       setStatus('calling')
     }
+
+    onCall?.();
   }
 
   const clearTimeFn = () => {
@@ -273,7 +275,9 @@ const PhoneCall: React.FC<any> = (props: any) => {
     sipSession.current.ua.unregister({ all: true });
     // --------------
     musicAudioRef.current.pause();
-    setStatus('waiting')
+    setStatus('waiting');
+
+    onEnd?.();
   }
 
 

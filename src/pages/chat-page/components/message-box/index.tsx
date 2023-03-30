@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
 import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined } from '@ant-design/icons';
 import DelayTextInput from './delay-text';
 import DelayTime from './delay-time';
@@ -10,17 +10,29 @@ import customerPhoto from '@/asset/image/customer.png';
 import robotPhoto from '@/asset/image/robot.png';
 
 
-
-
-
-
-
-
-
 // 消息盒子
 const MessageBox: React.FC<any> = (props: any) => {
 
-  const { list } = props;
+  const { cref } = props;
+
+  const [list, setList] = useState<any[]>([]);
+
+  useImperativeHandle(cref, () => ({
+    init: (l: any) => {
+      setList([...l])
+    },
+    push: (item: any) => {
+      list.push(item);
+      setList([...list]);
+    },
+    pop: () => {
+      list.pop();
+      setList([...list]);
+    },
+    clear: () => {
+      setList([]);
+    }
+  }))
 
 
   return (
@@ -30,11 +42,11 @@ const MessageBox: React.FC<any> = (props: any) => {
 
           const lastType: any = index >= 1 ? list[index - 1]?.type : null;
 
-          // type 类型
+          // type 类型  // 类型
           // text 文本内容
           // keysTips 关键点提示 （flag， desc）
-          // 需要的秒数
-          // status  （loading / ）
+          // delay 该话读完需要的秒数
+          // status  （loading 加载 / success 回答完全答对 / fail 有关键点没提到）
 
           const { type, text, role, keysTips, delay = 0, status } = item;
 
