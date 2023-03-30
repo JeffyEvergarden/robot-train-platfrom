@@ -1,12 +1,12 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import LogicFlow from '@logicflow/core';
-import { DndPanel, SelectionSelect, Menu as flowMenu, Control } from '@logicflow/extension';
+import { DndPanel, SelectionSelect, Menu, Control } from '@logicflow/extension';
 // 样式
 import '@logicflow/core/dist/style/index.css';
 import '@logicflow/extension/lib/style/index.css';
 
 import { useModel } from 'umi';
-import { Button, Dropdown, Menu, message } from 'antd';
+import { Button, Dropdown, Menu as AntdMenu, message } from 'antd';
 import style from './style.less';
 import DndDiyPanel from './components/dnd-panel';
 import { registerNode } from './components/node';
@@ -91,7 +91,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
   const init = () => {
     const lf: any = new LogicFlow({
       container: drawDomRef.current,
-      plugins: [DndPanel, SelectionSelect, flowMenu, Control],
+      plugins: [DndPanel, SelectionSelect, Menu, Control],
       grid: true,
       edgeType: 'polyline',
     });
@@ -142,20 +142,20 @@ const DrawPanel: React.FC<any> = (props: any) => {
   }, []);
 
   const menuHeaderDropdown = (
-    <Menu selectedKeys={[]}>
-      <Menu.Item key="customer" onClick={openCustomer}>
+    <AntdMenu selectedKeys={[]}>
+      <AntdMenu.Item key="customer" onClick={openCustomer}>
         客户信息
-      </Menu.Item>
-      <Menu.Item key="call" onClick={openCall}>
+      </AntdMenu.Item>
+      <AntdMenu.Item key="call" onClick={openCall}>
         通话设置
-      </Menu.Item>
-      <Menu.Item key="sound" onClick={openSound}>
+      </AntdMenu.Item>
+      <AntdMenu.Item key="sound" onClick={openSound}>
         音色设置
-      </Menu.Item>
-      <Menu.Item key="end" onClick={openEnd}>
+      </AntdMenu.Item>
+      <AntdMenu.Item key="end" onClick={openEnd}>
         结束设置
-      </Menu.Item>
-    </Menu>
+      </AntdMenu.Item>
+    </AntdMenu>
   );
 
   return (
