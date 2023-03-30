@@ -4,13 +4,13 @@
 }
 
 .avator {
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
 }
 
 .box-avator {
-  width: 64px;
+  width: 48px;
 }
 
 .box_customer {
@@ -23,39 +23,91 @@
   justify-content: flex-end;
 }
 
+.box-bg {
+  margin: 16px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
 .box-content {
   min-width: 100px;
   max-width: 360px;
-  margin: 16px;
-  margin-bottom: 8px;
   padding: 12px;
+  color: #fff;
+  font-weight: 700;
   line-height: 24px;
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: 10px;
+  background: #f0f2f5ff;
+  background: #1890ff;
+  border-radius: 4px;
+}
+
+.box-icon {
+  padding-top: 30px;
 }
 
 .box_tips {
   display: flex;
   justify-content: center;
   margin: 12px 0;
-  color: rgba(0, 0, 0, 0.45);
+}
+
+.box_tips_text {
+  padding: 2px 16px;
+  color: #fff;
+  line-height: 22px;
+  background: #999f;
+  border-radius: 16px;
 }
 
 // --------
 
 .key-row {
   display: flex;
-  align-items: flex-start;
   max-width: 360px;
   margin-bottom: 8px;
   padding-left: 18px;
+  font-size: 14px;
   line-height: 20px;
+}
 
-  .icon {
-    flex-shrink: 0;
+.typing-cursor {
+  animation: typing-cursor 0.7s infinite;
+}
+
+@keyframes typing-cursor {
+  50% {
+    opacity: 0;
+  }
+}
+
+.delay-timer_bg {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: #f0f2f5ff;
+  border-bottom: 1px solid #00000010;
+
+  .delay-bar_bg {
+    width: 200px;
+    height: 6px;
+    background: #ffff;
+    border-radius: 100px;
   }
 
-  .desc {
+  .delay-bar {
+    height: 6px;
+    background: #1890ff;
+    border-radius: 100px;
+    transition: width 0.2s ease-in-out;
+  }
+
+  .delay-text {
+    flex-shrink: 0;
+    padding-left: 8px;
+    color: #000f;
     font-size: 14px;
+    line-height: 24px;
+    white-space: nowrap;
   }
 }

@@ -11,7 +11,7 @@ const Settings: LayoutSettings & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '教培系统平台',
+  title: '教辅培训系统',
   pwa: false,
   logo: '/robot-train/logo.png',
   iconfontUrl: '',

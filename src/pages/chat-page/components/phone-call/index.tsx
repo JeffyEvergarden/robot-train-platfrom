@@ -14,7 +14,7 @@ let currentConnection = null;
 const PhoneCall: React.FC<any> = (props: any) => {
   const { oursNumber, sysPhone } = props;
 
-  const [status, setStatus] = useState<any>('waiting'); // waiting / calling
+  const [status, setStatus] = useState<any>('waiting'); // waiting / calling /doing
 
   // const []
   // 存储会话
@@ -34,6 +34,17 @@ const PhoneCall: React.FC<any> = (props: any) => {
   const registerUrl = '@11.112.0.42:5070';
 
   const startConfig = () => {
+    if (sipSession.current.lastTime) {
+      let second = Date.now() - sipSession.current.lastTime;
+      if (second <= 4000) {
+        message.warning('播打太频繁，请稍后尝试');
+        return;
+      }
+      sipSession.current.lastTime = Date.now();
+    } else {
+      sipSession.current.lastTime = Date.now();
+    }
+
     if (!oursNumber || !sysPhone) {
       message.warning('请设置呼叫号码');
       return null;
@@ -118,7 +129,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
   // 主动call
   const autoCall = () => {
-    const eventHandlers = {
+    let eventHandlers = {
       progress: function (e: any) {
         console.log('call is in progress');
       },
@@ -133,7 +144,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
       },
     };
 
-    const options = {
+    let options = {
       eventHandlers: eventHandlers,
       mediaConstraints: { audio: true, video: false },
       //'mediaStream': localStream
@@ -171,6 +182,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
     session.on('accepted', () => {
       console.log('answer accepted', session);
+      setStatus('doing');
       handleStreamsSrcObject(session._connection);
     });
 
@@ -192,6 +204,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     currentSession = session;
     currentConnection = _connection;
     session.on('confirmed', () => {
+      setStatus('doing');
       pauseMusic(); // 停止铃声
       console.log('call confirmed');
       handleStreamsSrcObject(session._connection);
@@ -258,10 +271,10 @@ const PhoneCall: React.FC<any> = (props: any) => {
   };
 
   return (
-    <div>
+    <div style={{ display: 'inline-flex' }}>
       <Condition r-if={status === 'waiting'}>
         <Button type="primary" onClick={startConfig}>
-          拨打
+          拨打电话
         </Button>
       </Condition>
 
@@ -269,20 +282,20 @@ const PhoneCall: React.FC<any> = (props: any) => {
         <Button onClick={stop}>拨打中...</Button>
       </Condition>
 
+      <Condition r-if={status === 'doing'}>
+        <Button type="primary" danger onClick={stop}>
+          结束对话
+        </Button>
+      </Condition>
+
       <div className={style['hidden-auto']}>
-        <audio id="remote-audio" ref={remoteAudioRef} controls></audio>
+        <audio id="remote-audio" ref={remoteAudioRef} controls />
 
-        <audio id="ours-audio" ref={oursAudioRef} controls></audio>
+        <audio id="ours-audio" ref={oursAudioRef} controls />
 
-        <audio
-          id="music-audio"
-          src={`${basePath}/mp3/story.mp3`}
-          ref={musicAudioRef}
-          controls
-        ></audio>
+        <audio id="music-audio" src={`${basePath}/mp3/story.mp3`} ref={musicAudioRef} controls />
       </div>
     </div>
   );
 };
-
 export default PhoneCall;

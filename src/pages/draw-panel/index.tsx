@@ -1,6 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import LogicFlow from '@logicflow/core';
-import { DndPanel, SelectionSelect, Menu, Control } from '@logicflow/extension';
+import { DndPanel, SelectionSelect, Menu, Control, MiniMap } from '@logicflow/extension';
 // 样式
 import '@logicflow/core/dist/style/index.css';
 import '@logicflow/extension/lib/style/index.css';
@@ -72,6 +72,18 @@ const DrawPanel: React.FC<any> = (props: any) => {
       }
     });
 
+    eventCenter.on('node:dnd-add', async (e: any) => {
+      console.log(e);
+      // 测试删除节点 // 调接口
+      if (e.data.type === 'student') {
+        // lf.deleteNode(e.data.id);
+      }
+      let res: any = await addNode(e.data);
+      if (!res) {
+        lf.deleteNode(e.data.id);
+      }
+    });
+
     // 拖动节点创建
     eventCenter.on('edge:add', async (e: any) => {
       console.log(e);
@@ -91,7 +103,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
   const init = () => {
     const lf: any = new LogicFlow({
       container: drawDomRef.current,
-      plugins: [DndPanel, SelectionSelect, Menu, Control],
+      plugins: [DndPanel, SelectionSelect, Menu, Control, MiniMap],
       grid: true,
       edgeType: 'polyline',
     });
