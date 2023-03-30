@@ -2,14 +2,9 @@ import Condition from '@/components/Condition';
 import { Modal, Input, Radio, Switch, Form, InputNumber, Checkbox, Select } from 'antd';
 import { useEffect, useImperativeHandle, useState } from 'react';
 
-const { TextArea } = Input;
-const { Item: FormItem } = Form;
-
 const TableForm: React.FC<any> = (props) => {
-  const { cref } = props;
+  const { cref, taskAdd, taskDetail, taskEdit, reload, loading } = props;
   const [form] = Form.useForm();
-  const courseStyle = Form.useWatch('课程样式', form);
-  const num = Form.useWatch('最少训练次数', form);
 
   const formItemLayout = {
     labelCol: { span: 6 },
@@ -27,12 +22,35 @@ const TableForm: React.FC<any> = (props) => {
   const onOk = async () => {
     let valid = await form.validateFields();
     if (valid) {
-      setVisible(false);
+      console.log(valid);
+      let reqData = { ...valid };
+      if (formType == 'add') {
+        await taskAdd(reqData).then((res: any) => {
+          if (res) {
+            onCancel();
+            reload();
+          }
+        });
+      } else if (formType == 'edit') {
+        await taskEdit(reqData).then((res: any) => {
+          if (res) {
+            onCancel();
+            reload();
+          }
+        });
+      }
     }
   };
 
-  const open = (type: any, row?: any) => {
+  const open = async (type: any, row?: any) => {
     setFormType(type);
+    if (type == 'edit') {
+      await taskDetail({ id: row?.id }).then((res: any) => {
+        form.setFieldsValue({
+          ...res?.data,
+        });
+      });
+    }
     setVisible(true);
   };
 
@@ -43,14 +61,15 @@ const TableForm: React.FC<any> = (props) => {
   return (
     <Modal
       visible={visible}
-      title={`${formType == 'edit' ? '编辑' : '新增'}课程`}
+      title={`${formType == 'edit' ? '编辑' : '新增'}任务`}
       onCancel={onCancel}
       onOk={onOk}
       width={600}
+      confirmLoading={loading}
     >
       <Form form={form} layout="horizontal" {...formItemLayout}>
         <Form.Item
-          name="任务名称"
+          name="taskName"
           label="任务名称"
           rules={[{ required: true, message: '请输入任务名称' }]}
         >
@@ -58,7 +77,7 @@ const TableForm: React.FC<any> = (props) => {
         </Form.Item>
         <Form.Item
           label="通过标准"
-          name={'通过标准'}
+          name={'passScore'}
           rules={[{ required: true, message: '请输入通过标准' }]}
           initialValue={100}
         >
@@ -73,7 +92,7 @@ const TableForm: React.FC<any> = (props) => {
         </Form.Item>
         <Form.Item
           label="任务模式"
-          name={'任务模式'}
+          name={'taskModel'}
           initialValue={1}
           rules={[{ required: true, message: '请选择任务模式' }]}
         >
@@ -84,7 +103,7 @@ const TableForm: React.FC<any> = (props) => {
         </Form.Item>
         <Form.Item
           label="任务类型"
-          name={'任务类型'}
+          name={'taskType'}
           initialValue={1}
           rules={[{ required: true, message: '请选择任务类型' }]}
         >

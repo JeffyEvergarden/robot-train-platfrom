@@ -56,14 +56,297 @@ const defaultResault = (req: any, res: any) => {
   });
 };
 
+const courseDetail = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      id: '1',
+      courseName: 'xxx',
+      passMark: 60,
+      courseType: 1,
+      minNumberSwitch: 1,
+      minNumber: 1,
+      courseStatus: 1,
+      modelId: 'xxx',
+    },
+  });
+};
+
+const getTaskList = (req: any, res: any) => {
+  let data: any = gen(11).map((item: any, index: number) => {
+    return {
+      taskName: '任务' + index,
+      taskModel: Math.ceil(Math.random() * 2),
+      taskType: Math.ceil(Math.random() * 2),
+      passScore: Math.ceil(Math.random() * 40 + 60),
+      progress: Math.floor(Math.random() * 3),
+      taskStatus: Math.floor(Math.random() * 2),
+      creator: 'root',
+      id: index,
+    };
+  });
+
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      list: data,
+      totalPage: 11,
+    },
+  });
+};
+
+const getTaskList2 = (req: any, res: any) => {
+  let data: any = gen(11).map((item: any, index: number) => {
+    return {
+      taskName: '任务' + index,
+      taskModel: Math.floor(Math.random() * 2),
+      taskType: Math.ceil(Math.random() * 2),
+      passScore: Math.ceil(Math.random() * 40 + 60),
+      progress: Math.floor(Math.random() * 3),
+      taskStatus: Math.floor(Math.random() * 2),
+      creator: 'root',
+      id: index,
+    };
+  });
+
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: data,
+  });
+};
+
+const taskDetail = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      taskName: '任务',
+      taskModel: Math.floor(Math.random() * 2),
+      taskType: Math.ceil(Math.random() * 2),
+      passScore: Math.ceil(Math.random() * 40 + 60),
+      progress: Math.floor(Math.random() * 3),
+      taskStatus: Math.floor(Math.random() * 2),
+      creator: 'root',
+      id: 1,
+    },
+  });
+};
+
+const getDraw = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      id: '100', //课程id
+      nodes: [
+        {
+          id: 'f496662d-ea19-4691-b9fe-3cf85e30a041',
+          type: 'start',
+          x: 460,
+          y: 160,
+          properties: {},
+          text: { x: 460, y: 160, value: '开始' },
+        },
+        {
+          id: 'bdbc7f12-1690-4bda-9256-5ade866ba4b8',
+          type: 'student',
+          x: 640,
+          y: 320,
+          properties: {},
+          text: { x: 640, y: 320, value: '学员节点' },
+        },
+        {
+          id: '9338b5a4-c676-491d-92c0-9361b4dc99c3',
+          type: 'customer',
+          x: 320,
+          y: 500,
+          properties: {},
+          text: { x: 320, y: 500, value: '客服节点' },
+        },
+        {
+          id: '2da32edd-175b-44b1-a132-a7b271507390',
+          type: 'finish',
+          x: 600,
+          y: 660,
+          properties: {},
+          text: { x: 600, y: 660, value: '结束' },
+        },
+      ],
+      edges: [
+        {
+          id: '3a0a2f39-c8aa-4d76-b016-7461df185b3c',
+          type: 'line',
+          sourceNodeId: 'f496662d-ea19-4691-b9fe-3cf85e30a041',
+          targetNodeId: 'bdbc7f12-1690-4bda-9256-5ade866ba4b8',
+          startPoint: { x: 510, y: 160 },
+          endPoint: { x: 640, y: 283 },
+          properties: {},
+        },
+        {
+          id: 'e51b6d92-7817-41e5-9be8-597ec180cb04',
+          type: 'line',
+          sourceNodeId: 'bdbc7f12-1690-4bda-9256-5ade866ba4b8',
+          targetNodeId: '9338b5a4-c676-491d-92c0-9361b4dc99c3',
+          startPoint: { x: 640, y: 357 },
+          endPoint: { x: 320, y: 463 },
+          properties: {},
+        },
+        {
+          id: '536ae6c4-183b-4d64-b8b1-2e44a56fa0c3',
+          type: 'line',
+          sourceNodeId: '9338b5a4-c676-491d-92c0-9361b4dc99c3',
+          targetNodeId: '2da32edd-175b-44b1-a132-a7b271507390',
+          startPoint: { x: 320, y: 537 },
+          endPoint: { x: 600, y: 610 },
+          properties: {},
+        },
+      ],
+    },
+  });
+};
+
+const courseCustomInfo = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      id: '100', //课程id
+      courseId: '100',
+      customerInfo:
+        '客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息',
+    },
+  });
+};
+
+const courseCallConfig = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      id: '100', //课程id
+      courseId: '100',
+      answerWaitTime: '8',
+      timeoutTip: '超时',
+      stopTime: '8',
+      timeoutSwitch: true,
+      stopSwitch: true,
+    },
+  });
+};
+
+const courseSoundConfig = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      id: '100', //课程id
+      courseId: '100',
+      soundVolume: 50,
+      soundName: '音色',
+      soundSpeed: 5,
+      soundTone: 5,
+    },
+  });
+};
+
+const courseEndConfig = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      id: '101', //课程id
+      courseId: '100',
+      maxError: 5,
+      errorTip: '异常提示',
+      endText: '异常结束语',
+    },
+  });
+};
+
+const chatInfo = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      customerText: '文本文本文本文本文本文本文本', //课程id
+      studentText: '节点',
+      role: Math.ceil(Math.random() * 2),
+      keyPoints: [{ keyPointName: '关键点', keyWord: '关键字', isPass: '' }],
+    },
+  });
+};
+const nodeInfo = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      nodeType: 1,
+      nodeName: 'nodename',
+      positionInfo: '1,2',
+      keyPoints: [{ id: '11', nodeId: '33', keyPoint: '关键点', keyWord: '关键词' }],
+      nodeAction: [{ id: '44', nodeId: '22', action: '话术', intent: '' }],
+    },
+  });
+};
+
+const lineInfo = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      customerText: '文本文本文本文本文本文本文本', //课程id
+      studentText: '节点',
+      role: Math.ceil(Math.random() * 2),
+      keyPoints: [{ keyPointName: '关键点', keyWord: '关键字', isPass: '' }],
+    },
+  });
+};
+
 export default {
   // 获取课程信息
   [`POST ${baseUrl}/services/course/coursePage`]: getNormalList,
   [`POST ${baseUrl}/services/course/courseList`]: getNormalList2,
   [`POST ${baseUrl}/services/course/courseAdd`]: defaultResault,
+  [`POST ${baseUrl}/services/course/courseDetail`]: courseDetail,
   [`POST ${baseUrl}/services/course/courseEdit`]: defaultResault,
   [`POST ${baseUrl}/services/course/courseDelete`]: defaultResault,
   [`POST ${baseUrl}/services/course/courseDown`]: defaultResault,
   [`POST ${baseUrl}/services/course/coursePublish`]: defaultResault,
   [`POST ${baseUrl}/services/course/courseCopy`]: defaultResault,
+  //任务
+  [`POST ${baseUrl}/services/task/taskPage`]: getTaskList,
+  [`POST ${baseUrl}/services/task/taskList`]: getTaskList2,
+  [`POST ${baseUrl}/services/task/taskAdd`]: defaultResault,
+  [`POST ${baseUrl}/services/task/taskDetail`]: taskDetail,
+  [`POST ${baseUrl}/services/task/taskEdit`]: defaultResault,
+  [`POST ${baseUrl}/services/task/taskDelete`]: defaultResault,
+  [`POST ${baseUrl}/services/task/taskOpen`]: defaultResault,
+  [`POST ${baseUrl}/services/task/taskClose`]: defaultResault,
+  //课程画布
+  [`POST ${baseUrl}/services/course/courseNodeLineInfo`]: getDraw,
+  [`POST ${baseUrl}/services/course/courseNodeInfoAdd`]: defaultResault,
+  [`POST ${baseUrl}/services/course/courseNodeInfoDelete`]: defaultResault,
+  [`POST ${baseUrl}/services/course/courseLineInfoSave`]: defaultResault,
+  [`POST ${baseUrl}/services/course/courseCheck`]: defaultResault, //校验
+
+  [`POST ${baseUrl}/services/course/courseNodeInfo`]: nodeInfo,
+  [`POST ${baseUrl}/services/course/courseNodeSave`]: defaultResault,
+  [`POST ${baseUrl}/services/course/courseLineInfo`]: lineInfo,
+  [`POST ${baseUrl}/services/course/courseLineSave`]: defaultResault,
+
+  [`POST ${baseUrl}/services/course/dialogueBegin`]: chatInfo, //流程测试
+  [`POST ${baseUrl}/services/course/dialogueSend`]: chatInfo,
+  [`POST ${baseUrl}/services/course/dialogueFinish`]: chatInfo,
+
+  [`POST ${baseUrl}/services/course/courseCustomInfo`]: courseCustomInfo, //客户
+  [`POST ${baseUrl}/services/course/courseCustomInfoSave`]: defaultResault,
+  [`POST ${baseUrl}/services/course/courseCallConfig`]: courseCallConfig, //通话
+  [`POST ${baseUrl}/services/course/courseCallConfigSave`]: defaultResault,
+  [`POST ${baseUrl}/services/course/courseSoundConfig`]: courseSoundConfig, //音色
+  [`POST ${baseUrl}/services/course/courseSoundConfigSave`]: defaultResault,
+  [`POST ${baseUrl}/services/course/courseEndConfig`]: courseEndConfig, //结束
+  [`POST ${baseUrl}/services/course/courseEndConfigSave`]: defaultResault,
 };
