@@ -33,6 +33,7 @@ import {
   intentAddApi,
   intentEditApi,
   intentDetailApi,
+  intentSyncApi,
 } from './api';
 
 //用户管理
@@ -272,6 +273,13 @@ export const useIntentionModel = () => {
     return res;
   };
 
+  const intentSync = async (params?: any) => {
+    setLoading(true);
+    let res: any = await intentSyncApi(params);
+    setLoading(false);
+    return res;
+  };
+
   return {
     customerIntentionList,
     intentListRequest,
@@ -279,5 +287,6 @@ export const useIntentionModel = () => {
     intentAdd,
     intentEdit,
     intentDetail,
+    intentSync,
   };
 };

@@ -214,3 +214,11 @@ export async function intentDetailApi(params?: Record<string, any>) {
     data: params,
   });
 }
+
+/** 课程模型列表--客户意图列表--详情 **/
+export async function intentSyncApi(params?: Record<string, any>) {
+  return request(`${baseUrl}/ai-teach/services/intent/intentSync`, {
+    method: 'POST',
+    data: params,
+  });
+}
