@@ -66,3 +66,19 @@ export async function _taskClose(data?: Record<string, any>) {
     data,
   });
 }
+
+/** 获取画布 **/
+export async function _taskNodeLineInfo(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/task/taskNodeLineInfo`, {
+    method: 'POST',
+    data,
+  });
+}
+
+/** 保存画布 **/
+export async function _taskLineInfoSave(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/task/taskLineInfoSave`, {
+    method: 'POST',
+    data,
+  });
+}
