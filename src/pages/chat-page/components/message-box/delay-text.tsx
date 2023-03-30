@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import style from './style.less';
 
+
 const DelayTextInput: React.FC<any> = (props: any) => {
+
   const [type, setType] = useState<any>('finish');
 
   const { text = '', delay = 0 } = props;
@@ -17,7 +19,7 @@ const DelayTextInput: React.FC<any> = (props: any) => {
       return;
     }
 
-    let delaytime = (d * 1000) / strLen; // d是秒数;
+    let delaytime = d * 1000 / strLen; // d是秒数;
 
     delaytime = delaytime > 100 ? delaytime : 100;
     setType('loading');
@@ -34,8 +36,9 @@ const DelayTextInput: React.FC<any> = (props: any) => {
       } catch (e) {
         clearInterval(textRef.current.timer);
       }
-    }, delaytime);
-  };
+    }, delaytime)
+
+  }
 
   useEffect(() => {
     clearInterval(textRef.current.timer);
@@ -43,17 +46,19 @@ const DelayTextInput: React.FC<any> = (props: any) => {
       setDelayText(text);
       setType('finish');
     } else {
-      textRef.current.text = '';
+      textRef.current.text = ''
       textRef.current.i = 0;
-      startDelayShow(text, delay);
+      startDelayShow(text, delay)
     }
-  }, [text, delay]);
+
+  }, [text, delay])
+
 
   return (
     <div className={style['delay-text']}>
       {delayText} {type === 'loading' ? <span className={style['typing-cursor']}>|</span> : ''}
     </div>
-  );
-};
+  )
+}
 
 export default DelayTextInput;

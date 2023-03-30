@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import style from './style.less';
 
+
 function formate(time: any) {
   if (!time) {
     return '00:00';
@@ -15,6 +16,7 @@ function formate(time: any) {
 }
 
 const DelayTime: React.FC<any> = (props: any) => {
+
   const [type, setType] = useState<any>('finish');
 
   const [width, setWidth] = useState<any>(0);
@@ -30,7 +32,7 @@ const DelayTime: React.FC<any> = (props: any) => {
       return;
     }
 
-    let delaytime = (d * 1000) / strLen; // d是秒数;
+    let delaytime = d * 1000 / strLen; // d是秒数;
 
     delaytime = delaytime > 100 ? delaytime : 100;
     setType('loading');
@@ -47,8 +49,9 @@ const DelayTime: React.FC<any> = (props: any) => {
       } catch (e) {
         clearInterval(textRef.current.timer);
       }
-    }, delaytime);
-  };
+    }, delaytime)
+
+  }
 
   useEffect(() => {
     clearInterval(textRef.current.timer);
@@ -59,10 +62,11 @@ const DelayTime: React.FC<any> = (props: any) => {
       textRef.current.i = 0;
       startDelayShow(text, delay);
     }
-  }, [text, delay]);
+
+  }, [text, delay])
 
   if (text.length === 0 || delay === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -76,8 +80,9 @@ const DelayTime: React.FC<any> = (props: any) => {
         <span> / </span>
         <span> {formate(delay)}</span>
       </div>
+
     </div>
-  );
-};
+  )
+}
 
 export default DelayTime;
