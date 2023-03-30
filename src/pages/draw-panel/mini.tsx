@@ -2,8 +2,8 @@ import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import LogicFlow from '@logicflow/core';
 import { DndPanel, SelectionSelect, Menu, Control } from '@logicflow/extension';
 // 样式
-import "@logicflow/core/dist/style/index.css";
-import '@logicflow/extension/lib/style/index.css'
+import '@logicflow/core/dist/style/index.css';
+import '@logicflow/extension/lib/style/index.css';
 
 import { useModel } from 'umi';
 import { Button, message } from 'antd';
@@ -14,15 +14,9 @@ import { registerNode } from './components/node/student';
 import { setMenuConfig, setControlConfig, checkEdge } from './config';
 import e from 'express';
 
-
 // 首页
 const MiniDrawPanel: React.FC<any> = (props: any) => {
-
-  const {
-    cref,
-    addNode = () => true,
-    deleteNode = () => true,
-  } = props;
+  const { cref, addNode = () => true, deleteNode = () => true } = props;
 
   // const { initialState, setInitialState } = useModel('@@initialState');
 
@@ -52,8 +46,7 @@ const MiniDrawPanel: React.FC<any> = (props: any) => {
     lf.translate(-150, 100);
     // ----
     drawPanelRef.current = lf;
-  }
-
+  };
 
   useImperativeHandle(cref, () => ({
     initPanel: (data: any) => {
@@ -63,9 +56,9 @@ const MiniDrawPanel: React.FC<any> = (props: any) => {
       }
     },
     getLf: () => {
-      return curLf
-    }
-  }))
+      return curLf;
+    },
+  }));
 
   useEffect(() => {
     // 初始化画布

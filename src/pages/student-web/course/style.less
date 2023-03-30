@@ -1,15 +1,14 @@
 .title {
-  font-size: 18px;
   padding: 12px 0;
+  font-size: 18px;
 }
 
 .page-bg {
-  background-color: #FFF;
   height: calc(100vh - 170px);
-  overflow: auto;
   padding: 12px;
+  overflow: auto;
+  background-color: #fff;
 }
-
 
 .paget-context {
   display: flex;
@@ -20,8 +19,8 @@
 
 .page-right {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: flex-end;
   margin-right: 120px;
 }
 
@@ -31,17 +30,17 @@
   align-items: flex-start;
   width: 362px;
   height: 132px;
-  border-radius: 4px;
-  border: 1px solid #0000000f;
   margin: 0 24px 24px 0;
   padding: 16px;
-  background: #FFF;
-  overflow: hidden;
   padding-right: 8px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #0000000f;
+  border-radius: 4px;
 
   &:hover {
-    cursor: pointer;
     box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px 0 #00000014, 0 9px 28px 8px #0000000d;
+    cursor: pointer;
   }
 
   .course-pic {
@@ -52,16 +51,15 @@
   }
 
   .box {
-
     display: flex;
     flex-direction: column;
 
     .course-title {
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 22px;
-      color: rgba(0, 0, 0, 0.85);
       overflow: hidden; // 溢出隐藏
+      color: rgba(0, 0, 0, 0.85);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 22px;
       white-space: nowrap; // 强制一行
       text-overflow: ellipsis; // 文字溢出显示省略号
     }
@@ -69,23 +67,21 @@
     .context {
       display: flex;
       flex: 1 1 auto;
-      padding: 8px 0;
       min-height: 60px;
+      padding: 8px 0;
     }
 
     .context-bottom {
-      background-color: #fff;
       display: flex;
       align-items: center;
       font-size: 10px;
+      background-color: #fff;
 
       span {
-        margin-left: 8px;
         flex-shrink: 0;
+        margin-left: 8px;
         white-space: nowrap;
       }
     }
   }
-
-
 }

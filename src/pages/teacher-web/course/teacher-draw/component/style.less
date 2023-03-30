@@ -1,0 +1,107 @@
+.drawer {
+  .scrollbar(1.5px, rgba(72, 120, 255, 0.2));
+}
+
+.chatBox {
+  position: relative;
+}
+
+.textarea {
+  width: 100%;
+  border: none;
+}
+
+.submitBtn {
+  position: absolute;
+  right: 24px;
+  bottom: 16px;
+}
+
+.customerInfo {
+  // display: flex;
+  width: 100%;
+  padding: 8px;
+  background: #e6f7ffff;
+  border-radius: 4px;
+  opacity: 1;
+  .text {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.switch {
+  // float: right;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+.headImg {
+  width: 32px;
+  height: 32px;
+  background: #00000040;
+  border: 1px solid #ffff;
+  border-radius: 999px;
+  opacity: 1;
+}
+
+.nodeFormTitle {
+  margin-bottom: 8px;
+  color: #000000d9;
+  font-weight: 500;
+  font-size: 14px;
+  font-family: 'PingFang SC';
+  line-height: 22px;
+  text-align: left;
+  opacity: 1;
+}
+
+.grayBox {
+  margin-bottom: 16px;
+  padding: 8px;
+  background: #f9fafbff;
+}
+.num-circle {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  background: #1890ff;
+  border-radius: 50%;
+}
+
+.listDelete {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.scrollbar(@width, @color: #f5f5f5) {
+  ::-webkit-scrollbar {
+    width: @width * 4;
+    background: transparent;
+    visibility: hidden;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    width: @width * 4;
+    background: @color;
+    border-radius: 30px;
+    visibility: hidden;
+  }
+
+  &:hover {
+    ::-webkit-scrollbar {
+      visibility: visible;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      visibility: visible;
+    }
+  }
+}

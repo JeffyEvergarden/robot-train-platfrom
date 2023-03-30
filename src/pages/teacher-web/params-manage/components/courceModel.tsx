@@ -15,9 +15,7 @@ export default (props: any) => {
       setVisible(true);
       setRowData(record);
       setPageTyp(type);
-      if (type == 'editUser') {
-        form.setFieldsValue({ groupId: record?.groupId });
-      } else if (type == 'add') {
+      if (type == 'add') {
         form.setFieldsValue({ modelName: '', modelAddress: '' });
         setRowData({});
       } else if (type == 'edit') {

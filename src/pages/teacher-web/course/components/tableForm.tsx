@@ -6,7 +6,7 @@ const { TextArea } = Input;
 const { Item: FormItem } = Form;
 
 const TableForm: React.FC<any> = (props) => {
-  const { cref, courseAdd, courseEdit } = props;
+  const { cref, courseAdd, courseDetail, courseEdit, reload, loading } = props;
   const [form] = Form.useForm();
   const courseStyle = Form.useWatch('courseType', form);
   const minNumberSwitch = Form.useWatch('minNumberSwitch', form);
@@ -33,20 +33,29 @@ const TableForm: React.FC<any> = (props) => {
         await courseAdd(reqData).then((res: any) => {
           if (res) {
             onCancel();
+            reload();
           }
         });
       } else if (formType == 'edit') {
         await courseEdit(reqData).then((res: any) => {
           if (res) {
             onCancel();
+            reload();
           }
         });
       }
     }
   };
 
-  const open = (type: any, row?: any) => {
+  const open = async (type: any, row?: any) => {
     setFormType(type);
+    if (type == 'edit') {
+      await courseDetail({ id: row?.id }).then((res: any) => {
+        form.setFieldsValue({
+          ...res?.data,
+        });
+      });
+    }
     setVisible(true);
   };
 
@@ -61,6 +70,7 @@ const TableForm: React.FC<any> = (props) => {
       onCancel={onCancel}
       onOk={onOk}
       width={600}
+      confirmLoading={loading}
     >
       <Form form={form} layout="horizontal" {...formItemLayout}>
         <Form.Item
@@ -87,15 +97,15 @@ const TableForm: React.FC<any> = (props) => {
         <Form.Item
           name={'courseType'}
           label="课程样式"
-          initialValue={1}
+          initialValue={0}
           rules={[{ required: true, message: '请选择课程样式' }]}
         >
           <Radio.Group>
-            <Radio value={1}>常规</Radio>
-            <Radio value={2}>剧情</Radio>
+            <Radio value={0}>常规</Radio>
+            <Radio value={1}>剧情</Radio>
           </Radio.Group>
         </Form.Item>
-        <Condition r-if={courseStyle == 2}>
+        <Condition r-if={courseStyle == 1}>
           <Form.Item
             name="modelId"
             label="课程模型"

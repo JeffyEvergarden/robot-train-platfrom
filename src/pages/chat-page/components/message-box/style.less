@@ -24,34 +24,22 @@
 }
 
 .box-bg {
-  border-radius: 4px;
-  overflow: hidden;
   margin: 16px;
   margin-bottom: 8px;
+  overflow: hidden;
+  border-radius: 4px;
 }
 
 .box-content {
-  line-height: 24px;
-  background: #f0f2f5ff;
-  padding: 12px;
   min-width: 100px;
   max-width: 360px;
   padding: 12px;
-  line-height: 24px;
-}
-
-.box-content_sys {
-  line-height: 24px;
-  border-radius: 4px;
-  background: #1890FF;
   color: #fff;
   font-weight: 700;
-  margin: 16px;
-  margin-left: 12px;
-  margin-bottom: 8px;
-  padding: 12px;
-  min-width: 100px;
-  max-width: 360px;
+  line-height: 24px;
+  background: #f0f2f5ff;
+  background: #1890ff;
+  border-radius: 4px;
 }
 
 .box-icon {
@@ -66,33 +54,22 @@
 
 .box_tips_text {
   padding: 2px 16px;
+  color: #fff;
   line-height: 22px;
+  background: #999f;
   border-radius: 16px;
-  background: #999999ff;
-  color: #FFF;
 }
 
 // --------
 
 .key-row {
   display: flex;
-  align-items: flex-start;
   max-width: 360px;
   margin-bottom: 8px;
   padding-left: 18px;
+  font-size: 14px;
   line-height: 20px;
-
-  .icon {
-    flex-shrink: 0;
-  }
-
-  .desc {
-    font-size: 14px;
-  }
 }
-
-
-
 
 .typing-cursor {
   animation: typing-cursor 0.7s infinite;
@@ -104,35 +81,33 @@
   }
 }
 
-
 .delay-timer_bg {
   display: flex;
   align-items: center;
-  background: #f0f2f5ff;
   padding: 12px;
-
+  background: #f0f2f5ff;
   border-bottom: 1px solid #00000010;
 
   .delay-bar_bg {
     width: 200px;
     height: 6px;
-    background: #ffffffff;
+    background: #ffff;
     border-radius: 100px;
   }
 
   .delay-bar {
     height: 6px;
-    background: #1890FF;
+    background: #1890ff;
     border-radius: 100px;
     transition: width 0.2s ease-in-out;
   }
 
   .delay-text {
+    flex-shrink: 0;
     padding-left: 8px;
-    color: #000000ff;
+    color: #000f;
     font-size: 14px;
     line-height: 24px;
-    flex-shrink: 0;
     white-space: nowrap;
   }
 }

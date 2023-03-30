@@ -1,18 +1,21 @@
 import React, { useRef, useState } from 'react';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { Button, Popconfirm, Select } from 'antd';
-import { useTableModel } from '../model';
-import { history } from 'umi';
+import { useTableModel } from './model';
+import { history, useModel } from 'umi';
 import DuplicateForm from './components/duplicateForm';
 import TableForm from './components/tableForm';
+import style from './style.less';
 
 const TeacherWeb: React.FC<any> = (props: any) => {
   const {
     allTableList,
     tableLoading,
+    formLoading,
     getTableList,
     getAllTablelist,
     courseAdd,
+    courseDetail,
     courseEdit,
     courseDelete,
     coursePublish,
@@ -21,6 +24,11 @@ const TeacherWeb: React.FC<any> = (props: any) => {
 
   const duplicateRef = useRef<any>(null);
   const tableFormRef = useRef<any>(null);
+  const tableRef = useRef<any>(null);
+
+  const { setCourseInfo } = useModel('course', (model: any) => ({
+    setCourseInfo: model.setCourseInfo,
+  }));
 
   let columns: any = [
     {
@@ -92,19 +100,23 @@ const TeacherWeb: React.FC<any> = (props: any) => {
               <Button
                 type="link"
                 onClick={() => {
-                  history.push(`/teacher/course/draw?id=${row.id}`);
+                  setCourseInfo(row);
+                  history.push(`/teacher/course/draw?id=${row?.id}&name=${row?.courseName}`);
                 }}
               >
                 流程编辑
               </Button>
 
               <Popconfirm
-                title="点击发布课程，请确认！"
+                title="确定要发布吗？"
                 okText="确定"
                 cancelText="取消"
                 disabled={row?.courseStatus == 1}
-                onConfirm={() => {
-                  // deleteRow(row);
+                onConfirm={async () => {
+                  let res = await coursePublish({ id: row?.id });
+                  if (res) {
+                    tableRef?.current?.reload();
+                  }
                 }}
               >
                 <Button type="link" disabled={row?.courseStatus == 1}>
@@ -113,13 +125,20 @@ const TeacherWeb: React.FC<any> = (props: any) => {
               </Popconfirm>
 
               <Popconfirm
-                title="点击后课程将下线
-                无法选择配置，请确认"
+                title={
+                  <div>
+                    <div>{'确定要下线吗？'}</div>
+                    <div className={style['title-description']}>{'下线后课程将无法被选择配置'}</div>
+                  </div>
+                }
                 okText="确定"
                 cancelText="取消"
                 disabled={row?.courseStatus == 0}
-                onConfirm={() => {
-                  // deleteRow(row);
+                onConfirm={async () => {
+                  let res = await courseDown({ id: row?.id });
+                  if (res) {
+                    tableRef?.current?.reload();
+                  }
                 }}
               >
                 <Button type="link" disabled={row?.courseStatus == 0}>
@@ -128,11 +147,19 @@ const TeacherWeb: React.FC<any> = (props: any) => {
               </Popconfirm>
 
               <Popconfirm
-                title="删除后将消失，请确认！"
+                title={
+                  <div>
+                    <div>{'确定要删除吗?'}</div>
+                    <div className={style['title-description']}>{'删除后课程将消失'}</div>
+                  </div>
+                }
                 okText="确定"
                 cancelText="取消"
-                onConfirm={() => {
-                  courseDelete();
+                onConfirm={async () => {
+                  let res = await courseDelete({ id: row?.id });
+                  if (res) {
+                    tableRef?.current?.reload();
+                  }
                 }}
               >
                 <Button type="link" danger>
@@ -145,6 +172,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
       },
     },
   ];
+
   return (
     <PageContainer
       header={{
@@ -153,6 +181,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
       }}
     >
       <ProTable
+        actionRef={tableRef}
         headerTitle={'课程管理'}
         pagination={{
           showSizeChanger: true,
@@ -195,7 +224,16 @@ const TeacherWeb: React.FC<any> = (props: any) => {
       {/* //复制弹窗 */}
       <DuplicateForm cref={duplicateRef}></DuplicateForm>
       {/* 新增编辑表单 */}
-      <TableForm cref={tableFormRef} courseAdd={courseAdd} courseEdit={courseEdit}></TableForm>
+      <TableForm
+        cref={tableFormRef}
+        courseAdd={courseAdd}
+        courseDetail={courseDetail}
+        courseEdit={courseEdit}
+        reload={() => {
+          tableRef?.current?.reload();
+        }}
+        loading={formLoading}
+      ></TableForm>
     </PageContainer>
   );
 };
