@@ -12,7 +12,7 @@ let currentSession = null;
 let currentConnection = null;
 
 const PhoneCall: React.FC<any> = (props: any) => {
-  const { oursNumber, sysPhone } = props;
+  const { oursNumber, sysPhone, onCall, onEnd } = props;
 
   const [status, setStatus] = useState<any>('waiting'); // waiting / calling /doing
 
@@ -240,6 +240,8 @@ const PhoneCall: React.FC<any> = (props: any) => {
       musicAudioRef.current.play();
       setStatus('calling');
     }
+
+    onCall?.();
   };
 
   const clearTimeFn = () => {
@@ -268,6 +270,8 @@ const PhoneCall: React.FC<any> = (props: any) => {
     // --------------
     musicAudioRef.current.pause();
     setStatus('waiting');
+
+    onEnd?.();
   };
 
   return (
@@ -289,13 +293,19 @@ const PhoneCall: React.FC<any> = (props: any) => {
       </Condition>
 
       <div className={style['hidden-auto']}>
-        <audio id="remote-audio" ref={remoteAudioRef} controls />
+        <audio id="remote-audio" ref={remoteAudioRef} controls></audio>
 
-        <audio id="ours-audio" ref={oursAudioRef} controls />
+        <audio id="ours-audio" ref={oursAudioRef} controls></audio>
 
-        <audio id="music-audio" src={`${basePath}/mp3/story.mp3`} ref={musicAudioRef} controls />
+        <audio
+          id="music-audio"
+          src={`${basePath}/mp3/story.mp3`}
+          ref={musicAudioRef}
+          controls
+        ></audio>
       </div>
     </div>
   );
 };
+
 export default PhoneCall;
