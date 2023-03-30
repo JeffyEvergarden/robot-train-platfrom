@@ -1,4 +1,4 @@
-import { useDrawModel } from '@/pages/teacher-web/model';
+import { useDrawModel } from '@/pages/teacher-web/course/model';
 import { Button, Drawer, Form, Input, Space } from 'antd';
 import { useImperativeHandle, useState } from 'react';
 import { useModel } from 'umi';

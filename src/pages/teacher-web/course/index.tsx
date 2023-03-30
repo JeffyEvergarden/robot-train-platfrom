@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { Button, Popconfirm, Select } from 'antd';
-import { useTableModel } from '../model';
+import { useTableModel } from './model';
 import { history, useModel } from 'umi';
 import DuplicateForm from './components/duplicateForm';
 import TableForm from './components/tableForm';

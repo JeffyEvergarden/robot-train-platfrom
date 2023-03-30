@@ -1,5 +1,5 @@
 import config from '@/config';
-import { useDrawModel } from '@/pages/teacher-web/model';
+import { useDrawModel } from '@/pages/teacher-web/course/model';
 import {
   Button,
   Col,

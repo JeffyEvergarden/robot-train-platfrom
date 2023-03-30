@@ -101,7 +101,7 @@ const getTaskList2 = (req: any, res: any) => {
   let data: any = gen(11).map((item: any, index: number) => {
     return {
       taskName: '任务' + index,
-      taskModel: Math.floor(Math.random() * 2),
+      taskModel: Math.ceil(Math.random() * 2),
       taskType: Math.ceil(Math.random() * 2),
       passScore: Math.ceil(Math.random() * 40 + 60),
       progress: Math.floor(Math.random() * 3),
@@ -124,7 +124,7 @@ const taskDetail = (req: any, res: any) => {
     resultDesc: '成功',
     data: {
       taskName: '任务',
-      taskModel: Math.floor(Math.random() * 2),
+      taskModel: Math.ceil(Math.random() * 2),
       taskType: Math.ceil(Math.random() * 2),
       passScore: Math.ceil(Math.random() * 40 + 60),
       progress: Math.floor(Math.random() * 3),

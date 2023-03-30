@@ -1,12 +1,30 @@
-import DrawPanel from '@/pages/draw-panel';
-import { ArrowLeftOutlined } from '@ant-design/icons';
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { useDrawModel } from '../../model';
+import { useModel } from 'umi';
+import { Button, message, Input, Space } from 'antd';
+import DrawPanel from '@/pages/draw-panel/student';
+import style from '../style.less';
+import { useDrawModel } from '@/pages/student-web/detail/model';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import { history } from 'umi';
 
-// 首页
-const DrawDemo: React.FC<any> = (props: any) => {
+const StudentDrawPanel: any = (props: any) => {
   const drawLf: any = useRef<any>(null);
+
+  const curNodeRef: any = useRef<any>({});
+
+  // 输入框
+  const [nameVal, setNameVal] = useState<any>('');
+
+  const [inputVal, setInputVal] = useState<any>('');
+  const onChangeInput = (e: any) => {
+    setInputVal(e.target.value);
+  };
+  const onBtClick = () => {
+    let lf = drawLf.current.getLf();
+    lf.updateText(curNodeRef.current.id, inputVal);
+    // curNodeRef.current.text.value = inputVal
+  };
+
   // -------
   // 获取画布
   const { getDrawPanel, saveDrawPanel, addNode, deleteNode } = useDrawModel();
@@ -16,6 +34,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
   //初始化
   const init = async () => {
     let res = await getDrawPanel({});
+    drawLf.current?.initPanel({});
     if (res) {
       drawLf.current?.initPanel(res);
     }
@@ -24,16 +43,12 @@ const DrawDemo: React.FC<any> = (props: any) => {
   // 保存画布
   const onSave = (data: any) => {
     const { nodes, edges } = data;
-    console.log(data);
-
     saveDrawPanel({ nodes, edges });
   };
 
   // 监听节点添加  return true / false
 
   const _addNode = async (data: any) => {
-    console.log(data);
-
     return addNode(data);
   };
 
@@ -45,11 +60,41 @@ const DrawDemo: React.FC<any> = (props: any) => {
   // 双击节点
   const onNodeDbClick = async (data: any) => {
     console.log(data);
+    curNodeRef.current = data;
+    if (data.type === 'step-html') {
+      setStatusNum(2);
+    }
+    setNameVal(data.text.value);
   };
 
   // 双击连线
   const onEdgeDbClick = async (data: any) => {
     console.log(data);
+  };
+
+  const [statusNum, setStatusNum] = useState<any>(0);
+
+  const statusList = ['doing', 'wait', 'finish'];
+
+  const changeStatus = async (data: any) => {
+    if (!curNodeRef.current.id) {
+      message.warning('请先双击选中节点');
+      return null;
+    }
+
+    let status = null;
+    if (statusNum < 2) {
+      status = statusList[statusNum + 1];
+      setStatusNum(statusNum + 1);
+    } else {
+      status = statusList[0];
+      setStatusNum(0);
+    }
+
+    let lf = drawLf.current.getLf();
+    lf.setProperties(curNodeRef.current.id, {
+      status,
+    });
   };
 
   useEffect(() => {
@@ -61,22 +106,27 @@ const DrawDemo: React.FC<any> = (props: any) => {
     <>
       <DrawPanel
         cref={drawLf}
-        onSave={onSave}
+        extra={
+          <Space align="baseline">
+            <ArrowLeftOutlined
+              style={{ fontSize: '22px' }}
+              onClick={() => {
+                history.push('/teacher/course');
+              }}
+            />
+            <span style={{ fontSize: '20px', fontWeight: '500' }}>
+              {history?.location?.query?.name || '-'}
+            </span>
+          </Space>
+        }
+        onSave={onSave} // 保存
         addNode={_addNode} // 添加
         deleteNode={_deleteNode} // 删除
         onNodeDbClick={onNodeDbClick} // 双击点击节点
         onEdgeDbClick={onEdgeDbClick} // 双击连线
-        extra={
-          <ArrowLeftOutlined
-            style={{ fontSize: '16px' }}
-            onClick={() => {
-              history.push('/teacher/task');
-            }}
-          />
-        }
       />
     </>
   );
 };
 
-export default DrawDemo;
+export default StudentDrawPanel;

@@ -1,7 +1,7 @@
 import DrawPanel from '@/pages/draw-panel';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { useDrawModel } from '../../model';
+import { useDrawModel } from '../model';
 import { history, useModel } from 'umi';
 import { Space, Typography } from 'antd';
 import CustomerDrawer from './component/customerDrawer';

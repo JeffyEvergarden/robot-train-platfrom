@@ -1,0 +1,68 @@
+import { request } from '@/services/request';
+import config from '@/config/index';
+
+const baseUrl: string = config.basePath;
+//任务---------------------------------------
+/** 获取任务分页列表 **/
+export async function _taskPage(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/task/taskPage`, {
+    method: 'POST',
+    data,
+  });
+}
+
+/** 获取任务所有列表 **/
+export async function _taskList(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/task/taskList`, {
+    method: 'POST',
+    data,
+  });
+}
+
+/** 任务新增 **/
+export async function _taskAdd(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/task/taskAdd`, {
+    method: 'POST',
+    data,
+  });
+}
+
+/** 任务详情 **/
+export async function _taskDetail(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/task/taskDetail`, {
+    method: 'POST',
+    data,
+  });
+}
+
+/** 任务编辑 **/
+export async function _taskEdit(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/task/taskEdit`, {
+    method: 'POST',
+    data,
+  });
+}
+
+/** 任务删除 **/
+export async function _taskDelete(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/task/taskDelete`, {
+    method: 'POST',
+    data,
+  });
+}
+
+/** 任务开启 **/
+export async function _taskOpen(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/task/taskOpen`, {
+    method: 'POST',
+    data,
+  });
+}
+
+/** 任务关闭 **/
+export async function _taskClose(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/task/taskClose`, {
+    method: 'POST',
+    data,
+  });
+}

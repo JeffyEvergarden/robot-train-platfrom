@@ -1,5 +1,5 @@
 import Condition from '@/components/Condition';
-import { useDrawModel } from '@/pages/teacher-web/model';
+import { useDrawModel } from '@/pages/teacher-web/course/model';
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Drawer, Form, Input, InputNumber, Space } from 'antd';
 import { useImperativeHandle, useState } from 'react';
