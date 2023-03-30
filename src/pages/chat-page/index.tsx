@@ -12,10 +12,9 @@ import DrawPanelMini from '@/pages/draw-panel/mini';
 import ScoreModal from './components/score-modal';
 
 // 图片
-import courseSingle from '@/asset/image/course-single.png'
+import courseSingle from '@/asset/image/course-single.png';
 
 const ChatPage: any = (props: any) => {
-
   const { getCourseInfo, resultLoading } = useChatModel();
 
   const [pageType, setPageType] = useState<any>('doing'); // init / doing
@@ -25,11 +24,9 @@ const ChatPage: any = (props: any) => {
   const [keyPoint, setKeyPoint] = useState<any>(''); // 关键点
   const [hasResult, setHasResult] = useState<boolean>(true); // 关键点
 
-
   // 消息盒子
   const messageRef: any = useRef<any>({});
   const socketRef: any = useRef<any>(null);
-
 
   // 画布
   const [renderData, setRenderData] = useState<any>({});
@@ -50,35 +47,33 @@ const ChatPage: any = (props: any) => {
     setKeyPoint(res.keyPoint);
     setRenderData(res.data);
     if (miniPanelRef.current) {
-      console.log('miniPanelRef.current: ----------', miniPanelRef.current)
-      miniPanelRef.current.initPanel(res.panel || {})
+      console.log('miniPanelRef.current: ----------', miniPanelRef.current);
+      miniPanelRef.current.initPanel(res.panel || {});
     } else {
-      console.log('miniPanelRef.current: null----------')
+      console.log('miniPanelRef.current: null----------');
     }
-
   };
 
   const formateMessage = (data: any) => {
-    console.log('formate-message')
+    console.log('formate-message');
 
     if (!messageRef.current.push) {
-      console.log('-----无法进行消息处理')
-      return
+      console.log('-----无法进行消息处理');
+      return;
     }
     const msgRef = messageRef.current;
 
     if (typeof data === 'string' && data.startsWith('{')) {
       data = JSON.parse(data);
     } else {
-      return
+      return;
     }
     if (typeof data === 'object') {
       msgRef.push(data);
     } else {
-      console.log('formate-msg error')
+      console.log('formate-msg error');
     }
-  }
-
+  };
 
   const initSocket = () => {
     const sk = new WebSocket('ws://localhost:4000/websocket');
@@ -98,22 +93,19 @@ const ChatPage: any = (props: any) => {
       console.log('WebSocket 连接已关闭');
     };
     sk.onerror = (event) => {
-      console.log('error')
-    }
-    console.log('---------')
-  }
-
+      console.log('error');
+    };
+    console.log('---------');
+  };
 
   const onEnd = () => {
-    socketRef.current?.close?.()
-  }
-
-
+    socketRef.current?.close?.();
+  };
 
   // --------------------
   const openScoreModal = () => {
     scoreModalRef.current.open();
-  }
+  };
 
   useEffect(() => {
     // 获取基础信息
@@ -121,22 +113,18 @@ const ChatPage: any = (props: any) => {
 
     return () => {
       socketRef.current?.close?.();
-    }
+    };
   }, []);
 
-
-
-
   const startChangePageType = () => {
-    setPageType('doing')
+    setPageType('doing');
 
     if (miniPanelRef.current) {
-      miniPanelRef.current.initPanel(renderData || {})
+      miniPanelRef.current.initPanel(renderData || {});
     }
-  }
+  };
 
   return (
-
     <PageContainer
       header={{
         title: '',
@@ -152,17 +140,21 @@ const ChatPage: any = (props: any) => {
               type="default"
               disabled={!hasResult}
               onClick={openScoreModal}
-              style={{ marginRight: '16px' }}>
+              style={{ marginRight: '16px' }}
+            >
               查看结果
             </Button>
-            <PhoneCall oursNumber={'1000'} sysPhone={'1002'} onCall={initSocket} onEnd={onEnd}></PhoneCall>
+            <PhoneCall
+              oursNumber={'1000'}
+              sysPhone={'1002'}
+              onCall={initSocket}
+              onEnd={onEnd}
+            ></PhoneCall>
           </div>
         </div>
       }
     >
-
       <>
-
         <Condition r-if={pageType === 'doing'}>
           <div className={style['chat-page']}>
             <div className={style['page-left']}>
@@ -200,8 +192,6 @@ const ChatPage: any = (props: any) => {
 
         <ScoreModal cref={scoreModalRef} loading={resultLoading} />
       </>
-
-
     </PageContainer>
   );
 };

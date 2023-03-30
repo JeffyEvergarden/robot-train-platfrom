@@ -122,7 +122,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
               <Button
                 type="link"
                 onClick={() => {
-                  history.push(`/teacher/task/draw?id=${row.id}`);
+                  history.push(`/teacher/task/draw?id=${row.id}&name=${row.taskName}`);
                 }}
                 disabled={row?.taskStatus}
               >
