@@ -68,13 +68,8 @@ const ChatPage: any = (props: any) => {
     }
     setRenderData(_renderData);
     if (miniPanelRef.current) {
-<<<<<<< HEAD
       console.log('miniPanelRef.current: ----------', miniPanelRef.current)
       miniPanelRef.current?.initPanel?.(_renderData || {})
-=======
-      console.log('miniPanelRef.current: ----------', miniPanelRef.current);
-      miniPanelRef.current.initPanel(res.panel || {});
->>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
     } else {
       console.log('miniPanelRef.current: null----------');
     }
@@ -109,14 +104,9 @@ const ChatPage: any = (props: any) => {
     } else {
       console.log('formate-msg error');
     }
-<<<<<<< HEAD
   }
 
   // websocket
-=======
-  };
-
->>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
   const initSocket = () => {
     const sk = new WebSocket('ws://localhost:4000/websocket');
     socketRef.current = sk;
@@ -135,7 +125,6 @@ const ChatPage: any = (props: any) => {
       console.log('WebSocket 连接已关闭');
     };
     sk.onerror = (event) => {
-<<<<<<< HEAD
       console.log('error')
     }
     console.log('---------')
@@ -148,25 +137,13 @@ const ChatPage: any = (props: any) => {
 
 
   // -------------------- 打开成绩单
-  const openScoreModal = (id?: string) => {
+  const openScoreModal = (id?: any) => {
+    if (id && typeof id === 'object') {
+      return
+    }
     // 需要学习ID、课程ID
     scoreModalRef.current.open({ studyId: id || recordId, courseId });
   }
-=======
-      console.log('error');
-    };
-    console.log('---------');
-  };
-
-  const onEnd = () => {
-    socketRef.current?.close?.();
-  };
-
-  // --------------------
-  const openScoreModal = () => {
-    scoreModalRef.current.open();
-  };
->>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
 
   useEffect(() => {
     // 获取基础信息
@@ -177,7 +154,6 @@ const ChatPage: any = (props: any) => {
     };
   }, []);
 
-<<<<<<< HEAD
   useEffect(() => {
 
 
@@ -204,17 +180,11 @@ const ChatPage: any = (props: any) => {
 
 
 
-=======
->>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
   const startChangePageType = () => {
     setPageType('doing');
 
     if (miniPanelRef.current) {
-<<<<<<< HEAD
       miniPanelRef.current?.initPanel?.(renderData || {})
-=======
-      miniPanelRef.current.initPanel(renderData || {});
->>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
     }
   };
 
