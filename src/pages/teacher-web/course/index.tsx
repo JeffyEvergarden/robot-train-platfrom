@@ -91,7 +91,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
               <Button
                 type="link"
                 onClick={() => {
-                  tableFormRef?.current?.open('edit');
+                  tableFormRef?.current?.open('edit', row);
                 }}
               >
                 信息编辑

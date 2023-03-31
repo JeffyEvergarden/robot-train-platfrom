@@ -1,7 +1,8 @@
 import { useDrawModel } from '@/pages/teacher-web/course/model';
 import { Button, Checkbox, Drawer, Form, Input, InputNumber, Space } from 'antd';
-import { useImperativeHandle, useState } from 'react';
+import { useEffect, useImperativeHandle, useState } from 'react';
 import { useModel } from 'umi';
+import styles from './style.less';
 
 const CallDrawer: React.FC<any> = (props: any) => {
   const { cref } = props;
@@ -9,9 +10,7 @@ const CallDrawer: React.FC<any> = (props: any) => {
   const [visible, setVisible] = useState<any>(false);
   const { courseCallConfig, courseCallConfigSave } = useDrawModel();
   const [info, setInfo] = useState<any>({});
-  const timeoutSwitch = Form.useWatch('timeoutSwitch', form);
   const stopSwitch = Form.useWatch('stopSwitch', form);
-
   const { courseInfo } = useModel('course', (model: any) => ({
     courseInfo: model.courseInfo,
   }));
@@ -43,6 +42,12 @@ const CallDrawer: React.FC<any> = (props: any) => {
     });
   };
 
+  useEffect(() => {
+    if (!stopSwitch) {
+      form.setFieldsValue({ stopTime: undefined });
+    }
+  }, [stopSwitch]);
+
   useImperativeHandle(cref, () => ({
     open,
   }));
@@ -63,10 +68,14 @@ const CallDrawer: React.FC<any> = (props: any) => {
       }
     >
       <Form form={form} layout="vertical">
-        <Form.Item name="timeoutSwitch" initialValue={true} noStyle valuePropName="checked">
-          <Checkbox>超时设置</Checkbox>
-        </Form.Item>
-        <Form.Item>
+        <Form.Item
+          label={
+            <span>
+              <span className={styles['formRedStar']}>*</span>
+              {'超时设置'}
+            </span>
+          }
+        >
           <span style={{ marginRight: '8px' }}>学员轮次回复等待不允许超过</span>
           <Form.Item
             noStyle
@@ -74,7 +83,7 @@ const CallDrawer: React.FC<any> = (props: any) => {
             rules={[{ required: true, message: '请输入' }]}
             initialValue={8}
           >
-            <InputNumber controls={false} min={1} max={100} disabled={!timeoutSwitch} />
+            <InputNumber controls={false} min={1} max={100} />
           </Form.Item>
           <span style={{ marginLeft: '8px' }}>s</span>
         </Form.Item>

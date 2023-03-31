@@ -15,6 +15,7 @@ import {
 } from 'antd';
 import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useModel } from 'umi';
+import styles from './style.less';
 
 const SoundDrawer: React.FC<any> = (props: any) => {
   const { cref } = props;
@@ -117,7 +118,14 @@ const SoundDrawer: React.FC<any> = (props: any) => {
           <Select placeholder={'请选择音色'}></Select>
         </Form.Item>
 
-        <Form.Item label="音量">
+        <Form.Item
+          label={
+            <span>
+              <span className={styles['formRedStar']}>*</span>
+              {'音量'}
+            </span>
+          }
+        >
           <Row>
             <Col span={16}>
               <Form.Item
@@ -147,7 +155,14 @@ const SoundDrawer: React.FC<any> = (props: any) => {
           </Row>
         </Form.Item>
 
-        <Form.Item label="音速">
+        <Form.Item
+          label={
+            <span>
+              <span className={styles['formRedStar']}>*</span>
+              {'音速'}
+            </span>
+          }
+        >
           <Row>
             <Col span={16}>
               <Form.Item
@@ -177,7 +192,14 @@ const SoundDrawer: React.FC<any> = (props: any) => {
           </Row>
         </Form.Item>
 
-        <Form.Item label="音调">
+        <Form.Item
+          label={
+            <span>
+              <span className={styles['formRedStar']}>*</span>
+              {'音调'}
+            </span>
+          }
+        >
           <Row>
             <Col span={16}>
               <Form.Item
