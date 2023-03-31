@@ -11,9 +11,9 @@ export default defineConfig({
   dva: {
     hmr: true,
   },
-  publicPath: '/robot-train/',
+  publicPath: '/ai-teach/',
   outputPath: 'dist',
-  base: '/robot-train',
+  base: '/ai-teach',
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout
     locale: true,

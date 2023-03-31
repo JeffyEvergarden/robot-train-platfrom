@@ -62,6 +62,7 @@ const ScoreModal: any = (props: any) => {
       forceRender={true}
       visible={isModalOpen}
       className={style['model-bg']}
+      maskClosable={false}
       width={'880px'}
       onOk={handleOk}
       onCancel={handleCancel}

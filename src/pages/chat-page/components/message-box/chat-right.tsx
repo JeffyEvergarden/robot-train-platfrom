@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined } from '@ant-design/icons';
-import robotPhoto from '@/asset/image/robot.png';
+import robotPhoto from '@/asset/image/ours-avator.png';
 import style from './style.less';
 
 // 关键点提醒
