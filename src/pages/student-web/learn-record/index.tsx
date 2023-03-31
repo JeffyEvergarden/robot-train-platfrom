@@ -92,7 +92,7 @@ export default () => {
       dataIndex: 'taskType',
       key: 'taskType',
       ellipsis: true,
-      search: false,
+      search: true,
       valueEnum: {
         1: { text: '培训课程', status: 1 },
         2: { text: '考试课程', status: 2 },

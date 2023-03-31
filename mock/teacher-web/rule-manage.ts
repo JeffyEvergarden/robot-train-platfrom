@@ -56,10 +56,10 @@ const dialogConfig = (req: any, res: any) => {
 };
 
 export default {
-  [`POST ${baseUrl}/ai-teach/services/setting/gradeConfig`]: gradeConfig,
-  [`POST ${baseUrl}/ai-teach/services/setting/gradeConfigSave`]: normalDeal,
-  [`POST ${baseUrl}/ai-teach/services/setting/ruleConfig`]: ruleConfig,
-  [`POST ${baseUrl}/ai-teach/services/setting/ruleConfigSave`]: normalDeal,
-  [`POST ${baseUrl}/ai-teach/services/setting/dialogConfig`]: dialogConfig,
-  [`POST ${baseUrl}/ai-teach/services/setting/dialogConfigSave`]: normalDeal,
+  [`POST ${baseUrl}/services/setting/gradeConfig`]: gradeConfig,
+  [`POST ${baseUrl}/services/setting/gradeConfigSave`]: normalDeal,
+  [`POST ${baseUrl}/services/setting/ruleConfig`]: ruleConfig,
+  [`POST ${baseUrl}/services/setting/ruleConfigSave`]: normalDeal,
+  [`POST ${baseUrl}/services/setting/dialogConfig`]: dialogConfig,
+  [`POST ${baseUrl}/services/setting/dialogConfigSave`]: normalDeal,
 };

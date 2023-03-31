@@ -7,7 +7,7 @@ const baseUrl: string = config.basePath;
 
 /** 获取用户管理列表 **/
 export async function userPageApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/user/userPage`, {
+  return request(`${baseUrl}/services/user/userPage`, {
     method: 'POST',
     data: params,
   });
@@ -15,7 +15,7 @@ export async function userPageApi(params?: Record<string, any>) {
 
 /** 获取用户列表 **/
 export async function userListApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/user/userList`, {
+  return request(`${baseUrl}/services/user/userList`, {
     method: 'POST',
     data: params,
   });
@@ -23,7 +23,7 @@ export async function userListApi(params?: Record<string, any>) {
 
 /** 组别列表 **/
 export async function groupListApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/group/groupList`, {
+  return request(`${baseUrl}/services/group/groupList`, {
     method: 'POST',
     data: params,
   });
@@ -31,7 +31,7 @@ export async function groupListApi(params?: Record<string, any>) {
 
 /** 同步 **/
 export async function userSynchApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/user/userSynch`, {
+  return request(`${baseUrl}/services/user/userSynch`, {
     method: 'POST',
     data: params,
   });
@@ -39,7 +39,7 @@ export async function userSynchApi(params?: Record<string, any>) {
 
 /** 编辑用户 **/
 export async function editApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/user/userEdit`, {
+  return request(`${baseUrl}/services/user/userEdit`, {
     method: 'POST',
     data: params,
   });
@@ -47,7 +47,7 @@ export async function editApi(params?: Record<string, any>) {
 
 /** 组别分页 **/
 export async function groupPageApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/group/groupPage`, {
+  return request(`${baseUrl}/services/group/groupPage`, {
     method: 'POST',
     data: params,
   });
@@ -55,7 +55,7 @@ export async function groupPageApi(params?: Record<string, any>) {
 
 /** 新建组别 **/
 export async function addGroupApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/group/groupAdd`, {
+  return request(`${baseUrl}/services/group/groupAdd`, {
     method: 'POST',
     data: params,
   });
@@ -63,7 +63,7 @@ export async function addGroupApi(params?: Record<string, any>) {
 
 /** 编辑组别 **/
 export async function editGroupApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/group/groupEdit`, {
+  return request(`${baseUrl}/services/group/groupEdit`, {
     method: 'POST',
     data: params,
   });
@@ -71,7 +71,7 @@ export async function editGroupApi(params?: Record<string, any>) {
 
 /** 删除组别 **/
 export async function deleteGroupApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/group/groupDelete`, {
+  return request(`${baseUrl}/services/group/groupDelete`, {
     method: 'POST',
     data: params,
   });
@@ -81,7 +81,7 @@ export async function deleteGroupApi(params?: Record<string, any>) {
 
 /** 评分比例配置保存 **/
 export async function scoreSaveApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/setting/gradeConfigSave`, {
+  return request(`${baseUrl}/services/setting/gradeConfigSave`, {
     method: 'POST',
     data: params,
   });
@@ -89,7 +89,7 @@ export async function scoreSaveApi(params?: Record<string, any>) {
 
 /** 评分比例配置 **/
 export async function gradeConfigApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/setting/gradeConfig`, {
+  return request(`${baseUrl}/services/setting/gradeConfig`, {
     method: 'POST',
     data: params,
   });
@@ -97,7 +97,7 @@ export async function gradeConfigApi(params?: Record<string, any>) {
 
 /** 服务规则配置 **/
 export async function ruleConfigApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/setting/ruleConfig`, {
+  return request(`${baseUrl}/services/setting/ruleConfig`, {
     method: 'POST',
     data: params,
   });
@@ -105,7 +105,7 @@ export async function ruleConfigApi(params?: Record<string, any>) {
 
 /** 服务规则保存 **/
 export async function ruleSaveApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/setting/ruleConfigSave`, {
+  return request(`${baseUrl}/services/setting/ruleConfigSave`, {
     method: 'POST',
     data: params,
   });
@@ -113,7 +113,7 @@ export async function ruleSaveApi(params?: Record<string, any>) {
 
 /** 话术标准配置 **/
 export async function dialogConfigApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/setting/dialogConfig`, {
+  return request(`${baseUrl}/services/setting/dialogConfig`, {
     method: 'POST',
     data: params,
   });
@@ -121,7 +121,7 @@ export async function dialogConfigApi(params?: Record<string, any>) {
 
 /** 话术标准保存 **/
 export async function dialogSaveApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/setting/dialogConfigSave`, {
+  return request(`${baseUrl}/services/setting/dialogConfigSave`, {
     method: 'POST',
     data: params,
   });
@@ -129,7 +129,7 @@ export async function dialogSaveApi(params?: Record<string, any>) {
 
 /** 课程模型列表 **/
 export async function courceListApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/model/modelPage`, {
+  return request(`${baseUrl}/services/model/modelPage`, {
     method: 'POST',
     data: params,
   });
@@ -137,7 +137,7 @@ export async function courceListApi(params?: Record<string, any>) {
 
 /** 课程模型列表--不分页 **/
 export async function courceDataApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/model/modelList`, {
+  return request(`${baseUrl}/services/model/modelList`, {
     method: 'POST',
     data: params,
   });
@@ -145,7 +145,7 @@ export async function courceDataApi(params?: Record<string, any>) {
 
 /** 课程模型列表--删除 **/
 export async function deleteCourceApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/model/modelDelete`, {
+  return request(`${baseUrl}/services/model/modelDelete`, {
     method: 'POST',
     data: params,
   });
@@ -153,7 +153,7 @@ export async function deleteCourceApi(params?: Record<string, any>) {
 
 /** 课程模型列表--新增 **/
 export async function modelAddApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/model/modelAdd`, {
+  return request(`${baseUrl}/services/model/modelAdd`, {
     method: 'POST',
     data: params,
   });
@@ -161,7 +161,7 @@ export async function modelAddApi(params?: Record<string, any>) {
 
 /** 课程模型列表--编辑 **/
 export async function modelEditApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/model/modelEdit`, {
+  return request(`${baseUrl}/services/model/modelEdit`, {
     method: 'POST',
     data: params,
   });
@@ -169,7 +169,7 @@ export async function modelEditApi(params?: Record<string, any>) {
 
 /** 课程模型列表--客户意图列表 **/
 export async function customerIntentionListApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/intent/intentPage`, {
+  return request(`${baseUrl}/services/intent/intentPage`, {
     method: 'POST',
     data: params,
   });
@@ -177,7 +177,7 @@ export async function customerIntentionListApi(params?: Record<string, any>) {
 
 /** 课程模型列表--客户意图列表--不分页 **/
 export async function intentListApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/intent/intentList`, {
+  return request(`${baseUrl}/services/intent/intentList`, {
     method: 'POST',
     data: params,
   });
@@ -185,7 +185,7 @@ export async function intentListApi(params?: Record<string, any>) {
 
 /** 课程模型列表--客户意图--删除**/
 export async function delIntentApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/intent/intentDelete`, {
+  return request(`${baseUrl}/services/intent/intentDelete`, {
     method: 'POST',
     data: params,
   });
@@ -193,7 +193,7 @@ export async function delIntentApi(params?: Record<string, any>) {
 
 /** 课程模型列表--客户意图列表--新建 **/
 export async function intentAddApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/intent/intentAdd`, {
+  return request(`${baseUrl}/services/intent/intentAdd`, {
     method: 'POST',
     data: params,
   });
@@ -201,7 +201,7 @@ export async function intentAddApi(params?: Record<string, any>) {
 
 /** 课程模型列表--客户意图列表--编辑 **/
 export async function intentEditApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/intent/intentEdit`, {
+  return request(`${baseUrl}/services/intent/intentEdit`, {
     method: 'POST',
     data: params,
   });
@@ -209,7 +209,7 @@ export async function intentEditApi(params?: Record<string, any>) {
 
 /** 课程模型列表--客户意图列表--详情 **/
 export async function intentDetailApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/intent/intentDetail`, {
+  return request(`${baseUrl}/services/intent/intentDetail`, {
     method: 'POST',
     data: params,
   });
@@ -217,7 +217,7 @@ export async function intentDetailApi(params?: Record<string, any>) {
 
 /** 课程模型列表--客户意图列表--详情 **/
 export async function intentSyncApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/ai-teach/services/intent/intentSync`, {
+  return request(`${baseUrl}/services/intent/intentSync`, {
     method: 'POST',
     data: params,
   });

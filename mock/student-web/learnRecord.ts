@@ -59,7 +59,28 @@ const courseList = (req: any, res: any) => {
   });
 };
 
+const score = (req: any, res: any) => {
+  let data: any = gen(11).map((item: any, index: number) => {
+    return {
+      deductModel: '扣分项目' + index,
+      deductPoint: '扣分点' + index,
+      deductScore: 5,
+      id: index,
+    };
+  });
+
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      deductScore: 25,
+      pointsDeductionList: data,
+    },
+  });
+};
+
 export default {
-  [`POST ${baseUrl}/ai-teach/services/stu/hitory/learn`]: learn,
-  [`POST ${baseUrl}/ai-teach/services/stu/hitory/courseList`]: courseList,
+  [`POST ${baseUrl}/services/stu/hitory/learn`]: learn,
+  [`POST ${baseUrl}/services/stu/hitory/courseList`]: courseList,
+  [`POST ${baseUrl}/services/stu/course/score`]: score,
 };

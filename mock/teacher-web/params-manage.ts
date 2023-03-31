@@ -101,14 +101,14 @@ const groupPage = (req: any, res: any) => {
 };
 
 export default {
-  [`POST ${baseUrl}/ai-teach/services/user/userPage`]: userPage,
-  [`POST ${baseUrl}/ai-teach/services/user/userList`]: userList,
-  [`POST ${baseUrl}/ai-teach/services/group/groupList`]: groupList,
-  [`POST ${baseUrl}/ai-teach/services/user/userSynch`]: normalDeal,
-  [`POST ${baseUrl}/ai-teach/services/user/userEdit`]: normalDeal,
+  [`POST ${baseUrl}/services/user/userPage`]: userPage,
+  [`POST ${baseUrl}/services/user/userList`]: userList,
+  [`POST ${baseUrl}/services/group/groupList`]: groupList,
+  [`POST ${baseUrl}/services/user/userSynch`]: normalDeal,
+  [`POST ${baseUrl}/services/user/userEdit`]: normalDeal,
 
-  [`POST ${baseUrl}/ai-teach/services/group/groupPage`]: groupPage,
-  [`POST ${baseUrl}/ai-teach/services/group/groupAdd`]: normalDeal,
-  [`POST ${baseUrl}/ai-teach/services/group/groupEdit`]: normalDeal,
-  [`POST ${baseUrl}/ai-teach/services/group/groupDelete`]: normalDeal,
+  [`POST ${baseUrl}/services/group/groupPage`]: groupPage,
+  [`POST ${baseUrl}/services/group/groupAdd`]: normalDeal,
+  [`POST ${baseUrl}/services/group/groupEdit`]: normalDeal,
+  [`POST ${baseUrl}/services/group/groupDelete`]: normalDeal,
 };

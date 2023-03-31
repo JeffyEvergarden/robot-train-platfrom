@@ -13,7 +13,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: '教辅培训系统',
   pwa: false,
-  logo: '/robot-train/logo.png',
+  logo: '/ai-teach/logo.png',
   iconfontUrl: '',
 };
 
