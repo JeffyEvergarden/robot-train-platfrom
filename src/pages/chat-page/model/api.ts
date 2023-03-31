@@ -5,14 +5,14 @@ const baseUrl: string = config.basePath;
 
 //按月列表
 export async function GetCourseInfo_API(data?: { [key: string]: any }) {
-  return request(`${baseUrl}/student/course/info`, {
+  return request(`${baseUrl}/services/stu/course/courseNodeLineInfo`, {
     method: 'GET',
     params: data,
   });
 }
 
 export async function GetStepResult_API(data?: { [key: string]: any }) {
-  return request(`${baseUrl}/student/course/step/detail`, {
+  return request(`${baseUrl}/services/stu/course/score`, {
     method: 'GET',
     params: data,
   });

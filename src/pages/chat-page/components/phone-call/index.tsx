@@ -75,7 +75,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     sipSession.current.currentConnection = null;
 
     play();
-
+    timeoutFn();
     ua.start();
 
     //播放叮叮叮音频
@@ -274,7 +274,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     // ---
     sipSession.current.ua.unregister({ all: true });
     // --------------
-    musicAudioRef.current.pause();
+    musicAudioRef.current?.pause?.();
     setStatus('waiting');
 
     onEnd?.();
