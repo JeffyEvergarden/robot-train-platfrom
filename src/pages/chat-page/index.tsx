@@ -40,12 +40,8 @@ const ChatPage: any = (props: any) => {
   // 
   const socketRef: any = useRef<any>({ scrollFlag: false });
 
-<<<<<<< HEAD
 
   // 右下角画布数据
-=======
-  // 画布
->>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
   const [renderData, setRenderData] = useState<any>({});
 
   // 操控的画布面板
