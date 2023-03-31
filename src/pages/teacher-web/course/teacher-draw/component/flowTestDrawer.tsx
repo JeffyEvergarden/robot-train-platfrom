@@ -80,7 +80,7 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
         message.warning('请等待回复');
         return;
       }
-      setChatHistory([...chatHistory, { type: 'customer', status: 'loading', text: inputValue }]);
+      setChatHistory([...chatHistory, { type: 'student', status: 'loading', text: inputValue }]);
       setInputValue('');
       setTimeout(() => {
         (boxRef.current as any).scrollTop = (boxRef?.current as any)?.scrollHeight;
@@ -94,7 +94,7 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
         if (res) {
           setChatHistory([
             ...chatHistory,
-            ...(res?.data?.list || [{ type: 'customer', status: 'error', text: inputValue }]),
+            ...(res?.data?.list || [{ type: 'student', status: 'error', text: inputValue }]),
           ]);
           (boxRef.current as any).scrollTop = (boxRef?.current as any)?.scrollHeight;
         }
@@ -170,7 +170,7 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
             // status  （loading 加载 / success 回答完全答对 / fail 有关键点没提到）
             const { type, text, role, keysTips, delay = 0, status } = item;
 
-            if (type === 'student') {
+            if (type === 'customer') {
               //// 左边内容
               return (
                 <div className={styles['box_customer']} key={index}>
@@ -182,7 +182,7 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
                   <div className={styles['box-bg']}>{text}</div>
                 </div>
               );
-            } else if (type === 'customer') {
+            } else if (type === 'student') {
               // 右边内容
               return (
                 <RightChatContent

@@ -213,7 +213,7 @@ const chatbegin = (req: any, res: any) => {
       courseId: '100',
       list: [
         {
-          type: 'student',
+          type: 'customer',
           text: '喂，哪位',
           delay: '',
           status: '',
@@ -238,7 +238,7 @@ const chatsend = (req: any, res: any) => {
       courseId: '100',
       list: [
         {
-          type: 'customer',
+          type: 'student',
           text: req?.body?.message,
           delay: '',
           status: 'success',
@@ -250,17 +250,11 @@ const chatsend = (req: any, res: any) => {
           ],
         },
         {
-          type: 'student',
+          type: 'customer',
           text: '6',
           delay: '',
-          status: '',
-          // keysTips: [
-          //   {
-          //     flag: true,
-          //     desc: '关键点111',
-          //   },
-          // ],
         },
+
         {
           type: 'system',
           text: '对方已挂断',
