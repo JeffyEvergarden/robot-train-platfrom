@@ -6,6 +6,7 @@ import style from '../style.less';
 import { useDrawModel } from '@/pages/student-web/detail/model';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { history } from 'umi';
+import { useTaskDrawModel } from '../model';
 
 const StudentDrawPanel: any = (props: any) => {
   const drawLf: any = useRef<any>(null);
@@ -27,7 +28,7 @@ const StudentDrawPanel: any = (props: any) => {
 
   // -------
   // 获取画布
-  const { getDrawPanel, saveDrawPanel, addNode, deleteNode } = useDrawModel();
+  const { getDrawPanel, saveDrawPanel } = useTaskDrawModel();
 
   // 事件监听
 
@@ -49,12 +50,12 @@ const StudentDrawPanel: any = (props: any) => {
   // 监听节点添加  return true / false
 
   const _addNode = async (data: any) => {
-    return addNode(data);
+    return true;
   };
 
   // 删除节点删除 return true / false
   const _deleteNode = async (data: any) => {
-    return deleteNode(data);
+    return true;
   };
 
   // 双击节点
@@ -111,7 +112,7 @@ const StudentDrawPanel: any = (props: any) => {
             <ArrowLeftOutlined
               style={{ fontSize: '22px' }}
               onClick={() => {
-                history.push('/teacher/course');
+                history.push('/teacher/task');
               }}
             />
             <span style={{ fontSize: '20px', fontWeight: '500' }}>

@@ -4,6 +4,7 @@ import { history, useModel } from 'umi';
 import { Tabs } from 'antd';
 import styles from './../index.less';
 import CustomerIntention from '../components/customerIntention';
+import StudentIntent from './../components/studentIntent';
 
 export default () => {
   const actionRef = useRef<any>();
@@ -29,7 +30,7 @@ export default () => {
             <CustomerIntention />
           </Tabs.TabPane>
           <Tabs.TabPane key={'2'} tab="学员意图">
-            学员意图
+            <StudentIntent />
           </Tabs.TabPane>
         </Tabs>
       </PageContainer>

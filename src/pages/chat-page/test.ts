@@ -1,4 +1,4 @@
-export default [
+export const recordData = [
   {
     type: 'customer',
     text: '喂，你好吗，我叫梁山伯，是个高中生侦探',

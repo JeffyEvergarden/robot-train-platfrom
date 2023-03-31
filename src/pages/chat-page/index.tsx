@@ -14,7 +14,7 @@ import DrawPanelMini from '@/pages/draw-panel/mini';
 import ScoreModal from './components/score-modal';
 
 // 图片
-import courseSingle from '@/asset/image/course-single.png'
+import courseSingle from '@/asset/image/course-single.png';
 
 const ChatPage: any = (props: any) => {
 
@@ -35,14 +35,17 @@ const ChatPage: any = (props: any) => {
   // 学习记录id
   const [recordId, setRecordId] = useState<any>('');
 
-
   // 消息盒子
   const messageRef: any = useRef<any>({});
   // 
   const socketRef: any = useRef<any>({ scrollFlag: false });
 
+<<<<<<< HEAD
 
   // 右下角画布数据
+=======
+  // 画布
+>>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
   const [renderData, setRenderData] = useState<any>({});
 
   // 操控的画布面板
@@ -69,12 +72,16 @@ const ChatPage: any = (props: any) => {
     }
     setRenderData(_renderData);
     if (miniPanelRef.current) {
+<<<<<<< HEAD
       console.log('miniPanelRef.current: ----------', miniPanelRef.current)
       miniPanelRef.current?.initPanel?.(_renderData || {})
+=======
+      console.log('miniPanelRef.current: ----------', miniPanelRef.current);
+      miniPanelRef.current.initPanel(res.panel || {});
+>>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
     } else {
-      console.log('miniPanelRef.current: null----------')
+      console.log('miniPanelRef.current: null----------');
     }
-
   };
 
   const scrollBottom = () => {
@@ -87,28 +94,33 @@ const ChatPage: any = (props: any) => {
 
   // 消息格式化加入盒子
   const formateMessage = (data: any) => {
-    console.log('formate-message')
+    console.log('formate-message');
 
     if (!messageRef.current.push) {
-      console.log('-----无法进行消息处理')
-      return
+      console.log('-----无法进行消息处理');
+      return;
     }
     const msgRef = messageRef.current;
 
     if (typeof data === 'string' && data.startsWith('{')) {
       data = JSON.parse(data);
     } else {
-      return
+      return;
     }
     if (typeof data === 'object') {
       msgRef.push(data);
       scrollBottom();
     } else {
-      console.log('formate-msg error')
+      console.log('formate-msg error');
     }
+<<<<<<< HEAD
   }
 
   // websocket
+=======
+  };
+
+>>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
   const initSocket = () => {
     const sk = new WebSocket('ws://localhost:4000/websocket');
     socketRef.current = sk;
@@ -127,6 +139,7 @@ const ChatPage: any = (props: any) => {
       console.log('WebSocket 连接已关闭');
     };
     sk.onerror = (event) => {
+<<<<<<< HEAD
       console.log('error')
     }
     console.log('---------')
@@ -143,6 +156,21 @@ const ChatPage: any = (props: any) => {
     // 需要学习ID、课程ID
     scoreModalRef.current.open({ studyId: id || recordId, courseId });
   }
+=======
+      console.log('error');
+    };
+    console.log('---------');
+  };
+
+  const onEnd = () => {
+    socketRef.current?.close?.();
+  };
+
+  // --------------------
+  const openScoreModal = () => {
+    scoreModalRef.current.open();
+  };
+>>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
 
   useEffect(() => {
     // 获取基础信息
@@ -150,9 +178,10 @@ const ChatPage: any = (props: any) => {
 
     return () => {
       socketRef.current?.close?.();
-    }
+    };
   }, []);
 
+<<<<<<< HEAD
   useEffect(() => {
 
 
@@ -179,13 +208,19 @@ const ChatPage: any = (props: any) => {
 
 
 
+=======
+>>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
   const startChangePageType = () => {
-    setPageType('doing')
+    setPageType('doing');
 
     if (miniPanelRef.current) {
+<<<<<<< HEAD
       miniPanelRef.current?.initPanel?.(renderData || {})
+=======
+      miniPanelRef.current.initPanel(renderData || {});
+>>>>>>> 7fe020f804898e40f9ecd8746fb1b2efc34ce8ed
     }
-  }
+  };
 
 
   const goBack = () => {
@@ -195,7 +230,6 @@ const ChatPage: any = (props: any) => {
   }
 
   return (
-
     <PageContainer
       header={{
         title: '',
@@ -215,17 +249,21 @@ const ChatPage: any = (props: any) => {
               type="default"
               disabled={!recordId}
               onClick={openScoreModal}
-              style={{ marginRight: '16px' }}>
+              style={{ marginRight: '16px' }}
+            >
               查看结果
             </Button>
-            <PhoneCall oursNumber={'1000'} sysPhone={'1002'} onCall={initSocket} onEnd={onEnd}></PhoneCall>
+            <PhoneCall
+              oursNumber={'1000'}
+              sysPhone={'1002'}
+              onCall={initSocket}
+              onEnd={onEnd}
+            ></PhoneCall>
           </div>
         </div>
       }
     >
-
       <>
-
         <Condition r-if={pageType === 'doing'}>
           <div className={style['chat-page']}>
             <div className={style['page-left']}>
@@ -263,8 +301,6 @@ const ChatPage: any = (props: any) => {
 
         <ScoreModal cref={scoreModalRef} loading={resultLoading} />
       </>
-
-
     </PageContainer>
   );
 };

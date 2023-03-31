@@ -82,4 +82,5 @@ export default {
   [`POST ${baseUrl}/ai-teach/services/intent/intentAdd`]: normalDeal,
   [`POST ${baseUrl}/ai-teach/services/intent/intentEdit`]: normalDeal,
   [`POST ${baseUrl}/ai-teach/services/intent/intentDetail`]: intentDetail,
+  [`POST ${baseUrl}/ai-teach/services/intent/intentSync`]: normalDeal,
 };
