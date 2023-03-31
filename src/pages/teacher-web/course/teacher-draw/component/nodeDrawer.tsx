@@ -149,14 +149,16 @@ const NodeDrawer: React.FC<any> = (props: any) => {
                       return (
                         <div key={index}>
                           <div className={styles['listDelete']}>
-                            <MinusCircleOutlined
-                              style={{ marginRight: '4px', color: '#00000073' }}
-                              onClick={() => {
-                                remove(index);
-                              }}
-                            />
+                            {fields.length > 1 && (
+                              <MinusCircleOutlined
+                                style={{ marginRight: '4px', color: '#00000073' }}
+                                onClick={() => {
+                                  remove(index);
+                                }}
+                              />
+                            )}
                             <div className={styles['num-circle']}>{index + 1}</div>
-                            <span style={{ color: 'red' }}>*</span>
+                            <span className={styles['formRedStar']}>*</span>
                             <div>标准话术</div>
                           </div>
                           <Form.Item

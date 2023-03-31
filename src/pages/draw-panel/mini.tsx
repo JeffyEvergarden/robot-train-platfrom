@@ -8,11 +8,9 @@ import '@logicflow/extension/lib/style/index.css';
 import { useModel } from 'umi';
 import { Button, message } from 'antd';
 import style from './style.less';
-import DndDiyPanel from './components/dnd-panel/student';
-import { registerNode } from './components/node/student';
+import { registerNode } from './components/node';
 
 import { setMenuConfig, setControlConfig, checkEdge } from './config';
-import e from 'express';
 
 // 首页
 const MiniDrawPanel: React.FC<any> = (props: any) => {
@@ -37,7 +35,7 @@ const MiniDrawPanel: React.FC<any> = (props: any) => {
       edgeType: 'line',
     });
     // 节点注册
-    registerNode(lf, {});
+    registerNode(lf);
     console.log('节点注册');
     // 赋值到curLf
     setLf(lf);

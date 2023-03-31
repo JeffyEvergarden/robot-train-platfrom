@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined } from '@ant-design/icons';
-import robotPhoto from '@/asset/image/ours-avator.png';
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  InfoCircleOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
+import robotPhoto from '@/asset/image/robot.png';
 import style from './style.less';
+import { Tooltip } from 'antd';
 
 // 关键点提醒
 const KeyTipsHtml: React.FC<any> = (props: any) => {
@@ -41,18 +47,27 @@ const RightChatContent: React.FC<any> = (props: any) => {
 
   return (
     <div className={style['box_system']}>
-      <div className={style['box-icon']}>
-        {status === 'loading' && (
-          <LoadingOutlined style={{ color: '#4878FF', marginRight: '8px' }} />
-        )}
-        {status === 'success' && (
-          <CheckCircleOutlined style={{ color: '#20C783', marginRight: '8px' }} />
-        )}
-      </div>
-      <div>
-        <div className={style['box-content_sys']}>{text}</div>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+          <div className={style['box-icon']}>
+            {status === 'loading' && (
+              <LoadingOutlined style={{ color: '#4878FF', marginRight: '8px' }} />
+            )}
+            {status === 'success' && (
+              <CheckCircleOutlined style={{ color: '#20C783', marginRight: '8px' }} />
+            )}
+            {status === 'error' && (
+              <Tooltip title={'接口无返回'}>
+                <InfoCircleOutlined style={{ color: 'red', marginRight: '8px' }} />
+              </Tooltip>
+            )}
+          </div>
+
+          <div className={style['box-content_sys']}>{text}</div>
+        </div>
         <KeyTipsHtml list={keysTips}></KeyTipsHtml>
       </div>
+
       <div className={style['box-avator']}>
         {showAvator && <img className={style['avator']} src={robotPhoto} alt="我方"></img>}
       </div>

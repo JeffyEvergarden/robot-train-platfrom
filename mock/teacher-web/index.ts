@@ -73,68 +73,6 @@ const courseDetail = (req: any, res: any) => {
   });
 };
 
-const getTaskList = (req: any, res: any) => {
-  let data: any = gen(11).map((item: any, index: number) => {
-    return {
-      taskName: '任务' + index,
-      taskModel: Math.ceil(Math.random() * 2),
-      taskType: Math.ceil(Math.random() * 2),
-      passScore: Math.ceil(Math.random() * 40 + 60),
-      progress: Math.floor(Math.random() * 3),
-      taskStatus: Math.floor(Math.random() * 2),
-      creator: 'root',
-      id: index,
-    };
-  });
-
-  res.json({
-    resultCode: successCode,
-    resultDesc: '成功',
-    data: {
-      list: data,
-      totalPage: 11,
-    },
-  });
-};
-
-const getTaskList2 = (req: any, res: any) => {
-  let data: any = gen(11).map((item: any, index: number) => {
-    return {
-      taskName: '任务' + index,
-      taskModel: Math.ceil(Math.random() * 2),
-      taskType: Math.ceil(Math.random() * 2),
-      passScore: Math.ceil(Math.random() * 40 + 60),
-      progress: Math.floor(Math.random() * 3),
-      taskStatus: Math.floor(Math.random() * 2),
-      creator: 'root',
-      id: index,
-    };
-  });
-
-  res.json({
-    resultCode: successCode,
-    resultDesc: '成功',
-    data: data,
-  });
-};
-
-const taskDetail = (req: any, res: any) => {
-  res.json({
-    resultCode: successCode,
-    resultDesc: '成功',
-    data: {
-      taskName: '任务',
-      taskModel: Math.ceil(Math.random() * 2),
-      taskType: Math.ceil(Math.random() * 2),
-      passScore: Math.ceil(Math.random() * 40 + 60),
-      progress: Math.floor(Math.random() * 3),
-      taskStatus: Math.floor(Math.random() * 2),
-      creator: 'root',
-      id: 1,
-    },
-  });
-};
-
 const getDraw = (req: any, res: any) => {
   res.json({
     resultCode: successCode,
@@ -266,18 +204,74 @@ const courseEndConfig = (req: any, res: any) => {
   });
 };
 
-const chatInfo = (req: any, res: any) => {
+const chatbegin = (req: any, res: any) => {
   res.json({
     resultCode: successCode,
     resultDesc: '成功',
     data: {
-      customerText: '文本文本文本文本文本文本文本', //课程id
-      studentText: '节点',
-      role: Math.ceil(Math.random() * 2),
-      keyPoints: [{ keyPointName: '关键点', keyWord: '关键字', isPass: '' }],
+      sessionId: '123456789',
+      courseId: '100',
+      list: [
+        {
+          type: 'customer',
+          text: '喂，哪位',
+          delay: '',
+          status: '',
+          // keysTips: [
+          //   {
+          //     flag: true,
+          //     desc: '关键点111',
+          //   },
+          // ],
+        },
+      ],
     },
   });
 };
+
+const chatsend = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      sessionId: '123456789',
+      courseId: '100',
+      list: [
+        {
+          type: 'student',
+          text: req?.body?.message,
+          delay: '',
+          status: 'success',
+          keysTips: [
+            {
+              flag: true,
+              desc: '正在校验中的关键点',
+            },
+          ],
+        },
+        {
+          type: 'customer',
+          text: '6',
+          delay: '',
+        },
+
+        {
+          type: 'system',
+          text: '对方已挂断',
+          delay: '',
+          status: '',
+          // keysTips: [
+          //   {
+          //     flag: true,
+          //     desc: '关键点111',
+          //   },
+          // ],
+        },
+      ],
+    },
+  });
+};
+
 const nodeInfo = (req: any, res: any) => {
   res.json({
     resultCode: successCode,
@@ -316,15 +310,6 @@ export default {
   [`POST ${baseUrl}/services/course/courseDown`]: defaultResault,
   [`POST ${baseUrl}/services/course/coursePublish`]: defaultResault,
   [`POST ${baseUrl}/services/course/courseCopy`]: defaultResault,
-  //任务
-  [`POST ${baseUrl}/services/task/taskPage`]: getTaskList,
-  [`POST ${baseUrl}/services/task/taskList`]: getTaskList2,
-  [`POST ${baseUrl}/services/task/taskAdd`]: defaultResault,
-  [`POST ${baseUrl}/services/task/taskDetail`]: taskDetail,
-  [`POST ${baseUrl}/services/task/taskEdit`]: defaultResault,
-  [`POST ${baseUrl}/services/task/taskDelete`]: defaultResault,
-  [`POST ${baseUrl}/services/task/taskOpen`]: defaultResault,
-  [`POST ${baseUrl}/services/task/taskClose`]: defaultResault,
   //课程画布
   [`POST ${baseUrl}/services/course/courseNodeLineInfo`]: getDraw,
   [`POST ${baseUrl}/services/course/courseNodeInfoAdd`]: defaultResault,
@@ -337,9 +322,9 @@ export default {
   [`POST ${baseUrl}/services/course/courseLineInfo`]: lineInfo,
   [`POST ${baseUrl}/services/course/courseLineSave`]: defaultResault,
 
-  [`POST ${baseUrl}/services/course/dialogueBegin`]: chatInfo, //流程测试
-  [`POST ${baseUrl}/services/course/dialogueSend`]: chatInfo,
-  [`POST ${baseUrl}/services/course/dialogueFinish`]: chatInfo,
+  [`POST ${baseUrl}/services/course/dialogueBegin`]: chatbegin, //流程测试
+  [`POST ${baseUrl}/services/course/dialogueSend`]: chatsend,
+  [`POST ${baseUrl}/services/course/dialogueFinish`]: defaultResault,
 
   [`POST ${baseUrl}/services/course/courseCustomInfo`]: courseCustomInfo, //客户
   [`POST ${baseUrl}/services/course/courseCustomInfoSave`]: defaultResault,

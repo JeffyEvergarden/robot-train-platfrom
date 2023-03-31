@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { history, Location } from 'umi';
 import { PageContainer, ProBreadcrumb } from '@ant-design/pro-layout';
 import { useChatModel } from './model';
 import { Button, Skeleton } from 'antd';
+import { DoubleLeftOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import MessageBox from './components/message-box';
 import PhoneCall from './components/phone-call';
 import TipsBox from './components/tips-box';
@@ -15,6 +17,11 @@ import ScoreModal from './components/score-modal';
 import courseSingle from '@/asset/image/course-single.png';
 
 const ChatPage: any = (props: any) => {
+  const query: any = history.location.query || {};
+
+  const taskId: any = query?.taskId;
+  const courseId: any = query?.courseId;
+
   const { getCourseInfo, resultLoading } = useChatModel();
 
   const [pageType, setPageType] = useState<any>('doing'); // init / doing
@@ -22,38 +29,61 @@ const ChatPage: any = (props: any) => {
   const [tips, setTips] = useState<any>(''); // 提示语
   const [standardMsg, setStandardMsg] = useState<any>(''); // 标准话术
   const [keyPoint, setKeyPoint] = useState<any>(''); // 关键点
-  const [hasResult, setHasResult] = useState<boolean>(true); // 关键点
+  // const [hasResult, setHasResult] = useState<boolean>(false); // 关键点
+
+  // 学习记录id
+  const [recordId, setRecordId] = useState<any>('');
 
   // 消息盒子
   const messageRef: any = useRef<any>({});
-  const socketRef: any = useRef<any>(null);
+  //
+  const socketRef: any = useRef<any>({ scrollFlag: false });
 
-  // 画布
+  // 右下角画布数据
   const [renderData, setRenderData] = useState<any>({});
 
+  // 操控的画布面板
   const miniPanelRef: any = useRef<any>(null);
-  // contentRef
+
+  // contentRef 消息盒子的dom
   const contentRef = useRef<any>(null);
 
-  // -----
+  // 成绩弹窗-----
   const scoreModalRef = useRef<any>(null);
 
   // 获取课程信息
   const getInfo = async () => {
-    let res: any = await getCourseInfo();
-    setTitle(res.name);
-    setTips(res.tips);
-    setStandardMsg(res.standardMsg);
-    setKeyPoint(res.keyPoint);
-    setRenderData(res.data);
+    // 获取课程信息
+    let res: any = await getCourseInfo({ courseId });
+    setTitle(res.courseName || '--');
+    setTips(res.customerInfo || '--');
+    // setStandardMsg(res.standardMsg);
+    // setKeyPoint(res.keyPoint);
+    // 画布信息
+    const _renderData: any = {
+      nodes: res.nodes || [],
+      edges: res.edges || [],
+    };
+    setRenderData(_renderData);
     if (miniPanelRef.current) {
       console.log('miniPanelRef.current: ----------', miniPanelRef.current);
-      miniPanelRef.current.initPanel(res.panel || {});
+      miniPanelRef.current?.initPanel?.(_renderData || {});
     } else {
       console.log('miniPanelRef.current: null----------');
     }
   };
 
+  const scrollBottom = () => {
+    if (!socketRef.current.scrollFlag) {
+      // 页面不在滚动的时候
+      setTimeout(() => {
+        contentRef.current.scrollTop =
+          contentRef.current.scrollHeight - contentRef.current.clientHeight;
+      }, 100);
+    }
+  };
+
+  // 消息格式化加入盒子
   const formateMessage = (data: any) => {
     console.log('formate-message');
 
@@ -70,11 +100,13 @@ const ChatPage: any = (props: any) => {
     }
     if (typeof data === 'object') {
       msgRef.push(data);
+      scrollBottom();
     } else {
       console.log('formate-msg error');
     }
   };
 
+  // websocket
   const initSocket = () => {
     const sk = new WebSocket('ws://localhost:4000/websocket');
     socketRef.current = sk;
@@ -98,13 +130,18 @@ const ChatPage: any = (props: any) => {
     console.log('---------');
   };
 
+  // 结束
   const onEnd = () => {
     socketRef.current?.close?.();
   };
 
-  // --------------------
-  const openScoreModal = () => {
-    scoreModalRef.current.open();
+  // -------------------- 打开成绩单
+  const openScoreModal = (id?: any) => {
+    if (id && typeof id === 'object') {
+      return;
+    }
+    // 需要学习ID、课程ID
+    scoreModalRef.current.open({ studyId: id || recordId, courseId });
   };
 
   useEffect(() => {
@@ -116,12 +153,36 @@ const ChatPage: any = (props: any) => {
     };
   }, []);
 
+  useEffect(() => {
+    const scrollEvent = (e: any) => {
+      clearTimeout(socketRef.current.timeFn);
+      socketRef.current.scrollFlag = true;
+      socketRef.current.timeFn = setTimeout(() => {
+        socketRef.current.scrollFlag = false;
+      }, 500);
+    };
+
+    if (pageType === 'doing' && contentRef.current) {
+      contentRef.current.addEventListener('scroll', scrollEvent);
+    }
+    return () => {
+      if (contentRef.current) {
+        contentRef.current.removeEventListener('scroll', scrollEvent);
+      }
+    };
+  }, [pageType]);
+
   const startChangePageType = () => {
     setPageType('doing');
 
     if (miniPanelRef.current) {
-      miniPanelRef.current.initPanel(renderData || {});
+      miniPanelRef.current?.initPanel?.(renderData || {});
     }
+  };
+
+  const goBack = () => {
+    // 回到画布页面
+    history.push(`/student/course/detail?taskId=${taskId}`);
   };
 
   return (
@@ -133,12 +194,15 @@ const ChatPage: any = (props: any) => {
       content={
         <div className={style['page-header']}>
           <div>
-            <div className={style['title']}>{title}</div>
+            <div className={style['title']}>
+              <ArrowLeftOutlined onClick={goBack} style={{ marginRight: '8px' }} />
+              {title}
+            </div>
           </div>
           <div className={style['header-right']}>
             <Button
               type="default"
-              disabled={!hasResult}
+              disabled={!recordId}
               onClick={openScoreModal}
               style={{ marginRight: '16px' }}
             >
@@ -170,9 +234,9 @@ const ChatPage: any = (props: any) => {
             <div className={style['page-right']}>
               <div className={style['page-tips-box']}>
                 <div className={style['tips-title']}>• 标准话术</div>
-                <div className={style['tips-content']}>{standardMsg}</div>
+                <div className={style['tips-content']}>{standardMsg || '--'}</div>
                 <div className={style['tips-title']}>• 关键点</div>
-                <div className={style['tips-content']}>{keyPoint}</div>
+                <div className={style['tips-content']}>{keyPoint || '--'}</div>
               </div>
 
               <div className={style['page-step-box']}>
