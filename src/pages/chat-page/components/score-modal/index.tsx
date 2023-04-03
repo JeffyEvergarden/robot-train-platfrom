@@ -65,6 +65,7 @@ const ScoreModal: any = (props: any) => {
       maskClosable={false}
       width={'880px'}
       onOk={handleOk}
+      cancelText={'关闭'}
       onCancel={handleCancel}
     >
       <Spin spinning={loading}>

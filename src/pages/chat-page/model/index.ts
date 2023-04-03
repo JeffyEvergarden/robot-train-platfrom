@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { GetCourseInfo_API, GetStepResult_API } from './api';
+import { GetCourseInfo_API, GetStepResult_API, postCall_API } from './api';
 import config from '@/config';
 import { message } from 'antd';
 
@@ -11,7 +11,7 @@ export const useChatModel = () => {
 
   const getCourseInfo = async (data?: any) => {
     let res: any = await GetCourseInfo_API(data);
-    if (res.code === successCode) {
+    if (res.resultCode === successCode) {
       return res.data;
     } else {
       message.warning('获取课程信息失败');
@@ -24,7 +24,7 @@ export const useChatModel = () => {
     let res: any = await GetStepResult_API(data);
     setResultLoading(false);
 
-    if (res.code === successCode) {
+    if (res.resultCode === successCode) {
       const data: any = res.data || {};
 
       // 成绩
@@ -55,9 +55,19 @@ export const useChatModel = () => {
     }
   };
 
+  const postCall = async (data: any) => {
+    let res: any = await postCall_API(data);
+    if (res.resultCode === successCode) {
+      return res.data?.sessionId;
+    } else {
+      return false;
+    }
+  };
+
   return {
     getCourseInfo,
     getStepResult,
+    postCall,
     resultLoading,
   };
 };

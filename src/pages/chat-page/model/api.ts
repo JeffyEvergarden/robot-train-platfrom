@@ -17,3 +17,10 @@ export async function GetStepResult_API(data?: { [key: string]: any }) {
     params: data,
   });
 }
+
+export async function postCall_API(data?: { [key: string]: any }) {
+  return request(`${baseUrl}/services/stu/course/call`, {
+    method: 'POST',
+    data,
+  });
+}

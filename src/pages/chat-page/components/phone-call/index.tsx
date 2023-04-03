@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import JsSIP from 'jssip';
 import { Button, message } from 'antd';
 import Condition from '@/components/Condition';
 import style from './style.less';
 import config from '@/config';
+import { useChatModel } from '../../model'
 
 const { basePath } = config;
 
@@ -12,10 +13,11 @@ let currentSession = null;
 let currentConnection = null;
 
 const PhoneCall: React.FC<any> = (props: any) => {
-  const { oursNumber, sysPhone, onCall, onEnd } = props;
+  const { oursNumber, sysPhone, onCall, onEnd, cref } = props;
 
   const [status, setStatus] = useState<any>('waiting'); // waiting / calling /doing
 
+  const { postCall } = useChatModel();
   // const []
   // 存储会话
   const sipSession = useRef<any>({});
@@ -29,11 +31,11 @@ const PhoneCall: React.FC<any> = (props: any) => {
   const curUrl: any = window.location.href;
   const type = curUrl.includes('http://') ? 'ws' : 'wss';
   // websocket 连接地址
-  const linkUrl = type === 'ws' ? 'ws://11.112.0.42:5066' : 'wss://11.112.0.42:7443';
+  const linkUrl = type === 'ws' ? `ws://${process.env.ws_url}` : `wss://${process.env.wss_url}`;
   // 信令服务器注册
-  const registerUrl = '@11.112.0.42:5070';
+  const registerUrl = process.env.register_url;
 
-  const startConfig = () => {
+  const startConfig = async () => {
     if (sipSession.current.lastTime) {
       let second = Date.now() - sipSession.current.lastTime;
       if (second <= 4000) {
@@ -50,15 +52,26 @@ const PhoneCall: React.FC<any> = (props: any) => {
       return null;
     }
 
+
+    // 播放音乐
+
+    let res: any = await onCall?.();
+
+    if (!res) {
+      return;
+    }
+
+    play();
+
     const socket = new JsSIP.WebSocketInterface(linkUrl);
 
     // 注册信息
     const configuration = {
       sockets: [socket],
       uri: 'sip:' + oursNumber + registerUrl,
-      password: 'yiwise', // 公司freeswitch,
+      password: process.env.fs_password, // 公司freeswitch,
       outbound_proxy_set: linkUrl,
-      display_name: 'JeffyLiang',
+      display_name: 'ws_phone_call',
       register: true,
       session_timers: false,
     };
@@ -70,7 +83,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
     sipSession.current.currentSession = null;
     sipSession.current.currentConnection = null;
 
-    play();
     timeoutFn();
     ua.start();
 
@@ -135,9 +147,11 @@ const PhoneCall: React.FC<any> = (props: any) => {
       },
       failed: function (e: any) {
         console.log('call failed: ', e);
+        stop();
       },
       ended: function (e: any) {
         console.log('call ended : ', e);
+        stop();
       },
       confirmed: function (e: any) {
         console.log('call confirmed');
@@ -191,10 +205,12 @@ const PhoneCall: React.FC<any> = (props: any) => {
     // 挂断-来电已挂断
     session.on('ended', () => {
       console.log('挂断-来电已挂断');
+      stop();
     });
     // 当会话无法建立时触发
     session.on('failed', () => {
       console.log('当会话无法建立时触发');
+      stop();
     });
   };
 
@@ -241,7 +257,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
       setStatus('calling');
     }
 
-    onCall?.();
   };
 
   const clearTimeFn = () => {
@@ -273,6 +288,14 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
     onEnd?.();
   };
+
+
+  useImperativeHandle(cref, () => ({
+    call: startConfig,
+    end: stop,
+  }))
+
+
 
   return (
     <div style={{ display: 'inline-flex' }}>

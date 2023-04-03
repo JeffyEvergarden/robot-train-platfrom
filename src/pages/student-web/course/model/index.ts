@@ -12,7 +12,7 @@ export const useCourseModel = () => {
 
   const getStudentCourse = async (data: any) => {
     let res: any = await getStudentCourse_API(data);
-    if (res.code === successCode) {
+    if (res.resultCode === successCode) {
       let list: any = res?.data?.list || [];
       let _total: any = res?.data.total || 0;
       setCourseList(list);

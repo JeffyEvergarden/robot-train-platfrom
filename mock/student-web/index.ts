@@ -18,7 +18,7 @@ const getNormalList = (req: any, res: any) => {
   });
 
   res.json({
-    code: successCode,
+    resultCode: successCode,
     desc: '成功',
     data: {
       total: 24,
@@ -29,7 +29,7 @@ const getNormalList = (req: any, res: any) => {
 
 const getCourseInfo = (req: any, res: any) => {
   res.json({
-    code: successCode,
+    resultCode: successCode,
     desc: '成功',
     data: {
       courseName: '新世纪-GPX-高智能方程式',
@@ -108,7 +108,7 @@ const getCourseInfo = (req: any, res: any) => {
 
 const getStepResult = (req: any, res: any) => {
   res.json({
-    code: successCode,
+    resultCode: successCode,
     data: {
       score: 59,
       pointScoreList: [
@@ -159,10 +159,21 @@ const getStepResult = (req: any, res: any) => {
   });
 };
 
+const postCall = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    desc: '成功',
+    data: {
+      sessionId: 'fate grand order',
+    },
+  });
+};
+
 export default {
   // 获取课程信息
   [`GET ${baseUrl}/student/course/list`]: getNormalList,
   // 获取具体课程的信息、画布、客户信息
   [`GET ${baseUrl}/services/stu/course/courseNodeLineInfo`]: getCourseInfo,
   [`GET ${baseUrl}/services/stu/course/score`]: getStepResult,
+  [`POST ${baseUrl}/services/stu/course/call`]: postCall,
 };

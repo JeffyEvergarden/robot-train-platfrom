@@ -17,7 +17,11 @@ const MessageBox: React.FC<any> = (props: any) => {
 
   useImperativeHandle(cref, () => ({
     init: (l: any) => {
-      setList([...l]);
+      if (Array.isArray(l)) {
+        setList([...l]);
+      } else {
+        setList([]);
+      }
     },
     push: (item: any) => {
       list.push(item);
@@ -62,7 +66,7 @@ const MessageBox: React.FC<any> = (props: any) => {
               </div>
             </div>
           );
-        } else if (type === 'system') {
+        } else if (type === 'student') {
           // 右边内容
           return (
             <RightChatContent
@@ -73,7 +77,7 @@ const MessageBox: React.FC<any> = (props: any) => {
               showAvator={lastType !== type}
             />
           );
-        } else if (type === 'tips') {
+        } else if (type === 'system') {
           // 中间提示
           return (
             <div className={style['box_tips']} key={index}>
