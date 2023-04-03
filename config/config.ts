@@ -5,6 +5,9 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 const { REACT_APP_ENV } = process.env;
+
+const isProd = process.env.NODE_ENV === 'production';
+
 export default defineConfig({
   hash: true,
   antd: {},
@@ -70,5 +73,6 @@ export default defineConfig({
   define: {
     API_SUCCESS_CODE: '000',
     'process.env.API_SUCCESS_CODE': '000',
+    'process.env.mock': !isProd,
   },
 });
