@@ -11,8 +11,9 @@ const gen = (num: number) => {
 const getNormalList = (req: any, res: any) => {
   let data: any = gen(12).map((item: any, index: number) => {
     return {
-      title: '培训机器人' + index,
-      process: 0.75,
+      taskName: '培训机器人' + index,
+      taskId: 123,
+      progress: 0.75,
       finished: index % 2 === 1,
     };
   });

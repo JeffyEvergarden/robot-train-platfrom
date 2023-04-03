@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { history, Location } from 'umi';
+import { history, Location, useModel } from 'umi';
 import { PageContainer, ProBreadcrumb } from '@ant-design/pro-layout';
 import { useChatModel } from './model';
 import { Button, message, Skeleton } from 'antd';
@@ -16,6 +16,13 @@ import config from '@/config';
 import courseSingle from '@/asset/image/course-single.png';
 
 const ChatPage: any = (props: any) => {
+
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { currentUser = {} }: any = initialState;
+
+  const { userCode } = currentUser;
+
+
   const query: any = history.location.query || {};
 
   const taskId: any = query?.taskId;
@@ -226,6 +233,10 @@ const ChatPage: any = (props: any) => {
   };
 
   const goBack = () => {
+    if (!taskId) {
+      console.log('获取不到task_id')
+      return
+    }
     // 回到画布页面
     history.push(`/student/course/detail?taskId=${taskId}`);
   };
@@ -255,7 +266,7 @@ const ChatPage: any = (props: any) => {
             </Button>
             <PhoneCall
               cref={phoneCallRef}
-              oursNumber={'1000'}
+              oursNumber={userCode}
               sysPhone={'1002'}
               onCall={initSocket}
               onEnd={onEnd}

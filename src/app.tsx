@@ -81,22 +81,26 @@ export async function getInitialState(): Promise<{
   // 用户信息结果
   let userMsg: any = await fetchUserInfo();
 
-  const orz = userMsg?.principal?.organizations?.[0]?.name || '';
+  userMsg = userMsg?.data || {}
+
+  const orz = userMsg?.organizations?.[0]?.name || '';
+
   // 目前权限
-  let userAuth: any = Array.isArray(userMsg?.authorities) ? userMsg?.authorities : [];
+  let userAuth: any = userMsg && Array.isArray(userMsg.role) ? userMsg?.role : [];
 
   // ------------
-  // RISK_MODEL_DEVELOPER 风控模型岗
-  // RISK_MANAGER 决策科学团队主管岗
-  // ROLE_APP_ADMIN 角色信息管理员
+  // ADMIN 管理员
+  // TEACH 教师端
+  // STUDENT 学生端
 
   return {
     fetchUserInfo,
     routersFilter,
     currentUser: {
-      userName: userMsg?.principal?.userName,
+      ...userMsg.data,
+      userName: userMsg?.userName,
+      userCode: userMsg?.userCode,
       department: orz,
-      ...userMsg?.principal,
     }, // 用户信息  部门信息
 
     userAuth: userAuth, // 权限信息   userType 用户类型
@@ -125,19 +129,19 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     links: isDev
       ? [
-          <a key="antd-component" href="https://pro.ant.design/zh-CN/" target="_blank">
-            <LinkOutlined />
-            <span>业务组组件</span>
-          </a>,
-          <a
-            key="docs"
-            href="https://is35svcbne.feishu.cn/wiki/wikcnmka9a34JEzgLbEhWrcXiJC"
-            target="_blank"
-          >
-            <BookOutlined />
-            <span>需求文档</span>
-          </a>,
-        ]
+        <a key="antd-component" href="https://pro.ant.design/zh-CN/" target="_blank">
+          <LinkOutlined />
+          <span>业务组组件</span>
+        </a>,
+        <a
+          key="docs"
+          href="https://is35svcbne.feishu.cn/wiki/wikcnmka9a34JEzgLbEhWrcXiJC"
+          target="_blank"
+        >
+          <BookOutlined />
+          <span>需求文档</span>
+        </a>,
+      ]
       : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面

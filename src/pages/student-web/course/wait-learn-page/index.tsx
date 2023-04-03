@@ -16,7 +16,7 @@ const { basePath } = config;
 const WaitLearnPage: React.FC<any> = (props: any) => {
   const [pageNo, setPageNo] = useState<any>(1);
 
-  const [pageSize, setPageSize] = useState<any>(8);
+  const [pageSize, setPageSize] = useState<any>(12);
 
   const { courselist, total, getStudentCourse } = useCourseModel();
 
@@ -45,10 +45,10 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
                   <div className={style['context']}>
                     <div>
                       <Condition r-if={item.finished}>
-                        <Tag color="success">已完成</Tag>
+                        <Tag color="blue">已完成</Tag>
                       </Condition>
                       <Condition r-if={!item.finished}>
-                        <Tag color={'error'}>未完成</Tag>
+                        <Tag color={"orange"}>未完成</Tag>
                       </Condition>
                     </div>
                   </div>
