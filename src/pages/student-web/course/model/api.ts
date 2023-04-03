@@ -4,7 +4,7 @@ import config from '@/config/index';
 const baseUrl: string = config.basePath;
 
 export async function getStudentCourse_API(data?: any) {
-  return request(`${baseUrl}/student/course/list`, {
+  return request(`${baseUrl}/services/stu/course/coursePage`, {
     method: 'GET',
     params: data,
   });

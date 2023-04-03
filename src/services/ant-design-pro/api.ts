@@ -5,7 +5,7 @@ import config from '../../config';
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
-  return request<any>(`${config.basePath}/me`, {
+  return request<any>(`${config.basePath}/services/loginInfo`, {
     method: 'GET',
     ...(options || {}),
   });

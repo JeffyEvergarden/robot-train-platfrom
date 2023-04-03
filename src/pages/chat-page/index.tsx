@@ -1,28 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { history, Location } from 'umi';
+import { history, Location, useModel } from 'umi';
 import { PageContainer, ProBreadcrumb } from '@ant-design/pro-layout';
 import { useChatModel } from './model';
-import { Button, Skeleton } from 'antd';
+import { Button, message, Skeleton } from 'antd';
 import { DoubleLeftOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import MessageBox from './components/message-box';
 import PhoneCall from './components/phone-call';
 import TipsBox from './components/tips-box';
 import style from './style.less';
-import testList from './test';
 import Condition from '@/components/Condition';
 import DrawPanelMini from '@/pages/draw-panel/mini';
 import ScoreModal from './components/score-modal';
-
+import config from '@/config';
 // 图片
 import courseSingle from '@/asset/image/course-single.png';
 
 const ChatPage: any = (props: any) => {
+  const { initialState, setInitialState } = useModel('@@initialState');
+  const { currentUser = {} }: any = initialState;
+
+  const { userCode } = currentUser;
+
   const query: any = history.location.query || {};
 
   const taskId: any = query?.taskId;
   const courseId: any = query?.courseId;
 
-  const { getCourseInfo, resultLoading } = useChatModel();
+  const { getCourseInfo, resultLoading, postCall } = useChatModel();
 
   const [pageType, setPageType] = useState<any>('doing'); // init / doing
   const [title, setTitle] = useState<any>(''); // 标题
@@ -36,8 +40,10 @@ const ChatPage: any = (props: any) => {
 
   // 消息盒子
   const messageRef: any = useRef<any>({});
-  //
+  // 额外的websocket作消息通讯
   const socketRef: any = useRef<any>({ scrollFlag: false });
+  // phoneCall组件
+  const phoneCallRef: any = useRef<any>({});
 
   // 右下角画布数据
   const [renderData, setRenderData] = useState<any>({});
@@ -99,16 +105,57 @@ const ChatPage: any = (props: any) => {
       return;
     }
     if (typeof data === 'object') {
-      msgRef.push(data);
-      scrollBottom();
+      const type: any = data.type;
+      // 客服、学员、系统提示语
+      if (['customer', 'student', 'system'].includes(type)) {
+        msgRef.push(data);
+        scrollBottom();
+      } else if (type === 'standard-response') {
+        // ------
+        setStandardMsg(data.standardMsg || '');
+        setKeyPoint(data.keyPoint || '');
+      } else if (type === 'exam-end') {
+        // ------ 监测到考试结束
+        // 打开考试弹窗
+        // 对话结束
+        phoneCallRef.current?.end?.();
+        openScoreModal(socketRef.current.sessionId);
+      }
     } else {
       console.log('formate-msg error');
     }
   };
 
   // websocket
-  const initSocket = () => {
-    const sk = new WebSocket('ws://localhost:4000/websocket');
+  const initSocket = async () => {
+    let sessionId: any = await postCall({ courseId });
+
+    if (!sessionId) {
+      message.warning('获取sessionId失败');
+      return false;
+    }
+    // -----
+    setRecordId(sessionId);
+
+    const msgRef = messageRef.current;
+    if (msgRef) {
+      msgRef.init?.(); // 初始化
+      setKeyPoint('');
+      setStandardMsg('');
+    }
+
+    const curUrl: any = window.location.href;
+    const type = curUrl.includes('http://') ? 'ws' : 'wss';
+    let websocket_url: any = process.env.websocket_url;
+    if (!websocket_url.startsWith('localhost')) {
+      websocket_url = window.location.host + config.basePath + websocket_url;
+    }
+    console.log('连接websocket_url:');
+    console.log(websocket_url);
+    // websocket 连接地址
+    const linkUrl = type === 'ws' ? `ws://${websocket_url}` : `wss://${websocket_url}`;
+
+    const sk = new WebSocket(`${linkUrl}?sessionId=${sessionId}`);
     socketRef.current = sk;
     sk.onopen = (event) => {
       console.log('WebSocket 连接建立');
@@ -127,7 +174,8 @@ const ChatPage: any = (props: any) => {
     sk.onerror = (event) => {
       console.log('error');
     };
-    console.log('---------');
+
+    return true;
   };
 
   // 结束
@@ -181,6 +229,10 @@ const ChatPage: any = (props: any) => {
   };
 
   const goBack = () => {
+    if (!taskId) {
+      console.log('获取不到task_id');
+      return;
+    }
     // 回到画布页面
     history.push(`/student/course/detail?taskId=${taskId}`);
   };
@@ -203,13 +255,16 @@ const ChatPage: any = (props: any) => {
             <Button
               type="default"
               disabled={!recordId}
-              onClick={openScoreModal}
+              onClick={() => {
+                openScoreModal(recordId);
+              }}
               style={{ marginRight: '16px' }}
             >
               查看结果
             </Button>
             <PhoneCall
-              oursNumber={'1000'}
+              cref={phoneCallRef}
+              oursNumber={userCode}
               sysPhone={'1002'}
               onCall={initSocket}
               onEnd={onEnd}
