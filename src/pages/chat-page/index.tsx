@@ -16,7 +16,6 @@ import config from '@/config';
 import courseSingle from '@/asset/image/course-single.png';
 
 const ChatPage: any = (props: any) => {
-
   const query: any = history.location.query || {};
 
   const taskId: any = query?.taskId;
@@ -41,7 +40,6 @@ const ChatPage: any = (props: any) => {
   // phoneCall组件
   const phoneCallRef: any = useRef<any>({});
 
-
   // 右下角画布数据
   const [renderData, setRenderData] = useState<any>({});
 
@@ -65,24 +63,26 @@ const ChatPage: any = (props: any) => {
     // 画布信息
     const _renderData: any = {
       nodes: res.nodes || [],
-      edges: res.edges || []
-    }
+      edges: res.edges || [],
+    };
     setRenderData(_renderData);
     if (miniPanelRef.current) {
-      console.log('miniPanelRef.current: ----------', miniPanelRef.current)
-      miniPanelRef.current?.initPanel?.(_renderData || {})
+      console.log('miniPanelRef.current: ----------', miniPanelRef.current);
+      miniPanelRef.current?.initPanel?.(_renderData || {});
     } else {
       console.log('miniPanelRef.current: null----------');
     }
   };
 
   const scrollBottom = () => {
-    if (!socketRef.current.scrollFlag) { // 页面不在滚动的时候
+    if (!socketRef.current.scrollFlag) {
+      // 页面不在滚动的时候
       setTimeout(() => {
-        contentRef.current.scrollTop = contentRef.current.scrollHeight - contentRef.current.clientHeight;
+        contentRef.current.scrollTop =
+          contentRef.current.scrollHeight - contentRef.current.clientHeight;
       }, 100);
     }
-  }
+  };
 
   // 消息格式化加入盒子
   const formateMessage = (data: any) => {
@@ -120,7 +120,7 @@ const ChatPage: any = (props: any) => {
     } else {
       console.log('formate-msg error');
     }
-  }
+  };
 
   // websocket
   const initSocket = async () => {
@@ -177,18 +177,17 @@ const ChatPage: any = (props: any) => {
 
   // 结束
   const onEnd = () => {
-    socketRef.current?.close?.()
-  }
-
+    socketRef.current?.close?.();
+  };
 
   // -------------------- 打开成绩单
   const openScoreModal = (id?: any) => {
     if (id && typeof id === 'object') {
-      return
+      return;
     }
     // 需要学习ID、课程ID
     scoreModalRef.current.open({ studyId: id || recordId, courseId });
-  }
+  };
 
   useEffect(() => {
     // 获取基础信息
@@ -200,45 +199,36 @@ const ChatPage: any = (props: any) => {
   }, []);
 
   useEffect(() => {
-
-
-
     const scrollEvent = (e: any) => {
       clearTimeout(socketRef.current.timeFn);
       socketRef.current.scrollFlag = true;
       socketRef.current.timeFn = setTimeout(() => {
         socketRef.current.scrollFlag = false;
       }, 500);
-    }
+    };
 
     if (pageType === 'doing' && contentRef.current) {
-      contentRef.current.addEventListener('scroll', scrollEvent)
+      contentRef.current.addEventListener('scroll', scrollEvent);
     }
     return () => {
       if (contentRef.current) {
-        contentRef.current.removeEventListener('scroll', scrollEvent)
+        contentRef.current.removeEventListener('scroll', scrollEvent);
       }
-    }
-
-  }, [pageType])
-
-
-
+    };
+  }, [pageType]);
 
   const startChangePageType = () => {
     setPageType('doing');
 
     if (miniPanelRef.current) {
-      miniPanelRef.current?.initPanel?.(renderData || {})
+      miniPanelRef.current?.initPanel?.(renderData || {});
     }
   };
-
 
   const goBack = () => {
     // 回到画布页面
     history.push(`/student/course/detail?taskId=${taskId}`);
-
-  }
+  };
 
   return (
     <PageContainer
@@ -249,7 +239,6 @@ const ChatPage: any = (props: any) => {
       content={
         <div className={style['page-header']}>
           <div>
-
             <div className={style['title']}>
               <ArrowLeftOutlined onClick={goBack} style={{ marginRight: '8px' }} />
               {title}

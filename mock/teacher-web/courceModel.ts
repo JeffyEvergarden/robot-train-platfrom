@@ -59,9 +59,9 @@ const normalDeal = (req: any, res: any) => {
 };
 
 export default {
-  [`POST ${baseUrl}/ai-teach/services/model/modelPage`]: modelPage,
-  [`POST ${baseUrl}/ai-teach/services/model/modelList`]: modelList,
-  [`POST ${baseUrl}/ai-teach/services/model/modelDelete`]: normalDeal,
-  [`POST ${baseUrl}/ai-teach/services/model/modelAdd`]: normalDeal,
-  [`POST ${baseUrl}/ai-teach/services/model/modelEdit`]: normalDeal,
+  [`POST ${baseUrl}/services/model/modelPage`]: modelPage,
+  [`POST ${baseUrl}/services/model/modelList`]: modelList,
+  [`POST ${baseUrl}/services/model/modelDelete`]: normalDeal,
+  [`POST ${baseUrl}/services/model/modelAdd`]: normalDeal,
+  [`POST ${baseUrl}/services/model/modelEdit`]: normalDeal,
 };

@@ -76,11 +76,11 @@ const intentDetail = (req: any, res: any) => {
 };
 
 export default {
-  [`POST ${baseUrl}/ai-teach/services/intent/intentPage`]: intentPage,
-  [`POST ${baseUrl}/ai-teach/services/intent/intentList`]: intentList,
-  [`POST ${baseUrl}/ai-teach/services/intent/intentDelete`]: normalDeal,
-  [`POST ${baseUrl}/ai-teach/services/intent/intentAdd`]: normalDeal,
-  [`POST ${baseUrl}/ai-teach/services/intent/intentEdit`]: normalDeal,
-  [`POST ${baseUrl}/ai-teach/services/intent/intentDetail`]: intentDetail,
-  [`POST ${baseUrl}/ai-teach/services/intent/intentSync`]: normalDeal,
+  [`POST ${baseUrl}/services/intent/intentPage`]: intentPage,
+  [`POST ${baseUrl}/services/intent/intentList`]: intentList,
+  [`POST ${baseUrl}/services/intent/intentDelete`]: normalDeal,
+  [`POST ${baseUrl}/services/intent/intentAdd`]: normalDeal,
+  [`POST ${baseUrl}/services/intent/intentEdit`]: normalDeal,
+  [`POST ${baseUrl}/services/intent/intentDetail`]: intentDetail,
+  [`POST ${baseUrl}/services/intent/intentSync`]: normalDeal,
 };
