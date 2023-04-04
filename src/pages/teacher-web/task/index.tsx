@@ -188,7 +188,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
         rowKey="id"
         loading={tableLoading}
         request={async (params = {}, sort, filter) => {
-          await getAllTaskList();
+          await getAllTaskList({});
           return getTaskPage({ page: params?.current, ...params });
         }}
       />

@@ -54,7 +54,7 @@ export const useTableModel = () => {
   //课程所有
   const getAllTablelist = async (params?: any) => {
     setTableLoading(true);
-    let res: any = await getAllCourseList(params);
+    let res: any = await getAllCourseList(params || {});
     setTableLoading(false);
     if (res?.resultCode == successCode) {
       setAllTableList(res?.data);

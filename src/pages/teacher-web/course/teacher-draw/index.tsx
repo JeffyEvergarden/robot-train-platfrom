@@ -32,7 +32,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
 
   //初始化
   const init = async () => {
-    let res = await getDrawPanel({});
+    let res = await getDrawPanel({ id: courseInfo?.id });
     if (res) {
       drawLf.current?.initPanel(res);
     }
