@@ -65,10 +65,10 @@ export const checkEdge = (edge: any, lf: any) => {
   //是否开始直接连结束
   let _startToEndNode =
     nodes?.find((item: any) => {
-      return targetNodeId === item.id;
+      return sourceNodeId === item.id;
     })?.type === 'start' &&
     nodes?.find((item: any) => {
-      return sourceNodeId === item.id;
+      return targetNodeId === item.id;
     })?.type === 'finish';
 
   if (_sameNode) {
