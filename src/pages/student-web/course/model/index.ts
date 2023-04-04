@@ -8,15 +8,21 @@ const { successCode } = config;
 export const useCourseModel = () => {
   const [courselist, setCourseList] = useState<any>([]);
 
-  const [total, setTotal] = useState<number>(0);
+  const [totalWait, setTotalWait] = useState<number>(0);
+  const [totalDone, setTotalDone] = useState<number>(0);
 
   const getStudentCourse = async (data: any) => {
     let res: any = await getStudentCourse_API(data);
     if (res.resultCode === successCode) {
       let list: any = res?.data?.list || [];
-      let _total: any = res?.data.total || 0;
+      let _total: any = res?.data.totalPage || 0;
       setCourseList(list);
-      setTotal(_total);
+      // return res
+      if (data?.type == 0) {
+        setTotalWait(_total);
+      } else {
+        setTotalDone(_total);
+      }
       // message.success('保存成功');
     } else {
       message.warning('获取数据失败');
@@ -25,7 +31,9 @@ export const useCourseModel = () => {
 
   return {
     courselist,
-    total,
+    // setTotal,
+    totalWait,
+    totalDone,
     getStudentCourse,
   };
 };

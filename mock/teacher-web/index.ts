@@ -11,12 +11,11 @@ const gen = (num: number) => {
 const getNormalList = (req: any, res: any) => {
   let data: any = gen(11).map((item: any, index: number) => {
     return {
-      courseName: '课程' + index,
-      courseStatus: Math.floor(Math.random() * 2),
-      courseType: Math.floor(Math.random() * 2),
-      passMark: Math.ceil(Math.random() * 40 + 60),
-      creator: 'root',
-      id: index,
+      taskId: index,
+      taskName: '任务名称' + index,
+      progress: 0.75,
+      taskModel: 1, //1-闯关模式   2-任意模式
+      taskType: 1, //1-培训   2--考试
     };
   });
 
@@ -301,7 +300,7 @@ const lineInfo = (req: any, res: any) => {
 
 export default {
   // 获取课程信息
-  [`POST ${baseUrl}/services/course/coursePage`]: getNormalList,
+  [`POST ${baseUrl}/services/stu/course/coursePage`]: getNormalList,
   [`POST ${baseUrl}/services/course/courseList`]: getNormalList2,
   [`POST ${baseUrl}/services/course/courseAdd`]: defaultResault,
   [`POST ${baseUrl}/services/course/courseDetail`]: courseDetail,

@@ -5,13 +5,13 @@ const baseUrl: string = config.basePath;
 
 export async function getStudentCourse_API(data?: any) {
   return request(`${baseUrl}/services/stu/course/coursePage`, {
-    method: 'GET',
-    params: data,
+    method: 'POST',
+    data,
   });
 }
 
 export async function getStudentCourseDetail_API(data?: any) {
-  return request(`${baseUrl}/student/course/detail`, {
+  return request(`${baseUrl}/services/student/course/detail`, {
     method: 'GET',
     params: data,
   });

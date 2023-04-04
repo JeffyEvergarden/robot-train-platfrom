@@ -109,6 +109,7 @@ const dialogue = (req: any, res: any) =>
           nodeName: '节点名称' + 2,
           role: 'system',
           soundPath: '',
+          errorIndexList: [1, 2, 3, 4, 5],
           keyPointList: [
             {
               keyPointName: '逾期信息' + 2,
@@ -132,6 +133,7 @@ const dialogue = (req: any, res: any) =>
           nodeName: '节点名称' + 3,
           role: 'tips',
           soundPath: '',
+          errorIndexList: [3],
         },
         {
           id: 4,

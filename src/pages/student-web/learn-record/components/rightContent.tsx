@@ -35,7 +35,7 @@ const KeyTipsHtml: React.FC<any> = (props: any) => {
 };
 
 const RightChatContent: React.FC<any> = (props: any) => {
-  const { status, text, keysTips, showAvator } = props;
+  const { status, text, keysTips, showAvator, errorIndexList } = props;
 
   return (
     <div className={style['box_system']}>
@@ -46,7 +46,16 @@ const RightChatContent: React.FC<any> = (props: any) => {
       <div>
         <div className={style['box-content_sys']}>{text}</div>
         <div className={styles.keyBox}>
-          <div className={styles.sortNum}>{1}</div>
+          <div>
+            {errorIndexList?.map((item: any) => {
+              return (
+                <div className={styles.sortNum} key={item}>
+                  {item}
+                </div>
+              );
+            })}
+          </div>
+
           <KeyTipsHtml list={keysTips} />
         </div>
       </div>
