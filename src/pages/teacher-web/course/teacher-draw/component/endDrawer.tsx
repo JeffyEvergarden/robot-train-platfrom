@@ -32,7 +32,7 @@ const EndDrawer: React.FC<any> = (props: any) => {
 
   const open = async (type: any, row?: any) => {
     // setFormType(type);
-    await courseEndConfig({ id: courseInfo?.id }).then((res) => {
+    await courseEndConfig({ courseId: courseInfo?.id }).then((res) => {
       if (res) {
         form.setFieldsValue(res?.data);
         setInfo(res?.data);

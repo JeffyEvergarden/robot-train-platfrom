@@ -48,7 +48,7 @@ const SoundDrawer: React.FC<any> = (props: any) => {
 
   const open = async (type: any, row?: any) => {
     // setFormType(type);
-    await courseSoundConfig({ id: courseInfo?.id }).then((res) => {
+    await courseSoundConfig({ courseId: courseInfo?.id }).then((res) => {
       if (res) {
         form.setFieldsValue(res?.data);
         setInfo(res?.data);

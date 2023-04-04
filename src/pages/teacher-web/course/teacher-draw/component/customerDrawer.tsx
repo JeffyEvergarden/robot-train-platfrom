@@ -32,7 +32,7 @@ const CustomerDrawer: React.FC<any> = (props: any) => {
 
   const open = async (type: any, row?: any) => {
     // setFormType(type);
-    await courseCustomInfo({ id: courseInfo?.id }).then((res) => {
+    await courseCustomInfo({ courseId: courseInfo?.id }).then((res) => {
       if (res) {
         form.setFieldsValue(res?.data);
         setInfo(res?.data);

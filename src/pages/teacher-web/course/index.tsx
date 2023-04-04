@@ -222,7 +222,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
         }}
       />
       {/* //复制弹窗 */}
-      <DuplicateForm cref={duplicateRef}></DuplicateForm>
+      <DuplicateForm cref={duplicateRef} allTableList={allTableList}></DuplicateForm>
       {/* 新增编辑表单 */}
       <TableForm
         cref={tableFormRef}

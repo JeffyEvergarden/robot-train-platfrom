@@ -33,7 +33,7 @@ const CallDrawer: React.FC<any> = (props: any) => {
 
   const open = async (type: any, row?: any) => {
     // setFormType(type);
-    await courseCallConfig({ id: courseInfo?.id }).then((res) => {
+    await courseCallConfig({ courseId: courseInfo?.id }).then((res) => {
       if (res) {
         form.setFieldsValue(res?.data);
         setInfo(res?.data);

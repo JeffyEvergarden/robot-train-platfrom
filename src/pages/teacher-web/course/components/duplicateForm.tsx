@@ -2,7 +2,7 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 import { useImperativeHandle, useState } from 'react';
 
 const DuplicateForm: React.FC<any> = (props) => {
-  const { cref } = props;
+  const { cref, allTableList } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = useState<any>(false);
 
@@ -39,7 +39,13 @@ const DuplicateForm: React.FC<any> = (props) => {
           label="课程名称"
           rules={[{ required: true, message: '请选择要复制的课程' }]}
         >
-          <Select placeholder="请选择要复制的课程" />
+          <Select placeholder="请选择要复制的课程">
+            {allTableList?.map((item: any, index: any) => (
+              <Select.Option key={index} value={item.id}>
+                {item.courseName}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
         <Form.Item
           name="新课程名称"

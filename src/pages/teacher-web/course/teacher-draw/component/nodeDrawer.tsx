@@ -12,6 +12,7 @@ const NodeDrawer: React.FC<any> = (props: any) => {
   const [visible, setVisible] = useState<any>(false);
   const { courseNodeInfo, courseNodeSave } = useDrawModel();
   const [info, setInfo] = useState<any>({});
+  const [nodeDetailInfo, setNodeDetailInfo] = useState<any>({});
 
   const { courseInfo } = useModel('course', (model: any) => ({
     courseInfo: model.courseInfo,
@@ -25,7 +26,13 @@ const NodeDrawer: React.FC<any> = (props: any) => {
   const onOk = async () => {
     let valid = await form.validateFields();
     if (valid) {
-      await courseNodeSave({ ...info, ...valid, nodeName: valid?.name }).then((res) => {
+      let reqData: any = {
+        ...info,
+        ...valid,
+        nodeName: valid?.name,
+        nodeType: nodeDetailInfo?.nodeType,
+      };
+      await courseNodeSave(reqData).then((res) => {
         if (res) {
           changeNodeName(info.id, valid?.name);
           onCancel();
@@ -40,6 +47,7 @@ const NodeDrawer: React.FC<any> = (props: any) => {
     setVisible(true);
     await courseNodeInfo({ id: data?.id }).then((res) => {
       if (res) {
+        setNodeDetailInfo(res?.data);
         let resData = {
           ...res?.data,
         };

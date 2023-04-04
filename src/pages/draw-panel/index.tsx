@@ -127,9 +127,9 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
   useImperativeHandle(cref, () => ({
     initPanel: (data: any) => {
-      if (drawPanelRef.current) {
+      if (drawPanelRef?.current) {
         // console.log(curLf);
-        drawPanelRef.current?.render(data);
+        drawPanelRef?.current?.render(data);
       }
     },
     getLf: () => {
