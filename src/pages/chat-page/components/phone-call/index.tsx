@@ -4,7 +4,7 @@ import { Button, message } from 'antd';
 import Condition from '@/components/Condition';
 import style from './style.less';
 import config from '@/config';
-import { useChatModel } from '../../model'
+import { useChatModel } from '../../model';
 
 const { basePath } = config;
 
@@ -51,7 +51,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
       message.warning('请设置呼叫号码');
       return null;
     }
-
 
     // 播放音乐
 
@@ -256,7 +255,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
       musicAudioRef.current.play();
       setStatus('calling');
     }
-
   };
 
   const clearTimeFn = () => {
@@ -289,13 +287,10 @@ const PhoneCall: React.FC<any> = (props: any) => {
     onEnd?.();
   };
 
-
   useImperativeHandle(cref, () => ({
     call: startConfig,
     end: stop,
-  }))
-
-
+  }));
 
   return (
     <div style={{ display: 'inline-flex' }}>
