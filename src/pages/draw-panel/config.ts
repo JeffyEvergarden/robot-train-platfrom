@@ -9,6 +9,14 @@ import { message } from 'antd';
 // 设置右键通用菜单
 
 export const setMenuConfig = (lf: any, options: any) => {
+  if (options.isSilentMode) {
+    lf.extension.menu.setMenuConfig({
+      nodeMenu: [], // 覆盖默认的节点右键菜单
+      edgeMenu: [], // 删除默认的边右键菜单
+      graphMenu: [], // 覆盖默认的边右键菜单，与false表现一样
+    });
+    return;
+  }
   lf.extension.menu.setMenuConfig({
     nodeMenu: [
       {

@@ -86,7 +86,7 @@ const getPanelDetail = (req: any, res: any) => {
 
 const getTaskPanelDetail = (req: any, res: any) => {
   res.json({
-    code: successCode,
+    resultCode: successCode,
     data: {
       nodes: [
         {
@@ -115,11 +115,27 @@ const getTaskPanelDetail = (req: any, res: any) => {
         },
         {
           id: 'd1782302-fb90-415d-b080-a4f07d95cc1f',
-          type: 'step',
+          type: 'step-html',
           x: 360,
-          y: 400,
-          properties: {},
-          text: { x: 360, y: 400, value: '步骤节点' },
+          y: 380,
+          properties: { status: 'finish' },
+          text: { x: -240, y: 380, value: '步骤节点1步骤节点1步骤节点1步骤节点1' },
+        },
+        {
+          id: 'e1782302-fb90-415d-b080-a4f07d95kk2d',
+          type: 'step-html',
+          x: 360,
+          y: 520,
+          properties: { status: 'doing' },
+          text: { x: 960, y: 520, value: '步骤节点2' },
+        },
+        {
+          id: 'fk782302-fb90-415d-b080-a4f07d95kk2d',
+          type: 'step-html',
+          x: 360,
+          y: 700,
+          properties: { status: 'wait' },
+          text: { x: 360, y: 700, value: '步骤节点3' },
         },
       ],
       edges: [
@@ -154,17 +170,31 @@ const getTaskPanelDetail = (req: any, res: any) => {
           ],
         },
         {
-          id: '50eed6b3-81cb-42bd-833b-6342b828904d',
-          type: 'polyline',
+          id: 'dff9b7f6-57e5-486f-8b40-e9e3b55efa3e',
+          type: 'line',
           sourceNodeId: 'abbfb89c-7bb3-4174-9430-ecc467259dcb',
           targetNodeId: 'd1782302-fb90-415d-b080-a4f07d95cc1f',
-          startPoint: { x: 360, y: 277 },
-          endPoint: { x: 360, y: 363 },
+          startPoint: { x: 360, y: 269 },
+          endPoint: { x: 360, y: 343 },
           properties: {},
-          pointsList: [
-            { x: 360, y: 277 },
-            { x: 360, y: 363 },
-          ],
+        },
+        {
+          id: 'd0a93310-137e-4401-9412-e20381d81304',
+          type: 'line',
+          sourceNodeId: 'd1782302-fb90-415d-b080-a4f07d95cc1f',
+          targetNodeId: 'e1782302-fb90-415d-b080-a4f07d95kk2d',
+          startPoint: { x: 360, y: 417 },
+          endPoint: { x: 360, y: 483 },
+          properties: {},
+        },
+        {
+          id: 'fa4aa2fc-ff42-4079-97a7-9ff5704886ad',
+          type: 'line',
+          sourceNodeId: 'e1782302-fb90-415d-b080-a4f07d95kk2d',
+          targetNodeId: 'fk782302-fb90-415d-b080-a4f07d95kk2d',
+          startPoint: { x: 360, y: 557 },
+          endPoint: { x: 360, y: 663 },
+          properties: {},
         },
       ],
     },

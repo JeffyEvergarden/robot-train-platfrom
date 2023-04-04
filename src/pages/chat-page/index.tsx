@@ -35,6 +35,9 @@ const ChatPage: any = (props: any) => {
   const [keyPoint, setKeyPoint] = useState<any>(''); // 关键点
   // const [hasResult, setHasResult] = useState<boolean>(false); // 关键点
 
+  // exam or exercise
+  const [courseType, setCourseType] = useState<any>('exam');
+
   // 学习记录id
   const [recordId, setRecordId] = useState<any>('');
 
@@ -63,6 +66,7 @@ const ChatPage: any = (props: any) => {
     let res: any = await getCourseInfo({ courseId });
     setTitle(res.courseName || '--');
     setTips(res.customerInfo || '--');
+    setCourseType(res.courseType === 1 ? 'exercise' : 'exam');
     // setStandardMsg(res.standardMsg);
     // setKeyPoint(res.keyPoint);
     // 画布信息
@@ -234,7 +238,7 @@ const ChatPage: any = (props: any) => {
       return;
     }
     // 回到画布页面
-    history.push(`/student/course/detail?taskId=${taskId}`);
+    history.replace(`/student/course/detail?taskId=${taskId}`);
   };
 
   return (
@@ -286,19 +290,21 @@ const ChatPage: any = (props: any) => {
               </div>
             </div>
 
-            <div className={style['page-right']}>
-              <div className={style['page-tips-box']}>
-                <div className={style['tips-title']}>• 标准话术</div>
-                <div className={style['tips-content']}>{standardMsg || '--'}</div>
-                <div className={style['tips-title']}>• 关键点</div>
-                <div className={style['tips-content']}>{keyPoint || '--'}</div>
-              </div>
+            {courseType === 'exercise' && (
+              <div className={style['page-right']}>
+                <div className={style['page-tips-box']}>
+                  <div className={style['tips-title']}>• 标准话术</div>
+                  <div className={style['tips-content']}>{standardMsg || '--'}</div>
+                  <div className={style['tips-title']}>• 关键点</div>
+                  <div className={style['tips-content']}>{keyPoint || '--'}</div>
+                </div>
 
-              <div className={style['page-step-box']}>
-                <div className={style['step-box_title']}>流程节点</div>
-                <DrawPanelMini cref={miniPanelRef}></DrawPanelMini>
+                <div className={style['page-step-box']}>
+                  <div className={style['step-box_title']}>流程节点</div>
+                  <DrawPanelMini cref={miniPanelRef}></DrawPanelMini>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </Condition>
 

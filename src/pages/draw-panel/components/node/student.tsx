@@ -13,10 +13,18 @@ import LogicFlow, {
   HtmlNodeModel,
 } from '@logicflow/core';
 import ReactDOM from 'react-dom';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import { Popover, Button } from 'antd';
+import {
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  LockOutlined,
+  InfoCircleOutlined,
+} from '@ant-design/icons';
 import style from './index.less';
 
-const colors = ['#4878FF', '#FEB444', '#36A5A4', '#C2C8D5'];
+const colors = ['#4878FF', '#BDD2FD', '#36A5A4', '#C2C8D5'];
+
+const EVENT_BUS: any = {};
 
 class CourseNodeModel extends RectNodeModel {
   constructor(data: BaseNodeModel, graphModel: GraphModel) {
@@ -41,7 +49,7 @@ class CourseNodeModel extends RectNodeModel {
           };
     super.initNodeData(data);
     this.width = 200;
-    this.height = 74;
+    this.height = 58;
     this.radius = 8;
   }
 
@@ -85,7 +93,7 @@ class TaskNodeModel extends RectNodeModel {
           };
     super.initNodeData(data);
     this.width = 200;
-    this.height = 74;
+    this.height = 58;
     this.radius = 8;
   }
 
@@ -100,7 +108,7 @@ class TaskNodeModel extends RectNodeModel {
   getTextStyle() {
     const style = super.getTextStyle();
     style.fontSize = 16;
-    style.color = colors[1];
+    style.color = '#1890FF';
     // style.color = '#7DAAFF';
     return style;
   }
@@ -196,25 +204,65 @@ class StepHtmlNodeModel extends HtmlNodeModel {
   }
 }
 
+const status_color = {
+  wait: 'rgba(0,0,0,0.25)',
+  doing: 'rgba(0,0,0,0.85)',
+  finish: '#fff',
+};
+
 // status: wait ==> 置灰 // doing ==> 进行中 // finish ==> 完成
 const StepHtmlBox = (props: any) => {
-  const { properties, text } = props;
+  const { properties, text, item } = props;
 
   const { status } = properties;
 
   let icon = null;
 
+  const onClick = () => {
+    EVENT_BUS.eventCenter?.emit('step-tips:button-click', item);
+  };
+
   if (status === 'finish') {
-    icon = <CheckCircleOutlined style={{ color: '#20C783' }} />;
+    icon = <CheckCircleOutlined style={{ color: status_color['finish'] }} />;
+  } else if (status === 'doing') {
+    icon = <ClockCircleOutlined style={{ color: status_color['doing'] }} />;
+  } else if (status === 'wait') {
+    icon = <LockOutlined style={{ color: status_color['wait'] }} />;
+  }
+
+  const content = (
+    <div className={style['tool-box']}>
+      <div>
+        <InfoCircleOutlined style={{ color: '#FAAD14', marginRight: '8px' }} />
+        {`确定要开始学习了吗`}
+      </div>
+      <div className={style['box_bottom']}>
+        <Button type="primary" size="small" onClick={onClick}>
+          开始学习
+        </Button>
+      </div>
+    </div>
+  );
+  if (status === 'wait') {
+    return (
+      <div className={`${style['step-box']} ${style[`step-box_${status}`]}`}>
+        <div className={style['step-header']}>
+          <div className={style['step-status']}>{icon}</div>
+          <div className={style['step-title']}>{text}</div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className={`${style['step-box']} ${status == 'wait' ? style['step-box_disabled'] : ''}`}>
-      <div className={style['step-header']}>
-        <div className={style['step-title']}>{text}</div>
-        <div className={style['step-status']}>{icon}</div>
+    <Popover content={content} trigger="hover">
+      <div className={`${style['step-box']} ${style[`step-box_${status}`]}`}>
+        <div className={style['step-header']}>
+          <div className={style['step-status']}>{icon}</div>
+          <div className={style['step-title']}>{text}</div>
+        </div>
       </div>
-    </div>
+    </Popover>
   );
 };
 
@@ -222,11 +270,16 @@ class StepHtmlNode extends HtmlNode {
   setHtml(rootEl: HTMLElement) {
     const { properties, text } = this.props.model;
     console.log(properties);
-    ReactDOM.render(<StepHtmlBox text={text.value} properties={properties} />, rootEl);
+    ReactDOM.render(
+      <StepHtmlBox text={text.value} properties={properties} item={this.props.model} />,
+      rootEl,
+    );
   }
 }
 
 export function registerNode(lf: any, options: any) {
+  const { eventCenter } = lf.graphModel;
+  EVENT_BUS.eventCenter = eventCenter;
   // 任务节点注册
   lf.batchRegister([
     {
@@ -251,6 +304,10 @@ export function registerNode(lf: any, options: any) {
     },
   ]);
   if (!lf.extension.menu) {
+    return;
+  }
+  // 静默模式 没有菜单
+  if (options.isSilentMode) {
     return;
   }
   // 任务节点菜单

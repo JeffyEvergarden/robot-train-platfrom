@@ -27,6 +27,11 @@ const TeacherWeb: React.FC<any> = (props: any) => {
     {
       title: '任务名称',
       dataIndex: 'taskName',
+      search: false,
+    },
+    {
+      title: '任务名称',
+      dataIndex: 'taskIdList',
       renderFormItem: (t: any, r: any, i: any) => {
         return (
           <Select mode="multiple" showSearch allowClear>

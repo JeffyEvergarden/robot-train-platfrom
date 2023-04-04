@@ -45,7 +45,7 @@ const MessageBox: React.FC<any> = (props: any) => {
         // delay 该话读完需要的秒数
         // status  （loading 加载 / success 回答完全答对 / fail 有关键点没提到）
 
-        const { role, text, keyPointList, delay = 0, status } = item;
+        const { role, text, keyPointList, delay = 0, status, errorIndexList } = item;
 
         if (role === 'customer') {
           //// 左边内容
@@ -78,6 +78,7 @@ const MessageBox: React.FC<any> = (props: any) => {
           return (
             <RightChatContent
               key={index}
+              errorIndexList={item?.errorIndexList}
               status={item?.actionAccess}
               text={text}
               keysTips={keyPointList}
@@ -88,7 +89,13 @@ const MessageBox: React.FC<any> = (props: any) => {
           // 中间提示
           return (
             <div className={style['box_tips']} key={index}>
-              <div className={styles.sortNum}>{index + 1}</div>
+              {errorIndexList?.map((item: any) => {
+                return (
+                  <div className={styles.sortNum} key={item}>
+                    {item}
+                  </div>
+                );
+              })}
               <div className={style['box_tips_text']}>{text}</div>
             </div>
           );

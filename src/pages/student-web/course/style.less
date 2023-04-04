@@ -4,17 +4,27 @@
 }
 
 .page-bg {
-  height: calc(100vh - 170px);
+  position: relative;
   padding: 12px;
-  overflow: auto;
   background-color: #fff;
+  .scrollbar(2px);
 }
 
 .paget-context {
   display: flex;
   flex-wrap: wrap;
+  height: calc(100vh - 300px);
   min-height: 200px;
   padding: 12px;
+  overflow: auto;
+}
+
+.page-select {
+  position: absolute;
+  top: 36px;
+  right: 24px;
+  z-index: 10;
+  display: flex;
 }
 
 .page-right {
@@ -82,6 +92,31 @@
         margin-left: 8px;
         white-space: nowrap;
       }
+    }
+  }
+}
+
+.scrollbar(@width, @color: #f5f5f5) {
+  ::-webkit-scrollbar {
+    width: @width * 4;
+    background: transparent;
+    visibility: visible;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    width: @width * 4;
+    background: @color;
+    border-radius: 30px;
+    visibility: hidden;
+  }
+
+  &:hover {
+    ::-webkit-scrollbar {
+      visibility: visible;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      visibility: visible;
     }
   }
 }

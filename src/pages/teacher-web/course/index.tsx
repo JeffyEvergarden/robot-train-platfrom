@@ -38,7 +38,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
     },
     {
       title: '课程名称',
-      dataIndex: 'courseId',
+      dataIndex: 'courseIdList',
       hideInTable: true,
       renderFormItem: (t: any, r: any, i: any) => {
         return (

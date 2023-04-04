@@ -1,14 +1,29 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { useModel } from 'umi';
-import { Button, message, Input } from 'antd';
+import { useModel, history } from 'umi';
+import { Button, message, Input, Tag, Spin } from 'antd';
 import DrawPanel from '@/pages/draw-panel/student';
+import { PageContainer, ProBreadcrumb } from '@ant-design/pro-layout';
 import { useDrawModel } from './model';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import config from '@/config';
 import style from './style.less';
+import { formateTaskType, formateTaskModel } from '@/utils/formate-str';
+
+const { basePath } = config;
 
 const StudentDrawPanel: any = (props: any) => {
   const drawLf: any = useRef<any>(null);
 
   const curNodeRef: any = useRef<any>({});
+
+  const query: any = history.location.query || {};
+
+  const taskId: any = query?.taskId;
+
+  //
+  const [taskName, setTaskName] = useState<any>('');
+  const [taskType, setTaskType] = useState<any>(0);
+  const [taskModel, setTaskModel] = useState<any>(0);
 
   // 输入框
   const [nameVal, setNameVal] = useState<any>('');
@@ -24,17 +39,28 @@ const StudentDrawPanel: any = (props: any) => {
   };
 
   // -------
+
   // 获取画布
-  const { getDrawPanel, saveDrawPanel, addNode, deleteNode } = useDrawModel();
+  const { getDrawPanel, saveDrawPanel, addNode, deleteNode, loading } = useDrawModel();
 
   // 事件监听
 
   //初始化
   const init = async () => {
-    let res = await getDrawPanel({});
-    drawLf.current?.initPanel({});
+    if (!taskId) {
+      message.warning('获取不到课程ID');
+      return;
+    }
+
+    let res = await getDrawPanel({ taskId });
     if (res) {
+      setTaskName(res.taskName || '');
+      setTaskType(res.taskType || 0);
+      setTaskModel(res.taskModel || 0);
+
       drawLf.current?.initPanel(res);
+    } else {
+      drawLf.current?.initPanel({});
     }
   };
 
@@ -70,6 +96,22 @@ const StudentDrawPanel: any = (props: any) => {
     console.log(data);
   };
 
+  const onExtraEvent = (name: any, data: any) => {
+    console.log(name, data);
+    if (name === 'step-tips:button-click') {
+      window.open(`${basePath}/student/chat?taskId=${taskId}&courseId=${data.id}`);
+    }
+  };
+
+  const goBack = () => {
+    if (!taskId) {
+      console.log('获取不到task_id');
+      return;
+    }
+    // 回到画布页面
+    history.replace(`/student/course/list`);
+  };
+
   const [statusNum, setStatusNum] = useState<any>(0);
 
   const statusList = ['doing', 'wait', 'finish'];
@@ -101,36 +143,44 @@ const StudentDrawPanel: any = (props: any) => {
   }, []);
 
   return (
-    <>
-      <DrawPanel
-        cref={drawLf}
-        extra={
-          <div className={style['extra-box']}>
-            <Input
-              value={inputVal}
-              onChange={onChangeInput}
-              style={{ width: '200px' }}
-              placeholder={'测试修改文本'}
-            />
-
-            <Button type="primary" style={{ margin: '0 10px' }} onClick={onBtClick}>
-              修改
-            </Button>
-
-            <span>{nameVal}</span>
-
-            <Button type="primary" style={{ margin: '0 10px' }} onClick={changeStatus}>
-              切换状态
+    <PageContainer
+      header={{
+        title: '',
+        ghost: true,
+      }}
+      content={
+        <div className={style['page-header']}>
+          <div>
+            <div className={style['title']}>
+              <ArrowLeftOutlined onClick={goBack} style={{ marginRight: '8px' }} />
+              <span style={{ marginRight: '8px' }}>{taskName}</span>
+              {taskType != 0 && <Tag color="blue">{formateTaskType(taskType) + '课程'}</Tag>}
+              {taskModel != 0 && <Tag color="orange">{formateTaskModel(taskModel)}</Tag>}
+            </div>
+          </div>
+          <div className={style['header-right']}>
+            <Button type="default" onClick={init} style={{ marginRight: '16px' }}>
+              刷新
             </Button>
           </div>
-        }
-        onSave={onSave} // 保存
-        addNode={_addNode} // 添加
-        deleteNode={_deleteNode} // 删除
-        onNodeDbClick={onNodeDbClick} // 双击点击节点
-        onEdgeDbClick={onEdgeDbClick} // 双击连线
-      />
-    </>
+        </div>
+      }
+    >
+      <Spin spinning={loading} size="large">
+        <div className={style['detail-page']}>
+          <DrawPanel
+            cref={drawLf}
+            isSilentMode={true}
+            onSave={onSave} // 保存
+            addNode={_addNode} // 添加
+            deleteNode={_deleteNode} // 删除
+            onNodeDbClick={onNodeDbClick} // 双击点击节点
+            onEdgeDbClick={onEdgeDbClick} // 双击连线
+            onExtraEvent={onExtraEvent}
+          />
+        </div>
+      </Spin>
+    </PageContainer>
   );
 };
 
