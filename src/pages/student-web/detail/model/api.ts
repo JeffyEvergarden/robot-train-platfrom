@@ -12,9 +12,9 @@ export async function postDrawPanel_API(data?: { [key: string]: any }) {
 }
 
 export async function getDrawPanel_API(data?: any) {
-  return request(`${baseUrl}/draw/taskDetail`, {
-    method: 'GET',
-    params: data,
+  return request(`${baseUrl}/services/stu/course/taskNodeLineInfo`, {
+    method: 'POST',
+    data,
   });
 }
 

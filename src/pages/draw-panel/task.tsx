@@ -280,20 +280,18 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
   return (
     <div className={style['draw-box_bg']}>
-      <Condition r-if={!isSilentMode}>
-        <div className={style['menu-box']}>
-          <div className={style['content_left']}>{preMenu}</div>
-          <div className={style['content_right']}>
-            <Condition r-if={!isSilentMode}>
-              <Button className={style['bt-item']}>校验</Button>
-              <Button className={style['bt-item']} type="primary" onClick={_save}>
-                保存
-              </Button>
-            </Condition>
-            {extraMenu}
-          </div>
+      <div className={style['menu-box']}>
+        <div className={style['content_left']}>{preMenu}</div>
+        <div className={style['content_right']}>
+          <Condition r-if={!isSilentMode}>
+            <Button className={style['bt-item']}>校验</Button>
+            <Button className={style['bt-item']} type="primary" onClick={_save}>
+              保存
+            </Button>
+          </Condition>
+          {extraMenu}
         </div>
-      </Condition>
+      </div>
       {/* ------ 拖动面板 ------ */}
       <Condition r-if={!isSilentMode}>
         <DndDiyPanel lf={curLf}></DndDiyPanel>

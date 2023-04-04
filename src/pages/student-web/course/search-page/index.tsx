@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import style from '../style.less';
-import { Pagination, Button, Tag } from 'antd';
+import { Pagination, Button, Tag, Dropdown, Menu } from 'antd';
 import { Link, history } from 'umi';
+import { DownOutlined } from '@ant-design/icons';
 import config from '@/config';
 
 import { useCourseModel } from '../model';
@@ -13,26 +14,79 @@ import { formatePercent } from '@/utils';
 
 const { basePath } = config;
 
+
+const items = [
+  { label: '全部课程', key: '0' },
+  { label: '培训课程', key: '1' }, // 菜单项务必填写 key
+  { label: '考试课程', key: '2' },
+];
+
+
+
+
 const WaitLearnPage: React.FC<any> = (props: any) => {
+
+  const { type } = props;
   const [pageNo, setPageNo] = useState<any>(1);
 
   const [pageSize, setPageSize] = useState<any>(12);
 
+  const [courseType, setCourseType] = useState<any>('0');
+  const [courseTypeName, setCourseTypeName] = useState<any>('全部课程');
+
+  const onMenuClick = (e: any) => {
+    console.log(e)
+    setCourseType(e.key);
+    setPageNo(1);
+    let obj: any = items.find((item: any) => { return item.key === e.key });
+    // console.log(obj.label);
+    obj && setCourseTypeName(obj.label);
+  }
+
   const { courselist, total, getStudentCourse } = useCourseModel();
 
   useEffect(() => {
-    getStudentCourse({ current: pageNo, pageSize });
-  }, [pageNo, pageSize]);
+    getStudentCourse({
+      type,
+      pageNo: pageNo,
+      pageSize,
+      taskType: courseType === '0' ? undefined : Number(courseType)
+    });
+  }, [pageNo, pageSize, courseType]);
+
+
+
 
   return (
     <div className={style['normal-page']}>
+
+
+      <div className={style['page-select']}>
+        <Dropdown overlay={(
+          <Menu onClick={onMenuClick}>
+            {
+              items.map((item, index) => {
+                return (
+                  <Menu.Item key={item.key}>
+                    {item.key === courseType ? (<a style={{ color: '#1890FF' }}>{item.label}</a>) : item.label}
+                  </Menu.Item>
+                )
+              })
+            }
+          </Menu>
+        )}>
+          <div> {courseTypeName} <DownOutlined style={{ marginLeft: '4px', color: 'rgba(0,0,0,0.4)' }} /></div>
+        </Dropdown>
+      </div>
+
+
       <div className={style['paget-context']}>
         {courselist.map((item: any, index: number) => {
           return (
             <Link
               target="blank"
               key={index}
-              to={{ pathname: `/student/course/detail`, search: `?courseId=${item.courseId}` }}
+              to={{ pathname: `/student/course/detail`, search: `?taskId=${item.taskId}` }}
             >
               <div className={style['course-box']}>
                 <div className={style['course-pic']}>
@@ -40,25 +94,22 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
                 </div>
 
                 <div className={style['box']}>
-                  <div className={style['course-title']}>{item.title}</div>
+                  <div className={style['course-title']}>{item.taskName}</div>
 
                   <div className={style['context']}>
                     <div>
-                      <Condition r-if={item.finished}>
-                        <Tag color="blue">已完成</Tag>
+                      <Condition r-if={item.taskType === 1}>
+                        <Tag color="blue">培训课程</Tag>
                       </Condition>
-                      <Condition r-if={!item.finished}>
-                        <Tag color={"orange"}>未完成</Tag>
+                      <Condition r-if={item.taskType === 2}>
+                        <Tag color={"orange"}>考试课程</Tag>
                       </Condition>
                     </div>
                   </div>
 
                   <div className={style['context-bottom']}>
-                    <Process percent={item.process}></Process>
-                    <span>学习进度：{formatePercent(item.process)}</span>
-                    {/*
-                      <Button type="primary">开始学习</Button>
-                    </Link> */}
+                    <Process percent={item.progress}></Process>
+                    <span>学习进度：{formatePercent(item.progress)}</span>
                   </div>
                 </div>
               </div>

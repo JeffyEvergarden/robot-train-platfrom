@@ -91,7 +91,7 @@ export default [
     layout: true,
   },
   {
-    path: '/student/course',
+    path: '/student/course/list',
     component: './student-web/course',
     name: '学习课程',
     layout: true,

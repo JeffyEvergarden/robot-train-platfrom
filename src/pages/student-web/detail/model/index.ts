@@ -7,6 +7,7 @@ import config from '@/config';
 const { successCode } = config;
 
 export const useDrawModel = () => {
+  const [loading, setLoadng] = useState<boolean>(false);
   // 保存画布接口
   const saveDrawPanel = async (data: any) => {
     let res: any = await postDrawPanel_API(data);
@@ -19,9 +20,11 @@ export const useDrawModel = () => {
   };
 
   const getDrawPanel = async (data: any) => {
+    setLoadng(true);
     let res: any = await getDrawPanel_API(data);
+    setLoadng(false);
     // 画布
-    if (res.code === successCode) {
+    if (res.resultCode === successCode) {
       return res.data;
     } else {
       message.warning('获取画布失败');
@@ -50,6 +53,7 @@ export const useDrawModel = () => {
   };
 
   return {
+    loading,
     saveDrawPanel, // 保存画布
     getDrawPanel, // 获取画布
     addNode,
