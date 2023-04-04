@@ -87,10 +87,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
     // 拖动节点创建
     eventCenter.on('edge:add', async (e: any) => {
       console.log(e);
-
-      if (!checkEdge(e.data, lf)) {
+      let res = checkEdge(e.data, lf);
+      if (res) {
         lf.deleteEdge(e.data.id);
-        message.warning('同个节点不能作为2个节点的出口');
+        message.warning(res);
       }
       // 测试删除节点 // 调接口
       // if (e.data.type === 'student') {

@@ -7,7 +7,7 @@ import { useModel } from 'umi';
 import styles from './style.less';
 
 const NodeDrawer: React.FC<any> = (props: any) => {
-  const { cref } = props;
+  const { cref, changeNodeName } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = useState<any>(false);
   const { courseNodeInfo, courseNodeSave } = useDrawModel();
@@ -27,6 +27,7 @@ const NodeDrawer: React.FC<any> = (props: any) => {
     if (valid) {
       await courseNodeSave({ ...info, ...valid, nodeName: valid?.name }).then((res) => {
         if (res) {
+          changeNodeName(info.id, valid?.name);
           onCancel();
         }
       });
@@ -93,6 +94,7 @@ const NodeDrawer: React.FC<any> = (props: any) => {
                   <Form.Item
                     name={[field.name, 'action']}
                     label={'客户话术'}
+                    key={field.name + 'action'}
                     rules={[{ required: true, message: '请输入客户话术' }]}
                   >
                     <Input.TextArea
@@ -114,6 +116,7 @@ const NodeDrawer: React.FC<any> = (props: any) => {
                 return (
                   <Form.Item
                     name={[field.name, 'action']}
+                    key={field.name + 'action'}
                     label={'结束话术'}
                     rules={[{ required: true, message: '请输入结束话术' }]}
                   >

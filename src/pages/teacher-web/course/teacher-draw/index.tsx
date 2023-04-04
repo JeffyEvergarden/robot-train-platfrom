@@ -80,6 +80,12 @@ const DrawDemo: React.FC<any> = (props: any) => {
     console.log(data);
   };
 
+  //改名字
+  const changeNodeName = async (id: any, name: any) => {
+    let lf = drawLf?.current?.getLf?.();
+    lf.updateText(id, name);
+  };
+
   useEffect(() => {
     //初始化画布
     init();
@@ -131,7 +137,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
       <SoundDrawer cref={soundDrawerRef}></SoundDrawer>
       <EndDrawer cref={endDrawerRef}></EndDrawer>
       <FlowTestDrawer cref={flowTestDrawerRef}></FlowTestDrawer>
-      <NodeDrawer cref={nodeDrawerRef}></NodeDrawer>
+      <NodeDrawer cref={nodeDrawerRef} changeNodeName={changeNodeName}></NodeDrawer>
     </>
   );
 };
