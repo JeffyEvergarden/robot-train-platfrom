@@ -79,8 +79,102 @@ const score = (req: any, res: any) => {
   });
 };
 
+const dialogue = (req: any, res: any) =>
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      dialogueList: [
+        {
+          id: 1,
+          studyId: 1,
+          text: '喂，你好吗，我叫梁山伯，是个高中生侦探',
+          nodeId: 1,
+          nodeName: '节点名称' + 1,
+          role: 'customer',
+          soundPath: '',
+          keyPointList: [
+            {
+              keyPointName: '关键点' + 1,
+              keyWord: '关键词' + 1,
+              isPass: '0',
+            },
+          ],
+        },
+        {
+          id: 2,
+          studyId: 2,
+          text: '您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，你是说你不是，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗',
+          nodeId: 2,
+          nodeName: '节点名称' + 2,
+          role: 'system',
+          soundPath: '',
+          errorIndexList: [1, 2, 3, 4, 5],
+          keyPointList: [
+            {
+              keyPointName: '逾期信息' + 2,
+              keyWord:
+                '户欠款信息您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗' +
+                2,
+              isPass: '0',
+            },
+            {
+              keyPointName: '服务还款' + 2,
+              keyWord: '本期还款成功,服务还款时间为2023-12-12,请及时...',
+              isPass: '1',
+            },
+          ],
+        },
+        {
+          id: 3,
+          studyId: 3,
+          text: '你的消息超过8s没有回复，臭傻逼快回复啊',
+          nodeId: 3,
+          nodeName: '节点名称' + 3,
+          role: 'tips',
+          soundPath: '',
+          errorIndexList: [3],
+        },
+        {
+          id: 4,
+          studyId: 4,
+          text: '喂，你好吗，我叫梁山伯，是个高中生侦探',
+          nodeId: 4,
+          nodeName: '节点名称' + 4,
+          role: 'customer',
+          soundPath: '',
+          keyPointList: [
+            {
+              keyPointName: '关键点' + 4,
+              keyWord: '关键词' + 4,
+              isPass: '0',
+            },
+          ],
+        },
+        {
+          id: 4,
+          studyId: 4,
+          text: '您好，中邮消费给你致电，请问你是梁山伯先生本人吗',
+          nodeId: 4,
+          nodeName: '节点名称' + 4,
+          role: 'system',
+          soundPath: '',
+          actionAccess: '0',
+          keyPointList: [
+            {
+              keyPointName: '关键点' + 4,
+              keyWord: '关键词' + 4,
+              isPass: '1',
+            },
+          ],
+        },
+      ],
+    },
+  });
+
 export default {
   [`POST ${baseUrl}/services/stu/hitory/learn`]: learn,
   [`POST ${baseUrl}/services/stu/hitory/courseList`]: courseList,
   [`POST ${baseUrl}/services/stu/course/score`]: score,
+  [`POST ${baseUrl}/services/stu/course/dialogue`]: dialogue,
 };

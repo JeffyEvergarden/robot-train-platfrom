@@ -5,6 +5,9 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 const { REACT_APP_ENV } = process.env;
+
+const isProd = process.env.NODE_ENV === 'production';
+
 export default defineConfig({
   hash: true,
   antd: {},
@@ -68,6 +71,9 @@ export default defineConfig({
   webpack5: {},
   exportStatic: {},
   define: {
+    API_SUCCESS_CODE: '000',
+    // 'process.env.API_SUCCESS_CODE': '000',
+    'process.env.mock': !isProd,
     'process.env.API_SUCCESS_CODE': '100', // 成功编码
     'process.env.websocket_url': '/ai-teach/ws/teach/study', // 额外信息 websocketUrl
     'process.env.register_url': '@11.112.0.42:5070', // 信令服务器注册

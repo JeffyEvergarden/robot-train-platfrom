@@ -168,6 +168,7 @@ class StudentNodeModel extends RectNodeModel {
     const style = super.getTextStyle();
     style.fontSize = 16;
     style.color = colors[2];
+    style.overflowMode = 'ellipsis';
     // style.color = '#7DAAFF';
     return style;
   }

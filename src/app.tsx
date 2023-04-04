@@ -81,7 +81,7 @@ export async function getInitialState(): Promise<{
   // 用户信息结果
   let userMsg: any = await fetchUserInfo();
 
-  userMsg = userMsg?.data || {}
+  userMsg = userMsg?.data || {};
 
   const orz = userMsg?.organizations?.[0]?.name || '';
 
@@ -129,19 +129,19 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     links: isDev
       ? [
-        <a key="antd-component" href="https://pro.ant.design/zh-CN/" target="_blank">
-          <LinkOutlined />
-          <span>业务组组件</span>
-        </a>,
-        <a
-          key="docs"
-          href="https://is35svcbne.feishu.cn/wiki/wikcnmka9a34JEzgLbEhWrcXiJC"
-          target="_blank"
-        >
-          <BookOutlined />
-          <span>需求文档</span>
-        </a>,
-      ]
+          <a key="antd-component" href="https://pro.ant.design/zh-CN/" target="_blank">
+            <LinkOutlined />
+            <span>业务组组件</span>
+          </a>,
+          <a
+            key="docs"
+            href="https://is35svcbne.feishu.cn/wiki/wikcnmka9a34JEzgLbEhWrcXiJC"
+            target="_blank"
+          >
+            <BookOutlined />
+            <span>需求文档</span>
+          </a>,
+        ]
       : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面

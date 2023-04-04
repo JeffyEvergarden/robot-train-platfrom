@@ -32,8 +32,8 @@ const UserManage: React.FC = (props: any) => {
   const groupActionRef = useRef<any>();
 
   useEffect(() => {
-    userListRequest();
-    groupListRequest();
+    userListRequest({});
+    groupListRequest({});
   }, []);
 
   const getUserList = async (payload: any) => {

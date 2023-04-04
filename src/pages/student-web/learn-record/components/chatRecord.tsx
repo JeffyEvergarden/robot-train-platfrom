@@ -1,21 +1,21 @@
 import { useState, useImperativeHandle, useRef } from 'react';
 import { Modal } from 'antd';
-import MessageBox from '@/pages/chat-page/components/message-box';
+import MessageBox from './messageBox';
 import RightDetail from './rightDetail';
 import styles from './index.less';
-import { recordData } from '@/pages/chat-page/test';
 import { useLearnModel } from './../model';
+import config from '@/config';
+import AudioPlay from './audioPlay';
 
 export default (props: any) => {
   const { cref } = props;
 
   const messageRef: any = useRef<any>({});
 
-  const { scoreRequest } = useLearnModel();
+  const { scoreRequest, dialogueRecord } = useLearnModel();
 
   const [visible, setVisible] = useState<boolean>(false);
   const [rowData, setRowData] = useState<any>({});
-  const [disCountList, setDisCourseList] = useState<any>([1, 2, 3]);
   const [scoreData, setScoreData] = useState<any>({});
 
   useImperativeHandle(cref, () => ({
@@ -23,13 +23,21 @@ export default (props: any) => {
       setVisible(true);
       setRowData(record);
       getScore(record);
-      setTimeout(() => messageRef?.current?.init(recordData), 500);
+      getChatRecord(record);
     },
     close: onClose,
   }));
 
   const onClose = () => {
     setVisible(false);
+  };
+
+  const getChatRecord = async (record: any) => {
+    let params = {
+      studyId: record?.id,
+    };
+    let res = await dialogueRecord(params);
+    setTimeout(() => messageRef?.current?.init(res?.data?.dialogueList), 500);
   };
 
   const getScore = async (record: any) => {
@@ -50,14 +58,13 @@ export default (props: any) => {
       footer={
         <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
           <div style={{ width: '100px' }}>全程会话录音</div>
-          {/* <AudioPlay
-          musicSrc={
-            process.env.mock
-              ? '/aichat/mp3/bluebird.mp3'
-              : `${config.basePath}/robot/sound/getRecord?callId=${callId}`
-          }
-        /> */}
-          {/* <AudioPlay musicSrc={soundInfo} /> */}
+          <AudioPlay
+            musicSrc={
+              process.env.mock
+                ? '/ai-teach/mp3/story.mp3'
+                : `${config.basePath}/services/stu/course/fragment/listen?studyId=${rowData?.id}`
+            }
+          />
         </div>
       }
       destroyOnClose

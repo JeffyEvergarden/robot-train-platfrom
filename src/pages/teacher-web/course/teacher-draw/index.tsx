@@ -32,7 +32,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
 
   //初始化
   const init = async () => {
-    let res = await getDrawPanel({});
+    let res = await getDrawPanel({ id: courseInfo?.id });
     if (res) {
       drawLf.current?.initPanel(res);
     }
@@ -78,6 +78,12 @@ const DrawDemo: React.FC<any> = (props: any) => {
   // 双击连线
   const onEdgeDbClick = async (data: any) => {
     console.log(data);
+  };
+
+  //改名字
+  const changeNodeName = async (id: any, name: any) => {
+    let lf = drawLf?.current?.getLf?.();
+    lf.updateText(id, name);
   };
 
   useEffect(() => {
@@ -131,7 +137,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
       <SoundDrawer cref={soundDrawerRef}></SoundDrawer>
       <EndDrawer cref={endDrawerRef}></EndDrawer>
       <FlowTestDrawer cref={flowTestDrawerRef}></FlowTestDrawer>
-      <NodeDrawer cref={nodeDrawerRef}></NodeDrawer>
+      <NodeDrawer cref={nodeDrawerRef} changeNodeName={changeNodeName}></NodeDrawer>
     </>
   );
 };

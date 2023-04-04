@@ -16,12 +16,10 @@ import config from '@/config';
 import courseSingle from '@/asset/image/course-single.png';
 
 const ChatPage: any = (props: any) => {
-
   const { initialState, setInitialState } = useModel('@@initialState');
   const { currentUser = {} }: any = initialState;
 
   const { userCode } = currentUser;
-
 
   const query: any = history.location.query || {};
 
@@ -127,7 +125,6 @@ const ChatPage: any = (props: any) => {
         phoneCallRef.current?.end?.();
         openScoreModal(socketRef.current.sessionId);
       }
-
     } else {
       console.log('formate-msg error');
     }
@@ -135,12 +132,11 @@ const ChatPage: any = (props: any) => {
 
   // websocket
   const initSocket = async () => {
-
     let sessionId: any = await postCall({ courseId });
 
     if (!sessionId) {
       message.warning('获取sessionId失败');
-      return false
+      return false;
     }
     // -----
     setRecordId(sessionId);
@@ -154,9 +150,9 @@ const ChatPage: any = (props: any) => {
 
     const curUrl: any = window.location.href;
     const type = curUrl.includes('http://') ? 'ws' : 'wss';
-    let websocket_url: any = process.env.websocket_url
+    let websocket_url: any = process.env.websocket_url;
     if (!websocket_url.startsWith('localhost')) {
-      websocket_url = window.location.host + config.basePath + websocket_url
+      websocket_url = window.location.host + config.basePath + websocket_url;
     }
     console.log('连接websocket_url:');
     console.log(websocket_url);
@@ -180,11 +176,11 @@ const ChatPage: any = (props: any) => {
       console.log('WebSocket 连接已关闭');
     };
     sk.onerror = (event) => {
-      console.log('error')
-    }
+      console.log('error');
+    };
 
     return true;
-  }
+  };
 
   // 结束
   const onEnd = () => {
@@ -238,8 +234,8 @@ const ChatPage: any = (props: any) => {
 
   const goBack = () => {
     if (!taskId) {
-      console.log('获取不到task_id')
-      return
+      console.log('获取不到task_id');
+      return;
     }
     // 回到画布页面
     history.replace(`/student/course/detail?taskId=${taskId}`);
@@ -263,7 +259,9 @@ const ChatPage: any = (props: any) => {
             <Button
               type="default"
               disabled={!recordId}
-              onClick={() => { openScoreModal(recordId) }}
+              onClick={() => {
+                openScoreModal(recordId);
+              }}
               style={{ marginRight: '16px' }}
             >
               查看结果
