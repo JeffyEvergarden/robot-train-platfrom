@@ -14,12 +14,6 @@ const travelNodes = (nodes: any[]) => {
   });
 };
 
-const travelEdges = (edges: any[]) => {
-  edges.forEach((item: any) => {
-    item.type === 'polyline';
-  });
-};
-
 export const useDrawModel = () => {
   const [loading, setLoadng] = useState<boolean>(false);
   // 保存画布接口
@@ -43,8 +37,6 @@ export const useDrawModel = () => {
 
       const { nodes = [], edges = [] } = data;
       travelNodes(nodes);
-      travelEdges(edges);
-
       return data;
     } else {
       message.warning('获取画布失败');

@@ -89,7 +89,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       plugins: [DndPanel, SelectionSelect, Menu, Control],
       grid: true,
       isSilentMode: isSilentMode,
-      edgeType: 'line',
+      edgeType: 'polyline',
     });
     // 节点注册
     registerNode(lf, {
@@ -106,6 +106,16 @@ const DrawPanel: React.FC<any> = (props: any) => {
     });
     // 添加监听事件
     addEvent(lf);
+
+    lf.setTheme({
+      nodeText: {
+        overflowMode: "autoWrap",
+      },
+      baseEdge: {
+        stroke: "#AAB7C4",
+        strokeWidth: 1,
+      },
+    });
     // ----
     drawPanelRef.current = lf;
   };

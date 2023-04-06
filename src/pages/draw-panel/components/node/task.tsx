@@ -236,11 +236,11 @@ export function registerNode(lf: any, options: any) {
       view: StepHtmlNode,
       model: StepHtmlNodeModel,
     },
-    {
-      type: 'diy-line',
-      view: PolylineEdge,
-      model: DiyLineEdgeModel
-    }
+    // {
+    //   type: 'diy-line',
+    //   view: PolylineEdge,
+    //   model: DiyLineEdgeModel
+    // }
   ]);
   if (!lf.extension.menu) {
     return;

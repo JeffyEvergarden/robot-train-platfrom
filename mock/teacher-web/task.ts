@@ -127,7 +127,7 @@ const getDraw = (req: any, res: any) => {
       edges: [
         {
           id: '29c5c2d6-b5c7-424b-967b-22289a5ff239',
-          type: 'diy-line',
+          type: 'polyline',
           sourceNodeId: 'bd84a36e-6da2-4c18-8052-2f3a49b28fe5',
           targetNodeId: 'abbfb89c-7bb3-4174-9430-ecc467259dcb',
           startPoint: { x: 520, y: 137 },
@@ -142,7 +142,7 @@ const getDraw = (req: any, res: any) => {
         },
         {
           id: '300e1a19-587d-44a1-b2ed-3dad6a4690d4',
-          type: 'diy-line',
+          type: 'polyline',
           sourceNodeId: 'bd84a36e-6da2-4c18-8052-2f3a49b28fe5',
           targetNodeId: '7da1f738-cae1-4550-8bef-c669f068d8a9',
           startPoint: { x: 520, y: 137 },
@@ -157,7 +157,7 @@ const getDraw = (req: any, res: any) => {
         },
         {
           id: '4e0867f9-1a12-4c46-a81d-f3b982066924',
-          type: 'diy-line',
+          type: 'polyline',
           sourceNodeId: 'abbfb89c-7bb3-4174-9430-ecc467259dcb',
           targetNodeId: '4899155c-3672-4ca0-bd55-c0745a721038',
           startPoint: { x: 360, y: 269 },
@@ -166,7 +166,7 @@ const getDraw = (req: any, res: any) => {
         },
         {
           id: '255b80da-fb10-44db-a614-803b3d0ed314',
-          type: 'diy-line',
+          type: 'polyline',
           sourceNodeId: '4899155c-3672-4ca0-bd55-c0745a721038',
           targetNodeId: '868ab5ad-4d04-4f36-bc4c-8dde1767d186',
           startPoint: { x: 360, y: 437 },
