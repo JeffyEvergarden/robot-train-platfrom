@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { useState } from 'react';
 import {
   addNode_API,
+  allVoiceNames_API,
   courseCallConfigSave_API,
   courseCallConfig_API,
   courseCheck_API,
@@ -157,6 +158,7 @@ export const useTableModel = () => {
 // 画布
 export const useDrawModel = () => {
   const [flowTestLoading, setFlowTestLoading] = useState<boolean>(false);
+  const [soundList, setSoundList] = useState<any>([]);
   // 保存画布接口
   const saveDrawPanel = async (data: any) => {
     let res: any = await postDrawPanel_API(data);
@@ -344,6 +346,16 @@ export const useDrawModel = () => {
       return false;
     }
   };
+  const getallVoiceNames = async (data: any) => {
+    let res: any = await allVoiceNames_API(data);
+    if (res.resultCode === successCode) {
+      setSoundList(res?.data?.voiceNames);
+      return true;
+    } else {
+      message.error(res?.resultDesc);
+      return false;
+    }
+  };
 
   //结束设置---
   const courseEndConfig = async (data: any) => {
@@ -368,6 +380,7 @@ export const useDrawModel = () => {
 
   return {
     flowTestLoading,
+    soundList,
     saveDrawPanel, // 保存画布
     getDrawPanel, // 获取画布
     addNode,
@@ -384,8 +397,9 @@ export const useDrawModel = () => {
     courseCustomInfoSave,
     courseCallConfig, //通话设置 2
     courseCallConfigSave,
-    courseSoundConfig, //音色 2
+    courseSoundConfig, //音色 3
     courseSoundConfigSave,
+    getallVoiceNames,
     courseEndConfig, //结束 2
     courseEndConfigSave,
   };

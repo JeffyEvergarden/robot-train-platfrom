@@ -195,6 +195,16 @@ const courseSoundConfig = (req: any, res: any) => {
   });
 };
 
+const soundList = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      voiceNames: ['ali', 'xiaomei'],
+    },
+  });
+};
+
 const courseEndConfig = (req: any, res: any) => {
   res.json({
     resultCode: successCode,
@@ -338,6 +348,7 @@ export default {
   [`POST ${baseUrl}/services/course/courseCallConfigSave`]: defaultResault,
   [`POST ${baseUrl}/services/course/courseSoundConfig`]: courseSoundConfig, //音色
   [`POST ${baseUrl}/services/course/courseSoundConfigSave`]: defaultResault,
+  [`GET ${baseUrl}/services/course/allVoiceNames`]: soundList,
   [`POST ${baseUrl}/services/course/courseEndConfig`]: courseEndConfig, //结束
   [`POST ${baseUrl}/services/course/courseEndConfigSave`]: defaultResault,
 };

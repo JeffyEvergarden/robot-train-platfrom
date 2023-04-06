@@ -202,6 +202,12 @@ export async function courseSoundConfigSave_API(data?: any) {
     data,
   });
 }
+export async function allVoiceNames_API(params?: any) {
+  return request(`${baseUrl}/services/course/allVoiceNames`, {
+    method: 'GET',
+    params,
+  });
+}
 
 //结束设置
 export async function courseEndConfig_API(data?: any) {

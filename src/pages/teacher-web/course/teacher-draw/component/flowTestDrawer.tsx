@@ -31,7 +31,7 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
   };
 
   const open = async () => {
-    await courseCustomInfo({ id: courseInfo?.id }).then((res) => {
+    await courseCustomInfo({ courseId: courseInfo?.id }).then((res) => {
       if (res) {
         setCustomerInfo(res?.data?.customerInfo);
       }
