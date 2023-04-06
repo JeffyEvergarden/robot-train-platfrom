@@ -227,7 +227,7 @@ const ChatPage: any = (props: any) => {
   const startChangePageType = () => {
     setPageType('doing');
     setTimeout(() => {
-      phoneCallRef.current.call()
+      phoneCallRef.current.call();
       if (miniPanelRef.current) {
         console.log('renderData:', renderData);
         miniPanelRef.current?.initPanel?.(renderData || {});

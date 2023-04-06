@@ -82,3 +82,11 @@ export async function _taskLineInfoSave(data?: Record<string, any>) {
     data,
   });
 }
+
+/** 获取组别 **/
+export async function _getGroupList(data?: Record<string, any>) {
+  return request(`${baseUrl}/services/group/groupList`, {
+    method: 'POST',
+    data,
+  });
+}

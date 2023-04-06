@@ -46,7 +46,7 @@ const StudentDiyPanel: React.FC<any> = (props: any) => {
               }}
             >
               <div className={style['panel-bg']}>
-                <div className={style[`panel-${type}`]} ></div>
+                <div className={style[`panel-${type}`]}></div>
               </div>
 
               <div className={style['panel-title']}>{text}</div>

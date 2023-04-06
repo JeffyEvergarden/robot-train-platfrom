@@ -14,15 +14,18 @@ import LogicFlow, {
 } from '@logicflow/core';
 import ReactDOM from 'react-dom';
 import { Popover, Button } from 'antd';
-import { CheckCircleOutlined, ClockCircleOutlined, LockOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  LockOutlined,
+  InfoCircleOutlined,
+} from '@ant-design/icons';
 import style from './index.less';
 
 const colors = ['#69C0FF', '#FFC069', '#D9D9D9', '#C2C8D5'];
 const bgColors = ['#E6F7FF', '#FFF7E6', '#FFFFFF'];
 
-const EVENT_BUS: any = {
-
-}
+const EVENT_BUS: any = {};
 
 class CourseNodeModel extends RectNodeModel {
   constructor(data: BaseNodeModel, graphModel: GraphModel) {
@@ -166,21 +169,22 @@ const StepHtmlBox = (props: any) => {
 
   let icon = null;
 
-
   return (
     <div className={`${style['step-box']} ${style[`step-box_normal`]}`}>
       <div className={style['step-header']}>
         {/* <div className={style['step-title']}>{text}</div> */}
       </div>
     </div>
-  )
-
+  );
 };
 
 class StepHtmlNode extends HtmlNode {
   setHtml(rootEl: HTMLElement) {
     const { properties, text } = this.props.model;
-    ReactDOM.render(<StepHtmlBox text={text.value} properties={properties} item={this.props.model} />, rootEl);
+    ReactDOM.render(
+      <StepHtmlBox text={text.value} properties={properties} item={this.props.model} />,
+      rootEl,
+    );
   }
 }
 
