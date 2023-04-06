@@ -7,8 +7,8 @@ import LogicFlow, {
   h,
   RectNode,
   RectNodeModel,
-  PolygonNode,
-  PolygonNodeModel,
+  PolylineEdge,
+  PolylineEdgeModel,
   HtmlNode,
   HtmlNodeModel,
 } from '@logicflow/core';
@@ -158,13 +158,6 @@ class StepHtmlNodeModel extends HtmlNodeModel {
   }
 }
 
-
-const status_color = {
-  wait: 'rgba(0,0,0,0.25)',
-  doing: 'rgba(0,0,0,0.85)',
-  finish: '#fff',
-}
-
 // status: wait ==> 置灰 // doing ==> 进行中 // finish ==> 完成
 const StepHtmlBox = (props: any) => {
   const { properties, text, item } = props;
@@ -191,6 +184,29 @@ class StepHtmlNode extends HtmlNode {
   }
 }
 
+// ---------- 线
+
+class DiyLineEdgeModel extends PolylineEdgeModel {
+
+  getEdgeStyle() {
+    const style = super.getEdgeStyle();
+    const { properties } = this;
+    style.stroke = "#AAB7C4";
+    style.strokeWidth = 1;
+    return style;
+  }
+
+  getTextStyle() {
+    const style: any = super.getTextStyle();
+    style.color = "rgba(0,0,0,0.85)";
+    style.fontSize = 14;
+    return style;
+  }
+}
+
+
+
+
 export function registerNode(lf: any, options: any) {
   const { eventCenter } = lf.graphModel;
   EVENT_BUS.eventCenter = eventCenter;
@@ -216,6 +232,11 @@ export function registerNode(lf: any, options: any) {
       view: StepHtmlNode,
       model: StepHtmlNodeModel,
     },
+    {
+      type: 'diy-line',
+      view: PolylineEdge,
+      model: DiyLineEdgeModel
+    }
   ]);
   if (!lf.extension.menu) {
     return;

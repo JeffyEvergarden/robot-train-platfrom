@@ -12,7 +12,6 @@ import DndDiyPanel from './components/dnd-panel/task';
 import { registerNode } from './components/node/task';
 
 import { setMenuConfig, setControlConfig, checkEdge } from './config';
-import e from 'express';
 import Condition from '@/components/Condition';
 
 // 首页
@@ -165,7 +164,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       endPoint: {
         ...bAnchor,
       },
-      type: 'polyline',
+      type: 'diy-line',
     });
   };
   // 添加子步骤
@@ -217,7 +216,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       endPoint: {
         ...bAnchor,
       },
-      type: 'line',
+      type: 'diy-line',
     });
   };
 
@@ -227,7 +226,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       container: drawDomRef.current,
       plugins: [DndPanel, SelectionSelect, Menu, Control],
       grid: true,
-      edgeType: 'line',
+      edgeType: 'diy-line',
     });
     // 节点注册
     registerNode(lf, {
