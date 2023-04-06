@@ -48,7 +48,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
     const { nodes, edges } = data;
     console.log(data);
 
-    saveDrawPanel({ nodes, edges });
+    saveDrawPanel({ nodes, edges, id: courseInfo?.id });
   };
 
   // 监听节点添加  return true / false

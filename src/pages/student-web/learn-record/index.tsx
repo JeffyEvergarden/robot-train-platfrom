@@ -28,9 +28,11 @@ export default () => {
   const getLearnRecord = async (payload: any) => {
     let params = {
       ...payload,
+      taskId: payload?.taskName,
       page: payload?.current,
     };
     delete params?.current;
+    delete params?.taskName;
     let res = await learnRecord(params);
     return {
       data: res?.data?.list,

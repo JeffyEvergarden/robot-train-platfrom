@@ -16,6 +16,12 @@ const getNormalList = (req: any, res: any) => {
       progress: 0.75,
       taskModel: 1, //1-闯关模式   2-任意模式
       taskType: 1, //1-培训   2--考试
+      courseName: '课程' + index,
+      courseStatus: Math.floor(Math.random() * 2),
+      courseType: Math.floor(Math.random() * 2),
+      passMark: Math.ceil(Math.random() * 40 + 60),
+      creator: 'root',
+      id: index,
     };
   });
 
@@ -189,6 +195,16 @@ const courseSoundConfig = (req: any, res: any) => {
   });
 };
 
+const soundList = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      voiceNames: ['ali', 'xiaomei'],
+    },
+  });
+};
+
 const courseEndConfig = (req: any, res: any) => {
   res.json({
     resultCode: successCode,
@@ -300,6 +316,7 @@ const lineInfo = (req: any, res: any) => {
 
 export default {
   // 获取课程信息
+  [`POST ${baseUrl}/services/course/coursePage`]: getNormalList,
   [`POST ${baseUrl}/services/stu/course/coursePage`]: getNormalList,
   [`POST ${baseUrl}/services/course/courseList`]: getNormalList2,
   [`POST ${baseUrl}/services/course/courseAdd`]: defaultResault,
@@ -331,6 +348,7 @@ export default {
   [`POST ${baseUrl}/services/course/courseCallConfigSave`]: defaultResault,
   [`POST ${baseUrl}/services/course/courseSoundConfig`]: courseSoundConfig, //音色
   [`POST ${baseUrl}/services/course/courseSoundConfigSave`]: defaultResault,
+  [`GET ${baseUrl}/services/course/allVoiceNames`]: soundList,
   [`POST ${baseUrl}/services/course/courseEndConfig`]: courseEndConfig, //结束
   [`POST ${baseUrl}/services/course/courseEndConfigSave`]: defaultResault,
 };

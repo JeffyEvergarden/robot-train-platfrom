@@ -165,7 +165,7 @@ const UserManage: React.FC = (props: any) => {
         <Select optionFilterProp="children" showSearch allowClear placeholder="请选择姓名">
           {userList?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.account}>
+              <Select.Option key={item?.id} value={item?.userName}>
                 {item?.userName}
               </Select.Option>
             );
@@ -193,7 +193,7 @@ const UserManage: React.FC = (props: any) => {
         <Select optionFilterProp="children" showSearch allowClear placeholder="请选择部门组别">
           {groupList?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.id}>
+              <Select.Option key={item?.id} value={item?.groupName}>
                 {item?.groupName}
               </Select.Option>
             );
@@ -252,7 +252,7 @@ const UserManage: React.FC = (props: any) => {
         <Select optionFilterProp="children" showSearch allowClear placeholder="请选择部门组别">
           {groupList?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.id}>
+              <Select.Option key={item?.id} value={item?.groupName}>
                 {item?.groupName}
               </Select.Option>
             );

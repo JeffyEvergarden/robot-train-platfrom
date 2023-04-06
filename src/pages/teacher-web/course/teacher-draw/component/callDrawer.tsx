@@ -33,7 +33,7 @@ const CallDrawer: React.FC<any> = (props: any) => {
 
   const open = async (type: any, row?: any) => {
     // setFormType(type);
-    await courseCallConfig({ id: courseInfo?.id }).then((res) => {
+    await courseCallConfig({ courseId: courseInfo?.id }).then((res) => {
       if (res) {
         form.setFieldsValue(res?.data);
         setInfo(res?.data);
@@ -104,7 +104,7 @@ const CallDrawer: React.FC<any> = (props: any) => {
           <span style={{ marginRight: '8px' }}>学员轮次回复停顿不允许超过</span>
           <Form.Item
             name="stopTime"
-            rules={[{ required: true, message: '请输入' }]}
+            rules={[{ required: stopSwitch, message: '请输入' }]}
             initialValue={3}
             noStyle
           >

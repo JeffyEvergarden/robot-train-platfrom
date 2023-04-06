@@ -25,7 +25,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     onEdgeDbClick,
     addNode = () => true,
     deleteNode = () => true,
-    onExtraEvent
+    onExtraEvent,
   } = props;
 
   // const { initialState, setInitialState } = useModel('@@initialState');
@@ -78,10 +78,8 @@ const DrawPanel: React.FC<any> = (props: any) => {
     });
 
     eventCenter.on('step-tips:button-click', async (data: any) => {
-
       onExtraEvent?.('step-tips:button-click', data);
     });
-
   };
 
   //初始化

@@ -53,9 +53,20 @@ export const setControlConfig = (lf: any) => {
 
 export const checkEdge = (edge: any, lf: any) => {
   const { edges, nodes } = lf?.graphModel;
+
+  let arr = edges.filter((item: any) => {
+    return item?.id != edge?.id;
+  });
   // const id = edge.id;
   const targetNodeId = edge.targetNodeId;
   const sourceNodeId = edge.sourceNodeId;
+
+  const targetNode = nodes?.find((item: any) => {
+    return targetNodeId === item.id;
+  });
+  const sourceNode = nodes?.find((item: any) => {
+    return sourceNodeId === item.id;
+  });
 
   // 是否存在一个节点有两条线连到同一个节点啊
   // let _otherEdge = edges.find((item: any) => {
@@ -63,24 +74,53 @@ export const checkEdge = (edge: any, lf: any) => {
   // });
 
   //是否连相同type节点
-  let _sameNode =
+  let _sameNodeType =
     nodes?.find((item: any) => {
       return targetNodeId === item.id;
     })?.type ===
     nodes?.find((item: any) => {
       return sourceNodeId === item.id;
     })?.type;
+
   //是否开始直接连结束
-  let _startToEndNode =
-    nodes?.find((item: any) => {
-      return sourceNodeId === item.id;
-    })?.type === 'start' &&
-    nodes?.find((item: any) => {
-      return targetNodeId === item.id;
-    })?.type === 'finish';
+  let _startToEndNode = sourceNode?.type === 'start' && targetNode?.type === 'finish';
+
+  console.log(targetNode, sourceNode, edges, nodes);
+
+  //连多个结束节点
+  let _manyEndNode =
+    targetNode?.type === 'finish' &&
+    arr?.some((item: any) => {
+      if (sourceNode?.id == item.sourceNodeId) {
+        //找到该节点下所有线 看有没连结束的
+        return (
+          nodes?.find((n: any) => {
+            return n?.id == item.targetNodeId;
+          })?.type === 'finish'
+        );
+      } else {
+        return false;
+      }
+    });
+
+  let _sameNode = arr?.some((item: any) => {
+    if (sourceNodeId == item.sourceNodeId) {
+      return item.targetNodeId == targetNode?.id;
+    } else {
+      return false;
+    }
+  });
 
   if (_sameNode) {
+    return '重复连接';
+  }
+
+  if (_sameNodeType) {
     return '不允许连续连接客户节点或者学员节点（需交替排列）';
+  }
+
+  if (_manyEndNode) {
+    return '不允许连接多个结束节点';
   }
 
   if (!judgeLineByNode(edge, lf?.graphModel)) {

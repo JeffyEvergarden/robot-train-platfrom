@@ -14,18 +14,13 @@ import { formatePercent } from '@/utils';
 
 const { basePath } = config;
 
-
 const items = [
   { label: '全部课程', key: '0' },
   { label: '培训课程', key: '1' }, // 菜单项务必填写 key
   { label: '考试课程', key: '2' },
 ];
 
-
-
-
 const WaitLearnPage: React.FC<any> = (props: any) => {
-
   const { type } = props;
   const [pageNo, setPageNo] = useState<any>(1);
 
@@ -35,13 +30,15 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
   const [courseTypeName, setCourseTypeName] = useState<any>('全部课程');
 
   const onMenuClick = (e: any) => {
-    console.log(e)
+    console.log(e);
     setCourseType(e.key);
     setPageNo(1);
-    let obj: any = items.find((item: any) => { return item.key === e.key });
+    let obj: any = items.find((item: any) => {
+      return item.key === e.key;
+    });
     // console.log(obj.label);
     obj && setCourseTypeName(obj.label);
-  }
+  };
 
   const { courselist, total, getStudentCourse } = useCourseModel();
 
@@ -50,35 +47,37 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
       type,
       pageNo: pageNo,
       pageSize,
-      taskType: courseType === '0' ? undefined : Number(courseType)
+      taskType: courseType === '0' ? undefined : Number(courseType),
     });
   }, [pageNo, pageSize, courseType]);
 
-
-
-
   return (
     <div className={style['normal-page']}>
-
-
       <div className={style['page-select']}>
-        <Dropdown overlay={(
-          <Menu onClick={onMenuClick}>
-            {
-              items.map((item, index) => {
+        <Dropdown
+          overlay={
+            <Menu onClick={onMenuClick}>
+              {items.map((item, index) => {
                 return (
                   <Menu.Item key={item.key}>
-                    {item.key === courseType ? (<a style={{ color: '#1890FF' }}>{item.label}</a>) : item.label}
+                    {item.key === courseType ? (
+                      <a style={{ color: '#1890FF' }}>{item.label}</a>
+                    ) : (
+                      item.label
+                    )}
                   </Menu.Item>
-                )
-              })
-            }
-          </Menu>
-        )}>
-          <div> {courseTypeName} <DownOutlined style={{ marginLeft: '4px', color: 'rgba(0,0,0,0.4)' }} /></div>
+                );
+              })}
+            </Menu>
+          }
+        >
+          <div>
+            {' '}
+            {courseTypeName}{' '}
+            <DownOutlined style={{ marginLeft: '4px', color: 'rgba(0,0,0,0.4)' }} />
+          </div>
         </Dropdown>
       </div>
-
 
       <div className={style['paget-context']}>
         {courselist.map((item: any, index: number) => {
@@ -102,7 +101,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
                         <Tag color="blue">培训课程</Tag>
                       </Condition>
                       <Condition r-if={item.taskType === 2}>
-                        <Tag color={"orange"}>考试课程</Tag>
+                        <Tag color={'orange'}>考试课程</Tag>
                       </Condition>
                     </div>
                   </div>

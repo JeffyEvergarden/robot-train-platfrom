@@ -26,7 +26,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     onEdgeDbClick,
     addNode = () => true,
     deleteNode = () => true,
-    onExtraEvent
+    onExtraEvent,
   } = props;
 
   // const { initialState, setInitialState } = useModel('@@initialState');
@@ -99,7 +99,6 @@ const DrawPanel: React.FC<any> = (props: any) => {
       console.log(data);
       onExtraEvent?.('text:update', data);
     });
-
   };
 
   const getDeepNode: (id: any) => any = (id: any) => {

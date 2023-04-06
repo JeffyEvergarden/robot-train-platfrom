@@ -66,7 +66,7 @@ const ChatPage: any = (props: any) => {
     let res: any = await getCourseInfo({ courseId });
     setTitle(res.courseName || '--');
     setTips(res.customerInfo || '--');
-    setCourseType(res.courseType === 1 ? 'exercise' : 'exam')
+    setCourseType(res.courseType === 1 ? 'exercise' : 'exam');
     // setStandardMsg(res.standardMsg);
     // setKeyPoint(res.keyPoint);
     // 画布信息
@@ -293,8 +293,7 @@ const ChatPage: any = (props: any) => {
               </div>
             </div>
 
-
-            {courseType === 'exercise' &&
+            {courseType === 'exercise' && (
               <div className={style['page-right']}>
                 <div className={style['page-tips-box']}>
                   <div className={style['tips-title']}>• 标准话术</div>
@@ -308,7 +307,7 @@ const ChatPage: any = (props: any) => {
                   <DrawPanelMini cref={miniPanelRef}></DrawPanelMini>
                 </div>
               </div>
-            }
+            )}
           </div>
         </Condition>
 

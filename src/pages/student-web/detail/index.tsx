@@ -7,7 +7,7 @@ import { useDrawModel } from './model';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import config from '@/config';
 import style from './style.less';
-import { formateTaskType, formateTaskModel } from '@/utils/formate-str'
+import { formateTaskType, formateTaskModel } from '@/utils/formate-str';
 
 const { basePath } = config;
 
@@ -20,8 +20,7 @@ const StudentDrawPanel: any = (props: any) => {
 
   const taskId: any = query?.taskId;
 
-
-  // 
+  //
   const [taskName, setTaskName] = useState<any>('');
   const [taskType, setTaskType] = useState<any>(0);
   const [taskModel, setTaskModel] = useState<any>(0);
@@ -48,9 +47,8 @@ const StudentDrawPanel: any = (props: any) => {
 
   //初始化
   const init = async () => {
-
     if (!taskId) {
-      message.warning('获取不到课程ID')
+      message.warning('获取不到课程ID');
       return;
     }
 
@@ -101,14 +99,14 @@ const StudentDrawPanel: any = (props: any) => {
   const onExtraEvent = (name: any, data: any) => {
     console.log(name, data);
     if (name === 'step-tips:button-click') {
-      window.open(`${basePath}/student/chat?taskId=${taskId}&courseId=${data.id}`)
+      window.open(`${basePath}/student/chat?taskId=${taskId}&courseId=${data.id}`);
     }
-  }
+  };
 
   const goBack = () => {
     if (!taskId) {
-      console.log('获取不到task_id')
-      return
+      console.log('获取不到task_id');
+      return;
     }
     // 回到画布页面
     history.replace(`/student/course/list`);
@@ -144,9 +142,7 @@ const StudentDrawPanel: any = (props: any) => {
     init();
   }, []);
 
-
   return (
-
     <PageContainer
       header={{
         title: '',
@@ -158,22 +154,12 @@ const StudentDrawPanel: any = (props: any) => {
             <div className={style['title']}>
               <ArrowLeftOutlined onClick={goBack} style={{ marginRight: '8px' }} />
               <span style={{ marginRight: '8px' }}>{taskName}</span>
-              {
-                taskType != 0 &&
-                <Tag color="blue">{formateTaskType(taskType) + '课程'}</Tag>
-              }
-              {
-                taskModel != 0 &&
-                <Tag color="orange">{formateTaskModel(taskModel)}</Tag>
-              }
+              {taskType != 0 && <Tag color="blue">{formateTaskType(taskType) + '课程'}</Tag>}
+              {taskModel != 0 && <Tag color="orange">{formateTaskModel(taskModel)}</Tag>}
             </div>
           </div>
           <div className={style['header-right']}>
-            <Button
-              type="default"
-              onClick={init}
-              style={{ marginRight: '16px' }}
-            >
+            <Button type="default" onClick={init} style={{ marginRight: '16px' }}>
               刷新
             </Button>
           </div>
@@ -194,7 +180,6 @@ const StudentDrawPanel: any = (props: any) => {
           />
         </div>
       </Spin>
-
     </PageContainer>
   );
 };

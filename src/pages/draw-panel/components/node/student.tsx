@@ -14,14 +14,17 @@ import LogicFlow, {
 } from '@logicflow/core';
 import ReactDOM from 'react-dom';
 import { Popover, Button } from 'antd';
-import { CheckCircleOutlined, ClockCircleOutlined, LockOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  LockOutlined,
+  InfoCircleOutlined,
+} from '@ant-design/icons';
 import style from './index.less';
 
 const colors = ['#4878FF', '#BDD2FD', '#36A5A4', '#C2C8D5'];
 
-const EVENT_BUS: any = {
-
-}
+const EVENT_BUS: any = {};
 
 class CourseNodeModel extends RectNodeModel {
   constructor(data: BaseNodeModel, graphModel: GraphModel) {
@@ -35,15 +38,15 @@ class CourseNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: false, // 不可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: false,
-        };
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 58;
@@ -79,15 +82,15 @@ class TaskNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: false, // 不可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: false,
-        };
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 58;
@@ -123,15 +126,15 @@ class StepNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: false, // 不可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: false,
-        };
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 74;
@@ -162,15 +165,15 @@ class StepHtmlNodeModel extends HtmlNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: false, // 不可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: false,
-        };
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 74;
@@ -201,12 +204,11 @@ class StepHtmlNodeModel extends HtmlNodeModel {
   }
 }
 
-
 const status_color = {
   wait: 'rgba(0,0,0,0.25)',
   doing: 'rgba(0,0,0,0.85)',
   finish: '#fff',
-}
+};
 
 // status: wait ==> 置灰 // doing ==> 进行中 // finish ==> 完成
 const StepHtmlBox = (props: any) => {
@@ -217,8 +219,8 @@ const StepHtmlBox = (props: any) => {
   let icon = null;
 
   const onClick = () => {
-    EVENT_BUS.eventCenter?.emit("step-tips:button-click", item);
-  }
+    EVENT_BUS.eventCenter?.emit('step-tips:button-click', item);
+  };
 
   if (status === 'finish') {
     icon = <CheckCircleOutlined style={{ color: status_color['finish'] }} />;
@@ -235,10 +237,12 @@ const StepHtmlBox = (props: any) => {
         {`确定要开始学习了吗`}
       </div>
       <div className={style['box_bottom']}>
-        <Button type="primary" size="small" onClick={onClick}>开始学习</Button>
+        <Button type="primary" size="small" onClick={onClick}>
+          开始学习
+        </Button>
       </div>
     </div>
-  )
+  );
   if (status === 'wait') {
     return (
       <div className={`${style['step-box']} ${style[`step-box_${status}`]}`}>
@@ -247,7 +251,7 @@ const StepHtmlBox = (props: any) => {
           <div className={style['step-title']}>{text}</div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -266,7 +270,10 @@ class StepHtmlNode extends HtmlNode {
   setHtml(rootEl: HTMLElement) {
     const { properties, text } = this.props.model;
     console.log(properties);
-    ReactDOM.render(<StepHtmlBox text={text.value} properties={properties} item={this.props.model} />, rootEl);
+    ReactDOM.render(
+      <StepHtmlBox text={text.value} properties={properties} item={this.props.model} />,
+      rootEl,
+    );
   }
 }
 
@@ -301,7 +308,7 @@ export function registerNode(lf: any, options: any) {
   }
   // 静默模式 没有菜单
   if (options.isSilentMode) {
-    return
+    return;
   }
   // 任务节点菜单
   lf.extension.menu.setMenuByType({
