@@ -102,7 +102,7 @@ export default () => {
         <Select optionFilterProp="children" showSearch allowClear placeholder="请选择部门组别">
           {courceListData?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.id}>
+              <Select.Option key={item?.id} value={item?.modelName}>
                 {item?.modelName}
               </Select.Option>
             );

@@ -113,7 +113,7 @@ export async function ruleSaveApi(params?: Record<string, any>) {
 
 /** 话术标准配置 **/
 export async function dialogConfigApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/services/setting/dialogConfig`, {
+  return request(`${baseUrl}/services/setting/actionConfig`, {
     method: 'POST',
     data: params,
   });
@@ -121,7 +121,7 @@ export async function dialogConfigApi(params?: Record<string, any>) {
 
 /** 话术标准保存 **/
 export async function dialogSaveApi(params?: Record<string, any>) {
-  return request(`${baseUrl}/services/setting/dialogConfigSave`, {
+  return request(`${baseUrl}/services/setting/actionConfigSave`, {
     method: 'POST',
     data: params,
   });

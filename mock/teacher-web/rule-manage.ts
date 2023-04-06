@@ -60,6 +60,6 @@ export default {
   [`POST ${baseUrl}/services/setting/gradeConfigSave`]: normalDeal,
   [`POST ${baseUrl}/services/setting/ruleConfig`]: ruleConfig,
   [`POST ${baseUrl}/services/setting/ruleConfigSave`]: normalDeal,
-  [`POST ${baseUrl}/services/setting/dialogConfig`]: dialogConfig,
-  [`POST ${baseUrl}/services/setting/dialogConfigSave`]: normalDeal,
+  [`POST ${baseUrl}/services/setting/actionConfig`]: dialogConfig,
+  [`POST ${baseUrl}/services/setting/actionConfigSave`]: normalDeal,
 };
