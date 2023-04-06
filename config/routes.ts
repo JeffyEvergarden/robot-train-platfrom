@@ -122,6 +122,12 @@ export default [
     layout: true,
   },
   {
+    path: '/drawdemo2',
+    component: './teacher-web/task/task-draw',
+    name: '任务画布demo测试',
+    layout: true,
+  },
+  {
     path: '/student/chat',
     component: './chat-page',
     name: '聊天窗口',
