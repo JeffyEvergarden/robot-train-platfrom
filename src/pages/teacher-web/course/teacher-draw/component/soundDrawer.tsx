@@ -21,7 +21,7 @@ const SoundDrawer: React.FC<any> = (props: any) => {
   const { cref } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = useState<any>(false);
-  const { courseSoundConfig, courseSoundConfigSave } = useDrawModel();
+  const { courseSoundConfig, courseSoundConfigSave, getallVoiceNames, soundList } = useDrawModel();
   const [info, setInfo] = useState<any>({});
   const audio = useRef<any>(null);
 
@@ -47,6 +47,7 @@ const SoundDrawer: React.FC<any> = (props: any) => {
   };
 
   const open = async (type: any, row?: any) => {
+    await getallVoiceNames({});
     // setFormType(type);
     await courseSoundConfig({ courseId: courseInfo?.id }).then((res) => {
       if (res) {
@@ -115,7 +116,13 @@ const SoundDrawer: React.FC<any> = (props: any) => {
           label="音色选择"
           rules={[{ required: true, message: '请选择音色' }]}
         >
-          <Select placeholder={'请选择音色'}></Select>
+          <Select placeholder={'请选择音色'}>
+            {soundList?.map((item: any) => (
+              <Select.Option key={item} value={item}>
+                {item}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
 
         <Form.Item
