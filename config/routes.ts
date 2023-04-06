@@ -12,6 +12,8 @@ export default [
     component: './teacher-web/course/home',
     name: '课程管理',
     layout: true,
+    access: 'routerAuth',
+    role: ['ADMIN', 'TEACH'],
     routes: [
       {
         path: '/teacher/course/tablepage',
@@ -34,6 +36,8 @@ export default [
     path: '/teacher/task',
     component: './teacher-web/task/home',
     name: '任务管理',
+    access: 'routerAuth',
+    role: ['ADMIN', 'TEACH'],
     layout: true,
     routes: [
       {
@@ -58,6 +62,8 @@ export default [
     path: '/teacher/paramsManage',
     component: './teacher-web/params-manage/home',
     name: '参数管理',
+    access: 'routerAuth',
+    role: ['ADMIN', 'TEACH'],
     layout: true,
     routes: [
       {
@@ -84,22 +90,26 @@ export default [
     ],
   },
   // -----学员端
-  {
-    path: '/student/personalInfo',
-    component: './student-web/personal-info',
-    name: '学生端-首页',
-    layout: true,
-  },
+  // {
+  //   path: '/student/personalInfo',
+  //   component: './student-web/personal-info',
+  //   name: '学生端-首页',
+  //   layout: true,
+  // },
   {
     path: '/student/course/list',
     component: './student-web/course',
     name: '学习课程',
+    access: 'routerAuth',
+    role: ['ADMIN', 'STUDENT'],
     layout: true,
   },
   {
     path: '/student/learnRecord',
     component: './student-web/learn-record',
     name: '学习记录',
+    access: 'routerAuth',
+    role: ['ADMIN', 'STUDENT'],
     layout: true,
   },
   {
@@ -113,24 +123,32 @@ export default [
     path: '/demo',
     component: './demo',
     name: '语音聊天demo测试',
+    access: 'routerAuth',
+    role: ['ADMIN'],
     layout: true,
   },
   {
     path: '/drawdemo',
     component: './draw-demo',
     name: '画布demo测试',
+    access: 'routerAuth',
+    role: ['ADMIN'],
     layout: true,
   },
   {
     path: '/drawdemo2',
     component: './teacher-web/task/task-draw',
     name: '任务画布demo测试',
+    access: 'routerAuth',
+    role: ['ADMIN'],
     layout: true,
   },
   {
     path: '/student/chat',
     component: './chat-page',
     name: '聊天窗口',
+    access: 'routerAuth',
+    role: ['ADMIN'],
     // hideInMenu: true,
     layout: true,
   },
