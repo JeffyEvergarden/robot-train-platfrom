@@ -1,14 +1,14 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useModel } from 'umi';
 import { Button, message, Input, Space } from 'antd';
-import DrawPanel from '@/pages/draw-panel/student';
+import DrawPanel from '@/pages/draw-panel/task';
 import style from '../style.less';
 import { useDrawModel } from '@/pages/student-web/detail/model';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { history } from 'umi';
 import { useTaskDrawModel } from '../model';
 
-const StudentDrawPanel: any = (props: any) => {
+const TaskDrawPanel: any = (props: any) => {
   const drawLf: any = useRef<any>(null);
 
   const curNodeRef: any = useRef<any>({});
@@ -50,6 +50,8 @@ const StudentDrawPanel: any = (props: any) => {
   // 监听节点添加  return true / false
 
   const _addNode = async (data: any) => {
+    console.log('addNode:');
+    console.log(data);
     return true;
   };
 
@@ -107,7 +109,7 @@ const StudentDrawPanel: any = (props: any) => {
     <>
       <DrawPanel
         cref={drawLf}
-        extra={
+        preMenu={
           <Space align="baseline">
             <ArrowLeftOutlined
               style={{ fontSize: '22px' }}
@@ -130,4 +132,4 @@ const StudentDrawPanel: any = (props: any) => {
   );
 };
 
-export default StudentDrawPanel;
+export default TaskDrawPanel;

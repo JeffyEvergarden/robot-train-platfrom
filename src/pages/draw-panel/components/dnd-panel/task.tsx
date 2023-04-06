@@ -15,10 +15,6 @@ const shapeList: any = [
     type: 'step',
     text: '步骤节点',
   },
-  {
-    type: 'step-html',
-    text: '步骤HTML节点',
-  },
 ];
 
 const StudentDiyPanel: React.FC<any> = (props: any) => {
@@ -50,7 +46,7 @@ const StudentDiyPanel: React.FC<any> = (props: any) => {
               }}
             >
               <div className={style['panel-bg']}>
-                <div className={style[`panel-${type}`]} />
+                <div className={style[`panel-${type}`]} ></div>
               </div>
 
               <div className={style['panel-title']}>{text}</div>
