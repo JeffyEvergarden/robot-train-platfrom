@@ -117,7 +117,7 @@ const TableForm: React.FC<any> = (props) => {
           </Radio.Group>
         </Form.Item>
         <Form.Item
-          name="培训组别"
+          name="groupIdList"
           label="培训组别"
           rules={[{ required: true, message: '请选择培训组别' }]}
         >
