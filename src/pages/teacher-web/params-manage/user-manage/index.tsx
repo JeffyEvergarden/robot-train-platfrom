@@ -269,7 +269,7 @@ const UserManage: React.FC = (props: any) => {
     },
     {
       title: '创建时间',
-      dataIndex: 'create_time',
+      dataIndex: 'createTime',
       key: 'create_time',
       ellipsis: true,
       search: false,
