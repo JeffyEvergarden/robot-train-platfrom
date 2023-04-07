@@ -22,6 +22,7 @@ const TableForm: React.FC<any> = (props) => {
 
   const onCancel = () => {
     form.resetFields();
+    setTableInfo({});
     setVisible(false);
   };
 
@@ -102,7 +103,7 @@ const TableForm: React.FC<any> = (props) => {
           initialValue={0}
           rules={[{ required: true, message: '请选择课程样式' }]}
         >
-          <Radio.Group>
+          <Radio.Group disabled={formType == 'edit'}>
             <Radio value={0}>常规</Radio>
             <Radio value={1}>剧情</Radio>
           </Radio.Group>
@@ -113,7 +114,7 @@ const TableForm: React.FC<any> = (props) => {
             label="课程模型"
             rules={[{ required: true, message: '请选择课程模型' }]}
           >
-            <Select placeholder="请选择课程模型" />
+            <Select placeholder="请选择课程模型" disabled={formType == 'edit'} />
           </Form.Item>
         </Condition>
         <Form.Item label="最少训练次数">

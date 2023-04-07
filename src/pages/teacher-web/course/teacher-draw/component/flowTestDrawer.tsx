@@ -34,6 +34,8 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
     await courseCustomInfo({ courseId: courseInfo?.id }).then((res) => {
       if (res) {
         setCustomerInfo(res?.data?.customerInfo);
+      } else {
+        setCustomerInfo('');
       }
     });
     setVisible(true);

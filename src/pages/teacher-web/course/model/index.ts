@@ -31,6 +31,7 @@ import {
   _coursePublish,
   _dialogueBegin,
   _dialogueFinish,
+  _dialoguePublish,
   _dialogueSend,
 } from './api';
 
@@ -269,7 +270,18 @@ export const useDrawModel = () => {
     }
   };
 
-  //流程测试
+  //流程测试 _dialoguePublish
+  const dialoguePublish = async (data: any) => {
+    setFlowTestLoading(true);
+    let res: any = await _dialoguePublish(data);
+    setFlowTestLoading(false);
+    if (res.resultCode === successCode) {
+      return res;
+    } else {
+      message.error(res?.resultDesc);
+      return false;
+    }
+  };
   const dialogueBegin = async (data: any) => {
     setFlowTestLoading(true);
     let res: any = await _dialogueBegin(data);
@@ -411,9 +423,10 @@ export const useDrawModel = () => {
     courseNodeSave,
     courseLineInfo,
     courseLineSave,
-    dialogueBegin, //流程对话测试 3
+    dialogueBegin, //流程对话测试 4
     dialogueSend,
     dialogueFinish,
+    dialoguePublish,
     courseCustomInfo, //客户信息 2
     courseCustomInfoSave,
     courseCallConfig, //通话设置 2

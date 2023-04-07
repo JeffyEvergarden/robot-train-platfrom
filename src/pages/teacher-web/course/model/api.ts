@@ -142,6 +142,12 @@ export async function courseLineSave_API(data?: any) {
 }
 
 //流程测试---
+export async function _dialoguePublish(data?: any) {
+  return request(`${baseUrl}/services/course/coursePublishTest`, {
+    method: 'POST',
+    data,
+  });
+}
 export async function _dialogueBegin(data?: any) {
   return request(`${baseUrl}/services/course/dialogueBegin`, {
     method: 'POST',

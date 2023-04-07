@@ -85,12 +85,18 @@ class FinishNodeModel extends CircleNodeModel {
 
   initNodeData(data: any) {
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
-    data.text = {
-      value: '结束节点',
-      editable: false, // 不可编辑节点名字
-      x: data.x,
-      y: data.y,
-    };
+    data.text =
+      !data.text || typeof data.text === 'string'
+        ? {
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
+        : {
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
   }
 
@@ -106,6 +112,7 @@ class FinishNodeModel extends CircleNodeModel {
     style.fontSize = 16;
     // style.color = '#40a9ff';
     style.color = colors[1];
+    style.overflowMode = 'ellipsis';
     return style;
   }
 
@@ -214,6 +221,7 @@ class CustomerNodeModel extends RectNodeModel {
     style.fontSize = 16;
     style.color = colors[3];
     // style.color = '#7DAAFF';
+    style.overflowMode = 'ellipsis';
     return style;
   }
 }

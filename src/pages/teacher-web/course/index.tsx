@@ -102,7 +102,9 @@ const TeacherWeb: React.FC<any> = (props: any) => {
                 type="link"
                 onClick={() => {
                   setCourseInfo(row);
-                  history.push(`/teacher/course/draw?id=${row?.id}&name=${row?.courseName}`);
+                  setTimeout(() => {
+                    history.push(`/teacher/course/draw?id=${row?.id}&name=${row?.courseName}`);
+                  }, 100);
                 }}
               >
                 流程编辑
