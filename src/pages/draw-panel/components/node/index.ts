@@ -84,11 +84,16 @@ class FinishNodeModel extends CircleNodeModel {
   }
 
   initNodeData(data: any) {
+    let reg = /^结束节点[0-9]+$/;
+    let maxNew = this.graphModel?.nodes //找到当前新增节点最高
+      ?.filter((item: any) => reg?.test(item?.text?.value))
+      ?.map((item: any) => item?.text?.value?.slice?.(4))
+      ?.sort((a: any, b: any) => b - a)?.[0];
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: data.text,
+            value: `结束节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
             x: data.x,
             y: data.y,
             editable: false, // 不可编辑节点名字
@@ -144,11 +149,17 @@ class StudentNodeModel extends RectNodeModel {
   }
 
   initNodeData(data: any) {
+    let reg = /^学员节点[0-9]+$/;
+    let maxNew = this.graphModel?.nodes //找到当前新增节点最高
+      ?.filter((item: any) => reg?.test(item?.text?.value))
+      ?.map((item: any) => item?.text?.value?.slice?.(4))
+      ?.sort((a: any, b: any) => b - a)?.[0];
+
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: data.text,
+            value: `学员节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
             x: data.x,
             y: data.y,
             editable: false, // 不可编辑节点名字
@@ -189,11 +200,16 @@ class CustomerNodeModel extends RectNodeModel {
   }
 
   initNodeData(data: any) {
+    let reg = /^客户节点[0-9]+$/;
+    let maxNew = this.graphModel?.nodes //找到当前新增节点最高
+      ?.filter((item: any) => reg?.test(item?.text?.value))
+      ?.map((item: any) => item?.text?.value?.slice?.(4))
+      ?.sort((a: any, b: any) => b - a)?.[0];
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: data.text,
+            value: `客户节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
             x: data.x,
             y: data.y,
             editable: false, // 不可编辑节点名字
