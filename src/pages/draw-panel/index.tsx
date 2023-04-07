@@ -18,6 +18,7 @@ import { EllipsisOutlined } from '@ant-design/icons';
 const DrawPanel: React.FC<any> = (props: any) => {
   const {
     cref,
+    maxLen = 16, //修改文本最大字数
     extra,
     onCheck,
     onSave,
@@ -85,6 +86,21 @@ const DrawPanel: React.FC<any> = (props: any) => {
       // if (e.data.type === 'student') {
       //   // lf.deleteEdge(e.data.id);
       // }
+    });
+
+    eventCenter.on('text:update', async (data: any) => {
+      const _lf = drawPanelRef.current;
+      // console.log(data);
+      const obj = _lf.getProperties(data.id);
+      const text = obj.text || '';
+      const newText = data.text || '';
+      if (newText.length > maxLen) {
+        _lf.updateText(data.id, text);
+      } else {
+        _lf.setProperties(data.id, {
+          text: newText,
+        });
+      }
     });
   };
 

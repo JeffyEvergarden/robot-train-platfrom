@@ -39,15 +39,15 @@ class CourseNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: false, // 不可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: false,
-        };
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 58;
@@ -84,15 +84,15 @@ class TaskNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: true, // 不可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: true, // 不可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: true,
-        };
+            ...data.text,
+            editable: true,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 58;
@@ -124,15 +124,15 @@ class StepHtmlNodeModel extends HtmlNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-          value: data.text,
-          x: data.x,
-          y: data.y,
-          editable: true, // 可编辑节点名字
-        }
+            value: data.text,
+            x: data.x,
+            y: data.y,
+            editable: true, // 可编辑节点名字
+          }
         : {
-          ...data.text,
-          editable: true,
-        };
+            ...data.text,
+            editable: true,
+          };
     super.initNodeData(data);
     this.width = 200;
     this.height = 74;
@@ -191,25 +191,21 @@ class StepHtmlNode extends HtmlNode {
 // ---------- 线
 
 class DiyLineEdgeModel extends PolylineEdgeModel {
-
   getEdgeStyle() {
     const style = super.getEdgeStyle();
     const { properties } = this;
-    style.stroke = "#AAB7C4";
+    style.stroke = '#AAB7C4';
     style.strokeWidth = 1;
     return style;
   }
 
   getTextStyle() {
     const style: any = super.getTextStyle();
-    style.color = "rgba(0,0,0,0.85)";
+    style.color = 'rgba(0,0,0,0.85)';
     style.fontSize = 14;
     return style;
   }
 }
-
-
-
 
 export function registerNode(lf: any, options: any) {
   const { eventCenter } = lf.graphModel;

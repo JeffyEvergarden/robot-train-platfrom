@@ -61,19 +61,19 @@ export default () => {
   return (
     <Form form={form} {...layout} className={styles.commonFormSty}>
       <Row gutter={12}>
-        <Col span={4}>
+        <Col span={5}>
           <Form.Item label="话术评分占比" name="actionRate">
             <InputNumber step={10} precision={0} min={0} max={100} onChange={onChange} />
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={12}>
-        <Col span={4}>
+        <Col span={5}>
           <Form.Item label="服务评分占比" name="serviceRate">
             <InputNumber step={10} precision={0} min={0} max={100} onChange={onChange} />
           </Form.Item>
         </Col>
-        <Col span={4}>
+        <Col span={5}>
           <Form.Item label="单次触发扣分占比" name="serviceSingleRate">
             <InputNumber
               step={1}
@@ -86,12 +86,12 @@ export default () => {
         </Col>
       </Row>
       <Row gutter={12}>
-        <Col span={4}>
+        <Col span={5}>
           <Form.Item label="对话流畅度评分占比" name="dialogueRate">
             <InputNumber step={10} precision={0} min={0} max={100} onChange={onChange} />
           </Form.Item>
         </Col>
-        <Col span={4}>
+        <Col span={5}>
           <Form.Item label="单次触发扣分占比" name="dialogueSingleRate">
             <InputNumber
               step={1}
@@ -104,7 +104,7 @@ export default () => {
         </Col>
       </Row>
       <Row style={{ marginBottom: '24px', marginLeft: '110px' }}>
-        <Col span={4}>总计: {totalRate}</Col>
+        <Col span={5}>总计: {totalRate}</Col>
         {totalRate > 100 && (
           <Col span={24}>
             <span style={{ color: 'red' }}>总计需等于去100,请修改</span>

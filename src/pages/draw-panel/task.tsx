@@ -18,6 +18,7 @@ import Condition from '@/components/Condition';
 const DrawPanel: React.FC<any> = (props: any) => {
   const {
     cref,
+    maxLen = 16, // 修改文本最大字数
     preMenu, // 菜单左侧
     extraMenu, // 菜单右侧
     onSave,
@@ -95,8 +96,20 @@ const DrawPanel: React.FC<any> = (props: any) => {
     });
 
     eventCenter.on('text:update', async (data: any) => {
-      console.log(data);
-      onExtraEvent?.('text:update', data);
+      const _lf = drawPanelRef.current;
+      // console.log(data);
+      const obj = _lf.getProperties(data.id);
+      const text = obj.text || '';
+      const newText = data.text || '';
+      if (newText.length > maxLen) {
+        _lf.updateText(data.id, text);
+        message.warning('修改文本超度不能超过' + maxLen + '字数');
+      } else {
+        _lf.setProperties(data.id, {
+          text: newText,
+        });
+        onExtraEvent?.('text:update', data);
+      }
     });
   };
 
@@ -246,10 +259,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
     lf.setTheme({
       nodeText: {
-        overflowMode: "autoWrap",
+        overflowMode: 'autoWrap',
       },
       baseEdge: {
-        stroke: "#AAB7C4",
+        stroke: '#AAB7C4',
         strokeWidth: 1,
       },
     });

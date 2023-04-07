@@ -25,7 +25,6 @@ const StudentDrawPanel: any = (props: any) => {
   const [taskType, setTaskType] = useState<any>(0);
   const [taskModel, setTaskModel] = useState<any>(0);
 
-
   // -------
 
   // 获取画布
@@ -68,8 +67,6 @@ const StudentDrawPanel: any = (props: any) => {
   const _deleteNode = async (data: any) => {
     return deleteNode(data);
   };
-
-
 
   // 双击连线
   const onEdgeDbClick = async (data: any) => {

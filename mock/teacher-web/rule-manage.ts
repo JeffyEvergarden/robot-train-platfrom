@@ -33,13 +33,13 @@ const ruleConfig = (req: any, res: any) => {
     resultDesc: '成功',
     data: {
       id: '1',
-      speechSwitch: true,
+      speechSwitch: '1',
       wordage: '1,5',
-      toneSwitch: true,
+      toneSwitch: '1',
       toneWords: '语气词1,语气词2,语气词3',
       repeatTime: 5,
-      emotionnalSwitch: true,
-      sensation: true,
+      emotionnalSwitch: '0',
+      sensation: '0',
     },
   });
 };

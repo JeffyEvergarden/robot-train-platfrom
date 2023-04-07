@@ -109,10 +109,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
     lf.setTheme({
       nodeText: {
-        overflowMode: "autoWrap",
+        overflowMode: 'autoWrap',
       },
       baseEdge: {
-        stroke: "#AAB7C4",
+        stroke: '#AAB7C4',
         strokeWidth: 1,
       },
     });
