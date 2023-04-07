@@ -13,7 +13,7 @@ const shapeList: any = [
   },
   {
     type: 'customer',
-    text: '客服节点',
+    text: '客户节点',
   },
   {
     type: 'finish',
@@ -48,6 +48,9 @@ const DndDiyPanel: React.FC<any> = (props: any) => {
     lf.dnd.startDrag({
       type: shape.type,
       text: `${shape.text}`,
+      properties: {
+        text: `${shape.text}`,
+      },
     });
   };
 

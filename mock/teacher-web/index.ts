@@ -107,7 +107,7 @@ const getDraw = (req: any, res: any) => {
           x: 320,
           y: 500,
           properties: {},
-          text: { x: 320, y: 500, value: '客服节点' },
+          text: { x: 320, y: 500, value: '客户节点' },
         },
         {
           id: '2da32edd-175b-44b1-a132-a7b271507390',

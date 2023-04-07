@@ -28,7 +28,7 @@ const ChatPage: any = (props: any) => {
 
   const { getCourseInfo, resultLoading, postCall } = useChatModel();
 
-  const [pageType, setPageType] = useState<any>('doing'); // init / doing
+  const [pageType, setPageType] = useState<any>('init'); // init / doing
   const [title, setTitle] = useState<any>(''); // 标题
   const [tips, setTips] = useState<any>(''); // 提示语
   const [standardMsg, setStandardMsg] = useState<any>(''); // 标准话术
@@ -226,10 +226,13 @@ const ChatPage: any = (props: any) => {
 
   const startChangePageType = () => {
     setPageType('doing');
-
-    if (miniPanelRef.current) {
-      miniPanelRef.current?.initPanel?.(renderData || {});
-    }
+    setTimeout(() => {
+      phoneCallRef.current.call();
+      if (miniPanelRef.current) {
+        console.log('renderData:', renderData);
+        miniPanelRef.current?.initPanel?.(renderData || {});
+      }
+    }, 500);
   };
 
   const goBack = () => {
@@ -255,7 +258,11 @@ const ChatPage: any = (props: any) => {
               {title}
             </div>
           </div>
-          <div className={style['header-right']}>
+
+          <div
+            className={style['header-right']}
+            style={{ display: pageType === 'init' ? 'none' : '' }}
+          >
             <Button
               type="default"
               disabled={!recordId}

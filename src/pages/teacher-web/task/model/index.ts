@@ -2,6 +2,7 @@ import config from '@/config';
 import { message } from 'antd';
 import { useState } from 'react';
 import {
+  _getGroupList,
   _taskAdd,
   _taskClose,
   _taskDelete,
@@ -17,8 +18,20 @@ const { successCode } = config;
 // 任务管理
 export const useTaskModel = () => {
   const [allTableList, setAllTableList] = useState<any[]>([]);
+  const [groupList, setGroupList] = useState<any[]>([]);
   const [tableLoading, setTableLoading] = useState<boolean>(false);
   const [formLoading, setFormLoading] = useState<boolean>(false);
+  //分页
+  const getGroupList = async (params?: any) => {
+    setTableLoading(true);
+    let res: any = await _getGroupList(params);
+    setTableLoading(false);
+    if (res?.resultCode == successCode) {
+      setGroupList(res?.data);
+    } else {
+      setGroupList([]);
+    }
+  };
   //分页
   const getTaskPage = async (params?: any) => {
     setTableLoading(true);
@@ -124,6 +137,8 @@ export const useTaskModel = () => {
     allTableList,
     tableLoading,
     formLoading,
+    groupList,
+    getGroupList,
     getAllTaskList,
     getTaskPage, // 获取表格数据
     taskAdd,

@@ -86,7 +86,7 @@ class FinishNodeModel extends CircleNodeModel {
   initNodeData(data: any) {
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
     data.text = {
-      value: '结束',
+      value: '结束节点',
       editable: false, // 不可编辑节点名字
       x: data.x,
       y: data.y,
@@ -173,7 +173,7 @@ class StudentNodeModel extends RectNodeModel {
     return style;
   }
 }
-// 客服节点
+// 客户节点
 class CustomerNodeModel extends RectNodeModel {
   constructor(data: BaseNodeModel, graphModel: GraphModel) {
     super(data, graphModel);

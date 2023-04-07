@@ -18,6 +18,7 @@ import { EllipsisOutlined } from '@ant-design/icons';
 const DrawPanel: React.FC<any> = (props: any) => {
   const {
     cref,
+    maxLen = 16, //修改文本最大字数
     extra,
     onCheck,
     onSave,
@@ -30,6 +31,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     openSound,
     openEnd,
     openFlowTest,
+    loading = false,
   } = props;
 
   // const { initialState, setInitialState } = useModel('@@initialState');
@@ -84,6 +86,21 @@ const DrawPanel: React.FC<any> = (props: any) => {
       // if (e.data.type === 'student') {
       //   // lf.deleteEdge(e.data.id);
       // }
+    });
+
+    eventCenter.on('text:update', async (data: any) => {
+      const _lf = drawPanelRef.current;
+      // console.log(data);
+      const obj = _lf.getProperties(data.id);
+      const text = obj.text || '';
+      const newText = data.text || '';
+      if (newText.length > maxLen) {
+        _lf.updateText(data.id, text);
+      } else {
+        _lf.setProperties(data.id, {
+          text: newText,
+        });
+      }
     });
   };
 
@@ -168,10 +185,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
             流程测试
           </Button>
 
-          <Button className={style['bt-item']} onClick={_check}>
+          <Button className={style['bt-item']} onClick={_check} loading={loading}>
             校验
           </Button>
-          <Button className={style['bt-item']} type="primary" onClick={_save}>
+          <Button className={style['bt-item']} type="primary" onClick={_save} loading={loading}>
             保存
           </Button>
           <Dropdown overlay={menuHeaderDropdown} placement="bottomLeft" trigger={['click']}>

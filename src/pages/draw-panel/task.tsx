@@ -8,18 +8,17 @@ import '@logicflow/extension/lib/style/index.css';
 import { useModel } from 'umi';
 import { Button, message } from 'antd';
 import style from './style.less';
-import DndDiyPanel from './components/dnd-panel/student';
-import { registerNode } from './components/node/student';
+import DndDiyPanel from './components/dnd-panel/task';
+import { registerNode } from './components/node/task';
 
 import { setMenuConfig, setControlConfig, checkEdge } from './config';
-import e from 'express';
 import Condition from '@/components/Condition';
 
 // 首页
 const DrawPanel: React.FC<any> = (props: any) => {
   const {
     cref,
-    isSilentMode = false,
+    maxLen = 16, // 修改文本最大字数
     preMenu, // 菜单左侧
     extraMenu, // 菜单右侧
     onSave,
@@ -86,18 +85,31 @@ const DrawPanel: React.FC<any> = (props: any) => {
     eventCenter.on('edge:add', async (e: any) => {
       console.log(e);
 
-      if (!checkEdge(e.data, lf)) {
-        lf.deleteEdge(e.data.id);
-        message.warning('同个节点不能作为2个节点的出口');
-      }
+      // if (!checkEdge(e.data, lf)) {
+      //   lf.deleteEdge(e.data.id);
+      //   message.warning('同个节点不能作为2个节点的出口');
+      // }
       // 测试删除节点 // 调接口
       // if (e.data.type === 'student') {
       //   // lf.deleteEdge(e.data.id);
       // }
     });
 
-    eventCenter.on('step-tips:button-click', async (data: any) => {
-      onExtraEvent?.('step-tips:button-click', data);
+    eventCenter.on('text:update', async (data: any) => {
+      const _lf = drawPanelRef.current;
+      // console.log(data);
+      const obj = _lf.getProperties(data.id);
+      const text = obj.text || '';
+      const newText = data.text || '';
+      if (newText.length > maxLen) {
+        _lf.updateText(data.id, text);
+        message.warning('修改文本超度不能超过' + maxLen + '字数');
+      } else {
+        _lf.setProperties(data.id, {
+          text: newText,
+        });
+        onExtraEvent?.('text:update', data);
+      }
     });
   };
 
@@ -217,7 +229,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       endPoint: {
         ...bAnchor,
       },
-      type: 'line',
+      type: 'polyline',
     });
   };
 
@@ -227,12 +239,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
       container: drawDomRef.current,
       plugins: [DndPanel, SelectionSelect, Menu, Control],
       grid: true,
-      isSilentMode: isSilentMode,
-      edgeType: 'line',
+      edgeType: 'polyline',
     });
     // 节点注册
     registerNode(lf, {
-      isSilentMode,
       addSubTask,
       addSubStep,
     });
@@ -242,11 +252,20 @@ const DrawPanel: React.FC<any> = (props: any) => {
     setControlConfig(lf);
     // 设置菜单
     setMenuConfig(lf, {
-      isSilentMode,
       deleteNode,
     });
     // 添加监听事件
     addEvent(lf);
+
+    lf.setTheme({
+      nodeText: {
+        overflowMode: 'autoWrap',
+      },
+      baseEdge: {
+        stroke: '#AAB7C4',
+        strokeWidth: 1,
+      },
+    });
     // ----
     drawPanelRef.current = lf;
   };
@@ -281,19 +300,14 @@ const DrawPanel: React.FC<any> = (props: any) => {
       <div className={style['menu-box']}>
         <div className={style['content_left']}>{preMenu}</div>
         <div className={style['content_right']}>
-          <Condition r-if={!isSilentMode}>
-            <Button className={style['bt-item']}>校验</Button>
-            <Button className={style['bt-item']} type="primary" onClick={_save}>
-              保存
-            </Button>
-          </Condition>
+          <Button className={style['bt-item']} type="primary" onClick={_save}>
+            保存
+          </Button>
           {extraMenu}
         </div>
       </div>
       {/* ------ 拖动面板 ------ */}
-      <Condition r-if={!isSilentMode}>
-        <DndDiyPanel lf={curLf}></DndDiyPanel>
-      </Condition>
+      <DndDiyPanel lf={curLf}></DndDiyPanel>
       <div id="draw-box" ref={drawDomRef} className={style['draw-box']}></div>
     </div>
   );

@@ -70,9 +70,9 @@ const SoundDrawer: React.FC<any> = (props: any) => {
       }
       audio.current = new Audio();
       // audio.current.src = `/robot-train/mp3/story.mp3`
-      audio.current.src = `${
-        config?.basePath
-      }/ai-teach/services/course/soundParse?${objectToUrlParams(reqData)}`;
+      audio.current.src = `${config?.basePath}/services/course/soundParse?${objectToUrlParams(
+        reqData,
+      )}`;
       audio?.current?.play?.();
       audio.current.onerror = (e: any) => {
         console.log(e);
@@ -178,7 +178,7 @@ const SoundDrawer: React.FC<any> = (props: any) => {
                 noStyle
                 initialValue={0}
               >
-                <Slider min={0} max={9} />
+                <Slider min={-500} max={500} />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -190,8 +190,8 @@ const SoundDrawer: React.FC<any> = (props: any) => {
                 <InputNumber
                   controls={false}
                   precision={0}
-                  min={0}
-                  max={9}
+                  min={-500}
+                  max={500}
                   style={{ margin: '0 16px' }}
                 />
               </Form.Item>
@@ -215,7 +215,7 @@ const SoundDrawer: React.FC<any> = (props: any) => {
                 noStyle
                 initialValue={0}
               >
-                <Slider min={0} max={9} />
+                <Slider min={-500} max={500} />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -227,8 +227,8 @@ const SoundDrawer: React.FC<any> = (props: any) => {
                 <InputNumber
                   controls={false}
                   precision={0}
-                  min={0}
-                  max={9}
+                  min={-500}
+                  max={500}
                   style={{ margin: '0 16px' }}
                 />
               </Form.Item>

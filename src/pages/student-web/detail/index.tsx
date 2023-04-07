@@ -25,19 +25,6 @@ const StudentDrawPanel: any = (props: any) => {
   const [taskType, setTaskType] = useState<any>(0);
   const [taskModel, setTaskModel] = useState<any>(0);
 
-  // 输入框
-  const [nameVal, setNameVal] = useState<any>('');
-
-  const [inputVal, setInputVal] = useState<any>('');
-  const onChangeInput = (e: any) => {
-    setInputVal(e.target.value);
-  };
-  const onBtClick = () => {
-    let lf = drawLf.current.getLf();
-    lf.updateText(curNodeRef.current.id, inputVal);
-    // curNodeRef.current.text.value = inputVal
-  };
-
   // -------
 
   // 获取画布
@@ -79,16 +66,6 @@ const StudentDrawPanel: any = (props: any) => {
   // 删除节点删除 return true / false
   const _deleteNode = async (data: any) => {
     return deleteNode(data);
-  };
-
-  // 双击节点
-  const onNodeDbClick = async (data: any) => {
-    console.log(data);
-    curNodeRef.current = data;
-    if (data.type === 'step-html') {
-      setStatusNum(2);
-    }
-    setNameVal(data.text.value);
   };
 
   // 双击连线
@@ -159,7 +136,7 @@ const StudentDrawPanel: any = (props: any) => {
             </div>
           </div>
           <div className={style['header-right']}>
-            <Button type="default" onClick={init} style={{ marginRight: '16px' }}>
+            <Button type="default" onClick={init} loading={loading} style={{ marginRight: '16px' }}>
               刷新
             </Button>
           </div>
@@ -172,10 +149,6 @@ const StudentDrawPanel: any = (props: any) => {
             cref={drawLf}
             isSilentMode={true}
             onSave={onSave} // 保存
-            addNode={_addNode} // 添加
-            deleteNode={_deleteNode} // 删除
-            onNodeDbClick={onNodeDbClick} // 双击点击节点
-            onEdgeDbClick={onEdgeDbClick} // 双击连线
             onExtraEvent={onExtraEvent}
           />
         </div>

@@ -1,10 +1,13 @@
 import Condition from '@/components/Condition';
 import { Modal, Input, Radio, Switch, Form, InputNumber, Checkbox, Select } from 'antd';
 import { useEffect, useImperativeHandle, useState } from 'react';
+import { useTaskModel } from '../model';
 
 const TableForm: React.FC<any> = (props) => {
   const { cref, taskAdd, taskDetail, taskEdit, reload, loading } = props;
   const [form] = Form.useForm();
+
+  const { groupList, getGroupList } = useTaskModel();
 
   const formItemLayout = {
     labelCol: { span: 6 },
@@ -43,6 +46,7 @@ const TableForm: React.FC<any> = (props) => {
   };
 
   const open = async (type: any, row?: any) => {
+    await getGroupList({});
     setFormType(type);
     if (type == 'edit') {
       await taskDetail({ id: row?.id }).then((res: any) => {
@@ -113,11 +117,17 @@ const TableForm: React.FC<any> = (props) => {
           </Radio.Group>
         </Form.Item>
         <Form.Item
-          name="培训组别"
+          name="groupIdList"
           label="培训组别"
           rules={[{ required: true, message: '请选择培训组别' }]}
         >
-          <Select placeholder="请选择培训组别" mode="multiple" />
+          <Select placeholder="请选择培训组别" mode="multiple">
+            {groupList?.map((item) => (
+              <Select.Option key={item.id} value={item.id}>
+                {item.groupName}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
       </Form>
     </Modal>

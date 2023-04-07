@@ -6,6 +6,14 @@ import config from '@/config';
 
 const { successCode } = config;
 
+const travelNodes = (nodes: any[]) => {
+  nodes.forEach((item: any) => {
+    if (item.type === 'step') {
+      item.type === 'step-html';
+    }
+  });
+};
+
 export const useDrawModel = () => {
   const [loading, setLoadng] = useState<boolean>(false);
   // 保存画布接口
@@ -25,13 +33,18 @@ export const useDrawModel = () => {
     setLoadng(false);
     // 画布
     if (res.resultCode === successCode) {
-      return res.data;
+      let data: any = res.data || {};
+
+      const { nodes = [], edges = [] } = data;
+      travelNodes(nodes);
+      return data;
     } else {
       message.warning('获取画布失败');
       return false;
     }
   };
 
+  // -------------用不上
   const addNode = async (data: any) => {
     let res: any = await addNode_API(data);
     if (res.code === successCode) {
