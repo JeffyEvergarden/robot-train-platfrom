@@ -20,6 +20,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
     courseDelete,
     coursePublish,
     courseDown,
+    courseCopy,
   } = useTableModel();
 
   const duplicateRef = useRef<any>(null);
@@ -222,7 +223,11 @@ const TeacherWeb: React.FC<any> = (props: any) => {
         }}
       />
       {/* //复制弹窗 */}
-      <DuplicateForm cref={duplicateRef} allTableList={allTableList}></DuplicateForm>
+      <DuplicateForm
+        cref={duplicateRef}
+        allTableList={allTableList}
+        courseCopy={courseCopy}
+      ></DuplicateForm>
       {/* 新增编辑表单 */}
       <TableForm
         cref={tableFormRef}

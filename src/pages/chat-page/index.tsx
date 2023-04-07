@@ -259,7 +259,10 @@ const ChatPage: any = (props: any) => {
             </div>
           </div>
 
-          <div className={style['header-right']} style={{ display: pageType === 'init' ? 'none' : '' }}>
+          <div
+            className={style['header-right']}
+            style={{ display: pageType === 'init' ? 'none' : '' }}
+          >
             <Button
               type="default"
               disabled={!recordId}
@@ -278,7 +281,7 @@ const ChatPage: any = (props: any) => {
               onEnd={onEnd}
             ></PhoneCall>
           </div>
-        </div >
+        </div>
       }
     >
       <>
@@ -321,7 +324,7 @@ const ChatPage: any = (props: any) => {
 
         <ScoreModal cref={scoreModalRef} loading={resultLoading} />
       </>
-    </PageContainer >
+    </PageContainer>
   );
 };
 

@@ -31,6 +31,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     openSound,
     openEnd,
     openFlowTest,
+    loading = false,
   } = props;
 
   // const { initialState, setInitialState } = useModel('@@initialState');
@@ -184,10 +185,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
             流程测试
           </Button>
 
-          <Button className={style['bt-item']} onClick={_check}>
+          <Button className={style['bt-item']} onClick={_check} loading={loading}>
             校验
           </Button>
-          <Button className={style['bt-item']} type="primary" onClick={_save}>
+          <Button className={style['bt-item']} type="primary" onClick={_save} loading={loading}>
             保存
           </Button>
           <Dropdown overlay={menuHeaderDropdown} placement="bottomLeft" trigger={['click']}>

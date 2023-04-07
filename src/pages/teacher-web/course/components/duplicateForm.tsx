@@ -2,7 +2,7 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 import { useImperativeHandle, useState } from 'react';
 
 const DuplicateForm: React.FC<any> = (props) => {
-  const { cref, allTableList } = props;
+  const { cref, allTableList, courseCopy } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = useState<any>(false);
 
@@ -19,7 +19,8 @@ const DuplicateForm: React.FC<any> = (props) => {
   const onOk = async () => {
     let valid = await form.validateFields();
     if (valid) {
-      setVisible(false);
+      let res = await courseCopy({ ...valid });
+      if (res) setVisible(false);
     }
   };
 
@@ -35,7 +36,7 @@ const DuplicateForm: React.FC<any> = (props) => {
     <Modal visible={visible} title="复制课程" onCancel={onCancel} onOk={onOk} width={600}>
       <Form form={form} {...formItemLayout}>
         <Form.Item
-          name="课程名称"
+          name="courseId"
           label="课程名称"
           rules={[{ required: true, message: '请选择要复制的课程' }]}
         >
@@ -48,7 +49,7 @@ const DuplicateForm: React.FC<any> = (props) => {
           </Select>
         </Form.Item>
         <Form.Item
-          name="新课程名称"
+          name="courseName"
           label="新课程名称"
           rules={[{ required: true, message: '请输入复制完成的课程名称' }]}
         >

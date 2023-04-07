@@ -13,7 +13,7 @@ const shapeList: any = [
   },
   {
     type: 'customer',
-    text: '客服节点',
+    text: '客户节点',
   },
   {
     type: 'finish',

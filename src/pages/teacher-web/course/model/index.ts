@@ -23,6 +23,7 @@ import {
   getDrawPanel_API,
   postDrawPanel_API,
   _courseAdd,
+  _courseCopy,
   _courseDelete,
   _courseDetail,
   _courseDown,
@@ -140,6 +141,19 @@ export const useTableModel = () => {
       return false;
     }
   };
+  //复制
+  const courseCopy = async (params?: any) => {
+    setTableLoading(true);
+    let res: any = await _courseCopy(params);
+    setTableLoading(false);
+    if (res?.resultCode == successCode) {
+      message.success(res?.resultDesc);
+      return res;
+    } else {
+      message.error(res?.resultDesc);
+      return false;
+    }
+  };
 
   return {
     allTableList,
@@ -153,15 +167,19 @@ export const useTableModel = () => {
     courseDelete,
     coursePublish,
     courseDown,
+    courseCopy,
   };
 };
 // 画布
 export const useDrawModel = () => {
   const [flowTestLoading, setFlowTestLoading] = useState<boolean>(false);
+  const [flowBtnLoading, setFlowBtnLoading] = useState<boolean>(false);
   const [soundList, setSoundList] = useState<any>([]);
   // 保存画布接口
   const saveDrawPanel = async (data: any) => {
+    setFlowBtnLoading(true);
     let res: any = await postDrawPanel_API(data);
+    setFlowBtnLoading(false);
     if (res.resultCode === successCode) {
       message.success('保存成功');
     } else {
@@ -200,7 +218,9 @@ export const useDrawModel = () => {
   };
 
   const courseCheck = async (data: any) => {
+    setFlowBtnLoading(true);
     let res: any = await courseCheck_API(data);
+    setFlowBtnLoading(false);
     if (res.resultCode === successCode) {
       message.success(res?.resultDesc);
       return true;
@@ -380,6 +400,7 @@ export const useDrawModel = () => {
 
   return {
     flowTestLoading,
+    flowBtnLoading,
     soundList,
     saveDrawPanel, // 保存画布
     getDrawPanel, // 获取画布

@@ -26,7 +26,8 @@ const DrawDemo: React.FC<any> = (props: any) => {
   }));
   // -------
   // 获取画布
-  const { getDrawPanel, saveDrawPanel, addNode, deleteNode, courseCheck } = useDrawModel();
+  const { getDrawPanel, saveDrawPanel, addNode, deleteNode, courseCheck, flowBtnLoading } =
+    useDrawModel();
 
   // 事件监听
 
@@ -40,7 +41,8 @@ const DrawDemo: React.FC<any> = (props: any) => {
 
   //校验
   const onCheck = async () => {
-    await courseCheck({ id: courseInfo?.id });
+    let res = await courseCheck({ id: courseInfo?.id });
+    return res;
   };
 
   // 保存画布
@@ -97,6 +99,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
     <>
       <DrawPanel
         cref={drawLf}
+        loading={flowBtnLoading}
         onCheck={onCheck} //校验
         onSave={onSave}
         addNode={_addNode} // 添加
@@ -115,8 +118,11 @@ const DrawDemo: React.FC<any> = (props: any) => {
         openEnd={() => {
           endDrawerRef?.current?.open();
         }} //
-        openFlowTest={() => {
-          flowTestDrawerRef?.current?.open();
+        openFlowTest={async () => {
+          let res = await onCheck();
+          if (res) {
+            flowTestDrawerRef?.current?.open();
+          }
         }}
         extra={
           <Space align="baseline">
