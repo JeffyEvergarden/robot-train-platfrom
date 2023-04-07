@@ -67,7 +67,7 @@ const TaskDrawPanel: any = (props: any) => {
     if (data.type === 'step-html') {
       setStatusNum(2);
     }
-    setNameVal(data.text.value);
+    setNameVal(data?.text?.value);
   };
 
   // 双击连线

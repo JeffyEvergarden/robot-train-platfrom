@@ -48,6 +48,9 @@ const DndDiyPanel: React.FC<any> = (props: any) => {
     lf.dnd.startDrag({
       type: shape.type,
       text: `${shape.text}`,
+      properties: {
+        text: `${shape.text}`
+      }
     });
   };
 
