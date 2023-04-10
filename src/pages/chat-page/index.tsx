@@ -174,9 +174,11 @@ const ChatPage: any = (props: any) => {
 
     sk.onclose = (event) => {
       console.log('WebSocket 连接已关闭');
+      phoneCallRef.current?.end?.();
     };
     sk.onerror = (event) => {
       console.log('error');
+      message.warning('连接发生未知系统异常');
     };
 
     return true;
@@ -241,7 +243,7 @@ const ChatPage: any = (props: any) => {
       return;
     }
     // 回到画布页面
-    history.replace(`/student/course/detail?taskId=${taskId}`);
+    history.replace(`/front/student/course/detail?taskId=${taskId}`);
   };
 
   return (

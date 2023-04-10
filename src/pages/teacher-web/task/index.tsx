@@ -32,7 +32,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
     {
       title: '任务名称',
       dataIndex: 'taskIdList',
-      hideIntable: true,
+      hideInTable: true,
       renderFormItem: (t: any, r: any, i: any) => {
         return (
           <Select mode="multiple" showSearch allowClear>
@@ -128,7 +128,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
               <Button
                 type="link"
                 onClick={() => {
-                  history.push(`/teacher/task/draw?id=${row.id}&name=${row.taskName}`);
+                  history.push(`/front/teacher/task/draw?id=${row.id}&name=${row.taskName}`);
                 }}
                 disabled={row?.taskStatus}
               >

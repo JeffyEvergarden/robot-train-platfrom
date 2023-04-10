@@ -59,6 +59,11 @@ const PhoneCall: React.FC<any> = (props: any) => {
     if (!res) {
       return;
     }
+    // 单独增加
+    setStatus('calling');
+    timeoutFn();
+    // ----
+    return;
 
     play();
 
@@ -277,9 +282,9 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
   const stop = () => {
     // 挂断
-    sipSession.current.ua.stop();
+    sipSession.current.ua?.stop?.();
     // ---
-    sipSession.current.ua.unregister({ all: true });
+    sipSession.current.ua?.unregister?.({ all: true });
     // --------------
     musicAudioRef.current?.pause?.();
     setStatus('waiting');
