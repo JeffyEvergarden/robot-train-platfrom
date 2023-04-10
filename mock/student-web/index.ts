@@ -293,9 +293,22 @@ const getTaskPanelDetail = (req: any, res: any) => {
   });
 };
 
+const courseCount = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    desc: '成功',
+    data: {
+      unStudyNum: 55,
+      studyNum: 99,
+    },
+  });
+};
 export default {
   // 获取课程信息
   [`GET ${baseUrl}/services/stu/course/coursePage`]: getNormalList,
+
+  [`POST ${baseUrl}/services/stu/course/courseCount`]: courseCount,
+
   // 获取具体课程的信息、画布、客户信息
   [`GET ${baseUrl}/services/stu/course/courseNodeLineInfo`]: getCourseInfo,
   // 获取成绩

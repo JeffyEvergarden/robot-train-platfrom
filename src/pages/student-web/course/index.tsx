@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageContainer, ProBreadcrumb } from '@ant-design/pro-layout';
 import { Tabs } from 'antd';
 import SearchPage from './search-page';
 import style from './style.less';
+import { useCourseModel } from './model';
 
 const StudentWeb: React.FC<any> = (props: any) => {
+  const { studyNum } = useCourseModel();
+
   const [activeKey, setActiveKey] = useState<any>('1');
+  const [waitNum, setWaitNum] = useState<any>(0);
+  const [doneNum, setDoneNum] = useState<any>(0);
+
+  useEffect(() => {
+    getStudyNum();
+  }, []);
+
+  const getStudyNum = async () => {
+    let res = await studyNum({});
+    setWaitNum(res?.data?.unStudyNum);
+    setDoneNum(res?.data?.studyNum);
+  };
 
   const tabOnChange = (key: any) => {
     setActiveKey(key);
@@ -15,14 +30,14 @@ const StudentWeb: React.FC<any> = (props: any) => {
 
   const pagesItem: any = [
     {
-      label: '待学习课',
+      label: `待学习课${waitNum}`,
       key: '1',
-      children: <SearchPage type={0}></SearchPage>,
+      children: <SearchPage type={0} />,
     },
     {
-      label: '已学习课',
+      label: `已学习课${doneNum}`,
       key: '2',
-      children: <SearchPage type={1}></SearchPage>,
+      children: <SearchPage type={1} />,
     },
   ];
 

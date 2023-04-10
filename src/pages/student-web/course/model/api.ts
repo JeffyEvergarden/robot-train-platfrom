@@ -16,3 +16,10 @@ export async function getStudentCourseDetail_API(data?: any) {
     params: data,
   });
 }
+
+export async function studyNumApi(data?: any) {
+  return request(`${baseUrl}/services/stu/course/courseCount`, {
+    method: 'post',
+    data: data,
+  });
+}

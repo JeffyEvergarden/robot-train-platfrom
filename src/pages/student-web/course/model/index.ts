@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getStudentCourseDetail_API, getStudentCourse_API } from './api';
+import { getStudentCourseDetail_API, getStudentCourse_API, studyNumApi } from './api';
 import config from '@/config';
 import { message } from 'antd';
 
@@ -29,11 +29,17 @@ export const useCourseModel = () => {
     }
   };
 
+  const studyNum = async (data: any) => {
+    let res: any = await studyNumApi(data);
+    return res;
+  };
+
   return {
     courselist,
     // setTotal,
     totalWait,
     totalDone,
     getStudentCourse,
+    studyNum,
   };
 };

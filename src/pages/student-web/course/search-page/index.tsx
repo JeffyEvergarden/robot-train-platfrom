@@ -45,7 +45,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
   useEffect(() => {
     getStudentCourse({
       type,
-      pageNo: pageNo,
+      page: pageNo,
       pageSize,
       taskType: courseType === '0' ? undefined : Number(courseType),
     });
@@ -89,7 +89,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
             >
               <div className={style['course-box']}>
                 <div className={style['course-pic']}>
-                  <img src={coursePic} className={style['course-pic']}></img>
+                  <img src={coursePic} className={style['course-pic']} />
                 </div>
 
                 <div className={style['box']}>
@@ -107,7 +107,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
                   </div>
 
                   <div className={style['context-bottom']}>
-                    <Process percent={item.progress}></Process>
+                    <Process percent={item.progress} />
                     <span>学习进度：{formatePercent(item.progress)}</span>
                   </div>
                 </div>
