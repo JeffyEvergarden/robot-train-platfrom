@@ -79,7 +79,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       // }
       // 测试删除节点 // 调接口
       // if (e.data.type === 'student') {
-      //   // lf.deleteEdge(e.data.id);
+      // lf.deleteEdge(e.data.id);
       // }
     });
 
@@ -227,10 +227,8 @@ const DrawPanel: React.FC<any> = (props: any) => {
       container: drawDomRef.current,
       plugins: [DndPanel, SelectionSelect, Menu, Control],
       grid: true,
-      // width: 2000,
-      // height: 2000,
       edgeType: 'polyline',
-      // autoExpand: false
+      hideAnchors: true,
     });
     // 节点注册
     registerNode(lf, {
@@ -298,7 +296,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
         </div>
       </div>
       {/* ------ 拖动面板 ------ */}
-      <DndDiyPanel lf={curLf}></DndDiyPanel>
+      {/* <DndDiyPanel lf={curLf}></DndDiyPanel> */}
       <div id="draw-box" ref={drawDomRef} className={style['draw-box']}></div>
     </div>
   );

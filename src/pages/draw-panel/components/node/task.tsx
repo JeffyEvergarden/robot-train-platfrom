@@ -13,7 +13,7 @@ import LogicFlow, {
   HtmlNodeModel,
 } from '@logicflow/core';
 import ReactDOM from 'react-dom';
-import { Popover, Button } from 'antd';
+import { Popover, Button, Select } from 'antd';
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
@@ -127,11 +127,11 @@ class StepHtmlNodeModel extends HtmlNodeModel {
             value: data.text,
             x: data.x,
             y: data.y,
-            editable: true, // 可编辑节点名字
+            editable: false, // 可编辑节点名字
           }
         : {
             ...data.text,
-            editable: true,
+            editable: false,
           };
     super.initNodeData(data);
     this.width = 200;
@@ -139,7 +139,7 @@ class StepHtmlNodeModel extends HtmlNodeModel {
     this.radius = 30;
   }
   setAttributes() {
-    this.text.editable = true; // 禁止节点文本编辑
+    this.text.editable = false; // 禁止节点文本编辑
     // 设置节点宽高和锚点
     const width = 200;
     const height = 74;
@@ -173,6 +173,8 @@ const StepHtmlBox = (props: any) => {
     <div className={`${style['step-box']} ${style[`step-box_normal`]}`}>
       <div className={style['step-header']}>
         {/* <div className={style['step-title']}>{text}</div> */}
+        {/* <Select value={text} style={{ width: 100 }}>
+        </Select> */}
       </div>
     </div>
   );
