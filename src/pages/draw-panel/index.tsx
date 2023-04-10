@@ -98,8 +98,8 @@ const DrawPanel: React.FC<any> = (props: any) => {
         _lf.updateText(data.id, text);
       } else {
         _lf.setProperties(data.id, {
-          text: newText
-        })
+          text: newText,
+        });
       }
     });
   };

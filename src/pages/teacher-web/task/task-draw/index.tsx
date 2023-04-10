@@ -34,7 +34,7 @@ const TaskDrawPanel: any = (props: any) => {
 
   //初始化
   const init = async () => {
-    let res = await getDrawPanel({});
+    let res = await getDrawPanel({ id: history?.location?.query?.id });
     drawLf.current?.initPanel({});
     if (res) {
       drawLf.current?.initPanel(res);
@@ -44,7 +44,7 @@ const TaskDrawPanel: any = (props: any) => {
   // 保存画布
   const onSave = (data: any) => {
     const { nodes, edges } = data;
-    saveDrawPanel({ nodes, edges });
+    saveDrawPanel({ nodes, edges, id: history?.location?.query?.id });
   };
 
   // 监听节点添加  return true / false

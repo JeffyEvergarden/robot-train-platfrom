@@ -26,14 +26,21 @@ const DrawDemo: React.FC<any> = (props: any) => {
   }));
   // -------
   // 获取画布
-  const { getDrawPanel, saveDrawPanel, addNode, deleteNode, courseCheck, flowBtnLoading } =
-    useDrawModel();
+  const {
+    getDrawPanel,
+    saveDrawPanel,
+    addNode,
+    deleteNode,
+    courseCheck,
+    dialoguePublish,
+    flowBtnLoading,
+  } = useDrawModel();
 
   // 事件监听
 
   //初始化
   const init = async () => {
-    let res = await getDrawPanel({ id: courseInfo?.id });
+    let res = await getDrawPanel({ id: history?.location?.query?.id || courseInfo?.id });
     if (res) {
       drawLf.current?.initPanel(res);
     }
@@ -41,7 +48,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
 
   //校验
   const onCheck = async () => {
-    let res = await courseCheck({ id: courseInfo?.id });
+    let res = await courseCheck({ id: history?.location?.query?.id || courseInfo?.id });
     return res;
   };
 
@@ -50,7 +57,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
     const { nodes, edges } = data;
     console.log(data);
 
-    saveDrawPanel({ nodes, edges, id: courseInfo?.id });
+    saveDrawPanel({ nodes, edges, id: history?.location?.query?.id || courseInfo?.id });
   };
 
   // 监听节点添加  return true / false
@@ -66,7 +73,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
 
   // 删除节点删除 return true / false
   const _deleteNode = async (id: any) => {
-    return deleteNode({ id: id || courseInfo?.id });
+    return deleteNode({ id: id || history?.location?.query?.id || courseInfo?.id });
   };
 
   // 双击节点
@@ -92,7 +99,6 @@ const DrawDemo: React.FC<any> = (props: any) => {
     //初始化画布
     init();
     console.log(history);
-    setCourseInfo({ ...courseInfo, id: history?.location?.query?.id });
   }, []);
 
   return (
@@ -119,7 +125,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
           endDrawerRef?.current?.open();
         }} //
         openFlowTest={async () => {
-          let res = await onCheck();
+          let res = await dialoguePublish({ id: history?.location?.query?.id || courseInfo?.id });
           if (res) {
             flowTestDrawerRef?.current?.open();
           }

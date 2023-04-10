@@ -69,18 +69,6 @@ const DrawPanel: React.FC<any> = (props: any) => {
       }
     });
 
-    eventCenter.on('node:dnd-add', async (e: any) => {
-      console.log(e);
-      // 测试删除节点 // 调接口
-      if (e.data.type === 'student') {
-        // lf.deleteNode(e.data.id);
-      }
-      let res: any = await addNode(e.data);
-      if (!res) {
-        lf.deleteNode(e.data.id);
-      }
-    });
-
     // 拖动节点创建
     eventCenter.on('edge:add', async (e: any) => {
       console.log(e);
@@ -106,8 +94,8 @@ const DrawPanel: React.FC<any> = (props: any) => {
         message.warning('修改文本超度不能超过' + maxLen + '字数');
       } else {
         _lf.setProperties(data.id, {
-          text: newText
-        })
+          text: newText,
+        });
         onExtraEvent?.('text:update', data);
       }
     });
@@ -259,10 +247,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
     lf.setTheme({
       nodeText: {
-        overflowMode: "autoWrap",
+        overflowMode: 'autoWrap',
       },
       baseEdge: {
-        stroke: "#AAB7C4",
+        stroke: '#AAB7C4',
         strokeWidth: 1,
       },
     });

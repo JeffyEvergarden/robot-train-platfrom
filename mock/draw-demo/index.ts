@@ -48,7 +48,7 @@ const getPanelDetail = (req: any, res: any) => {
           x: 600,
           y: 660,
           properties: {},
-          text: { x: 600, y: 660, value: '结束' },
+          text: { x: 600, y: 660, value: '结束1' },
         },
       ],
       edges: [

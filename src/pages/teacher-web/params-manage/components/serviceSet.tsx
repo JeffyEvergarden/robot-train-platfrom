@@ -34,6 +34,10 @@ export default () => {
       wordageFir,
       wordageTwo,
       toneWords,
+      speechSwitch: Number(res?.data?.speechSwitch),
+      toneSwitch: Number(res?.data?.toneSwitch),
+      emotionnalSwitch: Number(res?.data?.emotionnalSwitch),
+      sensation: Number(res?.data?.sensation),
     });
     toneWordsRef?.current?.setTags(toneWords);
   };
@@ -46,9 +50,17 @@ export default () => {
       ...formVal,
       wordage,
       toneWords,
+      speechSwitch: (formVal?.speechSwitch).toString(),
+      toneSwitch: (formVal?.toneSwitch).toString(),
+      emotionnalSwitch: (formVal?.emotionnalSwitch).toString(),
+      sensation: (formVal?.sensation).toString(),
     };
     delete params?.wordageFir;
     delete params?.wordageTwo;
+    delete formVal?.speechSwitch;
+    delete formVal?.toneSwitch;
+    delete formVal?.emotionnalSwitch;
+    delete formVal?.sensation;
     let res = await ruleSave(params);
     if (res?.resultCode == successCode) {
       message.success(res?.resultDesc || '成功');
@@ -62,7 +74,7 @@ export default () => {
     <Form form={form} {...layout}>
       <Row gutter={12}>
         <Col span={24}>
-          <Form.Item name="speechSwitch" valuePropName="checked">
+          <Form.Item name="speechSwitch" valuePropName="checked" initialValue={1}>
             <Checkbox>语速检测</Checkbox>
           </Form.Item>
         </Col>
@@ -115,7 +127,7 @@ export default () => {
       </Row>
       <Row>
         <Col span={24}>
-          <Form.Item name="toneSwitch" valuePropName="checked">
+          <Form.Item name="toneSwitch" valuePropName="checked" initialValue={1}>
             <Checkbox>语气词检测</Checkbox>
           </Form.Item>
         </Col>
@@ -143,7 +155,7 @@ export default () => {
       </Row>
       <Row gutter={12}>
         <Col span={24}>
-          <Form.Item name="emotionnalSwitch" valuePropName="checked">
+          <Form.Item name="emotionnalSwitch" valuePropName="checked" initialValue={0}>
             <Checkbox disabled>情绪检测</Checkbox>
           </Form.Item>
         </Col>
@@ -152,7 +164,7 @@ export default () => {
         </Col>
         <Col span={24}>
           <span className={styles.exceteBox}>
-            <Form.Item name="sensation" valuePropName="checked">
+            <Form.Item name="sensation" valuePropName="checked" initialValue={0}>
               <Checkbox disabled>激动</Checkbox>
             </Form.Item>
           </span>

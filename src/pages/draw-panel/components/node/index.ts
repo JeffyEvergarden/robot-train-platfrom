@@ -84,13 +84,24 @@ class FinishNodeModel extends CircleNodeModel {
   }
 
   initNodeData(data: any) {
+    let reg = /^结束节点[0-9]+$/;
+    let maxNew = this.graphModel?.nodes //找到当前新增节点最高
+      ?.filter((item: any) => reg?.test(item?.text?.value))
+      ?.map((item: any) => item?.text?.value?.slice?.(4))
+      ?.sort((a: any, b: any) => b - a)?.[0];
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
-    data.text = {
-      value: '结束节点',
-      editable: false, // 不可编辑节点名字
-      x: data.x,
-      y: data.y,
-    };
+    data.text =
+      !data.text || typeof data.text === 'string'
+        ? {
+            value: `结束节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
+        : {
+            ...data.text,
+            editable: false,
+          };
     super.initNodeData(data);
   }
 
@@ -106,6 +117,7 @@ class FinishNodeModel extends CircleNodeModel {
     style.fontSize = 16;
     // style.color = '#40a9ff';
     style.color = colors[1];
+    style.overflowMode = 'ellipsis';
     return style;
   }
 
@@ -137,11 +149,17 @@ class StudentNodeModel extends RectNodeModel {
   }
 
   initNodeData(data: any) {
+    let reg = /^学员节点[0-9]+$/;
+    let maxNew = this.graphModel?.nodes //找到当前新增节点最高
+      ?.filter((item: any) => reg?.test(item?.text?.value))
+      ?.map((item: any) => item?.text?.value?.slice?.(4))
+      ?.sort((a: any, b: any) => b - a)?.[0];
+
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: data.text,
+            value: `学员节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
             x: data.x,
             y: data.y,
             editable: false, // 不可编辑节点名字
@@ -182,11 +200,16 @@ class CustomerNodeModel extends RectNodeModel {
   }
 
   initNodeData(data: any) {
+    let reg = /^客户节点[0-9]+$/;
+    let maxNew = this.graphModel?.nodes //找到当前新增节点最高
+      ?.filter((item: any) => reg?.test(item?.text?.value))
+      ?.map((item: any) => item?.text?.value?.slice?.(4))
+      ?.sort((a: any, b: any) => b - a)?.[0];
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: data.text,
+            value: `客户节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
             x: data.x,
             y: data.y,
             editable: false, // 不可编辑节点名字
@@ -214,6 +237,7 @@ class CustomerNodeModel extends RectNodeModel {
     style.fontSize = 16;
     style.color = colors[3];
     // style.color = '#7DAAFF';
+    style.overflowMode = 'ellipsis';
     return style;
   }
 }

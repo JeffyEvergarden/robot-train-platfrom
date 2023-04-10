@@ -49,8 +49,8 @@ const DndDiyPanel: React.FC<any> = (props: any) => {
       type: shape.type,
       text: `${shape.text}`,
       properties: {
-        text: `${shape.text}`
-      }
+        text: `${shape.text}`,
+      },
     });
   };
 

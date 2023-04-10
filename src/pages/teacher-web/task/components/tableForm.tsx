@@ -16,9 +16,11 @@ const TableForm: React.FC<any> = (props) => {
 
   const [visible, setVisible] = useState<any>(false);
   const [formType, setFormType] = useState<any>('add');
+  const [tableInfo, setTableInfo] = useState<any>({});
 
   const onCancel = () => {
     form.resetFields();
+    setTableInfo({});
     setVisible(false);
   };
 
@@ -26,7 +28,7 @@ const TableForm: React.FC<any> = (props) => {
     let valid = await form.validateFields();
     if (valid) {
       console.log(valid);
-      let reqData = { ...valid };
+      let reqData = { ...tableInfo, ...valid };
       if (formType == 'add') {
         await taskAdd(reqData).then((res: any) => {
           if (res) {
@@ -50,6 +52,7 @@ const TableForm: React.FC<any> = (props) => {
     setFormType(type);
     if (type == 'edit') {
       await taskDetail({ id: row?.id }).then((res: any) => {
+        setTableInfo(res?.data || {});
         form.setFieldsValue({
           ...res?.data,
         });
