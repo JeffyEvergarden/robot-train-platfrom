@@ -1,6 +1,7 @@
 // Menu组件支持菜单包括节点右键菜单、边右键菜单、画布右键菜单，默认情况下，Menu在各个菜单内置了以下功能。
 
 import { message } from 'antd';
+import style from './style.less';
 
 // 节点右键菜单(nodeMenu)： 删除、复制、编辑文案
 // 边右键菜单(edgeMenu)：删除、编辑文案
@@ -48,6 +49,20 @@ export const setMenuConfig = (lf: any, options: any) => {
 export const setControlConfig = (lf: any) => {
   lf.extension.control.removeItem('undo');
   lf.extension.control.removeItem('redo');
+  lf.extension.control.addItem({
+    iconClass: `lf-control-fit ${style['icon_sm']}`,
+    title: '',
+    text: '居中',
+    onClick: (lf: any, ev: any) => {
+      // const position = lf.getPointByClient(ev.x, ev.y);
+      lf.focusOn({
+        coordinate: {
+          x: 500,
+          y: 300,
+        },
+      });
+    },
+  });
   console.log(lf.extension.control.controlItems);
 };
 
