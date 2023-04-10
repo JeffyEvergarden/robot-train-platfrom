@@ -7,11 +7,13 @@ import { useDrawModel } from '@/pages/student-web/detail/model';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { history } from 'umi';
 import { useTaskDrawModel } from '../model';
+import FlowDrawer from '../components/flowDrawer';
 
 const TaskDrawPanel: any = (props: any) => {
   const drawLf: any = useRef<any>(null);
 
   const curNodeRef: any = useRef<any>({});
+  const flowNodeFormRef: any = useRef<any>({});
 
   // 输入框
   const [nameVal, setNameVal] = useState<any>('');
@@ -64,6 +66,12 @@ const TaskDrawPanel: any = (props: any) => {
   const onNodeDbClick = async (data: any) => {
     console.log(data);
     curNodeRef.current = data;
+    if (data.type == 'step') {
+      flowNodeFormRef?.current?.open(data, 'step');
+    } else {
+      flowNodeFormRef?.current?.open(data, 'other');
+    }
+
     if (data.type === 'step-html') {
       setStatusNum(2);
     }
@@ -100,6 +108,15 @@ const TaskDrawPanel: any = (props: any) => {
     });
   };
 
+  //改名字
+  const changeNodeName = async (id: any, obj: any, type: any) => {
+    let lf = drawLf?.current?.getLf?.();
+    lf.updateText(id, obj.value);
+    if (type == 'step') {
+      lf.setProperties(id, obj);
+    }
+  };
+
   useEffect(() => {
     //初始化画布
     init();
@@ -128,6 +145,7 @@ const TaskDrawPanel: any = (props: any) => {
         onNodeDbClick={onNodeDbClick} // 双击点击节点
         onEdgeDbClick={onEdgeDbClick} // 双击连线
       />
+      <FlowDrawer cref={flowNodeFormRef} changeNodeName={changeNodeName}></FlowDrawer>
     </>
   );
 };

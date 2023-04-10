@@ -87,11 +87,11 @@ class TaskNodeModel extends RectNodeModel {
             value: data.text,
             x: data.x,
             y: data.y,
-            editable: true, // 不可编辑节点名字
+            editable: false, // 不可编辑节点名字
           }
         : {
             ...data.text,
-            editable: true,
+            editable: false,
           };
     super.initNodeData(data);
     this.width = 200;
@@ -254,20 +254,20 @@ export function registerNode(lf: any, options: any) {
           options?.addSubTask?.(node);
         },
       },
-      {
-        text: '删除',
-        callback: async (node: any) => {
-          if (options.deleteNode) {
-            let res: any = options.deleteNode(node.id);
-            if (res) {
-              lf.deleteNode(node.id);
-            }
-          } else {
-            // 扩散删除
-            lf.deleteNode(node.id);
-          }
-        },
-      },
+      // {
+      //   text: '删除',
+      //   callback: async (node: any) => {
+      //     if (options.deleteNode) {
+      //       let res: any = options.deleteNode(node.id);
+      //       if (res) {
+      //         lf.deleteNode(node.id);
+      //       }
+      //     } else {
+      //       // 扩散删除
+      //       lf.deleteNode(node.id);
+      //     }
+      //   },
+      // },
     ],
   });
 
