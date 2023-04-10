@@ -89,6 +89,7 @@ const TableForm: React.FC<any> = (props) => {
           rules={[{ required: true, message: '请输入合格分数' }]}
         >
           <InputNumber
+            disabled={tableInfo?.isEdit}
             precision={0}
             style={{ width: '135px' }}
             controls={false}
@@ -120,6 +121,7 @@ const TableForm: React.FC<any> = (props) => {
         <Form.Item label="最少训练次数">
           <Form.Item noStyle name={'minNumberSwitch'} valuePropName="checked" initialValue={0}>
             <Checkbox
+              disabled={tableInfo?.isEdit}
               onChange={(e: any) => {
                 form.setFieldsValue({ minNumberSwitch: e?.target?.checked ? 1 : 0 });
               }}
@@ -134,6 +136,7 @@ const TableForm: React.FC<any> = (props) => {
               rules={[{ required: true, message: '请输入最少训练次数' }]}
             >
               <InputNumber
+                disabled={tableInfo?.isEdit}
                 precision={0}
                 controls={false}
                 style={{ width: '135px' }}
