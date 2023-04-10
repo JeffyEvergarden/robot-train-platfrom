@@ -103,7 +103,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
                 onClick={() => {
                   setCourseInfo(row);
                   setTimeout(() => {
-                    history.push(`/teacher/course/draw?id=${row?.id}&name=${row?.courseName}`);
+                    history.push(`/front/teacher/course/draw?id=${row?.id}&name=${row?.courseName}`);
                   }, 100);
                 }}
               >

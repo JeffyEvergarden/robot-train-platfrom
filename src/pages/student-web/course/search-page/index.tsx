@@ -85,7 +85,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
             <Link
               target="blank"
               key={index}
-              to={{ pathname: `/student/course/detail`, search: `?taskId=${item.taskId}` }}
+              to={{ pathname: `/front/student/course/detail`, search: `?taskId=${item.taskId}` }}
             >
               <div className={style['course-box']}>
                 <div className={style['course-pic']}>

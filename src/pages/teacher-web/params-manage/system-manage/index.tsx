@@ -81,7 +81,7 @@ export default () => {
 
   const toIntentionPage = (r: any) => {
     history.push({
-      pathname: '/teacher/paramsManage/intention',
+      pathname: '/front/teacher/paramsManage/intention',
       state: {
         rowInfo: r,
       },
