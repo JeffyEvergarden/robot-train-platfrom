@@ -3,7 +3,7 @@ import config from '@/config';
 import { useDrawModel, useTableModel } from '@/pages/teacher-web/course/model';
 import { Button, Drawer, Form, Input, message, Select, Space } from 'antd';
 import { useImperativeHandle, useState } from 'react';
-import { useModel, history } from 'umi';
+import { useModel, history, Router } from 'umi';
 import { useTaskModel } from '../model';
 
 const FlowDrawer: React.FC<any> = (props: any) => {
@@ -33,24 +33,31 @@ const FlowDrawer: React.FC<any> = (props: any) => {
         let id = formData?.courseId;
         let name = allTableList?.find((item) => item?.id == id)?.courseName;
         changeNodeName(info.id, { value: name, courseId: id }, pageType);
+        onCancel();
       } else {
         if (info.type == 'course') {
-          await taskEdit({ id: history?.location?.query?.id, taskName: formData?.name }).then(
-            (res) => {
-              if (res.resultCode == config.successCode) {
-                history.location.query.name = formData?.name;
-                changeNodeName(info.id, { value: formData?.name }, pageType);
-              } else {
-                message.error(res.resultDesc);
-                return;
-              }
-            },
-          );
+          await taskEdit({
+            id: history?.location?.query?.id,
+            taskName: formData?.name,
+            editName: true,
+          }).then((res) => {
+            if (res.resultCode == config.successCode) {
+              history.push({
+                pathname: '/front/teacher/task/draw',
+                query: {
+                  ...history?.location?.query,
+                  name: formData?.name,
+                },
+              });
+              changeNodeName(info.id, { value: formData?.name }, pageType);
+              onCancel();
+            }
+          });
         } else {
           changeNodeName(info.id, { value: formData?.name }, pageType);
+          onCancel();
         }
       }
-      onCancel();
     }
   };
 

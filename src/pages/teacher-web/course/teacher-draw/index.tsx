@@ -135,7 +135,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
             <ArrowLeftOutlined
               style={{ fontSize: '22px' }}
               onClick={() => {
-                history.push('/teacher/course');
+                history.push('/front/teacher/course');
               }}
             />
             <span style={{ fontSize: '20px', fontWeight: '500' }}>

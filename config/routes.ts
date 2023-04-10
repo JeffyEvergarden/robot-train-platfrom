@@ -8,7 +8,7 @@ export default [
   },
   // -----导师端
   {
-    path: '/teacher/course',
+    path: '/front/teacher/course',
     component: './teacher-web/course/home',
     name: '课程管理',
     layout: true,
@@ -16,24 +16,24 @@ export default [
     role: ['ADMIN', 'TEACH'],
     routes: [
       {
-        path: '/teacher/course/tablepage',
+        path: '/front/teacher/course/tablepage',
         component: './teacher-web/course',
         name: '课程管理',
         hideInMenu: true,
       },
       {
-        path: '/teacher/course/draw',
+        path: '/front/teacher/course/draw',
         component: './teacher-web/course/teacher-draw',
         name: '课程流程',
         hideInMenu: true,
       },
       {
-        redirect: '/teacher/course/tablepage',
+        redirect: '/front/teacher/course/tablepage',
       },
     ],
   },
   {
-    path: '/teacher/task',
+    path: '/front/teacher/task',
     component: './teacher-web/task/home',
     name: '任务管理',
     access: 'routerAuth',
@@ -41,25 +41,25 @@ export default [
     layout: true,
     routes: [
       {
-        path: '/teacher/task/tablepage',
+        path: '/front/teacher/task/tablepage',
         component: './teacher-web/task',
         name: '任务管理',
         hideInMenu: true,
       },
       {
-        path: '/teacher/task/draw',
+        path: '/front/teacher/task/draw',
         component: './teacher-web/task/task-draw',
         name: '任务流程',
         hideInMenu: true,
       },
       {
-        redirect: '/teacher/task/tablepage',
+        redirect: '/front/teacher/task/tablepage',
       },
     ],
   },
   //-------导师端
   {
-    path: '/teacher/paramsManage',
+    path: '/front/teacher/paramsManage',
     component: './teacher-web/params-manage/home',
     name: '参数管理',
     access: 'routerAuth',
@@ -67,22 +67,22 @@ export default [
     layout: true,
     routes: [
       {
-        path: '/teacher/paramsManage/userManage',
+        path: '/front/teacher/paramsManage/userManage',
         component: './teacher-web/params-manage/user-manage',
         name: '用户管理',
       },
       {
-        path: '/teacher/paramsManage/ruleManage',
+        path: '/front/teacher/paramsManage/ruleManage',
         component: './teacher-web/params-manage/rule-manage',
         name: '规则管理',
       },
       {
-        path: '/teacher/paramsManage/systemManage',
+        path: '/front/teacher/paramsManage/systemManage',
         component: './teacher-web/params-manage/system-manage',
         name: '系统管理',
       },
       {
-        path: '/teacher/paramsManage/intention',
+        path: '/front/teacher/paramsManage/intention',
         component: './teacher-web/params-manage/intention',
         name: '意图',
         hideInMenu: true,
@@ -97,7 +97,7 @@ export default [
   //   layout: true,
   // },
   {
-    path: '/student/course/list',
+    path: '/front/student/course/list',
     component: './student-web/course',
     name: '学习课程',
     access: 'routerAuth',
@@ -105,7 +105,7 @@ export default [
     layout: true,
   },
   {
-    path: '/student/learnRecord',
+    path: '/front/student/learnRecord',
     component: './student-web/learn-record',
     name: '学习记录',
     access: 'routerAuth',
@@ -113,14 +113,14 @@ export default [
     layout: true,
   },
   {
-    path: '/student/course/detail',
+    path: '/front/student/course/detail',
     component: './student-web/detail',
     name: '课程详情',
     hideInMenu: true,
     layout: true,
   },
   {
-    path: '/demo',
+    path: '/front/demo',
     component: './demo',
     name: '语音聊天demo测试',
     access: 'routerAuth',
@@ -128,7 +128,7 @@ export default [
     layout: true,
   },
   {
-    path: '/drawdemo',
+    path: '/front/drawdemo',
     component: './draw-demo',
     name: '画布demo测试',
     access: 'routerAuth',
@@ -136,7 +136,7 @@ export default [
     layout: true,
   },
   {
-    path: '/drawdemo2',
+    path: '/front/drawdemo2',
     component: './teacher-web/task/task-draw',
     name: '任务画布demo测试',
     access: 'routerAuth',
@@ -144,7 +144,7 @@ export default [
     layout: true,
   },
   {
-    path: '/student/chat',
+    path: '/front/student/chat',
     component: './chat-page',
     name: '聊天窗口',
     access: 'routerAuth',

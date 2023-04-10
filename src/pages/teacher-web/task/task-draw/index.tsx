@@ -131,7 +131,7 @@ const TaskDrawPanel: any = (props: any) => {
             <ArrowLeftOutlined
               style={{ fontSize: '22px' }}
               onClick={() => {
-                history.push('/teacher/task');
+                history.push('/front/teacher/task');
               }}
             />
             <span style={{ fontSize: '20px', fontWeight: '500' }}>

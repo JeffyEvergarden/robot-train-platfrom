@@ -243,7 +243,7 @@ const ChatPage: any = (props: any) => {
       return;
     }
     // 回到画布页面
-    history.replace(`/student/course/detail?taskId=${taskId}`);
+    history.replace(`/front/student/course/detail?taskId=${taskId}`);
   };
 
   return (

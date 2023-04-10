@@ -76,7 +76,7 @@ const StudentDrawPanel: any = (props: any) => {
   const onExtraEvent = (name: any, data: any) => {
     console.log(name, data);
     if (name === 'step-tips:button-click') {
-      window.open(`${basePath}/student/chat?taskId=${taskId}&courseId=${data.id}`);
+      window.open(`${basePath}/front/student/chat?taskId=${taskId}&courseId=${data.id}`);
     }
   };
 
@@ -86,7 +86,7 @@ const StudentDrawPanel: any = (props: any) => {
       return;
     }
     // 回到画布页面
-    history.replace(`/student/course/list`);
+    history.replace(`/front/student/course/list`);
   };
 
   const [statusNum, setStatusNum] = useState<any>(0);
