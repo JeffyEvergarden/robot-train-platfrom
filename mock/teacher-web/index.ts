@@ -74,6 +74,7 @@ const courseDetail = (req: any, res: any) => {
       minNumber: 1,
       courseStatus: 1,
       modelId: 'xxx',
+      isEdit: true,
     },
   });
 };

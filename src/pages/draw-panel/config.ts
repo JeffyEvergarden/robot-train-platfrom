@@ -52,7 +52,7 @@ export const setControlConfig = (lf: any) => {
   lf.extension.control.addItem({
     iconClass: `lf-control-fit ${style['icon_sm']}`,
     title: '',
-    text: '居中',
+    text: '复位',
     onClick: (lf: any, ev: any) => {
       // const position = lf.getPointByClient(ev.x, ev.y);
       lf.focusOn({

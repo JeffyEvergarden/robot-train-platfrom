@@ -43,7 +43,7 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
 
   const startBtnClick = async () => {
     if (startBtn == 'end') {
-      await dialogueFinish({ courseId: courseInfo?.id, sessionid: sessionId }).then((res) => {
+      await dialogueFinish({ courseId: courseInfo?.id, sessionId: sessionId }).then((res) => {
         if (res) {
           setSessionId('');
           setStartBtn('start');
@@ -90,7 +90,7 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
 
       await dialogueSend({
         courseId: courseInfo?.id,
-        sessionid: sessionId,
+        sessionId: sessionId,
         message: inputValue,
       }).then((res) => {
         if (res) {
