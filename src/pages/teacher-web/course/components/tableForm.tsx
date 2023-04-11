@@ -1,6 +1,8 @@
 import Condition from '@/components/Condition';
+import config from '@/config';
 import { Modal, Input, Radio, Switch, Form, InputNumber, Checkbox, Select } from 'antd';
 import { useEffect, useImperativeHandle, useState } from 'react';
+import { useCourceModel } from '../../params-manage/model';
 
 const { TextArea } = Input;
 const { Item: FormItem } = Form;
@@ -11,6 +13,8 @@ const TableForm: React.FC<any> = (props) => {
   const courseStyle = Form.useWatch('courseType', form);
   const minNumberSwitch = Form.useWatch('minNumberSwitch', form);
 
+  const { courceData, loading: getListLoading } = useCourceModel();
+
   const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 14 },
@@ -19,6 +23,7 @@ const TableForm: React.FC<any> = (props) => {
   const [visible, setVisible] = useState<any>(false);
   const [formType, setFormType] = useState<any>('add');
   const [tableInfo, setTableInfo] = useState<any>({});
+  const [modelList, setModelList] = useState<any>([]);
 
   const onCancel = () => {
     form.resetFields();
@@ -51,6 +56,11 @@ const TableForm: React.FC<any> = (props) => {
 
   const open = async (type: any, row?: any) => {
     setFormType(type);
+    courceData({}).then((res) => {
+      if (res?.resultCode == config.successCode) {
+        setModelList(res?.data);
+      }
+    });
     if (type == 'edit') {
       await courseDetail({ id: row?.id }).then((res: any) => {
         setTableInfo(res?.data || row);
@@ -115,7 +125,17 @@ const TableForm: React.FC<any> = (props) => {
             label="课程模型"
             rules={[{ required: true, message: '请选择课程模型' }]}
           >
-            <Select placeholder="请选择课程模型" disabled={formType == 'edit'} />
+            <Select
+              placeholder="请选择课程模型"
+              disabled={formType == 'edit'}
+              loading={getListLoading}
+            >
+              {modelList?.map((item: any) => (
+                <Select.Option key={item.id} value={item.id}>
+                  {item.modelName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Condition>
         <Form.Item label="最少训练次数">
