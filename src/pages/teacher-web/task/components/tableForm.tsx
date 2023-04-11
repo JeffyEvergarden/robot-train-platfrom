@@ -25,6 +25,10 @@ const TableForm: React.FC<any> = (props) => {
   };
 
   const onOk = async () => {
+    if (formType == 'scan') {
+      onCancel();
+      return;
+    }
     let valid = await form.validateFields();
     if (valid) {
       console.log(valid);
@@ -80,7 +84,12 @@ const TableForm: React.FC<any> = (props) => {
           label="任务名称"
           rules={[{ required: true, message: '请输入任务名称' }]}
         >
-          <Input showCount maxLength={75} placeholder="请输入任务名称" />
+          <Input
+            showCount
+            maxLength={75}
+            placeholder="请输入任务名称"
+            disabled={formType == 'scan'}
+          />
         </Form.Item>
         <Form.Item
           label="通过标准"
@@ -89,6 +98,7 @@ const TableForm: React.FC<any> = (props) => {
           initialValue={100}
         >
           <InputNumber
+            disabled={formType == 'scan'}
             precision={0}
             style={{ width: '135px' }}
             controls={false}
@@ -103,7 +113,7 @@ const TableForm: React.FC<any> = (props) => {
           initialValue={1}
           rules={[{ required: true, message: '请选择任务模式' }]}
         >
-          <Radio.Group>
+          <Radio.Group disabled={formType == 'scan'}>
             <Radio value={1}>闯关模式</Radio>
             <Radio value={2}>任务模式</Radio>
           </Radio.Group>
@@ -114,7 +124,7 @@ const TableForm: React.FC<any> = (props) => {
           initialValue={1}
           rules={[{ required: true, message: '请选择任务类型' }]}
         >
-          <Radio.Group>
+          <Radio.Group disabled={formType == 'edit' || formType == 'scan'}>
             <Radio value={1}>培训任务</Radio>
             <Radio value={2}>考试任务</Radio>
           </Radio.Group>
@@ -124,7 +134,7 @@ const TableForm: React.FC<any> = (props) => {
           label="培训组别"
           rules={[{ required: true, message: '请选择培训组别' }]}
         >
-          <Select placeholder="请选择培训组别" mode="multiple">
+          <Select placeholder="请选择培训组别" mode="multiple" disabled={formType == 'scan'}>
             {groupList?.map((item) => (
               <Select.Option key={item.id} value={item.id}>
                 {item.groupName}

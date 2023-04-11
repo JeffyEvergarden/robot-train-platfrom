@@ -119,7 +119,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
               <Button
                 type="link"
                 onClick={() => {
-                  tableFormRef?.current?.open('edit', row);
+                  tableFormRef?.current?.open(row?.taskStatus == 1 ? 'scan' : 'edit', row);
                 }}
               >
                 {row?.taskStatus == 1 ? '查看' : '编辑'}
