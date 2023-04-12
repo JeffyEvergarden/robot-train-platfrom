@@ -243,6 +243,9 @@ export function registerNode(lf: any, options: any) {
   if (!lf.extension.menu) {
     return;
   }
+  if (options?.isSilentMode) {
+    return;
+  }
   // 任务节点菜单
   lf.extension.menu.setMenuByType({
     type: 'course',
