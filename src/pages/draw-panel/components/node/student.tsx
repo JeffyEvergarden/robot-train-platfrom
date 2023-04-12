@@ -224,22 +224,28 @@ const StepHtmlBox = (props: any) => {
   };
 
   if (status === 'finish') {
-    icon = <CheckCircleOutlined style={{ color: status_color['finish'] }} />;
+    icon = (
+      <Tooltip placement="top" title={'已完成'}>
+        <CheckCircleOutlined style={{ color: status_color['finish'] }} />
+      </Tooltip>
+    );
   } else if (status === 'doing') {
     icon = <ClockCircleOutlined style={{ color: status_color['doing'] }} />;
   } else if (status === 'wait') {
     icon = <LockOutlined style={{ color: status_color['wait'] }} />;
   }
 
+  const { taskType } = properties;
+
   const content = (
     <div className={style['tool-box']}>
       <div>
         <InfoCircleOutlined style={{ color: '#FAAD14', marginRight: '8px' }} />
-        {`确定要开始学习了吗`}
+        {taskType === '培训' ? `确定要开始学习了吗` : `确定要开始考试了吗`}
       </div>
       <div className={style['box_bottom']}>
         <Button type="primary" size="small" onClick={onClick}>
-          开始学习
+          开始{taskType === '培训' ? `学习` : `考试`}
         </Button>
       </div>
     </div>
@@ -259,12 +265,13 @@ const StepHtmlBox = (props: any) => {
     const { completeNum, totalNum } = properties;
 
     return (
-      <Popover content={content} trigger="click">
+      <Popover content={content} trigger="hover">
         <div className={`${style['step-box']} ${style[`step-box_${status}`]}`}>
           <div className={style['step-header']}>
-            <div className={style['step-status']}>{icon}</div>
-            <div className={style['step-title']}>{text}</div>
-
+            <div className={style['step-title-box']}>
+              <div className={style['step-status']}>{icon}</div>
+              <div className={style['step-title']}>{text}</div>
+            </div>
             {totalNum && (
               <div className={style['step-progress']}>
                 <span style={{ marginRight: '4px' }}>
@@ -282,7 +289,7 @@ const StepHtmlBox = (props: any) => {
   }
 
   return (
-    <Popover content={content} trigger="click">
+    <Popover content={content} trigger="hover">
       <div className={`${style['step-box']} ${style[`step-box_${status}`]}`}>
         <div className={style['step-header']}>
           <div className={style['step-status']}>{icon}</div>
@@ -319,11 +326,11 @@ export function registerNode(lf: any, options: any) {
       view: RectNode,
       model: TaskNodeModel,
     },
-    {
-      type: 'step', // 标题
-      view: RectNode,
-      model: StepNodeModel,
-    },
+    // {
+    //   type: 'step', // 标题
+    //   view: RectNode,
+    //   model: StepNodeModel,
+    // },
     {
       type: 'step-html',
       view: StepHtmlNode,

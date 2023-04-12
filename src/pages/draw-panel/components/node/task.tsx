@@ -68,6 +68,7 @@ class CourseNodeModel extends RectNodeModel {
     style.fontSize = 16;
     style.color = 'rgba(0,0,0,0.85)';
     // style.color = '#7DAAFF';
+    style.overflowMode = 'ellipsis';
     return style;
   }
 }
@@ -112,6 +113,7 @@ class TaskNodeModel extends RectNodeModel {
     const style = super.getTextStyle();
     style.fontSize = 16;
     style.color = 'rgba(0,0,0,0.85)';
+    style.overflowMode = 'ellipsis';
     return style;
   }
 }
@@ -157,6 +159,7 @@ class StepHtmlNodeModel extends HtmlNodeModel {
     const style = super.getTextStyle();
     style.fontSize = 16;
     style.color = 'rgba(0,0,0,0.85)';
+    style.overflowMode = 'ellipsis';
     return style;
   }
 }
@@ -253,7 +256,7 @@ export function registerNode(lf: any, options: any) {
       {
         text: '添加子任务',
         callback(node: any) {
-          //
+          console.log(node);
           options?.addSubTask?.(node);
         },
       },
@@ -280,7 +283,6 @@ export function registerNode(lf: any, options: any) {
       {
         text: '添加子步骤',
         callback(node: any) {
-          //
           options?.addSubStep?.(node);
         },
       },

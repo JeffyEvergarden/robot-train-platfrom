@@ -2,14 +2,24 @@ import React, { useState } from 'react';
 
 import { message } from 'antd';
 import { postDrawPanel_API, getDrawPanel_API, addNode_API, deleteNode_API } from './api';
+import { formateTaskType } from '@/utils/formate-str';
 import config from '@/config';
 
 const { successCode } = config;
 
-const travelNodes = (nodes: any[]) => {
+const travelNodes = (nodes: any[], options: any) => {
   nodes.forEach((item: any) => {
     if (item.type === 'step') {
       item.type = 'step-html';
+      if (typeof item.text === 'object') {
+        item.text.x = -250;
+        item.text.y = -250;
+      }
+      item.properties.taskType = formateTaskType(options.taskType);
+      if (options.taskModel == 2) {
+        // 任意模式
+        item.properties.status = 'doing';
+      }
     }
   });
 };
@@ -35,8 +45,8 @@ export const useDrawModel = () => {
     if (res.resultCode === successCode) {
       let data: any = res.data || {};
 
-      const { nodes = [], edges = [] } = data;
-      travelNodes(nodes);
+      const { nodes = [], edges = [], taskType, taskModel } = data;
+      travelNodes(nodes, { taskType, taskModel });
 
       console.log(nodes);
       return data;

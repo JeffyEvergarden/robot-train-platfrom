@@ -1,6 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useModel } from 'umi';
-import { Button, message, Input, Space } from 'antd';
+import { Button, message, Input, Space, Tag, Tooltip } from 'antd';
 import DrawPanel from '@/pages/draw-panel/task';
 import style from '../style.less';
 import { useDrawModel } from '@/pages/student-web/detail/model';
@@ -8,6 +8,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { history } from 'umi';
 import { useTaskDrawModel, useTaskModel } from '../model';
 import FlowDrawer from '../components/flowDrawer';
+import { formateTaskModel, formateTaskType } from '@/utils/formate-str';
 
 const TaskDrawPanel: any = (props: any) => {
   const drawLf: any = useRef<any>(null);
@@ -51,7 +52,8 @@ const TaskDrawPanel: any = (props: any) => {
   // 保存画布
   const onSave = (data: any) => {
     const { nodes, edges } = data;
-    saveDrawPanel({ nodes, edges, id: history?.location?.query?.id });
+    let reqData = { nodes, edges, id: history?.location?.query?.id };
+    saveDrawPanel(reqData);
   };
 
   // 监听节点添加  return true / false
@@ -139,17 +141,32 @@ const TaskDrawPanel: any = (props: any) => {
       <DrawPanel
         cref={drawLf}
         preMenu={
-          <Space align="baseline">
+          // <Space align="baseline">
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <ArrowLeftOutlined
-              style={{ fontSize: '22px' }}
+              style={{ fontSize: '22px', marginRight: '8px' }}
               onClick={() => {
                 history.push('/front/teacher/task');
               }}
             />
-            <span style={{ fontSize: '20px', fontWeight: '500' }}>
-              {history?.location?.query?.name || '-'}
-            </span>
-          </Space>
+            <Tooltip title={history?.location?.query?.name || '-'}>
+              <span
+                className={style['drawTitle']}
+                style={{ fontSize: '20px', fontWeight: '500', marginRight: '8px' }}
+              >
+                {history?.location?.query?.name || '-'}
+              </span>
+            </Tooltip>
+
+            {taskInfo?.taskType != 0 && (
+              <Tag color="blue">{formateTaskType(taskInfo?.taskType) + '课程'}</Tag>
+            )}
+            {taskInfo?.taskModel != 0 && (
+              <Tag color="orange">{formateTaskModel(taskInfo?.taskModel)}</Tag>
+            )}
+          </div>
+
+          // </Space>
         }
         onSave={onSave} // 保存
         addNode={_addNode} // 添加

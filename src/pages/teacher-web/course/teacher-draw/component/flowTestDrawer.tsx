@@ -94,6 +94,11 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
         message: inputValue,
       }).then((res) => {
         if (res) {
+          res?.data?.list.map((item: any) => {
+            if (item.isEnd) {
+              startBtnClick();
+            }
+          });
           setChatHistory([
             ...chatHistory,
             ...(res?.data?.list || [{ type: 'student', status: 'error', text: inputValue }]),

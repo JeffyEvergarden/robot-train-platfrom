@@ -3,13 +3,14 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useDrawModel, useTableModel } from '../model';
 import { history, useModel } from 'umi';
-import { Space, Typography } from 'antd';
+import { Space, Tooltip, Typography } from 'antd';
 import CustomerDrawer from './component/customerDrawer';
 import CallDrawer from './component/callDrawer';
 import SoundDrawer from './component/soundDrawer';
 import EndDrawer from './component/endDrawer';
 import FlowTestDrawer from './component/flowTestDrawer';
 import NodeDrawer from './component/nodeDrawer';
+import style from '../style.less';
 
 // 首页
 const DrawDemo: React.FC<any> = (props: any) => {
@@ -143,17 +144,19 @@ const DrawDemo: React.FC<any> = (props: any) => {
           }
         }}
         extra={
-          <Space align="baseline">
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <ArrowLeftOutlined
-              style={{ fontSize: '22px' }}
+              style={{ fontSize: '22px', marginRight: '8px' }}
               onClick={() => {
                 history.push('/front/teacher/course');
               }}
             />
-            <span style={{ fontSize: '20px', fontWeight: '500' }}>
-              {history?.location?.query?.name || courseInfo?.courseName}
-            </span>
-          </Space>
+            <Tooltip title={history?.location?.query?.name || courseInfo?.courseName}>
+              <span className={style['drawTitle']} style={{ fontSize: '20px', fontWeight: '500' }}>
+                {history?.location?.query?.name || courseInfo?.courseName}
+              </span>
+            </Tooltip>
+          </div>
         }
         isSilentMode={courseInfo?.courseStatus}
       />
