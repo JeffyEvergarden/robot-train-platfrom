@@ -173,8 +173,8 @@ const dialogue = (req: any, res: any) =>
   });
 
 export default {
-  [`POST ${baseUrl}/services/stu/hitory/learn`]: learn,
-  [`POST ${baseUrl}/services/stu/hitory/courseList`]: courseList,
+  [`POST ${baseUrl}/services/stu/history/learn`]: learn,
+  [`POST ${baseUrl}/services/stu/history/courseList`]: courseList,
   [`POST ${baseUrl}/services/stu/course/score`]: score,
   [`POST ${baseUrl}/services/stu/course/dialogue`]: dialogue,
 };
