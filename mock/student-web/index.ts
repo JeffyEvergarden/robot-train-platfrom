@@ -211,7 +211,7 @@ const getTaskPanelDetail = (req: any, res: any) => {
           x: 360,
           y: 380,
           properties: { status: 'doing', completeNum: 1, totalNum: 10 },
-          text: { x: -240, y: 380, value: '步骤节点1步骤节点1步骤节点1步骤节点1' },
+          text: { x: 360, y: 380, value: '步骤节点1步骤节点1步骤节点1步骤节点1' },
         },
         {
           id: 'e1782302-fb90-415d-b080-a4f07d95kk2d',
@@ -219,7 +219,7 @@ const getTaskPanelDetail = (req: any, res: any) => {
           x: 360,
           y: 520,
           properties: { status: 'doing', completeNum: 1, totalNum: 10 },
-          text: { x: 960, y: 520, value: '步骤节点2' },
+          text: { x: 360, y: 520, value: '步骤节点2' },
         },
         {
           id: 'fk782302-fb90-415d-b080-a4f07d95kk2d',
