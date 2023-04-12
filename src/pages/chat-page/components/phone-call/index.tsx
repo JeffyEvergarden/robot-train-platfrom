@@ -87,6 +87,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     sipSession.current.currentSession = null;
     sipSession.current.currentConnection = null;
 
+    play();
     timeoutFn();
     ua.start();
 

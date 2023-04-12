@@ -321,7 +321,6 @@ const UserManage: React.FC = (props: any) => {
                   </Button>,
                 ]}
                 options={false}
-                bordered
                 pagination={{
                   pageSize: 10,
                   showSizeChanger: true,
@@ -349,7 +348,6 @@ const UserManage: React.FC = (props: any) => {
                   </Button>,
                 ]}
                 options={false}
-                bordered
                 pagination={{
                   pageSize: 10,
                   showSizeChanger: true,

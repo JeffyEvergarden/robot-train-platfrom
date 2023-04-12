@@ -178,7 +178,7 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
                 <div className={styles['box_customer']} key={index}>
                   <div className={styles['box-avator']}>
                     {/* {lastType !== type && ( */}
-                    <img className={styles['avator']} src={customerPhoto} alt="客方"></img>
+                    <img className={styles['avator']} src={customerPhoto} alt="客方" />
                     {/* )} */}
                   </div>
                   <div className={styles['box-bg']}>{text}</div>
