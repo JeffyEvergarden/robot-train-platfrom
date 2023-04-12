@@ -19,7 +19,7 @@ import {
   ClockCircleOutlined,
   LockOutlined,
   InfoCircleOutlined,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
 } from '@ant-design/icons';
 import style from './index.less';
 
@@ -256,7 +256,6 @@ const StepHtmlBox = (props: any) => {
   }
 
   if (status === 'doing') {
-
     const { completeNum, totalNum } = properties;
 
     return (
@@ -269,7 +268,9 @@ const StepHtmlBox = (props: any) => {
             </div>
             {totalNum && (
               <div className={style['step-progress']}>
-                <span style={{ marginRight: '4px' }}>{completeNum} / {totalNum}</span>
+                <span style={{ marginRight: '4px' }}>
+                  {completeNum} / {totalNum}
+                </span>
                 <Tooltip placement="top" title={'需达到次数才能完成'}>
                   <QuestionCircleOutlined />
                 </Tooltip>

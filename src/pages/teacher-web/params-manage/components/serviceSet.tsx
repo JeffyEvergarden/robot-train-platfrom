@@ -36,7 +36,7 @@ export default () => {
       toneWords,
       speechSwitch: Number(res?.data?.speechSwitch),
       toneSwitch: Number(res?.data?.toneSwitch),
-      emotionnalSwitch: Number(res?.data?.emotionnalSwitch),
+      emotionalSwitch: Number(res?.data?.emotionalSwitch),
       sensation: Number(res?.data?.sensation),
     });
     toneWordsRef?.current?.setTags(toneWords);
@@ -52,14 +52,14 @@ export default () => {
       toneWords,
       speechSwitch: (formVal?.speechSwitch).toString(),
       toneSwitch: (formVal?.toneSwitch).toString(),
-      emotionnalSwitch: (formVal?.emotionnalSwitch).toString(),
+      emotionalSwitch: (formVal?.emotionalSwitch).toString(),
       sensation: (formVal?.sensation).toString(),
     };
     delete params?.wordageFir;
     delete params?.wordageTwo;
     delete formVal?.speechSwitch;
     delete formVal?.toneSwitch;
-    delete formVal?.emotionnalSwitch;
+    delete formVal?.emotionalSwitch;
     delete formVal?.sensation;
     let res = await ruleSave(params);
     if (res?.resultCode == successCode) {
@@ -155,7 +155,7 @@ export default () => {
       </Row>
       <Row gutter={12}>
         <Col span={24}>
-          <Form.Item name="emotionnalSwitch" valuePropName="checked" initialValue={0}>
+          <Form.Item name="emotionalSwitch" valuePropName="checked" initialValue={0}>
             <Checkbox disabled>情绪检测</Checkbox>
           </Form.Item>
         </Col>
