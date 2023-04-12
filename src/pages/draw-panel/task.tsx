@@ -235,6 +235,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       hideAnchors: true,
       isSilentMode,
       edgeTextEdit: false,
+      adjustEdge: false,
     });
     // 节点注册
     registerNode(lf, {
