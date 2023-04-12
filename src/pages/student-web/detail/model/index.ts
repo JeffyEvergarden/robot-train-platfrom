@@ -9,7 +9,7 @@ const { successCode } = config;
 const travelNodes = (nodes: any[]) => {
   nodes.forEach((item: any) => {
     if (item.type === 'step') {
-      item.type === 'step-html';
+      item.type = 'step-html';
     }
   });
 };
@@ -37,6 +37,8 @@ export const useDrawModel = () => {
 
       const { nodes = [], edges = [] } = data;
       travelNodes(nodes);
+
+      console.log(nodes);
       return data;
     } else {
       message.warning('获取画布失败');
