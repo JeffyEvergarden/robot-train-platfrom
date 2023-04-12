@@ -6,8 +6,8 @@ const baseUrl: string = config.basePath;
 //按月列表
 export async function GetCourseInfo_API(data?: { [key: string]: any }) {
   return request(`${baseUrl}/services/stu/course/courseNodeLineInfo`, {
-    method: 'GET',
-    params: data,
+    method: 'POST',
+    data,
   });
 }
 

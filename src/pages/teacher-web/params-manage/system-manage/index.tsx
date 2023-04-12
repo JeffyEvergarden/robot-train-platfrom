@@ -198,7 +198,6 @@ export default () => {
             </Button>,
           ]}
           options={false}
-          bordered
           pagination={{
             pageSize: 10,
             showSizeChanger: true,

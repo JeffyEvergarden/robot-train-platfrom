@@ -5,19 +5,27 @@ import SearchPage from './search-page';
 import style from './style.less';
 import { useCourseModel } from './model';
 
-
-
 const TagIcon = (props: any) => {
-
   const { value, activeKey, num } = props;
 
-  if (value === activeKey) {
-    return <span className={style['tag-icon-active']} style={{ marginLeft: '8px' }}>{num}</span>
-  } else {
-    return <span className={style['tag-icon']} style={{ marginLeft: '8px' }}>{num}</span>
+  if (num === 0) {
+    return null;
   }
 
-}
+  if (value === activeKey) {
+    return (
+      <span className={style['tag-icon-active']} style={{ marginLeft: '8px' }}>
+        {num}
+      </span>
+    );
+  } else {
+    return (
+      <span className={style['tag-icon']} style={{ marginLeft: '8px' }}>
+        {num}
+      </span>
+    );
+  }
+};
 
 const StudentWeb: React.FC<any> = (props: any) => {
   const { studyNum } = useCourseModel();
@@ -40,18 +48,26 @@ const StudentWeb: React.FC<any> = (props: any) => {
     setActiveKey(key);
   };
 
-
-
   // 0 待学习， 1已学习
 
   const pagesItem: any = [
     {
-      label: <span>待学习课<TagIcon value={'1'} activeKey={activeKey} num={waitNum} /></span>,
+      label: (
+        <span>
+          待学习课
+          <TagIcon value={'1'} activeKey={activeKey} num={waitNum} />
+        </span>
+      ),
       key: '1',
       children: <SearchPage type={0} />,
     },
     {
-      label: <span>已学习课<TagIcon value={'2'} activeKey={activeKey} num={doneNum} /></span>,
+      label: (
+        <span>
+          已学习课
+          <TagIcon value={'2'} activeKey={activeKey} num={doneNum} />
+        </span>
+      ),
       key: '2',
       children: <SearchPage type={1} />,
     },

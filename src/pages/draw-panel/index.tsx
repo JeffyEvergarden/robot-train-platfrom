@@ -192,12 +192,12 @@ const DrawPanel: React.FC<any> = (props: any) => {
     <div className={style['draw-box_bg']}>
       <div className={style['menu-box']}>
         <div className={style['content_left']}>{extra}</div>
-        <Condition r-if={!isSilentMode}>
-          <div className={style['content_right']}>
-            <Button className={style['bt-item']} onClick={openFlowTest}>
-              流程测试
-            </Button>
 
+        <div className={style['content_right']}>
+          <Button className={style['bt-item']} onClick={openFlowTest}>
+            流程测试
+          </Button>
+          <Condition r-if={!isSilentMode}>
             <Button className={style['bt-item']} onClick={_check} loading={loading}>
               校验
             </Button>
@@ -207,8 +207,8 @@ const DrawPanel: React.FC<any> = (props: any) => {
             <Dropdown overlay={menuHeaderDropdown} placement="bottomLeft" trigger={['click']}>
               <Button icon={<EllipsisOutlined />}></Button>
             </Dropdown>
-          </div>
-        </Condition>
+          </Condition>
+        </div>
       </div>
       {/* ------ 拖动面板 ------ */}
       <Condition r-if={!isSilentMode}>

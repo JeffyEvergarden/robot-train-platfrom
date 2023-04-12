@@ -133,7 +133,6 @@ export default () => {
           headerTitle="练习课程列表"
           toolBarRender={() => []}
           options={false}
-          bordered
           pagination={{
             pageSize: 10,
             showSizeChanger: true,
