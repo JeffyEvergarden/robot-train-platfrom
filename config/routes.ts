@@ -151,7 +151,7 @@ export default [
     name: '聊天窗口',
     access: 'routerAuth',
     role: ['ADMIN', 'STUDENT'],
-    // hideInMenu: true,
+    hideInMenu: true,
     layout: true,
   },
   {

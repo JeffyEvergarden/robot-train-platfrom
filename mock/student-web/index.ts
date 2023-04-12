@@ -308,6 +308,7 @@ export default {
   [`GET ${baseUrl}/student/course/list`]: getNormalList,
   // 获取具体课程的信息、画布、客户信息
   [`POST ${baseUrl}/services/stu/course/courseNodeLineInfo`]: getCourseInfo,
+  [`POST ${baseUrl}/services/stu/course/taskNodeLineInfo`]: getTaskPanelDetail,
   // 获取成绩
   [`GET ${baseUrl}/services/stu/course/score`]: getStepResult,
 };

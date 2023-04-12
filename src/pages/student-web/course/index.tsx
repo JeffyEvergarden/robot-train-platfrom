@@ -11,6 +11,10 @@ const TagIcon = (props: any) => {
 
   const { value, activeKey, num } = props;
 
+  if (num === 0) {
+    return null;
+  }
+
   if (value === activeKey) {
     return <span className={style['tag-icon-active']} style={{ marginLeft: '8px' }}>{num}</span>
   } else {
