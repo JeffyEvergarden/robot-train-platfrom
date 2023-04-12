@@ -253,7 +253,7 @@ export function registerNode(lf: any, options: any) {
       {
         text: '添加子任务',
         callback(node: any) {
-          //
+          console.log(node);
           options?.addSubTask?.(node);
         },
       },
@@ -280,7 +280,6 @@ export function registerNode(lf: any, options: any) {
       {
         text: '添加子步骤',
         callback(node: any) {
-          //
           options?.addSubStep?.(node);
         },
       },
