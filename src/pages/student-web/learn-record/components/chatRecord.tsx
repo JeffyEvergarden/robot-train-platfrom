@@ -43,6 +43,7 @@ export default (props: any) => {
   const getScore = async (record: any) => {
     let params = {
       courseId: record?.courseId,
+      studyId: record?.id,
     };
     let res = await scoreRequest(params);
     setScoreData(res?.data);
