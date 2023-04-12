@@ -144,6 +144,7 @@ const TaskDrawPanel: any = (props: any) => {
         deleteNode={_deleteNode} // 删除
         onNodeDbClick={onNodeDbClick} // 双击点击节点
         onEdgeDbClick={onEdgeDbClick} // 双击连线
+        isSilentMode={true}
       />
       <FlowDrawer cref={flowNodeFormRef} changeNodeName={changeNodeName}></FlowDrawer>
     </>

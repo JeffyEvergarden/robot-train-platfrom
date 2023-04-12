@@ -65,7 +65,7 @@ const getCourseInfo = (req: any, res: any) => {
           x: 320,
           y: 500,
           properties: {},
-          text: { x: 320, y: 500, value: '客户节点' },
+          text: { x: 320, y: 500, value: '客服节点' },
         },
         {
           id: '2da32edd-175b-44b1-a132-a7b271507390',
@@ -73,7 +73,7 @@ const getCourseInfo = (req: any, res: any) => {
           x: 600,
           y: 660,
           properties: {},
-          text: { x: 600, y: 660, value: '结束1' },
+          text: { x: 600, y: 660, value: '结束' },
         },
       ],
       edges: [
@@ -305,18 +305,9 @@ const courseCount = (req: any, res: any) => {
 };
 export default {
   // 获取课程信息
-  [`GET ${baseUrl}/services/stu/course/coursePage`]: getNormalList,
-
-  [`POST ${baseUrl}/services/stu/course/courseCount`]: courseCount,
-
+  [`GET ${baseUrl}/student/course/list`]: getNormalList,
   // 获取具体课程的信息、画布、客户信息
   [`POST ${baseUrl}/services/stu/course/courseNodeLineInfo`]: getCourseInfo,
   // 获取成绩
   [`GET ${baseUrl}/services/stu/course/score`]: getStepResult,
-  // 播放电话预接口
-  [`POST ${baseUrl}/services/stu/course/call`]: postCall,
-
-  // 学员画布---------
-  [`POST ${baseUrl}/services/stu/course/taskNodeLineInfo`]: getTaskPanelDetail,
-  //  ----------
 };

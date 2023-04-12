@@ -116,7 +116,9 @@ const TableForm: React.FC<any> = (props) => {
         >
           <Radio.Group disabled={formType == 'edit'}>
             <Radio value={0}>常规</Radio>
-            <Radio value={1}>剧情</Radio>
+            <Radio value={1} disabled>
+              剧情
+            </Radio>
           </Radio.Group>
         </Form.Item>
         <Condition r-if={courseStyle == 1}>
