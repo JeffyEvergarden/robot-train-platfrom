@@ -207,7 +207,7 @@ const getTaskPanelDetail = (req: any, res: any) => {
         },
         {
           id: 'd1782302-fb90-415d-b080-a4f07d95cc1f',
-          type: 'step-html',
+          type: 'step',
           x: 360,
           y: 380,
           properties: { status: 'finish' },
@@ -215,7 +215,7 @@ const getTaskPanelDetail = (req: any, res: any) => {
         },
         {
           id: 'e1782302-fb90-415d-b080-a4f07d95kk2d',
-          type: 'step-html',
+          type: 'step',
           x: 360,
           y: 520,
           properties: { status: 'doing' },
@@ -223,7 +223,7 @@ const getTaskPanelDetail = (req: any, res: any) => {
         },
         {
           id: 'fk782302-fb90-415d-b080-a4f07d95kk2d',
-          type: 'step-html',
+          type: 'step',
           x: 360,
           y: 700,
           properties: { status: 'wait' },
@@ -310,7 +310,7 @@ export default {
   [`POST ${baseUrl}/services/stu/course/courseCount`]: courseCount,
 
   // 获取具体课程的信息、画布、客户信息
-  [`GET ${baseUrl}/services/stu/course/courseNodeLineInfo`]: getCourseInfo,
+  [`POST ${baseUrl}/services/stu/course/courseNodeLineInfo`]: getCourseInfo,
   // 获取成绩
   [`GET ${baseUrl}/services/stu/course/score`]: getStepResult,
   // 播放电话预接口

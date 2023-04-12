@@ -38,15 +38,15 @@ class CourseNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: data.text,
-            x: data.x,
-            y: data.y,
-            editable: false, // 不可编辑节点名字
-          }
+          value: data.text,
+          x: data.x,
+          y: data.y,
+          editable: false, // 不可编辑节点名字
+        }
         : {
-            ...data.text,
-            editable: false,
-          };
+          ...data.text,
+          editable: false,
+        };
     super.initNodeData(data);
     this.width = 200;
     this.height = 58;
@@ -82,15 +82,15 @@ class TaskNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: data.text,
-            x: data.x,
-            y: data.y,
-            editable: false, // 不可编辑节点名字
-          }
+          value: data.text,
+          x: data.x,
+          y: data.y,
+          editable: false, // 不可编辑节点名字
+        }
         : {
-            ...data.text,
-            editable: false,
-          };
+          ...data.text,
+          editable: false,
+        };
     super.initNodeData(data);
     this.width = 200;
     this.height = 58;
@@ -126,15 +126,15 @@ class StepNodeModel extends RectNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: data.text,
-            x: data.x,
-            y: data.y,
-            editable: false, // 不可编辑节点名字
-          }
+          value: data.text,
+          x: data.x,
+          y: data.y,
+          editable: false, // 不可编辑节点名字
+        }
         : {
-            ...data.text,
-            editable: false,
-          };
+          ...data.text,
+          editable: false,
+        };
     super.initNodeData(data);
     this.width = 200;
     this.height = 74;
@@ -165,15 +165,15 @@ class StepHtmlNodeModel extends HtmlNodeModel {
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: data.text,
-            x: data.x,
-            y: data.y,
-            editable: false, // 不可编辑节点名字
-          }
+          value: data.text,
+          x: data.x,
+          y: data.y,
+          editable: false, // 不可编辑节点名字
+        }
         : {
-            ...data.text,
-            editable: false,
-          };
+          ...data.text,
+          editable: false,
+        };
     super.initNodeData(data);
     this.width = 200;
     this.height = 74;
