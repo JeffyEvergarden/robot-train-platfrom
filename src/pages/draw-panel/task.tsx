@@ -56,7 +56,6 @@ const DrawPanel: React.FC<any> = (props: any) => {
     // 双击连线
     eventCenter.on('edge:dbclick', (info: any) => {
       const { data, e } = info;
-      return;
       console.log('edge:dbclick', data, e);
       onEdgeDbClick?.(data);
     });
@@ -235,6 +234,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       edgeType: 'polyline',
       hideAnchors: true,
       isSilentMode,
+      edgeTextEdit: false,
     });
     // 节点注册
     registerNode(lf, {
@@ -288,9 +288,11 @@ const DrawPanel: React.FC<any> = (props: any) => {
   }));
 
   useEffect(() => {
+    console.log(isSilentMode);
+
     // 初始化画布
     init();
-  }, []);
+  }, [isSilentMode]);
 
   return (
     <div className={style['draw-box_bg']}>

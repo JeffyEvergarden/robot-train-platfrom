@@ -70,7 +70,7 @@ const taskDetail = (req: any, res: any) => {
       taskType: Math.ceil(Math.random() * 2),
       passScore: Math.ceil(Math.random() * 40 + 60),
       progress: Math.floor(Math.random() * 3),
-      taskStatus: Math.floor(Math.random() * 2),
+      taskStatus: 1,
       creator: 'root',
       id: 1,
     },
