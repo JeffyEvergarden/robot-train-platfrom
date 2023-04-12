@@ -22,7 +22,7 @@ export default () => {
       // groupId: '',
     };
     let res = await courseList(params);
-    setCourseList(res?.data);
+    setCourseList(res?.data || []);
   };
 
   const getLearnRecord = async (payload: any) => {
@@ -35,7 +35,7 @@ export default () => {
     delete params?.taskName;
     let res = await learnRecord(params);
     return {
-      data: res?.data?.list,
+      data: res?.data?.list || [],
       total: res?.data?.totalPage,
       current: payload?.current || 1,
       pageSize: payload?.pageSize || 10,
