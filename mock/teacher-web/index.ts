@@ -276,6 +276,7 @@ const chatsend = (req: any, res: any) => {
           text: '对方已挂断',
           delay: '',
           status: '',
+          isEnd: true,
           // keysTips: [
           //   {
           //     flag: true,
