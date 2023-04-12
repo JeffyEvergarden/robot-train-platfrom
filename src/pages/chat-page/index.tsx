@@ -40,6 +40,7 @@ const ChatPage: any = (props: any) => {
 
   // 学习记录id
   const [recordId, setRecordId] = useState<any>('');
+  const [finishFlag, setFinishFlag] = useState<any>(false);
 
   // 消息盒子
   const messageRef: any = useRef<any>({});
@@ -123,6 +124,7 @@ const ChatPage: any = (props: any) => {
         // 打开考试弹窗
         // 对话结束
         phoneCallRef.current?.end?.();
+        setFinishFlag(true);
         openScoreModal(socketRef.current.sessionId);
       }
     } else {
@@ -267,7 +269,7 @@ const ChatPage: any = (props: any) => {
           >
             <Button
               type="default"
-              disabled={!recordId}
+              disabled={!recordId && !finishFlag}
               onClick={() => {
                 openScoreModal(recordId);
               }}
