@@ -51,7 +51,8 @@ const TaskDrawPanel: any = (props: any) => {
   // 保存画布
   const onSave = (data: any) => {
     const { nodes, edges } = data;
-    saveDrawPanel({ nodes, edges, id: history?.location?.query?.id });
+    let reqData = { nodes, edges, id: history?.location?.query?.id };
+    saveDrawPanel(reqData);
   };
 
   // 监听节点添加  return true / false

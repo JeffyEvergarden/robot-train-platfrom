@@ -129,11 +129,17 @@ const DrawPanel: React.FC<any> = (props: any) => {
     const _lf = drawPanelRef.current;
     const { nodes, edges } = _lf.getGraphData();
 
+    let reg = /^任务节点[0-9]+$/;
+    let maxNew = nodes //找到当前新增节点最高
+      ?.filter((item: any) => reg?.test(item?.text?.value))
+      ?.map((item: any) => item?.text?.value?.slice?.(4))
+      ?.sort((a: any, b: any) => b - a)?.[0];
+
     let newInfo: any = {
       type: 'task',
       x: node.x - 200 < 250 ? 250 : node.x - 200,
       y: node.y + 140,
-      text: '子任务',
+      text: `任务节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
     };
     // 找到所有连线
     let _edges = edges
@@ -150,7 +156,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
           max = item.x;
         }
       });
-      newInfo.x = max + 300;
+      newInfo.x = max + 350;
     }
 
     let _node = _lf.getNodeModelById(node.id);
@@ -176,7 +182,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
   const addSubStep = (node: any) => {
     const _lf = drawPanelRef.current;
 
-    const { edges } = _lf.getGraphData();
+    const { nodes, edges } = _lf.getGraphData();
 
     let _edges = edges
       .filter((item: any) => item.sourceNodeId === node.id)
@@ -200,11 +206,17 @@ const DrawPanel: React.FC<any> = (props: any) => {
       return;
     }
 
+    let reg = /^课程名称[0-9]+$/;
+    let maxNew = nodes //找到当前新增节点最高
+      ?.filter((item: any) => reg?.test(item?.text?.value))
+      ?.map((item: any) => item?.text?.value?.slice?.(4))
+      ?.sort((a: any, b: any) => b - a)?.[0];
+
     let newInfo: any = {
       type: 'step',
       x: parentNode.x,
       y: parentNode.y + 140,
-      text: '子步骤',
+      text: `课程名称${maxNew ? Number?.(maxNew) + 1 : 1}`,
     };
 
     let newNode = _lf.addNode(newInfo);
