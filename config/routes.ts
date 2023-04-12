@@ -1,3 +1,5 @@
+console.log(process.env.UMI_ENV);
+
 export default [
   {
     path: '/',
@@ -119,36 +121,36 @@ export default [
     hideInMenu: true,
     layout: true,
   },
-  {
-    path: '/front/demo',
-    component: './demo',
-    name: '语音聊天demo测试',
-    access: 'routerAuth',
-    role: ['ADMIN'],
-    layout: true,
-  },
-  {
-    path: '/front/drawdemo',
-    component: './draw-demo',
-    name: '画布demo测试',
-    access: 'routerAuth',
-    role: ['ADMIN'],
-    layout: true,
-  },
-  {
-    path: '/front/drawdemo2',
-    component: './teacher-web/task/task-draw',
-    name: '任务画布demo测试',
-    access: 'routerAuth',
-    role: ['ADMIN'],
-    layout: true,
-  },
+  // {
+  //   path: '/front/demo',
+  //   component: './demo',
+  //   name: '语音聊天demo测试',
+  //   access: 'routerAuth',
+  //   role: ['ADMIN'],
+  //   layout: true,
+  // },
+  // {
+  //   path: '/front/drawdemo',
+  //   component: './draw-demo',
+  //   name: '画布demo测试',
+  //   access: 'routerAuth',
+  //   role: ['ADMIN'],
+  //   layout: true,
+  // },
+  // {
+  //   path: '/front/drawdemo2',
+  //   component: './teacher-web/task/task-draw',
+  //   name: '任务画布demo测试',
+  //   access: 'routerAuth',
+  //   role: ['ADMIN'],
+  //   layout: true,
+  // },
   {
     path: '/front/student/chat',
     component: './chat-page',
     name: '聊天窗口',
     access: 'routerAuth',
-    role: ['ADMIN'],
+    role: ['ADMIN', 'STUDENT'],
     // hideInMenu: true,
     layout: true,
   },

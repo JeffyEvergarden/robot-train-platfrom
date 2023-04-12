@@ -27,6 +27,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     addNode = () => true,
     deleteNode = () => true,
     onExtraEvent,
+    isSilentMode = false,
   } = props;
 
   // const { initialState, setInitialState } = useModel('@@initialState');
@@ -47,11 +48,15 @@ const DrawPanel: React.FC<any> = (props: any) => {
     eventCenter.on('node:dbclick', (info: any) => {
       const { data, e, position } = info;
       // console.log('node:dbclick', data, e, position);
+      if (isSilentMode) {
+        return;
+      }
       onNodeDbClick?.(data);
     });
     // 双击连线
     eventCenter.on('edge:dbclick', (info: any) => {
       const { data, e } = info;
+      return;
       console.log('edge:dbclick', data, e);
       onEdgeDbClick?.(data);
     });
@@ -229,11 +234,13 @@ const DrawPanel: React.FC<any> = (props: any) => {
       grid: true,
       edgeType: 'polyline',
       hideAnchors: true,
+      isSilentMode,
     });
     // 节点注册
     registerNode(lf, {
       addSubTask,
       addSubStep,
+      isSilentMode,
     });
     console.log('节点注册');
     // 赋值到curLf
@@ -242,6 +249,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     // 设置菜单
     setMenuConfig(lf, {
       deleteNode,
+      isSilentMode,
     });
     // 添加监听事件
     addEvent(lf);
@@ -289,9 +297,12 @@ const DrawPanel: React.FC<any> = (props: any) => {
       <div className={style['menu-box']}>
         <div className={style['content_left']}>{preMenu}</div>
         <div className={style['content_right']}>
-          <Button className={style['bt-item']} type="primary" onClick={_save}>
-            保存
-          </Button>
+          <Condition r-if={!isSilentMode}>
+            <Button className={style['bt-item']} type="primary" onClick={_save}>
+              保存
+            </Button>
+          </Condition>
+
           {extraMenu}
         </div>
       </div>
