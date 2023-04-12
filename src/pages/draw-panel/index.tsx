@@ -13,6 +13,7 @@ import { registerNode } from './components/node';
 
 import { setMenuConfig, setControlConfig, checkEdge } from './config';
 import { EllipsisOutlined } from '@ant-design/icons';
+import Condition from '@/components/Condition';
 
 // 首页
 const DrawPanel: React.FC<any> = (props: any) => {
@@ -32,6 +33,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     openEnd,
     openFlowTest,
     loading = false,
+    isSilentMode = false,
   } = props;
 
   // const { initialState, setInitialState } = useModel('@@initialState');
@@ -51,6 +53,9 @@ const DrawPanel: React.FC<any> = (props: any) => {
     // 双击节点
     eventCenter.on('node:dbclick', (info: any) => {
       const { data, e, position } = info;
+      if (isSilentMode) {
+        return;
+      }
       // console.log('node:dbclick', data, e, position);
       onNodeDbClick?.(data);
     });
@@ -111,6 +116,8 @@ const DrawPanel: React.FC<any> = (props: any) => {
       plugins: [DndPanel, SelectionSelect, Menu, Control, MiniMap],
       grid: true,
       edgeType: 'polyline',
+      isSilentMode,
+      edgeTextEdit: false,
     });
     // 节点注册
     registerNode(lf);
@@ -121,6 +128,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     // 设置菜单
     setMenuConfig(lf, {
       deleteNode,
+      isSilentMode,
     });
     // 添加监听事件
     addEvent(lf);
@@ -157,7 +165,11 @@ const DrawPanel: React.FC<any> = (props: any) => {
   useEffect(() => {
     // 初始化画布
     init();
-  }, []);
+  }, [isSilentMode]);
+
+  useEffect(() => {
+    console.log(isSilentMode);
+  }, [isSilentMode]);
 
   const menuHeaderDropdown = (
     <AntdMenu selectedKeys={[]}>
@@ -180,24 +192,29 @@ const DrawPanel: React.FC<any> = (props: any) => {
     <div className={style['draw-box_bg']}>
       <div className={style['menu-box']}>
         <div className={style['content_left']}>{extra}</div>
+
         <div className={style['content_right']}>
           <Button className={style['bt-item']} onClick={openFlowTest}>
             流程测试
           </Button>
-
-          <Button className={style['bt-item']} onClick={_check} loading={loading}>
-            校验
-          </Button>
-          <Button className={style['bt-item']} type="primary" onClick={_save} loading={loading}>
-            保存
-          </Button>
-          <Dropdown overlay={menuHeaderDropdown} placement="bottomLeft" trigger={['click']}>
-            <Button icon={<EllipsisOutlined />}></Button>
-          </Dropdown>
+          <Condition r-if={!isSilentMode}>
+            <Button className={style['bt-item']} onClick={_check} loading={loading}>
+              校验
+            </Button>
+            <Button className={style['bt-item']} type="primary" onClick={_save} loading={loading}>
+              保存
+            </Button>
+            <Dropdown overlay={menuHeaderDropdown} placement="bottomLeft" trigger={['click']}>
+              <Button icon={<EllipsisOutlined />}></Button>
+            </Dropdown>
+          </Condition>
         </div>
       </div>
       {/* ------ 拖动面板 ------ */}
-      <DndDiyPanel lf={curLf}></DndDiyPanel>
+      <Condition r-if={!isSilentMode}>
+        <DndDiyPanel lf={curLf}></DndDiyPanel>
+      </Condition>
+
       <div id="draw-box" ref={drawDomRef} className={style['draw-box']}></div>
     </div>
   );

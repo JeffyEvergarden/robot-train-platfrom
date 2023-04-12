@@ -130,7 +130,6 @@ const TeacherWeb: React.FC<any> = (props: any) => {
                 onClick={() => {
                   history.push(`/front/teacher/task/draw?id=${row.id}&name=${row.taskName}`);
                 }}
-                disabled={row?.taskStatus}
               >
                 流程编辑
               </Button>

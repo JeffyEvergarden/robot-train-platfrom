@@ -1,7 +1,7 @@
 import DrawPanel from '@/pages/draw-panel';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { useDrawModel } from '../model';
+import { useDrawModel, useTableModel } from '../model';
 import { history, useModel } from 'umi';
 import { Space, Typography } from 'antd';
 import CustomerDrawer from './component/customerDrawer';
@@ -24,6 +24,8 @@ const DrawDemo: React.FC<any> = (props: any) => {
     courseInfo: model.courseInfo,
     setCourseInfo: model.setCourseInfo,
   }));
+
+  const { courseDetail } = useTableModel();
   // -------
   // 获取画布
   const {
@@ -95,11 +97,21 @@ const DrawDemo: React.FC<any> = (props: any) => {
     lf.updateText(id, name);
   };
 
+  const getDetail = async () => {
+    await courseDetail({ id: history?.location?.query?.id }).then((res: any) => {
+      setCourseInfo(res?.data || {});
+    });
+  };
+
   useEffect(() => {
+    getDetail();
     //初始化画布
     init();
-    console.log(history);
   }, []);
+
+  useEffect(() => {
+    console.log(courseInfo);
+  }, [courseInfo]);
 
   return (
     <>
@@ -143,6 +155,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
             </span>
           </Space>
         }
+        isSilentMode={courseInfo?.courseStatus}
       />
       <CustomerDrawer cref={customerDrawerRef}></CustomerDrawer>
       <CallDrawer cref={callDrawerRef}></CallDrawer>
