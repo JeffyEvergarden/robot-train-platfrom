@@ -6,7 +6,7 @@ import style from '../style.less';
 import { useDrawModel } from '@/pages/student-web/detail/model';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { history } from 'umi';
-import { useTaskDrawModel } from '../model';
+import { useTaskDrawModel, useTaskModel } from '../model';
 import FlowDrawer from '../components/flowDrawer';
 
 const TaskDrawPanel: any = (props: any) => {
@@ -14,6 +14,8 @@ const TaskDrawPanel: any = (props: any) => {
 
   const curNodeRef: any = useRef<any>({});
   const flowNodeFormRef: any = useRef<any>({});
+
+  const [taskInfo, setTaskInfo] = useState<any>({});
 
   // 输入框
   const [nameVal, setNameVal] = useState<any>('');
@@ -27,6 +29,9 @@ const TaskDrawPanel: any = (props: any) => {
     lf.updateText(curNodeRef.current.id, inputVal);
     // curNodeRef.current.text.value = inputVal
   };
+
+  //获取任务详情
+  const { taskDetail } = useTaskModel();
 
   // -------
   // 获取画布
@@ -117,7 +122,14 @@ const TaskDrawPanel: any = (props: any) => {
     }
   };
 
+  const getDetail = async () => {
+    await taskDetail({ id: history?.location?.query?.id }).then((res: any) => {
+      setTaskInfo(res?.data || {});
+    });
+  };
+
   useEffect(() => {
+    getDetail();
     //初始化画布
     init();
   }, []);
@@ -144,7 +156,7 @@ const TaskDrawPanel: any = (props: any) => {
         deleteNode={_deleteNode} // 删除
         onNodeDbClick={onNodeDbClick} // 双击点击节点
         onEdgeDbClick={onEdgeDbClick} // 双击连线
-        isSilentMode={true}
+        isSilentMode={taskInfo?.taskStatus}
       />
       <FlowDrawer cref={flowNodeFormRef} changeNodeName={changeNodeName}></FlowDrawer>
     </>

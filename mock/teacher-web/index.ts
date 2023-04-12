@@ -342,6 +342,7 @@ export default {
   [`POST ${baseUrl}/services/course/dialogueBegin`]: chatbegin, //流程测试
   [`POST ${baseUrl}/services/course/dialogueSend`]: chatsend,
   [`POST ${baseUrl}/services/course/dialogueFinish`]: defaultResault,
+  [`POST ${baseUrl}/services/course/coursePublishTest`]: defaultResault,
 
   [`POST ${baseUrl}/services/course/courseCustomInfo`]: courseCustomInfo, //客户
   [`POST ${baseUrl}/services/course/courseCustomInfoSave`]: defaultResault,
