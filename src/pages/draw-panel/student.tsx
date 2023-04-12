@@ -45,7 +45,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     // 双击节点
     eventCenter.on('node:dbclick', (info: any) => {
       const { data, e, position } = info;
-      // console.log('node:dbclick', data, e, position);
+      console.log('node:dbclick', data, e, position);
       onNodeDbClick?.(data);
     });
     // 双击连线

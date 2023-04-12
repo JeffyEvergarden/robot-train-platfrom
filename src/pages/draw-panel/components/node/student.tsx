@@ -262,9 +262,10 @@ const StepHtmlBox = (props: any) => {
       <Popover content={content} trigger="click">
         <div className={`${style['step-box']} ${style[`step-box_${status}`]}`}>
           <div className={style['step-header']}>
-            <div className={style['step-status']}>{icon}</div>
-            <div className={style['step-title']}>{text}</div>
-
+            <div className={style['step-title-box']}>
+              <div className={style['step-status']}>{icon}</div>
+              <div className={style['step-title']}>{text}</div>
+            </div>
             {totalNum && (
               <div className={style['step-progress']}>
                 <span style={{ marginRight: '4px' }}>
