@@ -19,7 +19,7 @@ export default () => {
 
   const getCourseList = async () => {
     let params = {
-      groupId: '',
+      // groupId: '',
     };
     let res = await courseList(params);
     setCourseList(res?.data);
