@@ -224,7 +224,7 @@ const UserManage: React.FC = (props: any) => {
       valueType: 'dateRange',
       hideInTable: true,
       fieldProps: {
-        placeholder: '请选择同步时间',
+        placeholder: ['开始时间', '结束时间'],
       },
     },
     {

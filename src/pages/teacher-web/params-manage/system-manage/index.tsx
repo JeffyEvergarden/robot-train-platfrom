@@ -99,7 +99,7 @@ export default () => {
         placeholder: '请选择课程名称',
       },
       renderFormItem: () => (
-        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择部门组别">
+        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择课程名称">
           {courceListData?.map((item: any) => {
             return (
               <Select.Option key={item?.id} value={item?.modelName}>
