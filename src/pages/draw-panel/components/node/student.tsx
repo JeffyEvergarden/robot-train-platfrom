@@ -13,12 +13,13 @@ import LogicFlow, {
   HtmlNodeModel,
 } from '@logicflow/core';
 import ReactDOM from 'react-dom';
-import { Popover, Button } from 'antd';
+import { Popover, Button, Tooltip } from 'antd';
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   LockOutlined,
   InfoCircleOutlined,
+  QuestionCircleOutlined
 } from '@ant-design/icons';
 import style from './index.less';
 
@@ -175,14 +176,14 @@ class StepHtmlNodeModel extends HtmlNodeModel {
           editable: false,
         };
     super.initNodeData(data);
-    this.width = 200;
+    this.width = 250;
     this.height = 74;
     this.radius = 8;
   }
   setAttributes() {
     this.text.editable = false; // 禁止节点文本编辑
     // 设置节点宽高和锚点
-    const width = 200;
+    const width = 250;
     const height = 74;
     this.width = width;
     this.height = height;
@@ -254,8 +255,33 @@ const StepHtmlBox = (props: any) => {
     );
   }
 
+  if (status === 'doing') {
+
+    const { completeNum, totalNum } = properties;
+
+    return (
+      <Popover content={content} trigger="click">
+        <div className={`${style['step-box']} ${style[`step-box_${status}`]}`}>
+          <div className={style['step-header']}>
+            <div className={style['step-status']}>{icon}</div>
+            <div className={style['step-title']}>{text}</div>
+
+            {totalNum && (
+              <div className={style['step-progress']}>
+                <span style={{ marginRight: '4px' }}>{completeNum} / {totalNum}</span>
+                <Tooltip placement="top" title={'需达到次数才能完成'}>
+                  <QuestionCircleOutlined />
+                </Tooltip>
+              </div>
+            )}
+          </div>
+        </div>
+      </Popover>
+    );
+  }
+
   return (
-    <Popover content={content} trigger="hover">
+    <Popover content={content} trigger="click">
       <div className={`${style['step-box']} ${style[`step-box_${status}`]}`}>
         <div className={style['step-header']}>
           <div className={style['step-status']}>{icon}</div>
