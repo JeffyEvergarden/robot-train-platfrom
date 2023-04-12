@@ -322,7 +322,9 @@ const ChatPage: any = (props: any) => {
         <Condition r-if={pageType === 'init'}>
           <div className={style['chat-page_init']} onClick={startChangePageType}>
             <img src={courseSingle} className={style['bt-pic']}></img>
-            <div className={style['bt-desc']}>点击拨打电话开始{courseType === 'exam' ? '考试' : '练习'}</div>
+            <div className={style['bt-desc']}>
+              点击拨打电话开始{courseType === 'exam' ? '考试' : '练习'}
+            </div>
           </div>
         </Condition>
 

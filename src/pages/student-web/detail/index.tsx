@@ -75,10 +75,10 @@ const StudentDrawPanel: any = (props: any) => {
 
   const onExtraEvent = (name: any, data: any) => {
     console.log(name, data);
-    let courseId = data.properties.courseId
+    let courseId = data.properties.courseId;
     if (name === 'step-tips:button-click') {
       if (!courseId) {
-        message.warning('获取不到课程ID')
+        message.warning('获取不到课程ID');
         return;
       }
       window.open(`${basePath}/front/student/chat?taskId=${taskId}&courseId=${courseId}`);
