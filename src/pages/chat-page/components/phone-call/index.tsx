@@ -61,7 +61,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     }
     // 单独增加
     setStatus('calling');
-    timeoutFn();
+    // timeoutFn(); 这版本不做清除
     // ----
     return;
 
