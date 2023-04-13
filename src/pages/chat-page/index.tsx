@@ -64,10 +64,10 @@ const ChatPage: any = (props: any) => {
   // 获取课程信息
   const getInfo = async () => {
     // 获取课程信息
-    let res: any = await getCourseInfo({ courseId });
+    let res: any = await getCourseInfo({ courseId, taskId });
     setTitle(res.courseName || '--');
     setTips(res.customerInfo || '--');
-    setCourseType(res.courseType === 1 ? 'exercise' : 'exam');
+    setCourseType(res.taskType === 1 ? 'exercise' : 'exam');
     // setStandardMsg(res.standardMsg);
     // setKeyPoint(res.keyPoint);
     // 画布信息

@@ -36,6 +36,7 @@ const getCourseInfo = (req: any, res: any) => {
     data: {
       courseName: '新世纪-GPX-高智能方程式',
       courseType: 1,
+      taskType: Math.random() > 0.5 ? 1 : 2,
       customerInfo:
         '客户姓名: 张三，逾期2期，逾期金额200元，客户信息客户信息客户信息客户信息客户信息客户信息客户姓名：张三，逾期2期，逾期金额200元,客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息',
       standardMsg:
