@@ -84,7 +84,7 @@ const ScoreModal: any = (props: any) => {
       visible={isModalOpen}
       className={style['model-bg']}
       maskClosable={false}
-      width={'880px'}
+      width={'920px'}
       onOk={handleOk}
       cancelText={'关闭'}
       onCancel={handleCancel}
@@ -115,19 +115,21 @@ const ScoreModal: any = (props: any) => {
               }}
             ></Progress>
 
-            <Table
-              rowKey="name"
-              size="small"
-              columns={columns}
-              dataSource={tableData}
-              style={{ marginTop: '16px', width: '280px' }}
-              pagination={false}
-              scroll={{ y: 140 }}
-            ></Table>
+            {tableData.length > 0 &&
+              <Table
+                rowKey="name"
+                size="small"
+                columns={columns}
+                dataSource={tableData}
+                style={{ marginTop: '16px', width: '320px' }}
+                pagination={false}
+                scroll={{ y: 140 }}
+              ></Table>
+            }
           </div>
         </div>
       </Spin>
-    </Modal>
+    </Modal >
   );
 };
 
