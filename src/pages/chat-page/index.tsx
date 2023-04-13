@@ -191,6 +191,7 @@ const ChatPage: any = (props: any) => {
 
   // 结束
   const onEnd = () => {
+    setFinishFlag(true); // 主动结束
     socketRef.current?.sk?.close?.();
   };
 
@@ -272,7 +273,7 @@ const ChatPage: any = (props: any) => {
           >
             <Button
               type="default"
-              // disabled={!recordId || !finishFlag}
+              disabled={!recordId || !finishFlag}
               onClick={() => {
                 openScoreModal(recordId);
               }}
