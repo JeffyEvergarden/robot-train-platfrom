@@ -140,7 +140,7 @@ const getStepResult = (req: any, res: any) => {
           deductScore: -5,
         },
         {
-          deductPoint: '超过8秒未回复客户',
+          deductPoint: '超过8秒未回复客户话术缺少关键点话术缺少关键点话术缺少关键点',
           deductScore: -5,
         },
         {
