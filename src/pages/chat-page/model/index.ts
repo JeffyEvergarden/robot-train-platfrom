@@ -69,5 +69,6 @@ export const useChatModel = () => {
     getStepResult,
     postCall,
     resultLoading,
+    setResultLoading,
   };
 };

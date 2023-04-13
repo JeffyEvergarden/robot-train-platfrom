@@ -25,6 +25,7 @@ const ChatPage: any = (props: any) => {
 
   const taskId: any = query?.taskId;
   const courseId: any = query?.courseId;
+  const nodeId: any = query?.nodeId;
 
   const { getCourseInfo, resultLoading, postCall } = useChatModel();
 
@@ -64,10 +65,10 @@ const ChatPage: any = (props: any) => {
   // 获取课程信息
   const getInfo = async () => {
     // 获取课程信息
-    let res: any = await getCourseInfo({ courseId });
+    let res: any = await getCourseInfo({ courseId, taskId });
     setTitle(res.courseName || '--');
     setTips(res.customerInfo || '--');
-    setCourseType(res.courseType === 1 ? 'exercise' : 'exam');
+    setCourseType(res.taskType === 1 ? 'exercise' : 'exam');
     // setStandardMsg(res.standardMsg);
     // setKeyPoint(res.keyPoint);
     // 画布信息
@@ -134,7 +135,7 @@ const ChatPage: any = (props: any) => {
 
   // websocket
   const initSocket = async () => {
-    let sessionId: any = await postCall({ courseId });
+    let sessionId: any = await postCall({ courseId, taskId, nodeId });
 
     if (!sessionId) {
       message.warning('获取sessionId失败');
@@ -142,6 +143,8 @@ const ChatPage: any = (props: any) => {
     }
     // -----
     setRecordId(sessionId);
+
+    socketRef.current.sessionId = sessionId;
 
     const msgRef = messageRef.current;
     if (msgRef) {
@@ -162,7 +165,7 @@ const ChatPage: any = (props: any) => {
     const linkUrl = type === 'ws' ? `ws://${websocket_url}` : `wss://${websocket_url}`;
 
     const sk = new WebSocket(`${linkUrl}?sessionId=${sessionId}`);
-    socketRef.current = sk;
+    socketRef.current.sk = sk;
     sk.onopen = (event) => {
       console.log('WebSocket 连接建立');
       sk.send('Hello Server!');
@@ -188,7 +191,8 @@ const ChatPage: any = (props: any) => {
 
   // 结束
   const onEnd = () => {
-    socketRef.current?.close?.();
+    setFinishFlag(true); // 主动结束
+    socketRef.current?.sk?.close?.();
   };
 
   // -------------------- 打开成绩单
@@ -205,7 +209,7 @@ const ChatPage: any = (props: any) => {
     getInfo();
 
     return () => {
-      socketRef.current?.close?.();
+      socketRef.current?.sk?.close?.();
     };
   }, []);
 
@@ -269,7 +273,7 @@ const ChatPage: any = (props: any) => {
           >
             <Button
               type="default"
-              disabled={!recordId && !finishFlag}
+              disabled={!recordId || !finishFlag}
               onClick={() => {
                 openScoreModal(recordId);
               }}

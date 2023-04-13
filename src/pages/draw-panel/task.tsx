@@ -260,10 +260,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
     setLf(lf);
     setControlConfig(lf);
     // 设置菜单
-    setMenuConfig(lf, {
-      deleteNode,
-      isSilentMode,
-    });
+    // setMenuConfig(lf, {
+    //   deleteNode,
+    //   isSilentMode,
+    // });
     // 添加监听事件
     addEvent(lf);
 
