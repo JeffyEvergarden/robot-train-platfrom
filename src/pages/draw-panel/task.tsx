@@ -224,8 +224,6 @@ const DrawPanel: React.FC<any> = (props: any) => {
     let newNode = _lf.addNode(newInfo);
     //连向下一级的线
     let nodeLine = edges.find((item: any) => item.sourceNodeId == node.id);
-    console.log(nodeLine);
-
     //位移操作
     if (node.type == 'step' && nodeLine) {
       let bAnchor = newNode.getDefaultAnchor()[2];
@@ -262,16 +260,13 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
   const moveNode = (lf: any, node: any) => {
     const { nodes, edges } = lf.graphModel;
-    console.log(nodes, edges);
     //连向下一级的线
     let nodeLine = edges.find((item: any) => item.sourceNodeId == node.id);
-    console.log(nodeLine);
     if (!nodeLine) {
       return;
     }
     //连向下一级的节点
     let nextNode = nodes.find((item: any) => item.id == nodeLine?.targetNodeId);
-
     lf?.graphModel.moveNode?.(nextNode?.id, 0, 140, true);
     moveNode(lf, nextNode);
   };
