@@ -87,7 +87,7 @@ const groupPage = (req: any, res: any) => {
       groupName: '组别名称' + index,
       updateTime: '2023-12-12',
       creator: '创建人' + index,
-      create_time: '2022-12-12',
+      createTime: '2022-12-12',
     };
   });
   res.json({
