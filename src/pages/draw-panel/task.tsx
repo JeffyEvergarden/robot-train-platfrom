@@ -290,8 +290,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
   useImperativeHandle(cref, () => ({
     initPanel: (data: any) => {
+      // 初始化画布
+      init();
       if (drawPanelRef.current) {
-        // console.log(curLf);
+        console.log(drawPanelRef.current);
         drawPanelRef.current?.render(data || {});
       }
     },
@@ -300,12 +302,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     },
   }));
 
-  useEffect(() => {
-    console.log(isSilentMode);
-
-    // 初始化画布
-    init();
-  }, [isSilentMode]);
+  useEffect(() => {}, []);
 
   return (
     <div className={style['draw-box_bg']}>

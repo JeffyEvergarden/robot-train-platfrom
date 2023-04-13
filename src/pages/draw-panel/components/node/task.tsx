@@ -289,6 +289,8 @@ export function registerNode(lf: any, options: any) {
       {
         text: '删除',
         callback: async (node: any) => {
+          console.log(node);
+          // deleteFlow(lf, node)
           if (options.deleteNode) {
             let res: any = options.deleteNode(node.id);
             if (res) {
@@ -302,3 +304,8 @@ export function registerNode(lf: any, options: any) {
     ],
   });
 }
+
+// const deleteFlow = (lf: any, node: any) => {
+//   const { nodes, edges } = lf.graphModel
+//   edges
+// }
