@@ -6,7 +6,7 @@ export default function access(
 ) {
   const { currentUser, userAuth = [] } = initialState ?? {};
   return {
-    canAdmin: currentUser && currentUser.access === 'ADMIN',
+    canAdmin: currentUser && currentUser.access === 'admin',
     routerAuth: (route: any) => {
       const role: any = route.role;
       if (!role) {

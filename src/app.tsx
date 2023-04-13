@@ -89,9 +89,9 @@ export async function getInitialState(): Promise<{
   let userAuth: any = userMsg && Array.isArray(userMsg.role) ? userMsg?.role : [];
 
   // ------------
-  // ADMIN 管理员
-  // TEACH 教师端
-  // STUDENT 学生端
+  // admin 管理员
+  // teacher 教师端
+  // student 学生端
 
   return {
     fetchUserInfo,
