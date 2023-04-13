@@ -28,7 +28,7 @@ export default () => {
   const getLearnRecord = async (payload: any) => {
     let params = {
       ...payload,
-      taskId: payload?.taskName,
+      taskId: payload?.taskName?.join(','),
       page: payload?.current,
     };
     delete params?.current;
@@ -57,7 +57,13 @@ export default () => {
         placeholder: '请选择课程名称',
       },
       renderFormItem: () => (
-        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择课程名称">
+        <Select
+          optionFilterProp="children"
+          showSearch
+          allowClear
+          placeholder="请选择课程名称"
+          mode="multiple"
+        >
           {courseListData?.map((item: any) => {
             return (
               <Select.Option key={item?.taskId} value={item?.courseId}>
@@ -104,7 +110,7 @@ export default () => {
       title: '操作',
       key: 'option',
       fixed: 'right',
-      width: 300,
+      width: 120,
       valueType: 'option',
       render: (t: any, r: any, i: any) => {
         return (

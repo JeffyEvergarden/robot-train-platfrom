@@ -1,18 +1,27 @@
 import React, { useEffect, useRef, useState, useImperativeHandle } from 'react';
-import { Button, Modal, Progress, Tag, Table, Spin } from 'antd';
+import { Button, Modal, Progress, Tag, Table, Spin, message } from 'antd';
 import * as echarts from 'echarts';
 import { useChatModel } from '../../model';
 import { getConfig, columns } from './config';
 import style from './style.less';
 
+const wait = (second: any) => {
+  return new Promise((reslove: any, reject: any) => {
+    setTimeout(() => {
+      reslove();
+    }, second * 1000);
+  });
+};
+
 const ScoreModal: any = (props: any) => {
   const { cref, loading } = props;
 
-  const { getStepResult } = useChatModel();
+  const { getStepResult, setResultLoading, resultLoading } = useChatModel();
 
   const pieRef: any = useRef<any>(null);
   const pieDomRef: any = useRef<any>(null);
 
+  const [studyId, setStudyId] = useState<any>('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [score, setScore] = useState<any>(0);
@@ -20,14 +29,25 @@ const ScoreModal: any = (props: any) => {
   const [tableData, setTableData] = useState<any[]>([]);
 
   const open = async (data?: any) => {
-    setIsModalOpen(true);
-
+    if (resultLoading) {
+      return;
+    }
+    let _studyId = data?.studyId;
+    if (_studyId !== studyId) {
+      setStudyId(_studyId);
+      setResultLoading(true);
+      await wait(1);
+    }
     let res: any = await getStepResult(data);
+
     if (res) {
       let { scoreDetail = [], deductPoints = [], score } = res;
       initOptions(scoreDetail || []);
+      setIsModalOpen(true);
       setScore(score);
       setTableData(deductPoints);
+    } else {
+      message.warning('获取成绩失败');
     }
   };
 
@@ -63,7 +83,7 @@ const ScoreModal: any = (props: any) => {
       visible={isModalOpen}
       className={style['model-bg']}
       maskClosable={false}
-      width={'880px'}
+      width={'920px'}
       onOk={handleOk}
       cancelText={'关闭'}
       onCancel={handleCancel}
@@ -94,15 +114,17 @@ const ScoreModal: any = (props: any) => {
               }}
             ></Progress>
 
-            <Table
-              rowKey="name"
-              size="small"
-              columns={columns}
-              dataSource={tableData}
-              style={{ marginTop: '16px', width: '280px' }}
-              pagination={false}
-              scroll={{ y: 140 }}
-            ></Table>
+            {tableData.length > 0 && (
+              <Table
+                rowKey="name"
+                size="small"
+                columns={columns}
+                dataSource={tableData}
+                style={{ marginTop: '16px', width: '320px' }}
+                pagination={false}
+                scroll={{ y: 140 }}
+              ></Table>
+            )}
           </div>
         </div>
       </Spin>

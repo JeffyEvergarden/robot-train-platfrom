@@ -13,8 +13,8 @@ export async function GetCourseInfo_API(data?: { [key: string]: any }) {
 
 export async function GetStepResult_API(data?: { [key: string]: any }) {
   return request(`${baseUrl}/services/stu/course/score`, {
-    method: 'GET',
-    params: data,
+    method: 'POST',
+    data,
   });
 }
 
