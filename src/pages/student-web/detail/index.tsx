@@ -81,7 +81,9 @@ const StudentDrawPanel: any = (props: any) => {
         message.warning('获取不到课程ID');
         return;
       }
-      window.open(`${basePath}/front/student/chat?taskId=${taskId}&courseId=${courseId}&nodeId=${data.id}`);
+      window.open(
+        `${basePath}/front/student/chat?taskId=${taskId}&courseId=${courseId}&nodeId=${data.id}`,
+      );
     }
   };
 

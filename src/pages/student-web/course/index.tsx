@@ -11,21 +11,21 @@ const TagIcon = (props: any) => {
   if (value === activeKey) {
     return (
       <>
-        {num > 0 &&
+        {num > 0 && (
           <span className={style['tag-icon-active']} style={{ marginLeft: '8px' }}>
             {num}
           </span>
-        }
+        )}
       </>
     );
   } else {
     return (
       <>
-        {num > 0 &&
+        {num > 0 && (
           <span className={style['tag-icon']} style={{ marginLeft: '8px' }}>
             {num}
           </span>
-        }
+        )}
       </>
     );
   }

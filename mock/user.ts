@@ -43,8 +43,8 @@ export default {
         account: 'JeffyLiang',
         userName: '梁山伯',
         userCode: '1000',
-        // role: ['ADMIN', 'TEACH', 'STUDENT'],
-        role: ['ADMIN'],
+        // role: ['admin', 'teacher', 'student'],
+        role: ['admin'],
         organizations: [
           {
             id: 1137,

@@ -332,18 +332,21 @@ const deleteStep = (lf: any, node: any) => {
   let targetLine = edges.find((item: any) => item.sourceNodeId == node.id);
   lf.deleteNode(node.id);
   lf.deleteEdge(sourceLine?.id);
-  lf.deleteEdge(targetLine?.id);
-  lf.addEdge({
-    sourceNodeId: sourceLine?.sourceNodeId,
-    targetNodeId: targetLine?.targetNodeId,
-    startPoint: {
-      ...sourceLine?.startPoint,
-    },
-    endPoint: {
-      ...targetLine?.endPoint,
-    },
-    type: 'polyline',
-  });
+  if (targetLine) {
+    lf.deleteEdge(targetLine?.id);
+    lf.addEdge({
+      sourceNodeId: sourceLine?.sourceNodeId,
+      targetNodeId: targetLine?.targetNodeId,
+      startPoint: {
+        ...sourceLine?.startPoint,
+      },
+      endPoint: {
+        ...targetLine?.endPoint,
+      },
+      type: 'polyline',
+    });
+  }
+
   // lf.updateEdges(sourceLine.id, { targetNodeId: targetLine.targetNodeId })
 };
 

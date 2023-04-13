@@ -15,7 +15,7 @@ export default [
     name: '课程管理',
     layout: true,
     access: 'routerAuth',
-    role: ['ADMIN', 'TEACH'],
+    role: ['admin', 'teacher'],
     routes: [
       {
         path: '/front/teacher/course/tablepage',
@@ -39,7 +39,7 @@ export default [
     component: './teacher-web/task/home',
     name: '任务管理',
     access: 'routerAuth',
-    role: ['ADMIN', 'TEACH'],
+    role: ['admin', 'teacher'],
     layout: true,
     routes: [
       {
@@ -65,7 +65,7 @@ export default [
     component: './teacher-web/params-manage/home',
     name: '参数管理',
     access: 'routerAuth',
-    role: ['ADMIN', 'TEACH'],
+    role: ['admin', 'teacher'],
     layout: true,
     routes: [
       {
@@ -103,7 +103,7 @@ export default [
     component: './student-web/course',
     name: '学习课程',
     access: 'routerAuth',
-    role: ['ADMIN', 'STUDENT'],
+    role: ['admin', 'student'],
     layout: true,
   },
   {
@@ -111,7 +111,7 @@ export default [
     component: './student-web/learn-record',
     name: '学习记录',
     access: 'routerAuth',
-    role: ['ADMIN', 'STUDENT'],
+    role: ['admin', 'student'],
     layout: true,
   },
   {
@@ -126,7 +126,7 @@ export default [
   //   component: './demo',
   //   name: '语音聊天demo测试',
   //   access: 'routerAuth',
-  //   role: ['ADMIN'],
+  //   role: ['admin'],
   //   layout: true,
   // },
   // {
@@ -134,7 +134,7 @@ export default [
   //   component: './draw-demo',
   //   name: '画布demo测试',
   //   access: 'routerAuth',
-  //   role: ['ADMIN'],
+  //   role: ['admin'],
   //   layout: true,
   // },
   // {
@@ -142,7 +142,7 @@ export default [
   //   component: './teacher-web/task/task-draw',
   //   name: '任务画布demo测试',
   //   access: 'routerAuth',
-  //   role: ['ADMIN'],
+  //   role: ['admin'],
   //   layout: true,
   // },
   {
@@ -150,7 +150,7 @@ export default [
     component: './chat-page',
     name: '聊天窗口',
     access: 'routerAuth',
-    role: ['ADMIN', 'STUDENT'],
+    role: ['admin', 'student'],
     hideInMenu: true,
     layout: true,
   },

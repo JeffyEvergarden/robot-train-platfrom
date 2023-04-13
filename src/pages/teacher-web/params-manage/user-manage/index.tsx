@@ -44,6 +44,7 @@ const UserManage: React.FC = (props: any) => {
     delete params?.current;
     params.startTime = payload?.updateTime?.[0];
     params.endTime = payload?.updateTime?.[1];
+    params.groupName = params?.groupName?.join(',');
     delete params?.updateTime;
     let res = await userPage(params);
     return {
@@ -190,7 +191,13 @@ const UserManage: React.FC = (props: any) => {
         placeholder: '请选择部门组别',
       },
       renderFormItem: () => (
-        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择部门组别">
+        <Select
+          optionFilterProp="children"
+          showSearch
+          allowClear
+          placeholder="请选择部门组别"
+          mode="multiple"
+        >
           {groupList?.map((item: any) => {
             return (
               <Select.Option key={item?.id} value={item?.groupName}>

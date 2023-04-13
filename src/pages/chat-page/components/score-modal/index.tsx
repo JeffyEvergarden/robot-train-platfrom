@@ -9,10 +9,9 @@ const wait = (second: any) => {
   return new Promise((reslove: any, reject: any) => {
     setTimeout(() => {
       reslove();
-    }, second * 1000)
-  })
-}
-
+    }, second * 1000);
+  });
+};
 
 const ScoreModal: any = (props: any) => {
   const { cref, loading } = props;
@@ -31,7 +30,7 @@ const ScoreModal: any = (props: any) => {
 
   const open = async (data?: any) => {
     if (resultLoading) {
-      return
+      return;
     }
     let _studyId = data?.studyId;
     if (_studyId !== studyId) {
@@ -115,7 +114,7 @@ const ScoreModal: any = (props: any) => {
               }}
             ></Progress>
 
-            {tableData.length > 0 &&
+            {tableData.length > 0 && (
               <Table
                 rowKey="name"
                 size="small"
@@ -125,11 +124,11 @@ const ScoreModal: any = (props: any) => {
                 pagination={false}
                 scroll={{ y: 140 }}
               ></Table>
-            }
+            )}
           </div>
         </div>
       </Spin>
-    </Modal >
+    </Modal>
   );
 };
 
