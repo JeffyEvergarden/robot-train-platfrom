@@ -109,7 +109,7 @@ export default () => {
         placeholder: '请选择意图名称',
       },
       renderFormItem: () => (
-        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择部门组别">
+        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择意图名称">
           {intentList?.map((item: any) => {
             return (
               <Select.Option key={item?.id} value={item?.id}>

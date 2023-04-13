@@ -289,16 +289,74 @@ export function registerNode(lf: any, options: any) {
       {
         text: '删除',
         callback: async (node: any) => {
-          if (options.deleteNode) {
-            let res: any = options.deleteNode(node.id);
-            if (res) {
-              lf.deleteNode(node.id);
-            }
-          } else {
-            lf.deleteNode(node.id);
-          }
+          console.log(node);
+          deleteTask(lf, node);
+          // if (options.deleteNode) {
+          //   let res: any = options.deleteNode(node.id);
+          //   if (res) {
+          //     lf.deleteNode(node.id);
+          //   }
+          // } else {
+          //   lf.deleteNode(node.id);
+          // }
+        },
+      },
+    ],
+  });
+
+  lf.extension.menu.setMenuByType({
+    type: 'step',
+    menu: [
+      {
+        text: '添加子步骤',
+        callback(node: any) {
+          options?.addSubStep?.(node);
+        },
+      },
+      {
+        text: '删除',
+        callback: async (node: any) => {
+          console.log(node);
+          deleteStep(lf, node);
         },
       },
     ],
   });
 }
+
+const deleteStep = (lf: any, node: any) => {
+  const { nodes, edges } = lf.graphModel;
+  //连进来的线
+  let sourceLine = edges.find((item: any) => item.targetNodeId == node.id);
+  //连出去的线
+  let targetLine = edges.find((item: any) => item.sourceNodeId == node.id);
+  lf.deleteNode(node.id);
+  lf.deleteEdge(sourceLine?.id);
+  lf.deleteEdge(targetLine?.id);
+  lf.addEdge({
+    sourceNodeId: sourceLine?.sourceNodeId,
+    targetNodeId: targetLine?.targetNodeId,
+    startPoint: {
+      ...sourceLine?.startPoint,
+    },
+    endPoint: {
+      ...targetLine?.endPoint,
+    },
+    type: 'polyline',
+  });
+  // lf.updateEdges(sourceLine.id, { targetNodeId: targetLine.targetNodeId })
+};
+
+const deleteTask = (lf: any, node: any) => {
+  //删除任务 找到子集递归
+  const { nodes, edges } = lf.graphModel;
+  console.log(edges);
+  let childNodeId = edges.find?.((item: any) => item?.sourceNodeId == node.id)?.targetNodeId;
+  lf.deleteNode(node.id);
+  if (!childNodeId) {
+    return;
+  }
+  let childNode = nodes?.find((n: any) => n.id == childNodeId);
+  console.log(childNode);
+  deleteTask(lf, childNode);
+};

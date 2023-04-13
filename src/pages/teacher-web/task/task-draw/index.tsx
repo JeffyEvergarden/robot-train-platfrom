@@ -52,7 +52,9 @@ const TaskDrawPanel: any = (props: any) => {
   // 保存画布
   const onSave = (data: any) => {
     const { nodes, edges } = data;
-    let reqData = { nodes, edges, id: history?.location?.query?.id };
+    console.log(nodes, edges);
+
+    let reqData = { nodes: nodes, edges: edges, id: history?.location?.query?.id };
     saveDrawPanel(reqData);
   };
 
@@ -127,13 +129,15 @@ const TaskDrawPanel: any = (props: any) => {
   const getDetail = async () => {
     await taskDetail({ id: history?.location?.query?.id }).then((res: any) => {
       setTaskInfo(res?.data || {});
+      setTimeout(() => {
+        init();
+      }, 100);
     });
   };
 
   useEffect(() => {
     getDetail();
     //初始化画布
-    init();
   }, []);
 
   return (

@@ -24,6 +24,7 @@ export const setMenuConfig = (lf: any, options: any) => {
         text: '删除',
         callback: async (node: any) => {
           if (options.deleteNode) {
+            // debugger;
             let res: any = options.deleteNode(node.id);
             if (res) {
               lf.deleteNode(node.id);
@@ -213,3 +214,5 @@ export const judgeLineByNode = (line: any, info: any) => {
   // 存在环返回false 不存在则 true
   return !flag;
 };
+
+// const deleteQuery = (lf) => {};

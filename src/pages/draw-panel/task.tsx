@@ -260,10 +260,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
     setLf(lf);
     setControlConfig(lf);
     // 设置菜单
-    setMenuConfig(lf, {
-      deleteNode,
-      isSilentMode,
-    });
+    // setMenuConfig(lf, {
+    //   deleteNode,
+    //   isSilentMode,
+    // });
     // 添加监听事件
     addEvent(lf);
 
@@ -290,8 +290,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
 
   useImperativeHandle(cref, () => ({
     initPanel: (data: any) => {
+      // 初始化画布
+      init();
       if (drawPanelRef.current) {
-        // console.log(curLf);
+        console.log(drawPanelRef.current);
         drawPanelRef.current?.render(data || {});
       }
     },
@@ -300,12 +302,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     },
   }));
 
-  useEffect(() => {
-    console.log(isSilentMode);
-
-    // 初始化画布
-    init();
-  }, [isSilentMode]);
+  useEffect(() => {}, []);
 
   return (
     <div className={style['draw-box_bg']}>

@@ -224,7 +224,7 @@ const UserManage: React.FC = (props: any) => {
       valueType: 'dateRange',
       hideInTable: true,
       fieldProps: {
-        placeholder: '请选择同步时间',
+        placeholder: ['开始时间', '结束时间'],
       },
     },
     {
@@ -270,14 +270,14 @@ const UserManage: React.FC = (props: any) => {
     {
       title: '创建时间',
       dataIndex: 'createTime',
-      key: 'create_time',
+      key: 'createTime',
       ellipsis: true,
       search: false,
     },
     {
       title: '创建时间',
-      dataIndex: 'create_time',
-      key: 'create_time',
+      dataIndex: 'createTime',
+      key: 'createTime',
       ellipsis: true,
       search: true,
       hideInTable: true,

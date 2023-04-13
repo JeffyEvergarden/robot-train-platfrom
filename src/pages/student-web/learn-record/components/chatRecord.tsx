@@ -43,6 +43,7 @@ export default (props: any) => {
   const getScore = async (record: any) => {
     let params = {
       courseId: record?.courseId,
+      studyId: record?.id,
     };
     let res = await scoreRequest(params);
     setScoreData(res?.data);
@@ -62,7 +63,7 @@ export default (props: any) => {
             musicSrc={
               process.env.mock
                 ? '/ai-teach/mp3/story.mp3'
-                : `${config.basePath}/services/stu/course/fragment/listen?studyId=${rowData?.id}`
+                : `${config.basePath}/services/stu/course/history/complete/listen?studyId=${rowData?.id}`
             }
           />
         </div>
