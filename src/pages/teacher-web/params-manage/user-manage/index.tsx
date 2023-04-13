@@ -99,9 +99,9 @@ const UserManage: React.FC = (props: any) => {
       page: payload?.current,
     };
     delete params?.current;
-    params.startTime = payload?.create_time?.[0];
-    params.endTime = payload?.create_time?.[1];
-    delete params?.create_time;
+    params.startTime = payload?.createTime?.[0];
+    params.endTime = payload?.createTime?.[1];
+    delete params?.createTime;
     let res = await groupPage(params);
     return {
       data: res?.data?.list,
@@ -276,8 +276,8 @@ const UserManage: React.FC = (props: any) => {
     },
     {
       title: '创建时间',
-      dataIndex: 'create_time',
-      key: 'create_time',
+      dataIndex: 'createTime',
+      key: 'createTime',
       ellipsis: true,
       search: true,
       hideInTable: true,
