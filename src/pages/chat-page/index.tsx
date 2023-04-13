@@ -25,6 +25,7 @@ const ChatPage: any = (props: any) => {
 
   const taskId: any = query?.taskId;
   const courseId: any = query?.courseId;
+  const nodeId: any = query?.nodeId;
 
   const { getCourseInfo, resultLoading, postCall } = useChatModel();
 
@@ -134,7 +135,7 @@ const ChatPage: any = (props: any) => {
 
   // websocket
   const initSocket = async () => {
-    let sessionId: any = await postCall({ courseId });
+    let sessionId: any = await postCall({ courseId, taskId, nodeId });
 
     if (!sessionId) {
       message.warning('获取sessionId失败');
