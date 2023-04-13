@@ -143,6 +143,8 @@ const ChatPage: any = (props: any) => {
     // -----
     setRecordId(sessionId);
 
+    socketRef.current.sessionId = sessionId;
+
     const msgRef = messageRef.current;
     if (msgRef) {
       msgRef.init?.(); // 初始化
@@ -162,7 +164,7 @@ const ChatPage: any = (props: any) => {
     const linkUrl = type === 'ws' ? `ws://${websocket_url}` : `wss://${websocket_url}`;
 
     const sk = new WebSocket(`${linkUrl}?sessionId=${sessionId}`);
-    socketRef.current = sk;
+    socketRef.current.sk = sk;
     sk.onopen = (event) => {
       console.log('WebSocket 连接建立');
       sk.send('Hello Server!');
@@ -188,7 +190,7 @@ const ChatPage: any = (props: any) => {
 
   // 结束
   const onEnd = () => {
-    socketRef.current?.close?.();
+    socketRef.current?.sk?.close?.();
   };
 
   // -------------------- 打开成绩单
@@ -205,7 +207,7 @@ const ChatPage: any = (props: any) => {
     getInfo();
 
     return () => {
-      socketRef.current?.close?.();
+      socketRef.current?.sk?.close?.();
     };
   }, []);
 
@@ -269,7 +271,7 @@ const ChatPage: any = (props: any) => {
           >
             <Button
               type="default"
-              disabled={!recordId && !finishFlag}
+              // disabled={!recordId || !finishFlag}
               onClick={() => {
                 openScoreModal(recordId);
               }}

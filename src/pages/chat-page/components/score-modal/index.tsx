@@ -23,6 +23,7 @@ const ScoreModal: any = (props: any) => {
     setIsModalOpen(true);
 
     let res: any = await getStepResult(data);
+    console.log(res);
     if (res) {
       let { scoreDetail = [], deductPoints = [], score } = res;
       initOptions(scoreDetail || []);

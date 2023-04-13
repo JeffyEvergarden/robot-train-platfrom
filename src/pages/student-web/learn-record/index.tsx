@@ -104,7 +104,7 @@ export default () => {
       title: '操作',
       key: 'option',
       fixed: 'right',
-      width: 300,
+      width: 120,
       valueType: 'option',
       render: (t: any, r: any, i: any) => {
         return (
