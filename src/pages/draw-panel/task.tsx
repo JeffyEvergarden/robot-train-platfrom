@@ -181,9 +181,8 @@ const DrawPanel: React.FC<any> = (props: any) => {
   // 添加子步骤
   const addSubStep = (node: any) => {
     const _lf = drawPanelRef.current;
-
     const { nodes, edges } = _lf.getGraphData();
-
+    console.log(node);
     let _edges = edges
       .filter((item: any) => item.sourceNodeId === node.id)
       .map((item: any) => item.targetNodeId);
@@ -198,6 +197,9 @@ const DrawPanel: React.FC<any> = (props: any) => {
     } else {
       console.log('2');
       parentNode = null;
+    }
+    if (node.type == 'step') {
+      parentNode = _lf.getNodeModelById(node.id);
     }
 
     console.log('parentNode:', parentNode);
@@ -220,6 +222,27 @@ const DrawPanel: React.FC<any> = (props: any) => {
     };
 
     let newNode = _lf.addNode(newInfo);
+    //连向下一级的线
+    let nodeLine = edges.find((item: any) => item.sourceNodeId == node.id);
+    console.log(nodeLine);
+
+    //位移操作
+    if (node.type == 'step' && nodeLine) {
+      let bAnchor = newNode.getDefaultAnchor()[2];
+      _lf.addEdge({
+        sourceNodeId: newNode.id,
+        targetNodeId: nodeLine?.targetNodeId,
+        startPoint: {
+          ...bAnchor,
+        },
+        endPoint: {
+          ...nodeLine?.endPoint,
+        },
+        type: 'polyline',
+      });
+      moveNode(_lf, node);
+      _lf.deleteEdge(nodeLine.id);
+    }
 
     let aAnchor = parentNode.getDefaultAnchor()[2];
     let bAnchor = newNode.getDefaultAnchor()[0];
@@ -235,6 +258,22 @@ const DrawPanel: React.FC<any> = (props: any) => {
       },
       type: 'polyline',
     });
+  };
+
+  const moveNode = (lf: any, node: any) => {
+    const { nodes, edges } = lf.graphModel;
+    console.log(nodes, edges);
+    //连向下一级的线
+    let nodeLine = edges.find((item: any) => item.sourceNodeId == node.id);
+    console.log(nodeLine);
+    if (!nodeLine) {
+      return;
+    }
+    //连向下一级的节点
+    let nextNode = nodes.find((item: any) => item.id == nodeLine?.targetNodeId);
+
+    lf?.graphModel.moveNode?.(nextNode?.id, 0, 140, true);
+    moveNode(lf, nextNode);
   };
 
   //初始化
