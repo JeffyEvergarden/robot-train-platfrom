@@ -35,9 +35,18 @@ const TeacherWeb: React.FC<any> = (props: any) => {
       hideInTable: true,
       renderFormItem: (t: any, r: any, i: any) => {
         return (
-          <Select mode="multiple" showSearch allowClear>
+          <Select
+            mode="multiple"
+            showSearch
+            allowClear
+            filterOption={(input, option) =>
+              (option?.item?.taskName as unknown as string)
+                ?.toLowerCase()
+                ?.includes(input.toLowerCase())
+            }
+          >
             {allTableList?.map((item: any, index: any) => (
-              <Select.Option key={index} value={item.id}>
+              <Select.Option key={index} value={item.id} item={item}>
                 {item.taskName}
               </Select.Option>
             ))}
@@ -48,6 +57,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
     {
       title: '任务进度',
       dataIndex: 'progress',
+      width: 100,
       valueEnum: {
         0: { text: '未发布', status: 'default' },
         1: { text: '已完成', status: 'success' },
@@ -57,6 +67,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
     {
       title: '任务模式',
       dataIndex: 'taskModel',
+      width: 100,
       valueEnum: {
         1: { text: '闯关模式' },
         2: { text: '任意模式' },
@@ -65,6 +76,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
     {
       title: '任务类型',
       dataIndex: 'taskType',
+      width: 100,
       search: false,
       valueEnum: {
         1: { text: '培训' },
@@ -74,15 +86,18 @@ const TeacherWeb: React.FC<any> = (props: any) => {
     {
       title: '合格进度',
       dataIndex: 'passScore',
+      width: 100,
       search: false,
     },
     {
       title: '创建人',
       dataIndex: 'creator',
+      width: 100,
     },
     {
       title: '任务状态',
       dataIndex: 'taskStatus',
+      width: 100,
       valueEnum: {
         0: { text: '关闭' },
         1: { text: '开启' },
@@ -189,7 +204,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
           collapseRender: () => null,
         }}
         columns={columns}
-        scroll={{ x: columns.length * 180, y: 400 }}
+        scroll={{ x: columns.length * 100, y: 400 }}
         rowKey="id"
         loading={tableLoading}
         request={async (params = {}, sort, filter) => {
