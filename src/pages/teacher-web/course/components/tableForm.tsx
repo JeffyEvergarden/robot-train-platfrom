@@ -1,5 +1,6 @@
 import Condition from '@/components/Condition';
 import config from '@/config';
+import { handleKeyPress } from '@/utils';
 import { Modal, Input, Radio, Switch, Form, InputNumber, Checkbox, Select } from 'antd';
 import { useEffect, useImperativeHandle, useState } from 'react';
 import { useCourceModel } from '../../params-manage/model';
@@ -91,7 +92,12 @@ const TableForm: React.FC<any> = (props) => {
           label="课程名称"
           rules={[{ required: true, message: '请输入课程名称' }]}
         >
-          <Input showCount maxLength={75} placeholder="请输入课程名称" />
+          <Input
+            showCount
+            maxLength={75}
+            placeholder="请输入课程名称"
+            onKeyPress={handleKeyPress}
+          />
         </Form.Item>
         <Form.Item
           name={'passMark'}

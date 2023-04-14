@@ -139,14 +139,19 @@ const StudentDrawPanel: any = (props: any) => {
               <ArrowLeftOutlined onClick={goBack} style={{ marginRight: '8px' }} />
               <span style={{ marginRight: '8px' }}>{taskName}</span>
               {taskType != 0 && <Tag color="blue">{formateTaskType(taskType) + '课程'}</Tag>}
-              {taskModel != 0 &&
-                <Tooltip title={
-                  formateTaskModel(taskModel) === '闯关模式' ?
-                    '闯关模式需完成上一个训练才可解锁下一个训练' : '可任意选择训练'
-                }>
-                  <Tag color="default">{formateTaskModel(taskModel)} <QuestionCircleOutlined /></Tag>
+              {taskModel != 0 && (
+                <Tooltip
+                  title={
+                    formateTaskModel(taskModel) === '闯关模式'
+                      ? '闯关模式需完成上一个训练才可解锁下一个训练'
+                      : '可任意选择训练'
+                  }
+                >
+                  <Tag color="default">
+                    {formateTaskModel(taskModel)} <QuestionCircleOutlined />
+                  </Tag>
                 </Tooltip>
-              }
+              )}
             </div>
           </div>
           <div className={style['header-right']}>

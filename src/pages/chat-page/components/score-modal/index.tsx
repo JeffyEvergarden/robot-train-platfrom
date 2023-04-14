@@ -77,7 +77,7 @@ const ScoreModal: any = (props: any) => {
   const handleOk = () => {
     console.log('handleOk');
     setIsModalOpen(false);
-    confirm?.()
+    confirm?.();
   };
 
   const handleCancel = () => {

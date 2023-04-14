@@ -185,7 +185,7 @@ const ChatPage: any = (props: any) => {
       console.log('error');
       setTimeout(() => {
         setFinishFlag(false);
-      }, 200)
+      }, 200);
       message.warning('连接发生未知系统异常');
     };
 
@@ -257,7 +257,7 @@ const ChatPage: any = (props: any) => {
 
   const confirmAgin = () => {
     phoneCallRef.current.call();
-  }
+  };
 
   return (
     <PageContainer

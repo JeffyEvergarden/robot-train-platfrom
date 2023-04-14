@@ -1,4 +1,5 @@
 import Condition from '@/components/Condition';
+import { handleKeyPress } from '@/utils';
 import { Modal, Input, Radio, Switch, Form, InputNumber, Checkbox, Select } from 'antd';
 import { useEffect, useImperativeHandle, useState } from 'react';
 import { useTaskModel } from '../model';
@@ -89,6 +90,7 @@ const TableForm: React.FC<any> = (props) => {
             maxLength={75}
             placeholder="请输入任务名称"
             disabled={formType == 'scan'}
+            onKeyPress={handleKeyPress}
           />
         </Form.Item>
         <Form.Item
