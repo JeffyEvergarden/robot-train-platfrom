@@ -20,7 +20,7 @@ export function formateNum(val: number): any {
   let str1 = Number(val.toFixed(0));
   let str2 = Number(val.toFixed(2));
   let str = Number(str1) === Number(str2) ? str1 : str2;
-  return str
+  return str;
 }
 
 const ScoreModal: any = (props: any) => {
@@ -59,7 +59,7 @@ const ScoreModal: any = (props: any) => {
       initOptions(scoreDetail || []);
       setIsModalOpen(true);
       setScore(score);
-      let val = Number((score / (fullScore || 100) * 100).toFixed(2))
+      let val = Number(((score / (fullScore || 100)) * 100).toFixed(2));
       setPercent(val);
       setPass(studyPass);
       setTableData(deductPoints);
@@ -122,11 +122,7 @@ const ScoreModal: any = (props: any) => {
                   <div className={style['score-box']}>
                     <span style={{ fontSize: '40px' }}>{formateNum(score)}</span>
                     <div>
-                      {pass ? (
-                        <Tag color="success">合格</Tag>
-                      ) : (
-                        <Tag color="error">不合格</Tag>
-                      )}
+                      {pass ? <Tag color="success">合格</Tag> : <Tag color="error">不合格</Tag>}
                     </div>
                   </div>
                 );

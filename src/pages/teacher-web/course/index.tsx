@@ -43,9 +43,18 @@ const TeacherWeb: React.FC<any> = (props: any) => {
       hideInTable: true,
       renderFormItem: (t: any, r: any, i: any) => {
         return (
-          <Select mode="multiple" showSearch allowClear>
+          <Select
+            mode="multiple"
+            showSearch
+            allowClear
+            filterOption={(input, option) =>
+              (option?.item?.courseName as unknown as string)
+                ?.toLowerCase()
+                ?.includes(input.toLowerCase())
+            }
+          >
             {allTableList?.map((item: any, index: any) => (
-              <Select.Option key={index} value={item.id}>
+              <Select.Option key={index} value={item.id} item={item}>
                 {item.courseName}
               </Select.Option>
             ))}
@@ -218,7 +227,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
           collapseRender: () => null,
         }}
         columns={columns}
-        scroll={{ x: columns.length * 200, y: 400 }}
+        scroll={{ x: columns.length * 150, y: 400 }}
         rowKey="id"
         loading={tableLoading}
         request={async (params = {}, sort, filter) => {
