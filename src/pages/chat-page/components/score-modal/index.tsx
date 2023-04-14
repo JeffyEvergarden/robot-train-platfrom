@@ -14,7 +14,7 @@ const wait = (second: any) => {
 };
 
 const ScoreModal: any = (props: any) => {
-  const { cref, loading } = props;
+  const { cref, loading, confirm } = props;
 
   const { getStepResult, setResultLoading, resultLoading } = useChatModel();
 
@@ -60,6 +60,7 @@ const ScoreModal: any = (props: any) => {
   const handleOk = () => {
     console.log('handleOk');
     setIsModalOpen(false);
+    confirm?.()
   };
 
   const handleCancel = () => {
@@ -85,6 +86,7 @@ const ScoreModal: any = (props: any) => {
       maskClosable={false}
       width={'920px'}
       onOk={handleOk}
+      okText={'再次拨打'}
       cancelText={'关闭'}
       onCancel={handleCancel}
     >

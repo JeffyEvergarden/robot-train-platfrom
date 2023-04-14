@@ -252,6 +252,10 @@ const ChatPage: any = (props: any) => {
     history.replace(`/front/student/course/detail?taskId=${taskId}`);
   };
 
+  const confirmAgin = () => {
+    phoneCallRef.current.call();
+  }
+
   return (
     <PageContainer
       header={{
@@ -332,7 +336,7 @@ const ChatPage: any = (props: any) => {
           </div>
         </Condition>
 
-        <ScoreModal cref={scoreModalRef} loading={resultLoading} />
+        <ScoreModal cref={scoreModalRef} loading={resultLoading} confirm={confirmAgin} />
       </>
     </PageContainer>
   );
