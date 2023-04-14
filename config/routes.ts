@@ -77,6 +77,8 @@ export default [
         path: '/front/teacher/paramsManage/ruleManage',
         component: './teacher-web/params-manage/rule-manage',
         name: '规则管理',
+        access: 'routerAuth',
+        role: ['admin'],
       },
       {
         path: '/front/teacher/paramsManage/systemManage',

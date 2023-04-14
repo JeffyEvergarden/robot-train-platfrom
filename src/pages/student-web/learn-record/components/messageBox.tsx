@@ -58,7 +58,7 @@ const MessageBox: React.FC<any> = (props: any) => {
               </div>
               <div className={style['box-bg']}>
                 {/* <DelayTime text={text} delay={delay} /> */}
-                <div className={style.audioBox}>
+                {/* <div className={style.audioBox}>
                   <AudioPlay
                     musicSrc={
                       process.env.mock
@@ -66,14 +66,14 @@ const MessageBox: React.FC<any> = (props: any) => {
                         : `${config.basePath}/services/stu/course/fragment/listen?dialogueId=${item?.id}`
                     }
                   />
-                </div>
+                </div> */}
                 <div className={`${style['box-content']}`}>
                   <DelayTextInput text={text} delay={delay} />
                 </div>
               </div>
             </div>
           );
-        } else if (role === 'system') {
+        } else if (role === 'student') {
           // 右边内容
           return (
             <RightChatContent
@@ -85,7 +85,7 @@ const MessageBox: React.FC<any> = (props: any) => {
               showAvator={lastType !== role}
             />
           );
-        } else if (role === 'tips') {
+        } else if (role === 'system') {
           // 中间提示
           return (
             <div className={style['box_tips']} key={index}>

@@ -107,7 +107,7 @@ const dialogue = (req: any, res: any) =>
           text: '您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，你是说你不是，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗您好，中邮消费给你致电，请问你是梁山伯先生本人吗',
           nodeId: 2,
           nodeName: '节点名称' + 2,
-          role: 'system',
+          role: 'student',
           soundPath: '',
           errorIndexList: [1, 2, 3, 4, 5],
           keyPointList: [
@@ -131,7 +131,7 @@ const dialogue = (req: any, res: any) =>
           text: '你的消息超过8s没有回复，臭傻逼快回复啊',
           nodeId: 3,
           nodeName: '节点名称' + 3,
-          role: 'tips',
+          role: 'system',
           soundPath: '',
           errorIndexList: [3],
         },
@@ -157,7 +157,7 @@ const dialogue = (req: any, res: any) =>
           text: '您好，中邮消费给你致电，请问你是梁山伯先生本人吗',
           nodeId: 4,
           nodeName: '节点名称' + 4,
-          role: 'system',
+          role: 'student',
           soundPath: '',
           actionAccess: '0',
           keyPointList: [
