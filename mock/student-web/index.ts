@@ -9,10 +9,12 @@ const gen = (num: number) => {
 };
 
 const getNormalList = (req: any, res: any) => {
-  let data: any = gen(12).map((item: any, index: number) => {
+  const pageSize = Number(req.query.pageSize || 12);
+
+  let data: any = gen(pageSize).map((item: any, index: number) => {
     return {
       taskName: '培训机器人' + index,
-      taskType: Math.random() > 0.5 ? 1 : 2,
+      taskType: Math.random() > 0.5 ? 2 : 1,
       taskId: 123,
       progress: 0.75,
       finished: index % 2 === 1,
@@ -36,7 +38,7 @@ const getCourseInfo = (req: any, res: any) => {
     data: {
       courseName: '新世纪-GPX-高智能方程式',
       courseType: 1,
-      taskType: Math.random() > 0.5 ? 1 : 2,
+      taskType: Math.random() > 0.5 ? 2 : 1,
       customerInfo:
         '客户姓名: 张三，逾期2期，逾期金额200元，客户信息客户信息客户信息客户信息客户信息客户信息客户姓名：张三，逾期2期，逾期金额200元,客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息客户信息',
       standardMsg:
