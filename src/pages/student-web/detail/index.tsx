@@ -126,6 +126,9 @@ const StudentDrawPanel: any = (props: any) => {
     init();
   }, []);
 
+
+  const _taskType = formateTaskType(taskType);
+
   return (
     <PageContainer
       header={{
@@ -138,7 +141,8 @@ const StudentDrawPanel: any = (props: any) => {
             <div className={style['title']}>
               <ArrowLeftOutlined onClick={goBack} style={{ marginRight: '8px' }} />
               <span style={{ marginRight: '8px' }}>{taskName}</span>
-              {taskType != 0 && <Tag color="blue">{formateTaskType(taskType) + '课程'}</Tag>}
+              {_taskType == '培训' && <Tag color="blue">{_taskType + '课程'}</Tag>}
+              {_taskType == '考试' && <Tag color="orange">{_taskType + '课程'}</Tag>}
               {taskModel != 0 && (
                 <Tooltip
                   title={
