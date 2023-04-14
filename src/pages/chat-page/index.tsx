@@ -183,6 +183,9 @@ const ChatPage: any = (props: any) => {
     };
     sk.onerror = (event) => {
       console.log('error');
+      setTimeout(() => {
+        setFinishFlag(false);
+      }, 200)
       message.warning('连接发生未知系统异常');
     };
 

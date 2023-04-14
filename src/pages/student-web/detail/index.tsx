@@ -1,10 +1,10 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useModel, history } from 'umi';
-import { Button, message, Input, Tag, Spin } from 'antd';
+import { Button, message, Input, Tag, Spin, Tooltip } from 'antd';
 import DrawPanel from '@/pages/draw-panel/student';
 import { PageContainer, ProBreadcrumb } from '@ant-design/pro-layout';
 import { useDrawModel } from './model';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import config from '@/config';
 import style from './style.less';
 import { formateTaskType, formateTaskModel } from '@/utils/formate-str';
@@ -139,7 +139,14 @@ const StudentDrawPanel: any = (props: any) => {
               <ArrowLeftOutlined onClick={goBack} style={{ marginRight: '8px' }} />
               <span style={{ marginRight: '8px' }}>{taskName}</span>
               {taskType != 0 && <Tag color="blue">{formateTaskType(taskType) + '课程'}</Tag>}
-              {taskModel != 0 && <Tag color="orange">{formateTaskModel(taskModel)}</Tag>}
+              {taskModel != 0 &&
+                <Tooltip title={
+                  formateTaskModel(taskModel) === '闯关模式' ?
+                    '闯关模式需完成上一个训练才可解锁下一个训练' : '可任意选择训练'
+                }>
+                  <Tag color="default">{formateTaskModel(taskModel)} <QuestionCircleOutlined /></Tag>
+                </Tooltip>
+              }
             </div>
           </div>
           <div className={style['header-right']}>
