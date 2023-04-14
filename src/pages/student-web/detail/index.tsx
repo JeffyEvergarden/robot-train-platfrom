@@ -126,7 +126,6 @@ const StudentDrawPanel: any = (props: any) => {
     init();
   }, []);
 
-
   const _taskType = formateTaskType(taskType);
 
   return (

@@ -53,9 +53,6 @@ const DrawPanel: React.FC<any> = (props: any) => {
     // 双击节点
     eventCenter.on('node:dbclick', (info: any) => {
       const { data, e, position } = info;
-      if (isSilentMode) {
-        return;
-      }
       // console.log('node:dbclick', data, e, position);
       onNodeDbClick?.(data);
     });
@@ -204,10 +201,10 @@ const DrawPanel: React.FC<any> = (props: any) => {
             <Button className={style['bt-item']} type="primary" onClick={_save} loading={loading}>
               保存
             </Button>
-            <Dropdown overlay={menuHeaderDropdown} placement="bottomLeft" trigger={['click']}>
-              <Button icon={<EllipsisOutlined />}></Button>
-            </Dropdown>
           </Condition>
+          <Dropdown overlay={menuHeaderDropdown} placement="bottomLeft" trigger={['click']}>
+            <Button icon={<EllipsisOutlined />}></Button>
+          </Dropdown>
         </div>
       </div>
       {/* ------ 拖动面板 ------ */}
