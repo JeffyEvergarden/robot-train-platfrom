@@ -4,7 +4,7 @@ import { useImperativeHandle, useState } from 'react';
 import { useModel } from 'umi';
 
 const EndDrawer: React.FC<any> = (props: any) => {
-  const { cref } = props;
+  const { cref, isEdit } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = useState<any>(false);
   const { courseEndConfig, courseEndConfigSave } = useDrawModel();
@@ -54,7 +54,7 @@ const EndDrawer: React.FC<any> = (props: any) => {
       footer={
         <Space align="baseline" style={{ float: 'right' }}>
           <Button onClick={onCancel}>取消</Button>
-          <Button type="primary" onClick={onOk}>
+          <Button type="primary" onClick={onOk} disabled={isEdit}>
             保存
           </Button>
         </Space>

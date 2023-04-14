@@ -160,12 +160,16 @@ const DrawDemo: React.FC<any> = (props: any) => {
         }
         isSilentMode={courseInfo?.courseStatus}
       />
-      <CustomerDrawer cref={customerDrawerRef}></CustomerDrawer>
-      <CallDrawer cref={callDrawerRef}></CallDrawer>
-      <SoundDrawer cref={soundDrawerRef}></SoundDrawer>
-      <EndDrawer cref={endDrawerRef}></EndDrawer>
+      <CustomerDrawer cref={customerDrawerRef} isEdit={courseInfo?.courseStatus}></CustomerDrawer>
+      <CallDrawer cref={callDrawerRef} isEdit={courseInfo?.courseStatus}></CallDrawer>
+      <SoundDrawer cref={soundDrawerRef} isEdit={courseInfo?.courseStatus}></SoundDrawer>
+      <EndDrawer cref={endDrawerRef} isEdit={courseInfo?.courseStatus}></EndDrawer>
       <FlowTestDrawer cref={flowTestDrawerRef}></FlowTestDrawer>
-      <NodeDrawer cref={nodeDrawerRef} changeNodeName={changeNodeName}></NodeDrawer>
+      <NodeDrawer
+        cref={nodeDrawerRef}
+        changeNodeName={changeNodeName}
+        isEdit={courseInfo?.courseStatus}
+      ></NodeDrawer>
     </>
   );
 };

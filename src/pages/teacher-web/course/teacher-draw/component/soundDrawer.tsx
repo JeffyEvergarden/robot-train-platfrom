@@ -18,7 +18,7 @@ import { useModel } from 'umi';
 import styles from './style.less';
 
 const SoundDrawer: React.FC<any> = (props: any) => {
-  const { cref } = props;
+  const { cref, isEdit } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = useState<any>(false);
   const { courseSoundConfig, courseSoundConfigSave, getallVoiceNames, soundList } = useDrawModel();
@@ -104,7 +104,7 @@ const SoundDrawer: React.FC<any> = (props: any) => {
       footer={
         <Space align="baseline" style={{ float: 'right' }}>
           <Button onClick={onCancel}>取消</Button>
-          <Button type="primary" onClick={onOk}>
+          <Button type="primary" onClick={onOk} disabled={isEdit}>
             保存
           </Button>
         </Space>
