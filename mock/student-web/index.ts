@@ -115,6 +115,8 @@ const getStepResult = (req: any, res: any) => {
     resultCode: successCode,
     data: {
       score: 59,
+      fullScore: 100,
+      studyPass: 1,
       deductScore: 25,
       pointScoreList: [
         {
