@@ -13,6 +13,16 @@ const wait = (second: any) => {
   });
 };
 
+export function formateNum(val: number): any {
+  if (isNaN(val) || !val) {
+    return '0';
+  }
+  let str1 = Number(val.toFixed(0));
+  let str2 = Number(val.toFixed(2));
+  let str = Number(str1) === Number(str2) ? str1 : str2;
+  return str
+}
+
 const ScoreModal: any = (props: any) => {
   const { cref, loading, confirm } = props;
 
@@ -25,6 +35,10 @@ const ScoreModal: any = (props: any) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const [score, setScore] = useState<any>(0);
+
+  const [pass, setPass] = useState<any>(false);
+
+  const [percent, setPercent] = useState<any>(100);
 
   const [tableData, setTableData] = useState<any[]>([]);
 
@@ -41,10 +55,13 @@ const ScoreModal: any = (props: any) => {
     let res: any = await getStepResult(data);
 
     if (res) {
-      let { scoreDetail = [], deductPoints = [], score } = res;
+      let { scoreDetail = [], deductPoints = [], score, studyPass, fullScore } = res;
       initOptions(scoreDetail || []);
       setIsModalOpen(true);
       setScore(score);
+      let val = Number((score / (fullScore || 100) * 100).toFixed(2))
+      setPercent(val);
+      setPass(studyPass);
       setTableData(deductPoints);
     } else {
       message.warning('获取成绩失败');
@@ -99,13 +116,13 @@ const ScoreModal: any = (props: any) => {
               strokeLinecap="butt"
               type="circle"
               width={180}
-              percent={score}
+              percent={percent}
               format={(per: any) => {
                 return (
                   <div className={style['score-box']}>
-                    <span style={{ fontSize: '40px' }}>{per.toFixed(0)}</span>
+                    <span style={{ fontSize: '40px' }}>{formateNum(score)}</span>
                     <div>
-                      {per >= 60 ? (
+                      {pass ? (
                         <Tag color="success">合格</Tag>
                       ) : (
                         <Tag color="error">不合格</Tag>

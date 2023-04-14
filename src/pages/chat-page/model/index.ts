@@ -30,6 +30,8 @@ export const useChatModel = () => {
       // 成绩
       const score: any = data.score || 0;
 
+      const studyPass: any = data.studyPass === 1;
+
       let scoreDetail: any = data.pointScoreList || [];
       scoreDetail = scoreDetail.map((item: any) => {
         return {
@@ -46,6 +48,7 @@ export const useChatModel = () => {
 
       return {
         score,
+        studyPass,
         scoreDetail,
         deductPoints,
       };
