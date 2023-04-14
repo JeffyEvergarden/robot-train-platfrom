@@ -183,6 +183,9 @@ const ChatPage: any = (props: any) => {
     };
     sk.onerror = (event) => {
       console.log('error');
+      setTimeout(() => {
+        setFinishFlag(false);
+      }, 200);
       message.warning('连接发生未知系统异常');
     };
 
@@ -250,6 +253,10 @@ const ChatPage: any = (props: any) => {
     }
     // 回到画布页面
     history.replace(`/front/student/course/detail?taskId=${taskId}`);
+  };
+
+  const confirmAgin = () => {
+    phoneCallRef.current.call();
   };
 
   return (
@@ -332,7 +339,7 @@ const ChatPage: any = (props: any) => {
           </div>
         </Condition>
 
-        <ScoreModal cref={scoreModalRef} loading={resultLoading} />
+        <ScoreModal cref={scoreModalRef} loading={resultLoading} confirm={confirmAgin} />
       </>
     </PageContainer>
   );
