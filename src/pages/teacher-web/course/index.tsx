@@ -240,6 +240,9 @@ const TeacherWeb: React.FC<any> = (props: any) => {
         cref={duplicateRef}
         allTableList={allTableList}
         courseCopy={courseCopy}
+        reload={() => {
+          tableRef?.current?.reload();
+        }}
       ></DuplicateForm>
       {/* 新增编辑表单 */}
       <TableForm
