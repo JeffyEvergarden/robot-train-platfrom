@@ -55,7 +55,7 @@ const TableForm: React.FC<any> = (props) => {
   const open = async (type: any, row?: any) => {
     await getGroupList({});
     setFormType(type);
-    if (type == 'edit') {
+    if (type == 'edit' || type == 'scan') {
       await taskDetail({ id: row?.id }).then((res: any) => {
         setTableInfo(res?.data || {});
         form.setFieldsValue({
@@ -73,7 +73,7 @@ const TableForm: React.FC<any> = (props) => {
   return (
     <Modal
       visible={visible}
-      title={`${formType == 'edit' ? '编辑' : '新增'}任务`}
+      title={`${formType == 'edit' ? '编辑' : formType == 'scan' ? '查看' : '新增'}任务`}
       onCancel={onCancel}
       onOk={onOk}
       width={600}
