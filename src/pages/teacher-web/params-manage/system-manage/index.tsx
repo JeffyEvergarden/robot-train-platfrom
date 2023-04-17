@@ -64,6 +64,7 @@ export default () => {
       message.success(res?.resultDesc || '成功');
       courceModelRef?.current?.close();
       actionRef?.current?.reloadAndRest();
+      getCourceListData();
     } else {
       message.error(res?.resultDesc || '失败');
     }
