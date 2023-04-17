@@ -97,6 +97,7 @@ const UserManage: React.FC = (props: any) => {
   const getGroupList = async (payload: any) => {
     let params = {
       ...payload,
+      groupName: payload?.groupName?.join(','),
       page: payload?.current,
     };
     delete params?.current;
@@ -256,7 +257,13 @@ const UserManage: React.FC = (props: any) => {
         placeholder: '请选择部门组别',
       },
       renderFormItem: () => (
-        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择部门组别">
+        <Select
+          optionFilterProp="children"
+          showSearch
+          allowClear
+          mode="multiple"
+          placeholder="请选择部门组别"
+        >
           {groupList?.map((item: any) => {
             return (
               <Select.Option key={item?.id} value={item?.groupName}>
