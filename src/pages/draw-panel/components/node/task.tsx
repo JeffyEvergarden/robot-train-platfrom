@@ -247,6 +247,18 @@ export function registerNode(lf: any, options: any) {
     return;
   }
   if (options?.isSilentMode) {
+    lf.extension.menu.setMenuByType({
+      type: 'course',
+      menu: [],
+    });
+    lf.extension.menu.setMenuByType({
+      type: 'task',
+      menu: [],
+    });
+    lf.extension.menu.setMenuByType({
+      type: 'step',
+      menu: [],
+    });
     return;
   }
   // 任务节点菜单
