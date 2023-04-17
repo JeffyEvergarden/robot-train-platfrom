@@ -53,14 +53,7 @@ const NodeDrawer: React.FC<any> = (props: any) => {
           ...res?.data,
         };
         resData.nodeAction = resData?.nodeAction?.length ? resData?.nodeAction : [{ action: '' }];
-        resData.keyPoints = resData?.keyPoints?.length
-          ? resData?.keyPoints
-          : [
-              {
-                keyPoint: '',
-                keyWord: '',
-              },
-            ];
+        resData.keyPoints = resData?.keyPoints?.length ? resData?.keyPoints : [];
         resData.name = resData?.nodeName;
         form.setFieldsValue(resData);
       }
@@ -229,10 +222,18 @@ const NodeDrawer: React.FC<any> = (props: any) => {
                           <div>关键点</div>
                         </div>
                         <div className={styles['grayBox']}>
-                          <Form.Item name={[field.name, 'keyPoint']} label={'关键点名称'}>
+                          <Form.Item
+                            name={[field.name, 'keyPoint']}
+                            label={'关键点名称'}
+                            rules={[{ required: true, message: '请输入关键点名称' }]}
+                          >
                             <Input maxLength={100} placeholder="请输入关键点名称"></Input>
                           </Form.Item>
-                          <Form.Item name={[field.name, 'keyWord']} label={'关键词'}>
+                          <Form.Item
+                            name={[field.name, 'keyWord']}
+                            label={'关键词'}
+                            rules={[{ required: true, message: '请输入关键词' }]}
+                          >
                             <Input.TextArea
                               showCount
                               maxLength={300}

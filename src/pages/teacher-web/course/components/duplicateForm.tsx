@@ -3,7 +3,7 @@ import { Modal, Form, Input, Button, Select } from 'antd';
 import { useImperativeHandle, useState } from 'react';
 
 const DuplicateForm: React.FC<any> = (props) => {
-  const { cref, allTableList, courseCopy } = props;
+  const { cref, allTableList, courseCopy, reload } = props;
   const [form] = Form.useForm();
   const [visible, setVisible] = useState<any>(false);
 
@@ -21,7 +21,10 @@ const DuplicateForm: React.FC<any> = (props) => {
     let valid = await form.validateFields();
     if (valid) {
       let res = await courseCopy({ ...valid });
-      if (res) setVisible(false);
+      if (res) {
+        onCancel();
+        reload();
+      }
     }
   };
 
