@@ -304,8 +304,8 @@ const courseCount = (req: any, res: any) => {
     resultCode: successCode,
     desc: '成功',
     data: {
-      unStudyNum: 55,
-      studyNum: 99,
+      unTotalNum: 55,
+      totalNum: 99,
     },
   });
 };
@@ -319,4 +319,6 @@ export default {
   [`POST ${baseUrl}/services/stu/course/taskNodeLineInfo`]: getTaskPanelDetail,
   // 获取成绩
   [`POST ${baseUrl}/services/stu/course/score`]: getStepResult,
+
+  [`POST ${baseUrl}/services/stu/course/courseCount`]: courseCount,
 };

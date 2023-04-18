@@ -89,6 +89,7 @@ const UserManage: React.FC = (props: any) => {
         userListRequest({});
       } else {
         groupActionRef?.current?.reloadAndRest();
+        userActionRef?.current?.reloadAndRest();
         groupListRequest({});
       }
     } else {
