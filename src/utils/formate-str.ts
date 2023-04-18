@@ -1,6 +1,6 @@
 const task_model_map = {
   1: '闯关模式',
-  2: '任务模式',
+  2: '任意模式',
 };
 
 const task_type_map = {
