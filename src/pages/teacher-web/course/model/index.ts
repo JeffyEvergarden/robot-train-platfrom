@@ -182,9 +182,11 @@ export const useDrawModel = () => {
     let res: any = await postDrawPanel_API(data);
     setFlowBtnLoading(false);
     if (res.resultCode === successCode) {
-      message.success('保存成功');
+      message.success(res?.resultDesc || '保存成功');
+      return true;
     } else {
-      message.error('保存失败');
+      message.error(res?.resultDesc || '保存失败');
+      return false;
     }
   };
   //获取画布
@@ -193,7 +195,7 @@ export const useDrawModel = () => {
     if (res.resultCode === successCode) {
       return res.data;
     } else {
-      message.error('获取画布失败');
+      message.error(res?.resultDesc || '获取画布失败');
       return false;
     }
   };
@@ -203,7 +205,7 @@ export const useDrawModel = () => {
     if (res.resultCode === successCode) {
       return true;
     } else {
-      message.error('节点添加失败');
+      message.error(res?.resultDesc || '节点添加失败');
       return false;
     }
   };
@@ -213,7 +215,7 @@ export const useDrawModel = () => {
     if (res.resultCode === successCode) {
       return true;
     } else {
-      message.error('节点添加失败');
+      message.error(res?.resultDesc || '节点添加失败');
       return false;
     }
   };
