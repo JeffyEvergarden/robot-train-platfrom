@@ -25,8 +25,8 @@ const KeyTipsHtml: React.FC<any> = (props: any) => {
         return (
           <div className={style['key-row']} key={i}>
             <div className={style['icon']}>{icon}</div>
-            <div className={style['icon']}>{subItem?.keyPointName}:</div>
-            <div className={style['desc']}>{subItem?.keyWord || '--'}</div>
+            <div className={style['icon']}>关键点:</div>
+            <div className={style['desc']}>{subItem?.keyPointName || '--'}</div>
           </div>
         );
       })}

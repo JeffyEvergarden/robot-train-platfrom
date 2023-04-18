@@ -75,7 +75,7 @@ const groupList = (req: any, res: any) => {
 
 const normalDeal = (req: any, res: any) => {
   res.json({
-    resultCode: 12,
+    resultCode: successCode,
     resultDesc: '是备案表改',
   });
 };

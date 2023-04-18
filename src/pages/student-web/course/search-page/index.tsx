@@ -21,7 +21,7 @@ const items = [
 ];
 
 const WaitLearnPage: React.FC<any> = (props: any) => {
-  const { type } = props;
+  const { type, changeMenu } = props;
   const [pageNo, setPageNo] = useState<any>(1);
 
   const [pageSize, setPageSize] = useState<any>(12);
@@ -38,6 +38,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
     });
     // console.log(obj.label);
     obj && setCourseTypeName(obj.label);
+    changeMenu(e.key);
   };
 
   const { courselist, total, getStudentCourse } = useCourseModel();

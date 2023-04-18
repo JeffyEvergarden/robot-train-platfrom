@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { PageContainer, ProBreadcrumb } from '@ant-design/pro-layout';
-import { Tabs, Tag } from 'antd';
+import { PageContainer } from '@ant-design/pro-layout';
+import { Tabs } from 'antd';
 import SearchPage from './search-page';
 import style from './style.less';
 import { useCourseModel } from './model';
@@ -39,19 +39,22 @@ const StudentWeb: React.FC<any> = (props: any) => {
   const [doneNum, setDoneNum] = useState<any>(0);
 
   useEffect(() => {
-    getStudyNum();
+    getStudyNum({});
   }, []);
 
-  const getStudyNum = async () => {
-    let res = await studyNum({});
-    setWaitNum(res?.data?.unStudyNum);
-    setDoneNum(res?.data?.studyNum);
+  const getStudyNum = async (key: any) => {
+    let res = await studyNum({ taskType: key === '0' ? undefined : Number(key) });
+    setWaitNum(res?.data?.unTotalNum);
+    setDoneNum(res?.data?.totalNum);
   };
 
   const tabOnChange = (key: any) => {
     setActiveKey(key);
   };
 
+  const changeMenu = (type: any) => {
+    getStudyNum(type);
+  };
   // 0 待学习， 1已学习
 
   const pagesItem: any = [
@@ -63,13 +66,13 @@ const StudentWeb: React.FC<any> = (props: any) => {
         </span>
       ),
       key: '1',
-      children: <SearchPage type={0} />,
+      children: <SearchPage type={0} changeMenu={changeMenu} />,
     },
     {
       label: (
         <span>
           已学习课
-          <TagIcon value={'2'} activeKey={activeKey} num={doneNum} />
+          <TagIcon value={'2'} activeKey={activeKey} num={doneNum} changeMenu={changeMenu} />
         </span>
       ),
       key: '2',
