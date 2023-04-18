@@ -3,7 +3,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useDrawModel, useTableModel } from '../model';
 import { history, useModel } from 'umi';
-import { Space, Tooltip, Typography } from 'antd';
+import { Popconfirm, Space, Tooltip, Typography } from 'antd';
 import CustomerDrawer from './component/customerDrawer';
 import CallDrawer from './component/callDrawer';
 import SoundDrawer from './component/soundDrawer';
@@ -56,15 +56,18 @@ const DrawDemo: React.FC<any> = (props: any) => {
   };
 
   // 保存画布
-  const onSave = async (data: any) => {
+  const onSave = async (data: any, hideMsg: any) => {
     const { nodes, edges } = data;
     console.log(data);
 
-    let res = await saveDrawPanel({
-      nodes,
-      edges,
-      id: history?.location?.query?.id || courseInfo?.id,
-    });
+    let res = await saveDrawPanel(
+      {
+        nodes,
+        edges,
+        id: history?.location?.query?.id || courseInfo?.id,
+      },
+      hideMsg,
+    );
     return res;
   };
 
@@ -150,12 +153,15 @@ const DrawDemo: React.FC<any> = (props: any) => {
         }}
         extra={
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <ArrowLeftOutlined
-              style={{ fontSize: '22px', marginRight: '8px' }}
-              onClick={() => {
+            <Popconfirm
+              placement="bottomLeft"
+              title="如有修改画布内容请确定已保存"
+              onConfirm={() => {
                 history.push('/front/teacher/course');
               }}
-            />
+            >
+              <ArrowLeftOutlined style={{ fontSize: '22px', marginRight: '8px' }} />
+            </Popconfirm>
             <Tooltip title={history?.location?.query?.name || courseInfo?.courseName}>
               <span className={style['drawTitle']} style={{ fontSize: '20px', fontWeight: '500' }}>
                 {history?.location?.query?.name || courseInfo?.courseName}

@@ -13,7 +13,7 @@ import LogicFlow, {
   HtmlNodeModel,
 } from '@logicflow/core';
 import ReactDOM from 'react-dom';
-import { Popover, Button, Select } from 'antd';
+import { Popover, Button, Select, message } from 'antd';
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
@@ -337,11 +337,19 @@ export function registerNode(lf: any, options: any) {
 }
 
 const deleteStep = (lf: any, node: any) => {
+  //删除子步骤
   const { nodes, edges } = lf.graphModel;
   //连进来的线
   let sourceLine = edges.find((item: any) => item.targetNodeId == node.id);
   //连出去的线
   let targetLine = edges.find((item: any) => item.sourceNodeId == node.id);
+
+  let parent = nodes.find((item: any) => item.id == sourceLine?.sourceNodeId);
+  if (parent?.type == 'task') {
+    message.warning('最少存在一个子节点');
+    return;
+  }
+
   lf.deleteNode(node.id);
   lf.deleteEdge(sourceLine?.id);
   if (targetLine) {
@@ -362,10 +370,20 @@ const deleteStep = (lf: any, node: any) => {
   // lf.updateEdges(sourceLine.id, { targetNodeId: targetLine.targetNodeId })
 };
 
-const deleteTask = (lf: any, node: any) => {
+const deleteTask = (lf: any, node: any, scheme?: any) => {
   //删除任务 找到子集递归
   const { nodes, edges } = lf.graphModel;
   console.log(edges);
+
+  if (!scheme) {
+    let parent = nodes?.find((item: any) => item.type == 'course');
+    let parentLine = edges.filter((item: any) => item?.sourceNodeId == parent?.id);
+    if (parentLine?.length == 1) {
+      message.warning('至少存在一个任务节点');
+      return;
+    }
+  }
+
   let childNodeId = edges.find?.((item: any) => item?.sourceNodeId == node.id)?.targetNodeId;
   lf.deleteNode(node.id);
   if (!childNodeId) {
@@ -373,5 +391,5 @@ const deleteTask = (lf: any, node: any) => {
   }
   let childNode = nodes?.find((n: any) => n.id == childNodeId);
   console.log(childNode);
-  deleteTask(lf, childNode);
+  deleteTask(lf, childNode, true);
 };

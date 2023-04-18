@@ -177,6 +177,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
       },
       type: 'polyline',
     });
+    addSubStep(newNode);
   };
   // 添加子步骤
   const addSubStep = (node: any) => {

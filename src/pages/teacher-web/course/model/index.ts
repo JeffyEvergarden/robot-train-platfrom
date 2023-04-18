@@ -177,12 +177,14 @@ export const useDrawModel = () => {
   const [flowBtnLoading, setFlowBtnLoading] = useState<boolean>(false);
   const [soundList, setSoundList] = useState<any>([]);
   // 保存画布接口
-  const saveDrawPanel = async (data: any) => {
+  const saveDrawPanel = async (data: any, hideMsg?: any) => {
     setFlowBtnLoading(true);
     let res: any = await postDrawPanel_API(data);
     setFlowBtnLoading(false);
     if (res.resultCode === successCode) {
-      message.success('保存成功');
+      if (!hideMsg) {
+        message.success('保存成功');
+      }
       return true;
     } else {
       message.error(res?.resultDesc || '保存失败');
