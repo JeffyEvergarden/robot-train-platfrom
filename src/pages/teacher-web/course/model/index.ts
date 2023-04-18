@@ -182,7 +182,7 @@ export const useDrawModel = () => {
     let res: any = await postDrawPanel_API(data);
     setFlowBtnLoading(false);
     if (res.resultCode === successCode) {
-      message.success(res?.resultDesc || '保存成功');
+      message.success('保存成功');
       return true;
     } else {
       message.error(res?.resultDesc || '保存失败');
@@ -225,7 +225,7 @@ export const useDrawModel = () => {
     let res: any = await courseCheck_API(data);
     setFlowBtnLoading(false);
     if (res.resultCode === successCode) {
-      message.success(res?.resultDesc);
+      message.success('校验通过');
       return true;
     } else {
       message.error(res?.resultDesc);
