@@ -56,11 +56,16 @@ const DrawDemo: React.FC<any> = (props: any) => {
   };
 
   // 保存画布
-  const onSave = (data: any) => {
+  const onSave = async (data: any) => {
     const { nodes, edges } = data;
     console.log(data);
 
-    saveDrawPanel({ nodes, edges, id: history?.location?.query?.id || courseInfo?.id });
+    let res = await saveDrawPanel({
+      nodes,
+      edges,
+      id: history?.location?.query?.id || courseInfo?.id,
+    });
+    return res;
   };
 
   // 监听节点添加  return true / false

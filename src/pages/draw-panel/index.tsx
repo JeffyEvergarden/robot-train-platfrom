@@ -138,11 +138,16 @@ const DrawPanel: React.FC<any> = (props: any) => {
     const { nodes, edges } = curLf.getGraphData();
     // console.log('信息保存');
     // console.log(nodes, edges);
-    onSave?.({ nodes, edges });
+    let res = onSave?.({ nodes, edges });
+    return res;
   };
 
   //校验
   const _check = () => {
+    let res = _save();
+    if (!res) {
+      return;
+    }
     //
     onCheck?.();
   };

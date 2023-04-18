@@ -5,6 +5,7 @@ import { useModel } from 'umi';
 import styles from './style.less';
 import customerPhoto from '@/asset/image/customer.png';
 import RightChatContent from './chat-right';
+import Condition from '@/components/Condition';
 
 const FlowTestDrawer: React.FC<any> = (props: any) => {
   const { cref } = props;
@@ -148,23 +149,26 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
     >
       <div className={styles['bodyStyle']} ref={boxRef}>
         {/* //客户信息 */}
-        <div
-          className={styles['customerInfo']}
-          style={{ display: customerInfoVisible ? '' : 'flex' }}
-        >
-          {/* {!customerInfoVisible && countLength(customerInfo) > 46
+        <Condition r-if={customerInfo}>
+          <div
+            className={styles['customerInfo']}
+            style={{ display: customerInfoVisible ? '' : 'flex' }}
+          >
+            {/* {!customerInfoVisible && countLength(customerInfo) > 46
           ? customerInfo.substring(0, 43) + '...'
           : customerInfo} */}
-          <span className={customerInfoVisible ? '' : styles['text']}>{customerInfo}</span>
-          <a
-            className={styles['switch']}
-            onClick={() => {
-              setCustomerInfoVisible(!customerInfoVisible);
-            }}
-          >
-            {customerInfoVisible ? '收起' : '展开'}
-          </a>
-        </div>
+            <span className={customerInfoVisible ? '' : styles['text']}>{customerInfo}</span>
+            <a
+              className={styles['switch']}
+              onClick={() => {
+                setCustomerInfoVisible(!customerInfoVisible);
+              }}
+            >
+              {customerInfoVisible ? '收起' : '展开'}
+            </a>
+          </div>
+        </Condition>
+
         {/* 聊天内容 */}
         <div style={{ marginTop: '24px' }}>
           {chatHistory.map((item: any, index: any) => {

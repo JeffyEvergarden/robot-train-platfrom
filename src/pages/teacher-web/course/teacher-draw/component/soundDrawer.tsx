@@ -85,7 +85,7 @@ const SoundDrawer: React.FC<any> = (props: any) => {
     let params = '';
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
-        params += `${encodeURIComponent(key)}=${encodeURIComponent(obj?.[key] || '')}&`;
+        params += `${encodeURIComponent(key)}=${encodeURIComponent(obj?.[key] ?? '')}&`;
       }
     }
     return params.slice(0, -1);

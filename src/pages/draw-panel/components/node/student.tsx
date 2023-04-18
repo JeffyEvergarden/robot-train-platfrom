@@ -230,7 +230,11 @@ const StepHtmlBox = (props: any) => {
       </Tooltip>
     );
   } else if (status === 'doing') {
-    icon = <ClockCircleOutlined style={{ color: status_color['doing'] }} />;
+    icon = (
+      <Tooltip placement="top" title={'待完成'}>
+        <ClockCircleOutlined style={{ color: status_color['doing'] }} />
+      </Tooltip>
+    );
   } else if (status === 'wait') {
     icon = <LockOutlined style={{ color: status_color['wait'] }} />;
   }

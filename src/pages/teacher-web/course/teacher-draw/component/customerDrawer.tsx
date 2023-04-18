@@ -61,11 +61,7 @@ const CustomerDrawer: React.FC<any> = (props: any) => {
       }
     >
       <Form form={form} layout="vertical">
-        <Form.Item
-          name="customerInfo"
-          label="客户信息"
-          rules={[{ required: true, message: '请输入客户背景或信息' }]}
-        >
+        <Form.Item name="customerInfo" label="客户信息">
           <Input.TextArea rows={5} showCount maxLength={100} placeholder="请输入客户背景或信息" />
         </Form.Item>
       </Form>
