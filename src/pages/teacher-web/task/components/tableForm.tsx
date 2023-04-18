@@ -117,7 +117,7 @@ const TableForm: React.FC<any> = (props) => {
         >
           <Radio.Group disabled={formType == 'scan'}>
             <Radio value={1}>闯关模式</Radio>
-            <Radio value={2}>任务模式</Radio>
+            <Radio value={2}>任意模式</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item
