@@ -86,8 +86,10 @@ const UserManage: React.FC = (props: any) => {
       editUserRef?.current?.close();
       if (pageType == 'editUser') {
         userActionRef?.current?.reloadAndRest();
+        userListRequest({});
       } else {
         groupActionRef?.current?.reloadAndRest();
+        groupListRequest({});
       }
     } else {
       message.error(res?.resultDesc || '失败');
@@ -127,6 +129,7 @@ const UserManage: React.FC = (props: any) => {
     if (res?.resultCode == successCode) {
       message.success(res?.resultDesc || '成功');
       groupActionRef?.current?.reloadAndRest();
+      userListRequest({});
     } else {
       const key = `open${Date.now()}`;
       notification.open({

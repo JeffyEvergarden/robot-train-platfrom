@@ -44,16 +44,17 @@ export default () => {
 
   const save = async () => {
     let formVal = await form.validateFields();
+    debugger;
     let wordage = `${formVal?.wordageFir},${formVal?.wordageTwo}`;
     let toneWords = toneWordsRef?.current?.tags?.join(',');
     let params = {
       ...formVal,
       wordage,
       toneWords,
-      speechSwitch: (formVal?.speechSwitch).toString(),
-      toneSwitch: (formVal?.toneSwitch).toString(),
-      emotionalSwitch: (formVal?.emotionalSwitch).toString(),
-      sensation: (formVal?.sensation).toString(),
+      speechSwitch: formVal?.speechSwitch ? '1' : '0',
+      toneSwitch: formVal?.toneSwitch ? '1' : '0',
+      emotionalSwitch: formVal?.emotionalSwitch ? '1' : '0',
+      sensation: formVal?.sensation ? '1' : '0',
     };
     delete params?.wordageFir;
     delete params?.wordageTwo;
