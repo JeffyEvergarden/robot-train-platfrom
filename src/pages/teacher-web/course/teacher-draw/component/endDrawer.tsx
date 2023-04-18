@@ -1,4 +1,5 @@
 import { useDrawModel } from '@/pages/teacher-web/course/model';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { Button, Drawer, Form, Input, InputNumber, Space } from 'antd';
 import { useImperativeHandle, useState } from 'react';
 import { useModel } from 'umi';
@@ -64,6 +65,10 @@ const EndDrawer: React.FC<any> = (props: any) => {
         <Form.Item
           name="maxError"
           label="最大允许异常次数"
+          tooltip={{
+            title: '如回复超时或话术回复错误算做异常，超异常次数则提前结束通话。',
+            icon: <InfoCircleOutlined />,
+          }}
           rules={[{ required: true, message: '请输入最大允许异常次数' }]}
         >
           <InputNumber

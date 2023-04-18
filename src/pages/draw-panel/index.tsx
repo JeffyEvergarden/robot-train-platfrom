@@ -134,17 +134,17 @@ const DrawPanel: React.FC<any> = (props: any) => {
   };
 
   // 保存
-  const _save = () => {
+  const _save = (hideMsg: any) => {
     const { nodes, edges } = curLf.getGraphData();
     // console.log('信息保存');
     // console.log(nodes, edges);
-    let res = onSave?.({ nodes, edges });
+    let res = onSave?.({ nodes, edges }, hideMsg);
     return res;
   };
 
   //校验
   const _check = () => {
-    let res = _save();
+    let res = _save(true);
     if (!res) {
       return;
     }
@@ -203,7 +203,14 @@ const DrawPanel: React.FC<any> = (props: any) => {
             <Button className={style['bt-item']} onClick={_check} loading={loading}>
               校验
             </Button>
-            <Button className={style['bt-item']} type="primary" onClick={_save} loading={loading}>
+            <Button
+              className={style['bt-item']}
+              type="primary"
+              onClick={() => {
+                _save(false);
+              }}
+              loading={loading}
+            >
               保存
             </Button>
           </Condition>
