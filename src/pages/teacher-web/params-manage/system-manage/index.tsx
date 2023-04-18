@@ -29,6 +29,7 @@ export default () => {
   const getCourceModelList = async (payload: any) => {
     let params = {
       ...payload,
+      modelName: payload?.modelName?.join(','),
       page: payload?.current,
     };
     delete params?.current;
@@ -100,7 +101,13 @@ export default () => {
         placeholder: '请选择课程名称',
       },
       renderFormItem: () => (
-        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择课程名称">
+        <Select
+          optionFilterProp="children"
+          showSearch
+          allowClear
+          placeholder="请选择课程名称"
+          mode="multiple"
+        >
           {courceListData?.map((item: any) => {
             return (
               <Select.Option key={item?.id} value={item?.modelName}>
