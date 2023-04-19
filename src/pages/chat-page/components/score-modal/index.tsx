@@ -24,7 +24,7 @@ export function formateNum(val: number): any {
 }
 
 const ScoreModal: any = (props: any) => {
-  const { cref, loading, confirm } = props;
+  const { cref, loading, confirm, cancel } = props;
 
   const { getStepResult, setResultLoading, resultLoading } = useChatModel();
 
@@ -83,6 +83,7 @@ const ScoreModal: any = (props: any) => {
   const handleCancel = () => {
     console.log('handleCancel');
     setIsModalOpen(false);
+    cancel?.();
   };
 
   useImperativeHandle(cref, () => ({
@@ -104,7 +105,7 @@ const ScoreModal: any = (props: any) => {
       width={'920px'}
       onOk={handleOk}
       okText={'再次拨打'}
-      cancelText={'关闭'}
+      cancelText={'返回课程详情'}
       onCancel={handleCancel}
     >
       <Spin spinning={loading}>
