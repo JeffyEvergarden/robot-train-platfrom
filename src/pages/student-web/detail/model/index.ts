@@ -16,7 +16,7 @@ const travelNodes = (nodes: any[], options: any) => {
         item.text.y = -250;
       }
       item.properties.taskType = formateTaskType(options.taskType);
-      if (options.taskModel == 2) {
+      if (options.taskModel == 2 && item.properties.status === 'wait') {
         // 任意模式
         item.properties.status = 'doing';
       }
