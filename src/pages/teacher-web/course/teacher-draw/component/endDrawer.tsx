@@ -74,6 +74,7 @@ const EndDrawer: React.FC<any> = (props: any) => {
           <InputNumber
             controls={false}
             style={{ width: '100%' }}
+            min={0}
             precision={0}
             maxLength={150}
             placeholder="请输入最大允许异常次数"
