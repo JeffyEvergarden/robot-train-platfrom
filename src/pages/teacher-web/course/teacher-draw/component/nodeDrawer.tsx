@@ -121,6 +121,7 @@ const NodeDrawer: React.FC<any> = (props: any) => {
                     key={field.name + 'action'}
                     label={'结束话术'}
                     rules={[{ required: true, message: '请输入结束话术' }]}
+                    initialValue={'恭喜你完成啦！继续努力！！Keep!!'}
                   >
                     <Input.TextArea
                       showCount
