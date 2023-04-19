@@ -57,16 +57,17 @@ export default (props: any) => {
       onCancel={onClose}
       visible={visible}
       footer={
-        <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-          <div style={{ width: '100px' }}>全程会话录音</div>
-          <AudioPlay
-            musicSrc={
-              process.env.mock
-                ? '/ai-teach/mp3/story.mp3'
-                : `${config.basePath}/services/stu/course/history/complete/listen?studyId=${rowData?.id}`
-            }
-          />
-        </div>
+        null
+        // <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+        //   <div style={{ width: '100px' }}>全程会话录音</div>
+        //   <AudioPlay
+        //     musicSrc={
+        //       process.env.mock
+        //         ? '/ai-teach/mp3/story.mp3'
+        //         : `${config.basePath}/services/stu/course/history/complete/listen?studyId=${rowData?.id}`
+        //     }
+        //   />
+        // </div>
       }
       destroyOnClose
     >
