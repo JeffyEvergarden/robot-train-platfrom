@@ -3,7 +3,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useDrawModel, useTableModel } from '../model';
 import { history, useModel } from 'umi';
-import { Popconfirm, Space, Tooltip, Typography } from 'antd';
+import { message, Popconfirm, Space, Tooltip, Typography } from 'antd';
 import CustomerDrawer from './component/customerDrawer';
 import CallDrawer from './component/callDrawer';
 import SoundDrawer from './component/soundDrawer';
@@ -59,7 +59,10 @@ const DrawDemo: React.FC<any> = (props: any) => {
   const onSave = async (data: any, hideMsg: any) => {
     const { nodes, edges } = data;
     console.log(data);
-
+    if (!nodes?.length) {
+      message.warning('不允许提交空画布');
+      return;
+    }
     let res = await saveDrawPanel(
       {
         nodes,

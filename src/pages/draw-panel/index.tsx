@@ -133,6 +133,13 @@ const DrawPanel: React.FC<any> = (props: any) => {
     drawPanelRef.current = lf;
   };
 
+  const _openFlowTest = async () => {
+    let res = await _save(true);
+    if (res) {
+      await openFlowTest();
+    }
+  };
+
   // 保存
   const _save = (hideMsg: any) => {
     const { nodes, edges } = curLf.getGraphData();
@@ -143,8 +150,8 @@ const DrawPanel: React.FC<any> = (props: any) => {
   };
 
   //校验
-  const _check = () => {
-    let res = _save(true);
+  const _check = async () => {
+    let res = await _save(true);
     if (!res) {
       return;
     }
@@ -196,7 +203,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
         <div className={style['content_left']}>{extra}</div>
 
         <div className={style['content_right']}>
-          <Button className={style['bt-item']} onClick={openFlowTest}>
+          <Button className={style['bt-item']} onClick={_openFlowTest} loading={loading}>
             流程测试
           </Button>
           <Condition r-if={!isSilentMode}>
