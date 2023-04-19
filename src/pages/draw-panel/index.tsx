@@ -150,8 +150,8 @@ const DrawPanel: React.FC<any> = (props: any) => {
   };
 
   //校验
-  const _check = () => {
-    let res = _save(true);
+  const _check = async () => {
+    let res = await _save(true);
     if (!res) {
       return;
     }
