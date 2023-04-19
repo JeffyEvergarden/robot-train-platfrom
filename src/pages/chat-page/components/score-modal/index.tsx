@@ -80,6 +80,11 @@ const ScoreModal: any = (props: any) => {
     confirm?.();
   };
 
+  const handleClose = () => {
+    console.log('handleClose');
+    setIsModalOpen(false);
+  };
+
   const handleCancel = () => {
     console.log('handleCancel');
     setIsModalOpen(false);
@@ -106,7 +111,14 @@ const ScoreModal: any = (props: any) => {
       onOk={handleOk}
       okText={'再次拨打'}
       cancelText={'返回课程详情'}
-      onCancel={handleCancel}
+      onCancel={handleClose}
+      footer={
+        <div className={style['zy-row_end']}>
+          <Button type="default" onClick={handleClose} >关闭</Button>
+          <Button type="default" onClick={handleCancel} >返回课程详情</Button>
+          <Button type="primary" onClick={handleOk} >再次拨打</Button>
+        </div>
+      }
     >
       <Spin spinning={loading}>
         <div className={style['zy-row']}>
