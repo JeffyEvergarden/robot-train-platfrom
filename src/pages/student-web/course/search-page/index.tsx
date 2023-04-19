@@ -41,7 +41,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
     changeMenu(e.key);
   };
 
-  const { courselist, total, getStudentCourse } = useCourseModel();
+  const { courselist, totalWait, totalDone, getStudentCourse } = useCourseModel();
 
   useEffect(() => {
     getStudentCourse({
@@ -121,7 +121,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
       <div className={style['page-right']}>
         <Pagination
           current={pageNo}
-          total={total}
+          total={type == '0' ? totalWait : totalDone}
           pageSize={pageSize}
           showSizeChanger
           pageSizeOptions={[12, 24, 36]}
