@@ -65,7 +65,7 @@ const ChatPage: any = (props: any) => {
   // 获取课程信息
   const getInfo = async () => {
     // 获取课程信息
-    let res: any = await getCourseInfo({ courseId, taskId });
+    let res: any = await getCourseInfo({ courseId, taskId, nodeId });
     setTitle(res.courseName || '--');
     setTips(res.customerInfo || '--');
     setCourseType(res.taskType === 1 ? 'exercise' : 'exam');
