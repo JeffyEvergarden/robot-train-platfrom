@@ -339,7 +339,12 @@ const ChatPage: any = (props: any) => {
           </div>
         </Condition>
 
-        <ScoreModal cref={scoreModalRef} loading={resultLoading} confirm={confirmAgin} />
+        <ScoreModal
+          cref={scoreModalRef}
+          loading={resultLoading}
+          confirm={confirmAgin}
+          cancel={goBack}
+        />
       </>
     </PageContainer>
   );

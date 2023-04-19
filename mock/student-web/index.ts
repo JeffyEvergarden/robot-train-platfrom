@@ -216,7 +216,7 @@ const getTaskPanelDetail = (req: any, res: any) => {
           type: 'step',
           x: 360,
           y: 380,
-          properties: { status: 'doing', completeNum: 1, totalNum: 10, courseId: '123' },
+          properties: { status: 'finish', completeNum: 1, totalNum: 10, courseId: '123' },
           text: { x: 360, y: 380, value: '步骤节点1步骤节点1步骤节点1步骤节点1' },
         },
         {
