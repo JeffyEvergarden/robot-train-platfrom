@@ -30,7 +30,7 @@ const getNormalList = (req: any, res: any) => {
     resultDesc: '成功',
     data: {
       list: data,
-      totalPage: 11,
+      totalPage: 22,
     },
   });
 };

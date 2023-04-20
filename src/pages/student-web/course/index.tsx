@@ -39,7 +39,7 @@ const StudentWeb: React.FC<any> = (props: any) => {
   const [doneNum, setDoneNum] = useState<any>(0);
 
   useEffect(() => {
-    getStudyNum({});
+    getStudyNum(0);
   }, []);
 
   const getStudyNum = async (key: any) => {
@@ -72,11 +72,11 @@ const StudentWeb: React.FC<any> = (props: any) => {
       label: (
         <span>
           已学习课
-          <TagIcon value={'2'} activeKey={activeKey} num={doneNum} changeMenu={changeMenu} />
+          <TagIcon value={'2'} activeKey={activeKey} num={doneNum} />
         </span>
       ),
       key: '2',
-      children: <SearchPage type={1} />,
+      children: <SearchPage type={1} changeMenu={changeMenu} />,
     },
   ];
 

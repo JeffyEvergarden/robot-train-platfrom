@@ -101,17 +101,9 @@ export default [
   //   layout: true,
   // },
   {
-    path: '/front/student/course/list',
+    path: '/front/student/course',
     component: './student-web/course',
     name: '学习课程',
-    access: 'routerAuth',
-    role: ['admin', 'student'],
-    layout: true,
-  },
-  {
-    path: '/front/student/learnRecord',
-    component: './student-web/learn-record',
-    name: '学习记录',
     access: 'routerAuth',
     role: ['admin', 'student'],
     layout: true,
@@ -121,6 +113,14 @@ export default [
     component: './student-web/detail',
     name: '课程详情',
     hideInMenu: true,
+    layout: true,
+  },
+  {
+    path: '/front/student/learnRecord',
+    component: './student-web/learn-record',
+    name: '学习记录',
+    access: 'routerAuth',
+    role: ['admin', 'student'],
     layout: true,
   },
   // {
