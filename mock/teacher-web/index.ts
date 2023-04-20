@@ -72,7 +72,7 @@ const courseDetail = (req: any, res: any) => {
       courseType: 1,
       minNumberSwitch: 1,
       minNumber: 1,
-      courseStatus: 0,
+      courseStatus: 1,
       modelId: 'xxx',
       isEdit: true,
     },

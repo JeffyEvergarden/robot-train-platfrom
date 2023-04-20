@@ -114,9 +114,15 @@ const ScoreModal: any = (props: any) => {
       onCancel={handleClose}
       footer={
         <div className={style['zy-row_end']}>
-          <Button type="default" onClick={handleClose} >关闭</Button>
-          <Button type="default" onClick={handleCancel} >返回课程详情</Button>
-          <Button type="primary" onClick={handleOk} >再次拨打</Button>
+          <Button type="default" onClick={handleClose}>
+            关闭
+          </Button>
+          <Button type="default" onClick={handleCancel}>
+            返回课程详情
+          </Button>
+          <Button type="primary" onClick={handleOk}>
+            再次拨打
+          </Button>
         </div>
       }
     >
