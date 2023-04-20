@@ -133,8 +133,15 @@ const DrawPanel: React.FC<any> = (props: any) => {
     drawPanelRef.current = lf;
   };
 
+  //对话前保存
   const _openFlowTest = async () => {
-    let res = await _save(true);
+    let res;
+    if (!isSilentMode) {
+      res = await _save(true);
+    } else {
+      res = true;
+    }
+
     if (res) {
       await openFlowTest();
     }
