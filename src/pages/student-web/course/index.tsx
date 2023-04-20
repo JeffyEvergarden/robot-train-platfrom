@@ -66,7 +66,7 @@ const StudentWeb: React.FC<any> = (props: any) => {
         </span>
       ),
       key: '1',
-      children: <SearchPage type={0} changeMenu={changeMenu} />,
+      children: <SearchPage type={0} changeMenu={changeMenu} activeKey={activeKey} />,
     },
     {
       label: (
@@ -76,7 +76,7 @@ const StudentWeb: React.FC<any> = (props: any) => {
         </span>
       ),
       key: '2',
-      children: <SearchPage type={1} changeMenu={changeMenu} />,
+      children: <SearchPage type={1} changeMenu={changeMenu} activeKey={activeKey} />,
     },
   ];
 
