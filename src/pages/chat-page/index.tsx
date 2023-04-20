@@ -296,6 +296,11 @@ const ChatPage: any = (props: any) => {
               onEnd={onEnd}
             ></PhoneCall>
           </div>
+          <Condition r-if={pageType === 'init'}>
+            <div className={style['header-right']}>
+              <Button type="primary" onClick={startChangePageType}>拨打电话</Button>
+            </div>
+          </Condition>
         </div>
       }
     >
