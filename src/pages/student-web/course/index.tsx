@@ -39,17 +39,18 @@ const StudentWeb: React.FC<any> = (props: any) => {
   const [doneNum, setDoneNum] = useState<any>(0);
 
   useEffect(() => {
-    getStudyNum(0);
+    getStudyNum('0');
   }, []);
 
   const getStudyNum = async (key: any) => {
-    let res = await studyNum({ taskType: key === '0' ? undefined : Number(key) });
+    let res = await studyNum({ taskType: key == '0' ? undefined : Number(key) });
     setWaitNum(res?.data?.unTotalNum);
     setDoneNum(res?.data?.totalNum);
   };
 
   const tabOnChange = (key: any) => {
     setActiveKey(key);
+    getStudyNum('0');
   };
 
   const changeMenu = (type: any) => {
