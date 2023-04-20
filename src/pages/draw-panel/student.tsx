@@ -87,7 +87,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     const lf: any = new LogicFlow({
       container: drawDomRef.current,
       plugins: [DndPanel, SelectionSelect, Menu, Control],
-      grid: true,
+      // grid: true,
       isSilentMode: isSilentMode,
       edgeType: 'polyline',
     });

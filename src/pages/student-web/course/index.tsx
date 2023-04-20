@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Tabs } from 'antd';
 import SearchPage from './search-page';
@@ -34,6 +34,9 @@ const TagIcon = (props: any) => {
 const StudentWeb: React.FC<any> = (props: any) => {
   const { studyNum } = useCourseModel();
 
+  const waitRef = useRef();
+  const doneRef = useRef();
+
   const [activeKey, setActiveKey] = useState<any>('1');
   const [waitNum, setWaitNum] = useState<any>(0);
   const [doneNum, setDoneNum] = useState<any>(0);
@@ -50,7 +53,11 @@ const StudentWeb: React.FC<any> = (props: any) => {
 
   const tabOnChange = (key: any) => {
     setActiveKey(key);
-    getStudyNum('0');
+    if (key == '1') {
+      getStudyNum(waitRef?.current?.courseType);
+    } else if (key == '2') {
+      getStudyNum(doneRef?.current?.courseType);
+    }
   };
 
   const changeMenu = (type: any) => {
@@ -67,7 +74,9 @@ const StudentWeb: React.FC<any> = (props: any) => {
         </span>
       ),
       key: '1',
-      children: <SearchPage type={0} changeMenu={changeMenu} activeKey={activeKey} />,
+      children: (
+        <SearchPage type={0} changeMenu={changeMenu} activeKey={activeKey} cref={waitRef} />
+      ),
     },
     {
       label: (
@@ -77,7 +86,9 @@ const StudentWeb: React.FC<any> = (props: any) => {
         </span>
       ),
       key: '2',
-      children: <SearchPage type={1} changeMenu={changeMenu} activeKey={activeKey} />,
+      children: (
+        <SearchPage type={1} changeMenu={changeMenu} activeKey={activeKey} cref={doneRef} />
+      ),
     },
   ];
 

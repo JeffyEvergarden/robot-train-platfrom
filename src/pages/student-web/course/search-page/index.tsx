@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useImperativeHandle } from 'react';
 import style from '../style.less';
 import { Pagination, Button, Tag, Dropdown, Menu } from 'antd';
 import { Link, history } from 'umi';
@@ -21,13 +21,17 @@ const items = [
 ];
 
 const WaitLearnPage: React.FC<any> = (props: any) => {
-  const { type, changeMenu, activeKey } = props;
+  const { type, changeMenu, activeKey, cref } = props;
   const [pageNo, setPageNo] = useState<any>(1);
 
   const [pageSize, setPageSize] = useState<any>(12);
 
   const [courseType, setCourseType] = useState<any>('0');
   const [courseTypeName, setCourseTypeName] = useState<any>('全部课程');
+
+  useImperativeHandle(cref, () => ({
+    courseType,
+  }));
 
   const onMenuClick = (e: any) => {
     console.log(e);
