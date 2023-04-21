@@ -1,5 +1,5 @@
 import Condition from '@/components/Condition';
-import { handleKeyPress } from '@/utils';
+import { handleKeyPress, validateSpaces } from '@/utils';
 import { Modal, Input, Radio, Switch, Form, InputNumber, Checkbox, Select } from 'antd';
 import { useEffect, useImperativeHandle, useState } from 'react';
 import { useTaskModel } from '../model';
@@ -83,7 +83,10 @@ const TableForm: React.FC<any> = (props) => {
         <Form.Item
           name="taskName"
           label="任务名称"
-          rules={[{ required: true, message: '请输入任务名称' }]}
+          rules={[
+            { required: true, message: '请输入任务名称' },
+            { validator: validateSpaces, trigger: 'change' },
+          ]}
         >
           <Input
             showCount

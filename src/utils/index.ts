@@ -13,3 +13,12 @@ export const handleKeyPress = (e: any) => {
     e.preventDefault();
   }
 };
+
+export const validateSpaces = (rule: any, value: any, callback: any) => {
+  const regex = /\s/;
+  if (regex.test(value)) {
+    callback('输入值中不允许包含空格字符');
+  } else {
+    callback();
+  }
+};
