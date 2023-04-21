@@ -135,6 +135,9 @@ const ChatPage: any = (props: any) => {
 
   // websocket
   const initSocket = async () => {
+
+    setFinishFlag(false);
+
     let sessionId: any = await postCall({ courseId, taskId, nodeId });
 
     if (!sessionId) {
