@@ -19,6 +19,7 @@ const StudentDrawPanel: any = (props: any) => {
   const query: any = history.location.query || {};
 
   const taskId: any = query?.taskId;
+  const tab: any = query?.tab;
 
   //
   const [taskName, setTaskName] = useState<any>('');
@@ -93,7 +94,7 @@ const StudentDrawPanel: any = (props: any) => {
       return;
     }
     // 回到画布页面
-    history.replace(`/front/student/course/list`);
+    history.replace(`/front/student/course?tab=${tab}`);
   };
 
   const [statusNum, setStatusNum] = useState<any>(0);

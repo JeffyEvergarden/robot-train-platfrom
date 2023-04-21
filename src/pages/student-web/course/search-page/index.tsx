@@ -45,7 +45,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
     changeMenu(e.key);
   };
 
-  const { courselist, totalWait, totalDone, getStudentCourse } = useCourseModel();
+  const { courselist, totalWait, totalDone, getStudentCourse, loading } = useCourseModel();
 
   useEffect(() => {
     getStudentCourse({
@@ -91,7 +91,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
                 <Link
                   target="blank"
                   key={index}
-                  to={{ pathname: `/front/student/course/detail`, search: `?taskId=${item.taskId}` }}
+                  to={{ pathname: `/front/student/course/detail`, search: `?taskId=${item.taskId}&tab=${type + 1}` }}
                 >
                   <div className={style['course-box']}>
                     <div className={style['course-pic']}>
@@ -124,7 +124,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
           </div>
         </Condition>
 
-        <Condition r-if={courselist.length === 0}>
+        <Condition r-if={!loading && courselist.length === 0}>
           <div className={style['page-error']}>
             <img src={coursePic} className={style['course-pic']} />
             <div style={{ marginTop: '18px' }}>暂无数据</div>

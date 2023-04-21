@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Tabs } from 'antd';
 import SearchPage from './search-page';
@@ -37,7 +38,11 @@ const StudentWeb: React.FC<any> = (props: any) => {
   const waitRef = useRef();
   const doneRef = useRef();
 
-  const [activeKey, setActiveKey] = useState<any>('1');
+  const query: any = history.location.query || {};
+  let tab: any = query?.tab;
+  tab = isNaN(tab) ? '1' : tab;
+
+  const [activeKey, setActiveKey] = useState<any>(tab);
   const [waitNum, setWaitNum] = useState<any>(0);
   const [doneNum, setDoneNum] = useState<any>(0);
 
