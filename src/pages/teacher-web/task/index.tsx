@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { Button, Popconfirm, Select, Switch } from 'antd';
 import { useTaskModel } from './model';
 import { history } from 'umi';
 import TableForm from './components/tableForm';
+import { useUserManageModel } from '../params-manage/model';
 
 const TeacherWeb: React.FC<any> = (props: any) => {
   const {
@@ -19,6 +20,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
     taskOpen,
     taskClose,
   } = useTaskModel();
+  const { userListRequest, userList } = useUserManageModel();
 
   const tableFormRef = useRef<any>(null);
   const tableRef = useRef<any>(null);
@@ -77,7 +79,6 @@ const TeacherWeb: React.FC<any> = (props: any) => {
       title: '任务类型',
       dataIndex: 'taskType',
       width: 100,
-      search: false,
       valueEnum: {
         1: { text: '培训' },
         2: { text: '考试' },
@@ -92,7 +93,35 @@ const TeacherWeb: React.FC<any> = (props: any) => {
     {
       title: '创建人',
       dataIndex: 'creator',
-      width: 100,
+      search: false,
+      width: 120,
+    },
+    {
+      title: '创建人',
+      dataIndex: 'accountList',
+      hideInTable: true,
+      renderFormItem: (t: any, r: any, i: any) => {
+        return (
+          <Select
+            mode="multiple"
+            showSearch
+            allowClear
+            filterOption={(input, option) =>
+              (option?.item?.userName as unknown as string)
+                ?.toLowerCase()
+                ?.includes(input.toLowerCase())
+            }
+          >
+            {userList?.map((item: any) => {
+              return (
+                <Select.Option key={item?.id} value={item?.account} item={item}>
+                  {item?.userName}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        );
+      },
     },
     {
       title: '任务状态',
@@ -171,6 +200,11 @@ const TeacherWeb: React.FC<any> = (props: any) => {
       },
     },
   ];
+
+  useEffect(() => {
+    userListRequest({});
+  }, []);
+
   return (
     <PageContainer
       header={{

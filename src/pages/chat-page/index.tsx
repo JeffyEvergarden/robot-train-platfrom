@@ -298,7 +298,9 @@ const ChatPage: any = (props: any) => {
           </div>
           <Condition r-if={pageType === 'init'}>
             <div className={style['header-right']}>
-              <Button type="primary" onClick={startChangePageType}>拨打电话</Button>
+              <Button type="primary" onClick={startChangePageType}>
+                拨打电话
+              </Button>
             </div>
           </Condition>
         </div>

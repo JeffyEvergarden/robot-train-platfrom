@@ -238,7 +238,7 @@ const NodeDrawer: React.FC<any> = (props: any) => {
                             <Input.TextArea
                               showCount
                               maxLength={300}
-                              placeholder="请输入关键词"
+                              placeholder="请输入关键词,使用“,”间隔"
                               rows={3}
                             ></Input.TextArea>
                           </Form.Item>

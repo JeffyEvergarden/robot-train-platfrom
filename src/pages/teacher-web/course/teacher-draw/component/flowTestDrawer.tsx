@@ -28,6 +28,10 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
   }));
 
   const onCancel = () => {
+    setChatHistory([]);
+    setSessionId('');
+    setInputValue('');
+    setStartBtn('start');
     setVisible(false);
   };
 
