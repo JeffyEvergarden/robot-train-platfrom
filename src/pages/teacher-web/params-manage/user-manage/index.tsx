@@ -202,10 +202,15 @@ const UserManage: React.FC = (props: any) => {
           allowClear
           placeholder="请选择部门组别"
           mode="multiple"
+          filterOption={(input, option) =>
+            (option?.item?.groupName as unknown as string)
+              ?.toLowerCase()
+              ?.includes(input.toLowerCase())
+          }
         >
           {groupList?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.groupName}>
+              <Select.Option key={item?.id} value={item?.groupName} item={item}>
                 {item?.groupName}
               </Select.Option>
             );
@@ -267,10 +272,15 @@ const UserManage: React.FC = (props: any) => {
           allowClear
           mode="multiple"
           placeholder="请选择部门组别"
+          filterOption={(input, option) =>
+            (option?.item?.groupName as unknown as string)
+              ?.toLowerCase()
+              ?.includes(input.toLowerCase())
+          }
         >
           {groupList?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.groupName}>
+              <Select.Option key={item?.id} value={item?.groupName} item={item}>
                 {item?.groupName}
               </Select.Option>
             );

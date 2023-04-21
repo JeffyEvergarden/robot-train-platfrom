@@ -63,10 +63,15 @@ export default () => {
           allowClear
           placeholder="请选择课程名称"
           mode="multiple"
+          filterOption={(input, option) =>
+            (option?.item?.taskName as unknown as string)
+              ?.toLowerCase()
+              ?.includes(input.toLowerCase())
+          }
         >
           {courseListData?.map((item: any) => {
             return (
-              <Select.Option key={item?.taskId} value={item?.courseId}>
+              <Select.Option key={item?.taskId} value={item?.courseId} item={item}>
                 {item?.taskName}
               </Select.Option>
             );

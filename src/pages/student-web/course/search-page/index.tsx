@@ -49,7 +49,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
 
   useEffect(() => {
     if (Number(activeKey) !== type + 1) {
-      return
+      return;
     }
     getStudentCourse({
       type,
@@ -94,7 +94,10 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
                 <Link
                   target="blank"
                   key={index}
-                  to={{ pathname: `/front/student/course/detail`, search: `?taskId=${item.taskId}&tab=${type + 1}` }}
+                  to={{
+                    pathname: `/front/student/course/detail`,
+                    search: `?taskId=${item.taskId}&tab=${type + 1}`,
+                  }}
                 >
                   <div className={style['course-box']}>
                     <div className={style['course-pic']}>

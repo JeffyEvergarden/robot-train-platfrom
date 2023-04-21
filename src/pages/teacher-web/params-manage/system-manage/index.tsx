@@ -98,19 +98,24 @@ export default () => {
       ellipsis: true,
       search: true,
       fieldProps: {
-        placeholder: '请选择课程名称',
+        placeholder: '请选择模型名称',
       },
       renderFormItem: () => (
         <Select
           optionFilterProp="children"
           showSearch
           allowClear
-          placeholder="请选择课程名称"
+          placeholder="请选择模型名称"
           mode="multiple"
+          filterOption={(input, option) =>
+            (option?.item?.modelName as unknown as string)
+              ?.toLowerCase()
+              ?.includes(input.toLowerCase())
+          }
         >
           {courceListData?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.modelName}>
+              <Select.Option key={item?.id} value={item?.modelName} item={item}>
                 {item?.modelName}
               </Select.Option>
             );
