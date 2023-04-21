@@ -45,9 +45,12 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
     changeMenu(e.key);
   };
 
-  const { courselist, totalWait, totalDone, getStudentCourse } = useCourseModel();
+  const { courselist, totalWait, totalDone, getStudentCourse, loading } = useCourseModel();
 
   useEffect(() => {
+    if (Number(activeKey) !== type + 1) {
+      return;
+    }
     getStudentCourse({
       type,
       page: pageNo,
@@ -93,7 +96,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
                   key={index}
                   to={{
                     pathname: `/front/student/course/detail`,
-                    search: `?taskId=${item.taskId}`,
+                    search: `?taskId=${item.taskId}&tab=${type + 1}`,
                   }}
                 >
                   <div className={style['course-box']}>
@@ -127,7 +130,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
           </div>
         </Condition>
 
-        <Condition r-if={courselist.length === 0}>
+        <Condition r-if={!loading && courselist.length === 0}>
           <div className={style['page-error']}>
             <img src={coursePic} className={style['course-pic']} />
             <div style={{ marginTop: '18px' }}>暂无数据</div>
@@ -139,6 +142,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
           current={pageNo}
           total={type == '0' ? totalWait : totalDone}
           pageSize={pageSize}
+          showQuickJumper
           showSizeChanger
           pageSizeOptions={[12, 24, 36]}
           showTotal={(total, range) => `总共 ${total} 条`}

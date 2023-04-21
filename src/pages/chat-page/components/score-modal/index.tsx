@@ -150,7 +150,7 @@ const ScoreModal: any = (props: any) => {
 
             {tableData.length > 0 && (
               <Table
-                rowKey="name"
+                rowKey="id"
                 size="small"
                 columns={columns}
                 dataSource={tableData}
