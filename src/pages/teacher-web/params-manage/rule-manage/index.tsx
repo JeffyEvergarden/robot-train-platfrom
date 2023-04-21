@@ -15,7 +15,7 @@ const RuleManage: React.FC = (props: any) => {
           breadcrumb: {},
         }}
       >
-        <Tabs defaultActiveKey="1">
+        <Tabs defaultActiveKey="1" destroyInactiveTabPane>
           <Tabs.TabPane tab="评分比例配置" key="1">
             <ScoreSet />
           </Tabs.TabPane>
