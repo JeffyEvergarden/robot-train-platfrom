@@ -83,44 +83,56 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
           </div>
         </Dropdown>
       </div>
-      <div className={style['paget-context_bg']}>
-        <div className={style['paget-context']}>
-          {courselist.map((item: any, index: number) => {
-            return (
-              <Link
-                target="blank"
-                key={index}
-                to={{ pathname: `/front/student/course/detail`, search: `?taskId=${item.taskId}` }}
-              >
-                <div className={style['course-box']}>
-                  <div className={style['course-pic']}>
-                    <img src={coursePic} className={style['course-pic']} />
-                  </div>
+      <div className={style['page-context_bg']}>
+        <Condition r-if={courselist.length > 0}>
+          <div className={style['page-context']}>
+            {courselist.map((item: any, index: number) => {
+              return (
+                <Link
+                  target="blank"
+                  key={index}
+                  to={{
+                    pathname: `/front/student/course/detail`,
+                    search: `?taskId=${item.taskId}`,
+                  }}
+                >
+                  <div className={style['course-box']}>
+                    <div className={style['course-pic']}>
+                      <img src={coursePic} className={style['course-pic']} />
+                    </div>
 
-                  <div className={style['box']}>
-                    <div className={style['course-title']}>{item.taskName}</div>
+                    <div className={style['box']}>
+                      <div className={style['course-title']}>{item.taskName}</div>
 
-                    <div className={style['context']}>
-                      <div>
-                        <Condition r-if={item.taskType === 1}>
-                          <Tag color="blue">培训课程</Tag>
-                        </Condition>
-                        <Condition r-if={item.taskType === 2}>
-                          <Tag color={'orange'}>考试课程</Tag>
-                        </Condition>
+                      <div className={style['context']}>
+                        <div>
+                          <Condition r-if={item.taskType === 1}>
+                            <Tag color="blue">培训课程</Tag>
+                          </Condition>
+                          <Condition r-if={item.taskType === 2}>
+                            <Tag color={'orange'}>考试课程</Tag>
+                          </Condition>
+                        </div>
+                      </div>
+
+                      <div className={style['context-bottom']}>
+                        <Process percent={item.progress} />
+                        <span>学习进度：{formatePercent(item.progress)}</span>
                       </div>
                     </div>
-
-                    <div className={style['context-bottom']}>
-                      <Process percent={item.progress} />
-                      <span>学习进度：{formatePercent(item.progress)}</span>
-                    </div>
                   </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                </Link>
+              );
+            })}
+          </div>
+        </Condition>
+
+        <Condition r-if={courselist.length === 0}>
+          <div className={style['page-error']}>
+            <img src={coursePic} className={style['course-pic']} />
+            <div style={{ marginTop: '18px' }}>暂无数据</div>
+          </div>
+        </Condition>
       </div>
       <div className={style['page-right']}>
         <Pagination
