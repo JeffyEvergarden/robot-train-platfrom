@@ -1,4 +1,4 @@
-import { handleKeyPress } from '@/utils';
+import { handleKeyPress, validateSpaces } from '@/utils';
 import { Modal, Form, Input, Button, Select } from 'antd';
 import { useImperativeHandle, useState } from 'react';
 
@@ -55,7 +55,10 @@ const DuplicateForm: React.FC<any> = (props) => {
         <Form.Item
           name="courseName"
           label="新课程名称"
-          rules={[{ required: true, message: '请输入复制完成的课程名称' }]}
+          rules={[
+            { required: true, message: '请输入复制完成的课程名称' },
+            { validator: validateSpaces, trigger: 'change' },
+          ]}
         >
           <Input
             showCount

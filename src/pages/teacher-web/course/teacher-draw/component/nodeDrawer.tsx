@@ -1,6 +1,6 @@
 import Condition from '@/components/Condition';
 import { useDrawModel } from '@/pages/teacher-web/course/model';
-import { handleKeyPress } from '@/utils';
+import { handleKeyPress, validateSpaces } from '@/utils';
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Drawer, Form, Input, InputNumber, Space } from 'antd';
 import { useImperativeHandle, useState } from 'react';
@@ -84,7 +84,10 @@ const NodeDrawer: React.FC<any> = (props: any) => {
         <Form.Item
           name={'name'}
           label={'节点名称'}
-          rules={[{ required: true, message: '请输入节点名称' }]}
+          rules={[
+            { required: true, message: '请输入节点名称' },
+            { validator: validateSpaces, trigger: 'change' },
+          ]}
         >
           <Input placeholder="请输入节点名称" onKeyPress={handleKeyPress}></Input>
         </Form.Item>

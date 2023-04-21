@@ -214,6 +214,7 @@ export default () => {
           pagination={{
             pageSize: 10,
             showSizeChanger: true,
+            showQuickJumper: true,
           }}
           search={{
             labelWidth: 'auto',

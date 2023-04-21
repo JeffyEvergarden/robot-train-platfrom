@@ -200,6 +200,7 @@ const TeacherWeb: React.FC<any> = (props: any) => {
         pagination={{
           showSizeChanger: true,
           defaultPageSize: 10,
+          showQuickJumper: true,
         }}
         toolBarRender={() => {
           return [
