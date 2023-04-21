@@ -141,9 +141,14 @@ const TableForm: React.FC<any> = (props) => {
             mode="multiple"
             disabled={formType == 'scan'}
             allowClear
+            filterOption={(input, option) =>
+              (option?.item?.groupName as unknown as string)
+                ?.toLowerCase()
+                ?.includes(input.toLowerCase())
+            }
           >
             {groupList?.map((item) => (
-              <Select.Option key={item.id} value={item.id}>
+              <Select.Option key={item.id} value={item.id} item={item}>
                 {item.groupName}
               </Select.Option>
             ))}
