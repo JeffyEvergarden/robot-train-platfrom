@@ -139,6 +139,7 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
           current={pageNo}
           total={type == '0' ? totalWait : totalDone}
           pageSize={pageSize}
+          showQuickJumper
           showSizeChanger
           pageSizeOptions={[12, 24, 36]}
           showTotal={(total, range) => `总共 ${total} 条`}
