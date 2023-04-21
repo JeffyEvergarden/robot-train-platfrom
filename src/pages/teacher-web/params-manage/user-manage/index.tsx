@@ -352,6 +352,7 @@ const UserManage: React.FC = (props: any) => {
                 pagination={{
                   pageSize: 10,
                   showSizeChanger: true,
+                  showQuickJumper: true,
                 }}
                 search={{
                   labelWidth: 'auto',
@@ -379,6 +380,7 @@ const UserManage: React.FC = (props: any) => {
                 pagination={{
                   pageSize: 10,
                   showSizeChanger: true,
+                  showQuickJumper: true,
                 }}
                 search={{
                   labelWidth: 'auto',
