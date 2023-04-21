@@ -136,7 +136,12 @@ const TableForm: React.FC<any> = (props) => {
           label="培训组别"
           rules={[{ required: true, message: '请选择培训组别' }]}
         >
-          <Select placeholder="请选择培训组别" mode="multiple" disabled={formType == 'scan'}>
+          <Select
+            placeholder="请选择培训组别"
+            mode="multiple"
+            disabled={formType == 'scan'}
+            allowClear
+          >
             {groupList?.map((item) => (
               <Select.Option key={item.id} value={item.id}>
                 {item.groupName}
