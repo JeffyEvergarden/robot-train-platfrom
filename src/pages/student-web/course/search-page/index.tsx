@@ -48,6 +48,9 @@ const WaitLearnPage: React.FC<any> = (props: any) => {
   const { courselist, totalWait, totalDone, getStudentCourse, loading } = useCourseModel();
 
   useEffect(() => {
+    if (Number(activeKey) !== type + 1) {
+      return
+    }
     getStudentCourse({
       type,
       page: pageNo,

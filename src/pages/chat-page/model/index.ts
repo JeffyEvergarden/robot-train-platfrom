@@ -41,7 +41,8 @@ export const useChatModel = () => {
       });
 
       let deductPoints: any = data.pointsDeductionList || [];
-      deductPoints = deductPoints.map((item: any) => ({
+      deductPoints = deductPoints.map((item: any, index: number) => ({
+        id: index,
         name: item.deductPoint,
         value: item.deductScore,
       }));
