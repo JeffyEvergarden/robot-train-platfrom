@@ -101,9 +101,17 @@ const FlowDrawer: React.FC<any> = (props: any) => {
             label="课程"
             rules={[{ required: true, message: '请选择课程' }]}
           >
-            <Select placeholder="请选择课程">
+            <Select
+              placeholder="请选择课程"
+              showSearch
+              filterOption={(input, option) =>
+                (option?.item?.courseName as unknown as string)
+                  ?.toLowerCase()
+                  ?.includes(input.toLowerCase())
+              }
+            >
               {allTableList?.map((item: any, index: any) => (
-                <Select.Option key={index} value={item.id}>
+                <Select.Option key={index} value={item.id} item={item}>
                   {item.courseName}
                 </Select.Option>
               ))}
