@@ -180,6 +180,12 @@ const UserManage: React.FC = (props: any) => {
       ),
     },
     {
+      title: '注册号码',
+      dataIndex: 'userCode',
+      key: 'userCode',
+      search: false,
+    },
+    {
       title: '手机号码',
       dataIndex: 'phoneNumber',
       key: 'phoneNumber',
