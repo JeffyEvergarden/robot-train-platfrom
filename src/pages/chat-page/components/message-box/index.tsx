@@ -11,7 +11,7 @@ import robotPhoto from '@/asset/image/robot.png';
 
 // 消息盒子
 const MessageBox: React.FC<any> = (props: any) => {
-  const { cref } = props;
+  const { cref, showIcon = true } = props;
 
   const [list, setList] = useState<any[]>([]);
 
@@ -70,6 +70,7 @@ const MessageBox: React.FC<any> = (props: any) => {
           // 右边内容
           return (
             <RightChatContent
+              showIcon={showIcon}
               key={index}
               status={status}
               text={text}
