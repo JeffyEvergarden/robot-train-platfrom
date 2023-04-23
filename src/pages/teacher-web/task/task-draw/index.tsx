@@ -1,6 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { useModel } from 'umi';
-import { Button, message, Input, Space, Tag, Tooltip } from 'antd';
+import { Button, message, Input, Space, Tag, Tooltip, Popconfirm } from 'antd';
 import DrawPanel from '@/pages/draw-panel/task';
 import style from '../style.less';
 import { useDrawModel } from '@/pages/student-web/detail/model';
@@ -147,12 +147,16 @@ const TaskDrawPanel: any = (props: any) => {
         preMenu={
           // <Space align="baseline">
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <ArrowLeftOutlined
-              style={{ fontSize: '22px', marginRight: '8px' }}
-              onClick={() => {
+            <Popconfirm
+              placement="bottomLeft"
+              title="如有修改画布内容请确定已保存"
+              onConfirm={() => {
                 history.push('/front/teacher/task');
               }}
-            />
+            >
+              <ArrowLeftOutlined style={{ fontSize: '22px', marginRight: '8px' }} />
+            </Popconfirm>
+
             <Tooltip title={history?.location?.query?.name || '-'}>
               <span
                 className={style['drawTitle']}
