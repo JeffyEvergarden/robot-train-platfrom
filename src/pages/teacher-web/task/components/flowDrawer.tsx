@@ -1,6 +1,7 @@
 import Condition from '@/components/Condition';
 import config from '@/config';
 import { useDrawModel, useTableModel } from '@/pages/teacher-web/course/model';
+import { handleKeyPress, validateSpaces } from '@/utils';
 import { Button, Drawer, Form, Input, message, Select, Space } from 'antd';
 import { useImperativeHandle, useState } from 'react';
 import { useModel, history, Router } from 'umi';
@@ -113,9 +114,12 @@ const FlowDrawer: React.FC<any> = (props: any) => {
           <Form.Item
             name="name"
             label="节点名称"
-            rules={[{ required: true, message: '请输入节点名称' }]}
+            rules={[
+              { required: true, message: '请输入节点名称' },
+              { validator: validateSpaces, trigger: 'change' },
+            ]}
           >
-            <Input maxLength={75} showCount></Input>
+            <Input maxLength={75} showCount onKeyPress={handleKeyPress}></Input>
           </Form.Item>
         </Condition>
       </Form>
