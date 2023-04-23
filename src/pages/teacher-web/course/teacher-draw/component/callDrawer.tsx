@@ -97,7 +97,7 @@ const CallDrawer: React.FC<any> = (props: any) => {
           <Input showCount maxLength={100} placeholder="请输入超时提示" />
         </Form.Item>
 
-        <Form.Item name="stopSwitch" initialValue={true} noStyle valuePropName="checked">
+        {/* <Form.Item name="stopSwitch" initialValue={true} noStyle valuePropName="checked">
           <Checkbox>停顿设置</Checkbox>
         </Form.Item>
         <Form.Item>
@@ -111,7 +111,7 @@ const CallDrawer: React.FC<any> = (props: any) => {
             <InputNumber controls={false} min={1} max={100} disabled={!stopSwitch} />
           </Form.Item>
           <span style={{ marginLeft: '8px' }}>s</span>
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </Drawer>
   );
