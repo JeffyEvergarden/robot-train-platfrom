@@ -156,9 +156,9 @@ export const useTaskDrawModel = () => {
     let res: any = await _taskLineInfoSave(data);
     // 画布
     if (res.resultCode === successCode) {
-      message.success(res.resultDesc);
+      message.success(res?.resultDesc);
     } else {
-      message.error('保存失败');
+      message.error(res?.resultDesc);
     }
   };
 
@@ -168,7 +168,7 @@ export const useTaskDrawModel = () => {
     if (res.resultCode === successCode) {
       return res.data;
     } else {
-      message.error('获取画布失败');
+      message.error(res?.resultDesc || '获取画布失败');
       return false;
     }
   };
