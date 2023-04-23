@@ -37,15 +37,15 @@ const KeyTipsHtml: React.FC<any> = (props: any) => {
 };
 
 const RightChatContent: React.FC<any> = (props: any) => {
-  const { status, text, keysTips, showAvator } = props;
+  const { status, text, keysTips, showAvator, showIcon = true } = props;
 
   return (
     <div className={style['box_system']}>
       <div className={style['box-icon']}>
-        {status === 'loading' && (
+        {status === 'loading' && showIcon && (
           <LoadingOutlined style={{ color: '#4878FF', marginRight: '8px' }} />
         )}
-        {status === 'success' && (
+        {status === 'success' && showIcon && (
           <CheckCircleOutlined style={{ color: '#20C783', marginRight: '8px' }} />
         )}
       </div>

@@ -135,7 +135,6 @@ const ChatPage: any = (props: any) => {
 
   // websocket
   const initSocket = async () => {
-
     setFinishFlag(false);
 
     let sessionId: any = await postCall({ courseId, taskId, nodeId });
@@ -318,7 +317,7 @@ const ChatPage: any = (props: any) => {
                 <div className={style['page-tips_bg']}>
                   <div className={style['tips-box']}>{tips}</div>
                 </div>
-                <MessageBox cref={messageRef}></MessageBox>
+                <MessageBox cref={messageRef} showIcon={courseType !== 'exam'}></MessageBox>
               </div>
             </div>
 
