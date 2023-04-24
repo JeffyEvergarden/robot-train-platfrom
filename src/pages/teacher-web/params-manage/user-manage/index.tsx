@@ -301,7 +301,7 @@ const UserManage: React.FC = (props: any) => {
       ellipsis: true,
       search: false,
       render: (v: any, r: any) => {
-        return r.userNmae || '-';
+        return r.userName || '-';
       },
     },
     {
