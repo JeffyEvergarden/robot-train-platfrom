@@ -300,6 +300,9 @@ const UserManage: React.FC = (props: any) => {
       key: 'creator',
       ellipsis: true,
       search: false,
+      render: (v: any, r: any) => {
+        return r.userNmae || '-';
+      },
     },
     {
       title: '创建时间',

@@ -337,8 +337,6 @@ const DrawPanel: React.FC<any> = (props: any) => {
     },
   }));
 
-  useEffect(() => {}, []);
-
   return (
     <div className={style['draw-box_bg']}>
       <div className={style['menu-box']}>

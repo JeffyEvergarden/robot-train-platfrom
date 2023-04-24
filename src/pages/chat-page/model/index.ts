@@ -54,7 +54,7 @@ export const useChatModel = () => {
         deductPoints,
       };
     } else {
-      message.warning('获取得分信息失败');
+      message.error(res?.resultDesc || '获取得分信息失败');
       return false;
     }
   };
@@ -64,6 +64,7 @@ export const useChatModel = () => {
     if (res.resultCode === successCode) {
       return res.data?.sessionId;
     } else {
+      message.error(res?.resultDesc || '获取sessionId失败');
       return false;
     }
   };

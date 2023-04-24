@@ -136,6 +136,9 @@ export default () => {
       key: 'creator',
       ellipsis: true,
       search: false,
+      render: (v: any, r: any) => {
+        return r.userNmae || '-';
+      },
     },
     {
       title: '创建时间',
@@ -150,6 +153,9 @@ export default () => {
       key: 'modifiedBy',
       ellipsis: true,
       search: false,
+      render: (v: any, r: any) => {
+        return r.updateUserName || '-';
+      },
     },
     {
       title: '更新时间',

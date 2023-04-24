@@ -140,7 +140,7 @@ const ChatPage: any = (props: any) => {
     let sessionId: any = await postCall({ courseId, taskId, nodeId });
 
     if (!sessionId) {
-      message.warning('获取sessionId失败');
+      // message.warning('获取sessionId失败');
       return false;
     }
     // -----

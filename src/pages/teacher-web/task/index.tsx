@@ -95,6 +95,9 @@ const TeacherWeb: React.FC<any> = (props: any) => {
       dataIndex: 'creator',
       search: false,
       width: 120,
+      render: (v: any, r: any) => {
+        return r.userName || '-';
+      },
     },
     {
       title: '创建人',
