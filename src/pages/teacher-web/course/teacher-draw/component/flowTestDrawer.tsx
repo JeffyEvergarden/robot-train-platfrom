@@ -61,6 +61,18 @@ const FlowTestDrawer: React.FC<any> = (props: any) => {
           setStartBtn('end');
           setSessionId(res?.data?.sessionId);
           setChatHistory([...res?.data?.list]);
+          res?.data?.list.map(async (item: any) => {
+            if (item.isEnd) {
+              await dialogueFinish({ courseId: courseInfo?.id, sessionId: sessionId }).then(
+                (res) => {
+                  if (res) {
+                    setSessionId('');
+                    setStartBtn('start');
+                  }
+                },
+              );
+            }
+          });
         }
       });
     }

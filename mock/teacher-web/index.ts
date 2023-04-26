@@ -233,6 +233,20 @@ const chatbegin = (req: any, res: any) => {
           text: '喂，哪位',
           delay: '',
           status: '',
+          isEnd: true,
+          // keysTips: [
+          //   {
+          //     flag: true,
+          //     desc: '关键点111',
+          //   },
+          // ],
+        },
+        {
+          type: 'system',
+          text: '对方已挂断',
+          delay: '',
+          status: '',
+          isEnd: true,
           // keysTips: [
           //   {
           //     flag: true,
