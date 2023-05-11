@@ -60,12 +60,9 @@ const PhoneCall: React.FC<any> = (props: any) => {
       return;
     }
     // 单独增加
-    setStatus('calling');
-    // timeoutFn(); 这版本不做清除
+    // setStatus('calling');
+    // timeoutFn(); // 这版本不做清除
     // ----
-    return;
-
-    play();
 
     const socket = new JsSIP.WebSocketInterface(linkUrl);
 
