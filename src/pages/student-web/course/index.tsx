@@ -74,7 +74,7 @@ const StudentWeb: React.FC<any> = (props: any) => {
     {
       label: (
         <span>
-          待学习课
+          待学习
           <TagIcon value={'1'} activeKey={activeKey} num={waitNum} />
         </span>
       ),
@@ -86,7 +86,7 @@ const StudentWeb: React.FC<any> = (props: any) => {
     {
       label: (
         <span>
-          已学习课
+          已学习
           <TagIcon value={'2'} activeKey={activeKey} num={doneNum} />
         </span>
       ),
