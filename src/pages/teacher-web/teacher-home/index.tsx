@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Tabs, Pagination } from 'antd';
-import SearchPage from './ListPage';
+import SearchPage from './list-page';
 import style from './style.less';
 import { useTaskModel } from './model';
 import TagIcon from './component/TagIcon';

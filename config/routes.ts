@@ -10,8 +10,8 @@ export default [
   },
   // -----导师端
   {
-    path: '/front/teacher/home',
-    component: './teacher-web/home',
+    path: '/front/teacher/teacher-home',
+    component: './teacher-web/teacher-home',
     name: '导师端首页',
     layout: true,
     access: 'routerAuth',
