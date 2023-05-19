@@ -152,6 +152,8 @@ const PhoneCall: React.FC<any> = (props: any) => {
     let res: any = await onCall?.();
 
     if (!res) {
+      console.log('接口打断')
+      stop();
       return;
     }
   };
@@ -212,6 +214,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     let { _connection } = session;
     currentSession = session;
     currentConnection = _connection;
+    console.log('等待对方播电话');
     // 主动接听
     session.answer({ mediaConstraints: { audio: true, video: false } });
 
@@ -240,6 +243,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     let { _connection } = session;
     currentSession = session;
     currentConnection = _connection;
+    console.log('等待接电话')
     session.on('confirmed', () => {
       setStatus('doing');
       pauseMusic(); // 停止铃声
