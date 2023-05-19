@@ -24,3 +24,10 @@ export async function postCall_API(data?: { [key: string]: any }) {
     data,
   });
 }
+
+export async function getCallConfig_API(data?: { [key: string]: any }) {
+  return request(`${baseUrl}/services/stu/course/callConfig`, {
+    method: 'GET',
+    params: data,
+  });
+}

@@ -27,7 +27,9 @@ const ChatPage: any = (props: any) => {
   const courseId: any = query?.courseId;
   const nodeId: any = query?.nodeId;
 
-  const { getCourseInfo, resultLoading, postCall } = useChatModel();
+  const { jssipInfo, setJssipInfo } = useModel('jssipConfig');
+
+  const { getCourseInfo, resultLoading, postCall, getCallConfig } = useChatModel();
 
   const [pageType, setPageType] = useState<any>('init'); // init / doing
   const [title, setTitle] = useState<any>(''); // 标题
@@ -209,9 +211,21 @@ const ChatPage: any = (props: any) => {
     scoreModalRef.current.open({ studyId: id || recordId, courseId });
   };
 
+
+  const getConfig = async () => {
+    let res = await getCallConfig({});
+
+    if (res) {
+      console.log(res);
+      setJssipInfo(res);
+    }
+  }
+
+
   useEffect(() => {
     // 获取基础信息
     getInfo();
+    getConfig();
 
     return () => {
       socketRef.current?.sk?.close?.();
@@ -290,13 +304,15 @@ const ChatPage: any = (props: any) => {
             >
               查看结果
             </Button>
+
             <PhoneCall
               cref={phoneCallRef}
-              oursNumber={userCode}
-              sysPhone={'1002'}
+              oursNumber={jssipInfo.oursNumber}
+              sysPhone={jssipInfo.sysPhone}
               onCall={initSocket}
               onEnd={onEnd}
             ></PhoneCall>
+
           </div>
           <Condition r-if={pageType === 'init'}>
             <div className={style['header-right']}>

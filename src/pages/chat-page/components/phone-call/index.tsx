@@ -1,5 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import JsSIP from 'jssip';
+import { useModel } from 'umi';
 import { Button, message } from 'antd';
 import Condition from '@/components/Condition';
 import style from './style.less';
@@ -14,6 +15,15 @@ let currentConnection = null;
 
 const PhoneCall: React.FC<any> = (props: any) => {
   const { oursNumber, sysPhone, onCall, onEnd, cref } = props;
+
+  const { jssipInfo } = useModel('jssipConfig');
+  // oursNumber: 10001,
+  // sysPhone: 10010,
+  // wsUrl: '11.112.0.42:5066',
+  // wssUrl: '11.112.0.42:7443',
+  // registerUrl: '@11.112.0.42:5070',
+  // fsPassword: 'yiwise',
+  // stun: '11.112.0.99:8080',
 
   const [status, setStatus] = useState<any>('waiting'); // waiting / calling /doing
 
@@ -30,10 +40,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
   const curUrl: any = window.location.href;
   const type = curUrl.includes('http://') ? 'ws' : 'wss';
-  // websocket 连接地址
-  const linkUrl = type === 'ws' ? `ws://${process.env.ws_url}` : `wss://${process.env.wss_url}`;
-  // 信令服务器注册
-  const registerUrl = process.env.register_url;
 
   const startConfig = async () => {
     if (sipSession.current.lastTime) {
@@ -52,13 +58,13 @@ const PhoneCall: React.FC<any> = (props: any) => {
       return null;
     }
 
+    // websocket 连接地址
+    const linkUrl = type === 'ws' ? `ws://${jssipInfo.wsUrl}` : `wss://${jssipInfo.wssUrl}`;
+    // 信令服务器注册
+    const registerUrl = jssipInfo.registerUrl;
+
     // 播放音乐
 
-    let res: any = await onCall?.();
-
-    if (!res) {
-      return;
-    }
     // 单独增加
     // setStatus('calling');
     // timeoutFn(); // 这版本不做清除
@@ -70,12 +76,14 @@ const PhoneCall: React.FC<any> = (props: any) => {
     const configuration = {
       sockets: [socket],
       uri: 'sip:' + oursNumber + registerUrl,
-      password: process.env.fs_password, // 公司freeswitch,
+      password: jssipInfo.fsPassword, // 公司freeswitch,
       outbound_proxy_set: linkUrl,
       display_name: 'ws_phone_call',
       register: true,
       session_timers: false,
     };
+
+    console.log(configuration, oursNumber, sysPhone);
 
     const ua = new JsSIP.UA(configuration);
 
@@ -87,7 +95,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
     play();
     timeoutFn();
     ua.start();
-
     //播放叮叮叮音频
 
     // 注册反馈
@@ -139,6 +146,14 @@ const PhoneCall: React.FC<any> = (props: any) => {
         };
       });
     });
+
+    // ------------
+    // 等待接听 调接口
+    let res: any = await onCall?.();
+
+    if (!res) {
+      return;
+    }
   };
 
   // 主动call
@@ -181,7 +196,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
                  mediaStream MediaStream 传送到另一端。
                  eventHandlers Object事件处理程序的可选项将被注册到每个呼叫事件。为每个要通知的事件定义事件处理程序。
              */
-    userAgent.call(`sip:${sysPhone}${registerUrl}`, options);
+    userAgent.call(`sip:${sysPhone}${jssipInfo.registerUrl}`, options);
   };
 
   // 处理接
@@ -254,6 +269,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
   // 开始播放
   const play = () => {
     if (status === 'waiting') {
+      sipSession.current.status = 'calling'
       musicAudioRef.current.currentTime = 0;
       musicAudioRef.current.play();
       setStatus('calling');
@@ -274,7 +290,11 @@ const PhoneCall: React.FC<any> = (props: any) => {
   // 停止音乐
   const pauseMusic = () => {
     // --------------
-    musicAudioRef.current.pause();
+    if (sipSession.current.status === 'calling') {
+      setTimeout(() => {
+        musicAudioRef.current?.pause();
+      }, 200)
+    }
     setStatus('waiting');
   };
 
@@ -284,7 +304,12 @@ const PhoneCall: React.FC<any> = (props: any) => {
     // ---
     sipSession.current.ua?.unregister?.({ all: true });
     // --------------
-    musicAudioRef.current?.pause?.();
+
+    if (sipSession.current.status === 'calling') {
+      setTimeout(() => {
+        musicAudioRef.current?.pause();
+      }, 200)
+    }
     setStatus('waiting');
 
     onEnd?.();
@@ -294,6 +319,11 @@ const PhoneCall: React.FC<any> = (props: any) => {
     call: startConfig,
     end: stop,
   }));
+
+  // useEffect(() => {
+  //   console.log(jssipInfo);
+  // }, [jssipInfo])
+
 
   return (
     <div style={{ display: 'inline-flex' }}>
