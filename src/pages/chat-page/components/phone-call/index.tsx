@@ -178,6 +178,9 @@ const PhoneCall: React.FC<any> = (props: any) => {
     let options = {
       eventHandlers: eventHandlers,
       mediaConstraints: { audio: true, video: false },
+      pcConfig: {
+        iceServers: [`stun:${jssipInfo.stun}`]
+      }
       //'mediaStream': localStream
     };
 
