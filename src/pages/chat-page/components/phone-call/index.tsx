@@ -59,7 +59,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     }
 
     // websocket 连接地址
-    const linkUrl = type === 'ws' ? `ws://${jssipInfo.wsUrl}` : `wss://${jssipInfo.wssUrl}`;
+    const linkUrl = `wss://${jssipInfo.wssUrl}`;
     // 信令服务器注册
     const registerUrl = jssipInfo.registerUrl;
 
@@ -183,6 +183,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
       }
       //'mediaStream': localStream
     };
+    console.log(options);
 
     const userAgent = sipSession.current.ua;
     //outgoingSession = userAgent.call('sip:3000@192.168.40.96:5060', options);
