@@ -321,6 +321,18 @@ const Demo: React.FC = (props: any) => {
     };
   }
 
+  const getAuth = () => {
+    const constraints = {
+      audio: true,
+      video: false,
+      mandatory: {
+        maxWidth: 600,
+        maxHeight: 360
+      }
+    };
+    (navigator as any)?.webkitGetUserMedia?.(constraints, (stream: any) => { }, (err: any) => { console.log(err) });
+  }
+
 
   return (
     <div className={style['demo-box']}>
@@ -328,8 +340,23 @@ const Demo: React.FC = (props: any) => {
       <div className={style['box-item']}>
         <Input value={val1} onChange={onChange1} style={{ width: '200px' }}></Input>
       </div>
+
+
+      <div className={style['box-item']}>
+        <Button type="link" onClick={() => {
+          setVal2(val1);
+          setVal1(val2);
+        }}>切换</Button>
+      </div>
+
+
       <div className={style['box-item']}>
         <Input value={val2} onChange={onChange2} style={{ width: '200px' }}></Input>
+      </div>
+
+      <div className={style['box-item']}>
+
+        <Button onClick={getAuth}>获取媒体权限</Button>
       </div>
 
       <Button onClick={startConfig}>注册</Button>

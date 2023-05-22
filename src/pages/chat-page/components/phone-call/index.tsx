@@ -134,7 +134,11 @@ const PhoneCall: React.FC<any> = (props: any) => {
         data.peerconnection.onaddstream = function (ev: any) {
           console.log('onaddStream');
           console.log(ev);
-          remoteAudioRef.current.src = URL.createObjectURL(ev.stream);
+          try {
+            remoteAudioRef.current.src = ev.stream;
+          } catch (error) {
+            remoteAudioRef.current.src = URL.createObjectURL(ev.stream);
+          }
           remoteAudioRef.current.onloadstart = () => {
             remoteAudioRef.current.play();
           };
@@ -264,22 +268,14 @@ const PhoneCall: React.FC<any> = (props: any) => {
   const handleStreamsSrcObject = (connection: any) => {
     console.log('connection: ------------');
     //  console.log(connection) // 输出了RTCPeerConnection 类
-    console.log(connection.getRemoteStreams().length);
-    // if (connection.getRemoteStreams().length > 0) {
-    //   console.log('获取远程媒体流', connection.getLocalStreams().length)
-    //   // 获取远程媒体流
-    //   let srcObject = connection.getRemoteStreams()[0];
+    // if (connection.getLocalStreams().length > 0) {
+    //   console.log('获取本地媒体流', connection.getLocalStreams().length);
+    //   // 获取本地媒体流
+    //   let srcObject = connection.getLocalStreams()[0];
     //   console.log(srcObject);
-    //   remoteAudioRef.current.srcObject = srcObject;
-    // };
-    if (connection.getLocalStreams().length > 0) {
-      console.log('获取本地媒体流', connection.getLocalStreams().length);
-      // 获取本地媒体流
-      let srcObject = connection.getLocalStreams()[0];
-      console.log(srcObject);
-      oursAudioRef.current.srcObject = srcObject;
-      oursAudioRef.current.play();
-    }
+    //   oursAudioRef.current.srcObject = srcObject;
+    //   oursAudioRef.current.play();
+    // }
   };
 
   // 开始播放
