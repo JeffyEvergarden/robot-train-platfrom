@@ -20,7 +20,7 @@ const Demo: React.FC = (props: any) => {
 
   const [status, setStatus] = useState<any>('waiting'); // waiting / calling /doing
 
-  const [text, setText] = useState<any>('waiting'); // waiting / calling /doing
+  const [text, setText] = useState<any>('...'); // waiting / calling /doing
   // 存储会话
   const sipSession = useRef<any>({});
   // 我们的音频
@@ -196,13 +196,6 @@ const Demo: React.FC = (props: any) => {
         data.peerconnection.onaddstream = function (ev: any) {
           console.log('onaddStream');
           console.log(ev);
-          remoteAudioRef.current.src = URL.createObjectURL(ev.stream);
-          remoteAudioRef.current.onloadstart = () => {
-            remoteAudioRef.current.play();
-          };
-          remoteAudioRef.current.onerror = () => {
-            alert('录音加载失败...');
-          };
         };
       });
     });
@@ -306,6 +299,7 @@ const Demo: React.FC = (props: any) => {
     currentConnection = _connection;
     session.on('confirmed', () => {
       console.log('call confirmed');
+      pauseMusic();
       handleStreamsSrcObject(session._connection);
     });
   }
