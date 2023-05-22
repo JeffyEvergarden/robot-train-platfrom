@@ -287,8 +287,9 @@ const Demo: React.FC = (props: any) => {
       console.log('挂断-来电已挂断')
     });
     // 当会话无法建立时触发
-    session.on("failed", () => {
+    session.on("failed", (error: any) => {
       console.log('当会话无法建立时触发')
+      console.log(error);
     });
   }
 
