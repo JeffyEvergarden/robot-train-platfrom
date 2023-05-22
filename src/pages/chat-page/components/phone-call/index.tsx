@@ -121,8 +121,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
       if (originator === 'remote') {
         console.log('接电话啦');
-        clearTimeFn();
-        pauseMusic(); // 停止铃声
         handleAnswerWebRTCSession(session);
       } else if (originator === 'local') {
         console.log('打电话啦');
@@ -217,6 +215,8 @@ const PhoneCall: React.FC<any> = (props: any) => {
     console.log('等待对方播电话', `stun:${jssipInfo.stun}`);
     session.on('accepted', () => {
       console.log('answer accepted', session);
+      clearTimeFn();
+      pauseMusic(); // 停止铃声
       setStatus('doing');
       handleStreamsSrcObject(session._connection);
     });
