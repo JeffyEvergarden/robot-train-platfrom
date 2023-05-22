@@ -102,7 +102,7 @@ const Demo: React.FC = (props: any) => {
     // 挂断
     sipSession.current.ua?.stop?.();
     // ---
-    sipSession.current.ua?.unregister?.({ all: true });
+    // sipSession.current.ua?.unregister?.({ all: true });
     // --------------
 
     if (sipSession.current.status === 'calling') {
@@ -225,6 +225,7 @@ const Demo: React.FC = (props: any) => {
       },
       failed: function (e: any) {
         console.log('call failed: ', e)
+        stop();
       },
       ended: function (e: any) {
         console.log('call ended : ', e)
@@ -290,6 +291,7 @@ const Demo: React.FC = (props: any) => {
     session.on("failed", (error: any) => {
       console.log('当会话无法建立时触发')
       console.log(error);
+      stop();
     });
   }
 
