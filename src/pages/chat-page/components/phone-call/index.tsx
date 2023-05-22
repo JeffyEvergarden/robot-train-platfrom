@@ -181,7 +181,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
       eventHandlers: eventHandlers,
       mediaConstraints: { audio: true, video: false },
       pcConfig: {
-        iceServers: [`stun:${jssipInfo.stun}`]
+        iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }]
       }
       //'mediaStream': localStream
     };
@@ -214,16 +214,16 @@ const PhoneCall: React.FC<any> = (props: any) => {
     let { _connection } = session;
     currentSession = session;
     currentConnection = _connection;
-    console.log('等待对方播电话');
-    // 主动接听
-    session.answer({ mediaConstraints: { audio: true, video: false } });
-
+    console.log('等待对方播电话', `stun:${jssipInfo.stun}`);
     session.on('accepted', () => {
       console.log('answer accepted', session);
       setStatus('doing');
       handleStreamsSrcObject(session._connection);
     });
 
+    session.on('confirmed', () => {
+      console.log('answer confirmed', session);
+    });
     // 来电=>自定义来电弹窗，让用户选择接听和挂断
     // session.on("progress", () => { });
     // 挂断-来电已挂断
@@ -236,6 +236,14 @@ const PhoneCall: React.FC<any> = (props: any) => {
       console.log('当会话无法建立时触发');
       stop();
     });
+    // 主动接听
+    session.answer({
+      mediaConstraints: { audio: true, video: false }, pcConfig: {
+        iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }]
+      }
+    });
+
+
   };
 
   // 处理打
