@@ -67,6 +67,14 @@ export default [
       },
     ],
   },
+  {
+    path: '/front/teacher/dataManage',
+    component: './teacher-web/data-manage',
+    name: '数据管理',
+    access: 'routerAuth',
+    role: ['admin', 'teacher'],
+    layout: true,
+  },
   //-------导师端
   {
     path: '/front/teacher/paramsManage',
