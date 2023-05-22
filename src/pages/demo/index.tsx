@@ -225,6 +225,7 @@ const Demo: React.FC = (props: any) => {
       },
       failed: function (e: any) {
         console.log('call failed: ', e)
+        e.cause && message.warning(e.cause)
         stop();
       },
       ended: function (e: any) {
