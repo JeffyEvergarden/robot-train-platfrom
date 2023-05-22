@@ -181,6 +181,7 @@ const Demo: React.FC = (props: any) => {
         setText('请接听....');
         play();
         timeoutFn();
+
         handleAnswerWebRTCSession(session);
       } else if (originator === 'local') {
         console.log('打电话啦');
@@ -211,6 +212,7 @@ const Demo: React.FC = (props: any) => {
   const receive = () => {
     // 接听
     console.log('receive:');
+    console.log(sipSession.current.currentSession);
     // --------
     sipSession.current.currentSession.answer({
       mediaConstraints: { audio: true, video: false }, pcConfig: {
@@ -274,8 +276,8 @@ const Demo: React.FC = (props: any) => {
         接听：session.answer({'mediaConstraints': { 'audio': true, 'video': false }})
     */
     let { _connection } = session;
-    currentSession = session;
-    currentConnection = _connection;
+    sipSession.current.currentSession = session;
+    sipSession.current.currentConnection = _connection;
     console.log('等待对方播电话', `stun:${jssipInfo.stun}`);
 
     session.on("accepted", () => {
