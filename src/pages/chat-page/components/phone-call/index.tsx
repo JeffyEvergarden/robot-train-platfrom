@@ -336,10 +336,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
     end: stop,
   }));
 
-  // useEffect(() => {
-  //   console.log(jssipInfo);
-  // }, [jssipInfo])
-
 
   return (
     <div style={{ display: 'inline-flex' }}>

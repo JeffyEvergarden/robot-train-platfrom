@@ -312,17 +312,19 @@ const courseCount = (req: any, res: any) => {
 
 const getJSSIP = (req: any, res: any) => {
   res.json({
-    resultCode: successCode,
-    desc: '成功',
+    resultCode: '100',
+    resultDesc: '成功',
     data: {
-      oursNumber: 10001,
-      sysPhone: 10010,
-      wsUrl: '11.112.0.42:5066',
-      wssUrl: '11.112.0.42:7443',
-      registerUrl: '@11.112.0.42:5070',
-      fsPassword: 'yiwise',
-      stun: '11.112.0.99:8080',
+      wsUrl: '11.111.17.218:7443',
+      wssUrl: '11.111.17.218:7443',
+      registerUrl: '@11.111.17.218:5060',
+      linkUrl: '11.111.17.218:7443',
+      stun: '11.111.17.218:7654',
+      fsPassword: 'youcash',
+      sysPhone: '1010',
+      oursNumber: '1009',
     },
+    success: true,
   });
 };
 
