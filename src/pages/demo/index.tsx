@@ -325,15 +325,15 @@ const Demo: React.FC = (props: any) => {
   }
 
   const getAuth = () => {
-    const constraints = {
-      audio: true,
-      video: false,
-      mandatory: {
-        maxWidth: 600,
-        maxHeight: 360
-      }
-    };
-    (navigator as any)?.webkitGetUserMedia?.(constraints, (stream: any) => { }, (err: any) => { console.log(err) });
+    navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+      .then(function (stream) {
+        // Media access granted
+        message.success('Media access granted')
+      })
+      .catch(function (error) {
+        // Media access denied
+        message.warning('Media access denied')
+      });
   }
 
 
