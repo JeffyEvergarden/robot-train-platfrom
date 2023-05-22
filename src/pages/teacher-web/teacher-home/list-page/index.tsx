@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useImperativeHandle } from 'react';
 import style from './style.less';
-import { Tag } from 'antd';
+import { Tag, Empty } from 'antd';
 import { Link, history } from 'umi';
 import { useCourseModel } from '../../../student-web/course/model';
 import coursePic from '@/asset/image/course-pic.png';
@@ -14,7 +14,7 @@ const ListPage: React.FC<any> = (props: any) => {
 
   return (
     <div className={style['page-context_bg']}>
-      <Condition r-if={courselist.length > 0}>
+      {courselist.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
           {courselist.map((item: any, index: number) => {
             const {
@@ -94,13 +94,24 @@ const ListPage: React.FC<any> = (props: any) => {
             );
           })}
         </div>
-      </Condition>
-      <Condition r-if={!loading && courselist.length === 0}>
+      )}
+      {!courselist?.length && (
+        <Empty
+          style={{
+            height: '650px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
+      )}
+      {/* <Condition r-if={!loading && courselist.length === 0}>
         <div className={style['page-error']}>
           <img src={coursePic} className={style['course-pic']} />
           <div style={{ marginTop: '18px' }}>暂无数据</div>
         </div>
-      </Condition>
+      </Condition> */}
     </div>
   );
 };

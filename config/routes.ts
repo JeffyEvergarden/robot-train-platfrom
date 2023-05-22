@@ -109,6 +109,14 @@ export default [
   //   layout: true,
   // },
   {
+    path: '/student/student-home',
+    component: './student-web/student-home',
+    name: '学员端首页',
+    layout: true,
+    access: 'routerAuth',
+    role: ['admin', 'teacher'],
+  },
+  {
     path: '/front/student/course',
     component: './student-web/course',
     name: '学习课程',
