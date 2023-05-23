@@ -39,6 +39,7 @@ const Demo: React.FC = (props: any) => {
 
 
   const getConfig = async () => {
+    console.log('JSSIP-test: v1.0');
     let res = await getCallConfig({});
     console.log(res);
     setJssipInfo(res);
@@ -136,11 +137,13 @@ const Demo: React.FC = (props: any) => {
       sockets: [socket],
       uri: 'sip:' + val1 + registerUrl,
       password: jssipInfo.fsPassword, // 公司freeswitch,
+      contact_uri: 'sip:' + val1 + registerUrl + ';transport=WSS',
       outbound_proxy_set: linkUrl,
       display_name: 'ws_phone_call',
       register: true,
       session_timers: false,
     };
+
 
     console.log(configuration);
 
@@ -304,7 +307,14 @@ const Demo: React.FC = (props: any) => {
     session.on('confirmed', () => {
       console.log('call confirmed');
       pauseMusic();
-      handleStreamsSrcObject(session._connection);
+
+      const stream = new MediaStream()
+      const receivers = session.connection.getReceivers()
+      if (receivers) {
+        receivers.forEach((receiver: any) => stream.addTrack(receiver.track))
+      }
+      oursAudioRef.current.srcObject = stream
+      oursAudioRef.current.play()
     });
   }
 
@@ -314,14 +324,6 @@ const Demo: React.FC = (props: any) => {
     console.log(connection) // 输出了RTCPeerConnection 类
     console.log(connection.getRemoteStreams().length);
 
-    if (connection.getLocalStreams().length > 0) {
-      console.log('获取本地媒体流', connection.getLocalStreams().length)
-      // 获取本地媒体流
-      let srcObject = connection.getLocalStreams()[0];
-      console.log(srcObject);
-      oursAudioRef.current.srcObject = srcObject;
-      oursAudioRef.current.play()
-    };
   }
 
   const getAuth = () => {
