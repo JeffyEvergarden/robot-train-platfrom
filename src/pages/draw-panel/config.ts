@@ -67,13 +67,13 @@ export const setControlConfig = (lf: any) => {
   console.log(lf.extension.control.controlItems);
 };
 
-export const checkEdge = (edge: any, lf: any) => {
+export const checkEdge = (edge: any, lf: any, courseType: Number = 0) => {
   const { edges, nodes } = lf?.graphModel;
 
   let arr = edges.filter((item: any) => {
     return item?.id != edge?.id;
   });
-  // const id = edge.id;
+  const id = edge.id;
   const targetNodeId = edge.targetNodeId;
   const sourceNodeId = edge.sourceNodeId;
 
@@ -88,6 +88,13 @@ export const checkEdge = (edge: any, lf: any) => {
   // let _otherEdge = edges.find((item: any) => {
   //   return id !== item.id && targetNodeId === item.targetNodeId;
   // });
+
+  // 是否存在分支
+  let _manyNode = edges.find((item: any) => {
+    return (
+      id !== item.id && (targetNodeId === item.targetNodeId || sourceNodeId === item.sourceNodeId)
+    );
+  });
 
   //是否连相同type节点
   let _sameNodeType =
@@ -145,6 +152,13 @@ export const checkEdge = (edge: any, lf: any) => {
 
   if (_startToEndNode) {
     return '开始节点不允许直接连接结束节点';
+  }
+
+  // 剧情类型校验
+  if (courseType === 1) {
+    if (_manyNode) {
+      return '不允许存在分支结构';
+    }
   }
 
   return false;

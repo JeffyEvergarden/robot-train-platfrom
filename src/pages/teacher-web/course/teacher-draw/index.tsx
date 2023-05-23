@@ -10,6 +10,8 @@ import SoundDrawer from './component/soundDrawer';
 import EndDrawer from './component/endDrawer';
 import FlowTestDrawer from './component/flowTestDrawer';
 import NodeDrawer from './component/nodeDrawer';
+import PlotDrawer from './component/plotDrawer';
+import Condition from '@/components/Condition';
 import style from '../style.less';
 
 // 首页
@@ -172,6 +174,7 @@ const DrawDemo: React.FC<any> = (props: any) => {
             </Tooltip>
           </div>
         }
+        courseType={courseInfo?.courseType}
         isSilentMode={courseInfo?.courseStatus}
       />
       <CustomerDrawer cref={customerDrawerRef} isEdit={courseInfo?.courseStatus}></CustomerDrawer>
@@ -179,11 +182,21 @@ const DrawDemo: React.FC<any> = (props: any) => {
       <SoundDrawer cref={soundDrawerRef} isEdit={courseInfo?.courseStatus}></SoundDrawer>
       <EndDrawer cref={endDrawerRef} isEdit={courseInfo?.courseStatus}></EndDrawer>
       <FlowTestDrawer cref={flowTestDrawerRef}></FlowTestDrawer>
-      <NodeDrawer
-        cref={nodeDrawerRef}
-        changeNodeName={changeNodeName}
-        isEdit={courseInfo?.courseStatus}
-      ></NodeDrawer>
+      <Condition r-if={courseInfo?.courseType}>
+        {courseInfo.courseType === 1 ? (
+          <PlotDrawer
+            cref={nodeDrawerRef}
+            changeNodeName={changeNodeName}
+            isEdit={courseInfo?.courseStatus}
+          ></PlotDrawer>
+        ) : (
+          <NodeDrawer
+            cref={nodeDrawerRef}
+            changeNodeName={changeNodeName}
+            isEdit={courseInfo?.courseStatus}
+          ></NodeDrawer>
+        )}
+      </Condition>
     </>
   );
 };
