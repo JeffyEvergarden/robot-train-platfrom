@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useModel } from 'umi';
 import { Button, Input, message } from 'antd';
 import style from './style.less';
-import JsSIP from 'jssip';
+import './jssip.js';
 import { useChatModel } from '../chat-page/model';
 import config from '@/config';
 import { startCall } from './test';
