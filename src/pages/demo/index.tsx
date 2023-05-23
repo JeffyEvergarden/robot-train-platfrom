@@ -180,17 +180,25 @@ const Demo: React.FC = (props: any) => {
       let { session, originator } = res;
 
       if (originator === 'remote') {
-        console.log('接电话啦');
+        console.log('接电话啦', originator);
         setText('请接听....');
         play();
         timeoutFn();
-
         handleAnswerWebRTCSession(session);
-      } else if (originator === 'local') {
-        console.log('打电话啦');
+      } else {
+        console.log('打电话啦', originator);
         clearTimeFn();
         handleCallWebRTCSession(session);
       }
+
+      // ----------
+      session.on("accepted", () => {
+        pauseMusic();
+        clearTimeFn();
+        setText('已接听');
+        console.log('answer accepted', session);
+        handleStreamsSrcObject(session._connection);
+      });
 
       session.on('confirmed', function (c_data: any) {
         console.info('onConfirmed - ', c_data)
@@ -203,6 +211,7 @@ const Demo: React.FC = (props: any) => {
         oursAudioRef.current.srcObject = stream
         oursAudioRef.current.play()
       })
+
       // ----------
       res.session.on('peerconnection', function (data: any) {
         // 触发收到流 ---------
@@ -219,11 +228,11 @@ const Demo: React.FC = (props: any) => {
   // 
   const receive = () => {
     // 接听
-    console.log('receive:');
+    console.log('receive:', `stun:${jssipInfo.stun}`);
     console.log(sipSession.current.currentSession);
     // --------
     sipSession.current.currentSession.answer({
-      mediaConstraints: { audio: true, video: false }, pcConfig: {
+      mediaConstraints: { audio: true, video: true }, pcConfig: {
         iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }]
       }
     });
@@ -254,7 +263,7 @@ const Demo: React.FC = (props: any) => {
 
     var options = {
       eventHandlers: eventHandlers,
-      mediaConstraints: { audio: true, video: false }, pcConfig: {
+      mediaConstraints: { audio: true, video: true }, pcConfig: {
         iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }]
       }
       //'mediaStream': localStream
@@ -290,13 +299,6 @@ const Demo: React.FC = (props: any) => {
     sipSession.current.currentConnection = _connection;
     console.log('等待对方播电话', `stun:${jssipInfo.stun}`);
 
-    session.on("accepted", () => {
-      pauseMusic();
-      clearTimeFn();
-      setText('已接听');
-      console.log('answer accepted', session);
-      handleStreamsSrcObject(session._connection);
-    });
     // 来电=>自定义来电弹窗，让用户选择接听和挂断
     // session.on("progress", () => { });
     // 挂断-来电已挂断
@@ -314,8 +316,11 @@ const Demo: React.FC = (props: any) => {
   // 主动播打
   const handleCallWebRTCSession = (session: any) => {
     let { _connection } = session;
-    currentSession = session;
-    currentConnection = _connection;
+    sipSession.current.currentSession = session;
+    sipSession.current.currentConnection = _connection;
+    session.on('connecting', function (data: any) {
+      console.info('onConnecting - ', data.request)
+    })
   }
 
   // 处理回复流
@@ -323,10 +328,11 @@ const Demo: React.FC = (props: any) => {
     console.log('connection:')
     console.log(connection) // 输出了RTCPeerConnection 类
     console.log(connection.getRemoteStreams().length);
-
   }
 
   const getAuth = () => {
+
+    console.log('demo v2.0');
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
       .then(function (stream) {
         // Media access granted
