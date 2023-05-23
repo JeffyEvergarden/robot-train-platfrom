@@ -191,6 +191,18 @@ const Demo: React.FC = (props: any) => {
         clearTimeFn();
         handleCallWebRTCSession(session);
       }
+
+      session.on('confirmed', function (c_data: any) {
+        console.info('onConfirmed - ', c_data)
+        pauseMusic();
+        const stream = new MediaStream()
+        const receivers = session.connection.getReceivers()
+        if (receivers) {
+          receivers.forEach((receiver: any) => stream.addTrack(receiver.track))
+        }
+        oursAudioRef.current.srcObject = stream
+        oursAudioRef.current.play()
+      })
       // ----------
       res.session.on('peerconnection', function (data: any) {
         // 触发收到流 ---------
@@ -304,18 +316,6 @@ const Demo: React.FC = (props: any) => {
     let { _connection } = session;
     currentSession = session;
     currentConnection = _connection;
-    session.on('confirmed', () => {
-      console.log('call confirmed');
-      pauseMusic();
-
-      const stream = new MediaStream()
-      const receivers = session.connection.getReceivers()
-      if (receivers) {
-        receivers.forEach((receiver: any) => stream.addTrack(receiver.track))
-      }
-      oursAudioRef.current.srcObject = stream
-      oursAudioRef.current.play()
-    });
   }
 
   // 处理回复流
