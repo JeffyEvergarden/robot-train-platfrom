@@ -9,9 +9,9 @@
 export default {
   dev: {
     '/dev/': {
-      target: 'http://11.221.90.6:18091',
+      target: 'http://11.113.1.50:7085/',
       changeOrigin: true,
-      pathRewrite: { '^/dev': '/modelDev' },
+      pathRewrite: { '^/dev': '/ai-teach' },
     },
   },
   // test: {

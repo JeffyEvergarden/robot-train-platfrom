@@ -104,9 +104,9 @@ const NodeDrawer: React.FC<any> = (props: any) => {
                   >
                     <Input.TextArea
                       showCount
-                      maxLength={100}
+                      maxLength={500}
                       placeholder="请输入客户话术"
-                      rows={3}
+                      rows={5}
                     ></Input.TextArea>
                   </Form.Item>
                 );
@@ -128,9 +128,9 @@ const NodeDrawer: React.FC<any> = (props: any) => {
                   >
                     <Input.TextArea
                       showCount
-                      maxLength={100}
+                      maxLength={500}
                       placeholder="请输入结束话术"
-                      rows={3}
+                      rows={5}
                     ></Input.TextArea>
                   </Form.Item>
                 );
@@ -176,9 +176,9 @@ const NodeDrawer: React.FC<any> = (props: any) => {
                           >
                             <Input.TextArea
                               showCount
-                              maxLength={100}
+                              maxLength={500}
                               placeholder="请输入标准话术"
-                              rows={3}
+                              rows={5}
                             ></Input.TextArea>
                           </Form.Item>
                         </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { GetCourseInfo_API, GetStepResult_API, postCall_API } from './api';
+import { GetCourseInfo_API, GetStepResult_API, postCall_API, getCallConfig_API } from './api';
 import config from '@/config';
 import { message } from 'antd';
 
@@ -69,11 +69,22 @@ export const useChatModel = () => {
     }
   };
 
+  const getCallConfig = async (data: any) => {
+    let res: any = await getCallConfig_API(data);
+    if (res.resultCode === successCode) {
+      return res.data;
+    } else {
+      message.error(res?.resultDesc || '获取JSSIP配置失败');
+      return false;
+    }
+  };
+
   return {
     getCourseInfo,
     getStepResult,
     postCall,
     resultLoading,
     setResultLoading,
+    getCallConfig,
   };
 };

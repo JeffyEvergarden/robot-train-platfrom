@@ -6,6 +6,8 @@ import styles from './../index.less';
 import { useUserManageModel } from './../model';
 import EditUserModal from '../components/editUserModal';
 import { CloseCircleOutlined } from '@ant-design/icons';
+import { getWorkplaceColumns, useWorkPlaceModel } from '../workplace-manage/model';
+import AddWorkplaceModal from '../workplace-manage/components/addWorkplaceModal';
 
 import config from '@/config';
 const successCode = config.successCode;
@@ -27,9 +29,13 @@ const UserManage: React.FC = (props: any) => {
     deleteGroupRequest,
   } = useUserManageModel();
 
+  const { getWorkPlacePage, addWorkPlace, workPlaceDelete, workPlaceEdit } = useWorkPlaceModel();
+
   const editUserRef = useRef<any>();
   const userActionRef = useRef<any>();
   const groupActionRef = useRef<any>();
+  const addWorkplaceModalRef = useRef<any>();
+  const workplaceTableRef = useRef<any>();
 
   useEffect(() => {
     userListRequest({});
@@ -337,6 +343,37 @@ const UserManage: React.FC = (props: any) => {
       },
     },
   ];
+
+  // 职场管理 start
+  const clickWorkPlaceAdd = () => {
+    console.log('clickWorkPlaceAdd');
+    const params = { actType: 'add', addWorkplaceAct: addWorkplaceAction };
+    addWorkplaceModalRef.current.showModal(params);
+  };
+
+  const addWorkplaceAction = async (params: any) => {
+    const isSuccess = await addWorkPlace(params);
+    if (isSuccess) {
+      workplaceTableRef?.current?.reloadAndRest();
+    }
+    return isSuccess;
+  };
+
+  const clickWorkplaceEdit = (info: any) => {
+    console.log('clickWorkplaceEdit');
+    const params = { actType: 'edit', editWorkplaceAct: editWorkplaceAction, wpInfo: info };
+    addWorkplaceModalRef.current.showModal(params);
+  };
+
+  const editWorkplaceAction = async (params: any) => {
+    const isSuccess = await workPlaceEdit(params);
+    if (isSuccess) {
+      workplaceTableRef?.current?.reloadAndRest();
+    }
+    return isSuccess;
+  };
+  // 职场管理 end
+
   return (
     <div className={styles.commonTabsSty}>
       <PageContainer
@@ -402,6 +439,31 @@ const UserManage: React.FC = (props: any) => {
               />
             </Spin>
           </Tabs.TabPane>
+          <Tabs.TabPane tab="职场管理" key="3">
+            <Spin spinning={loading}>
+              <ProTable
+                rowKey={(record: any) => record?.id}
+                actionRef={workplaceTableRef}
+                headerTitle="职场列表"
+                toolBarRender={() => [
+                  <Button type="primary" key="sameStep" onClick={() => clickWorkPlaceAdd()}>
+                    新建
+                  </Button>,
+                ]}
+                options={false}
+                pagination={{
+                  pageSize: 10,
+                  showSizeChanger: true,
+                  showQuickJumper: true,
+                }}
+                search={false}
+                columns={getWorkplaceColumns(clickWorkplaceEdit, workPlaceDelete)}
+                request={async (params = {}, sort, filter) => {
+                  return getWorkPlacePage(params);
+                }}
+              />
+            </Spin>
+          </Tabs.TabPane>
         </Tabs>
         <EditUserModal
           cref={editUserRef}
@@ -409,6 +471,7 @@ const UserManage: React.FC = (props: any) => {
           groupList={groupList}
           comfirmSubmit={comfirmSubmit}
         />
+        <AddWorkplaceModal ref={addWorkplaceModalRef} />
       </PageContainer>
     </div>
   );

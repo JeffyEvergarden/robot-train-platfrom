@@ -17,7 +17,7 @@ const getNormalList = (req: any, res: any) => {
       taskModel: 1, //1-闯关模式   2-任意模式
       taskType: 1, //1-培训   2--考试
       courseName: '课程' + index,
-      courseStatus: Math.floor(Math.random() * 2),
+      courseStatus: 0,
       courseType: Math.floor(Math.random() * 2),
       passMark: Math.ceil(Math.random() * 40 + 60),
       creator: 'root',
@@ -39,7 +39,7 @@ const getNormalList2 = (req: any, res: any) => {
   let data: any = gen(11).map((item: any, index: number) => {
     return {
       courseName: '课程' + index,
-      courseStatus: Math.floor(Math.random() * 2),
+      courseStatus: 0,
       courseType: Math.floor(Math.random() * 2),
       passMark: Math.ceil(Math.random() * 40 + 60),
       creator: 'root',
@@ -72,7 +72,7 @@ const courseDetail = (req: any, res: any) => {
       courseType: 1,
       minNumberSwitch: 1,
       minNumber: 1,
-      courseStatus: 1,
+      courseStatus: 0,
       modelId: 'xxx',
       isEdit: true,
     },

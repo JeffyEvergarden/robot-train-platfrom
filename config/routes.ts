@@ -117,6 +117,14 @@ export default [
   //   layout: true,
   // },
   {
+    path: '/student/student-home',
+    component: './student-web/student-home',
+    name: '学员端首页',
+    layout: true,
+    access: 'routerAuth',
+    role: ['admin', 'teacher'],
+  },
+  {
     path: '/front/student/course',
     component: './student-web/course',
     name: '学习课程',
@@ -139,14 +147,14 @@ export default [
     role: ['admin', 'student'],
     layout: true,
   },
-  // {
-  //   path: '/demo',
-  //   component: './demo',
-  //   name: '语音聊天demo测试',
-  //   access: 'routerAuth',
-  //   role: ['admin'],
-  //   layout: true,
-  // },
+  {
+    path: '/front/demo',
+    component: './demo',
+    name: '语音聊天demo测试',
+    access: 'routerAuth',
+    role: ['admin'],
+    layout: true,
+  },
   // {
   //   path: '/front/drawdemo',
   //   component: './draw-demo',
