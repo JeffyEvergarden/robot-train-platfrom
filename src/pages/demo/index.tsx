@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useModel } from 'umi';
 import { Button, Input, message } from 'antd';
 import style from './style.less';
-import './jssip.js';
+import JsSIP from 'jssip';
 import { useChatModel } from '../chat-page/model';
 import config from '@/config';
 import { startCall } from './test';
 import Condition from '@/components/Condition';
+
+
 
 const { basePath } = config;
 
