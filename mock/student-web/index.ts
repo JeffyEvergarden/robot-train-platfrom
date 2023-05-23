@@ -309,11 +309,31 @@ const courseCount = (req: any, res: any) => {
     },
   });
 };
+
+const getJSSIP = (req: any, res: any) => {
+  res.json({
+    resultCode: '100',
+    resultDesc: '成功',
+    data: {
+      wsUrl: '11.111.17.218:7443',
+      wssUrl: '11.111.17.218:7443',
+      registerUrl: '@11.111.17.218:5060',
+      linkUrl: '11.111.17.218:7443',
+      stun: '11.111.17.218:7654',
+      fsPassword: 'youcash',
+      sysPhone: '1010',
+      oursNumber: '1009',
+    },
+    success: true,
+  });
+};
+
 export default {
   // 获取课程信息
   [`GET ${baseUrl}/student/course/list`]: getNormalList,
 
   [`POST ${baseUrl}/services/stu/course/call`]: postCall,
+  [`GET ${baseUrl}/services/stu/course/callConfig`]: getJSSIP,
   // 获取具体课程的信息、画布、客户信息
   [`POST ${baseUrl}/services/stu/course/courseNodeLineInfo`]: getCourseInfo,
   [`POST ${baseUrl}/services/stu/course/taskNodeLineInfo`]: getTaskPanelDetail,

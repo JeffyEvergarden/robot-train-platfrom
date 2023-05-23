@@ -1,5 +1,7 @@
+console.log('process.env.mock');
+console.log(process.env.mock);
 export default {
-  basePath: process.env.devmock ? '/dev' : '/ai-teach',
+  basePath: process.env.mock ? '/dev' : '/ai-teach',
   originPath: '/ai-teach',
   successCode: '100',
 };

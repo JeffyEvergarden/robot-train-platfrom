@@ -1,5 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import JsSIP from 'jssip';
+import { useModel } from 'umi';
 import { Button, message } from 'antd';
 import Condition from '@/components/Condition';
 import style from './style.less';
@@ -14,6 +15,15 @@ let currentConnection = null;
 
 const PhoneCall: React.FC<any> = (props: any) => {
   const { oursNumber, sysPhone, onCall, onEnd, cref } = props;
+
+  const { jssipInfo } = useModel('jssipConfig');
+  // oursNumber: 10001,
+  // sysPhone: 10010,
+  // wsUrl: '11.112.0.42:5066',
+  // wssUrl: '11.112.0.42:7443',
+  // registerUrl: '@11.112.0.42:5070',
+  // fsPassword: 'yiwise',
+  // stun: '11.112.0.99:8080',
 
   const [status, setStatus] = useState<any>('waiting'); // waiting / calling /doing
 
@@ -30,10 +40,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
   const curUrl: any = window.location.href;
   const type = curUrl.includes('http://') ? 'ws' : 'wss';
-  // websocket 连接地址
-  const linkUrl = type === 'ws' ? `ws://${process.env.ws_url}` : `wss://${process.env.wss_url}`;
-  // 信令服务器注册
-  const registerUrl = process.env.register_url;
 
   const startConfig = async () => {
     if (sipSession.current.lastTime) {
@@ -52,20 +58,17 @@ const PhoneCall: React.FC<any> = (props: any) => {
       return null;
     }
 
+    // websocket 连接地址
+    const linkUrl = `wss://${jssipInfo.wssUrl}`;
+    // 信令服务器注册
+    const registerUrl = jssipInfo.registerUrl;
+
     // 播放音乐
 
-    let res: any = await onCall?.();
-
-    if (!res) {
-      return;
-    }
     // 单独增加
-    setStatus('calling');
-    // timeoutFn(); 这版本不做清除
+    // setStatus('calling');
+    // timeoutFn(); // 这版本不做清除
     // ----
-    return;
-
-    play();
 
     const socket = new JsSIP.WebSocketInterface(linkUrl);
 
@@ -73,12 +76,14 @@ const PhoneCall: React.FC<any> = (props: any) => {
     const configuration = {
       sockets: [socket],
       uri: 'sip:' + oursNumber + registerUrl,
-      password: process.env.fs_password, // 公司freeswitch,
+      password: jssipInfo.fsPassword, // 公司freeswitch,
       outbound_proxy_set: linkUrl,
       display_name: 'ws_phone_call',
       register: true,
       session_timers: false,
     };
+
+    console.log(configuration, oursNumber, sysPhone);
 
     const ua = new JsSIP.UA(configuration);
 
@@ -90,7 +95,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
     play();
     timeoutFn();
     ua.start();
-
     //播放叮叮叮音频
 
     // 注册反馈
@@ -117,8 +121,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
       if (originator === 'remote') {
         console.log('接电话啦');
-        clearTimeFn();
-        pauseMusic(); // 停止铃声
         handleAnswerWebRTCSession(session);
       } else if (originator === 'local') {
         console.log('打电话啦');
@@ -132,7 +134,11 @@ const PhoneCall: React.FC<any> = (props: any) => {
         data.peerconnection.onaddstream = function (ev: any) {
           console.log('onaddStream');
           console.log(ev);
-          remoteAudioRef.current.src = URL.createObjectURL(ev.stream);
+          try {
+            remoteAudioRef.current.src = ev.stream;
+          } catch (error) {
+            remoteAudioRef.current.src = URL.createObjectURL(ev.stream);
+          }
           remoteAudioRef.current.onloadstart = () => {
             remoteAudioRef.current.play();
           };
@@ -142,6 +148,16 @@ const PhoneCall: React.FC<any> = (props: any) => {
         };
       });
     });
+
+    // ------------
+    // 等待接听 调接口
+    let res: any = await onCall?.();
+
+    if (!res) {
+      console.log('接口打断');
+      stop();
+      return;
+    }
   };
 
   // 主动call
@@ -166,8 +182,12 @@ const PhoneCall: React.FC<any> = (props: any) => {
     let options = {
       eventHandlers: eventHandlers,
       mediaConstraints: { audio: true, video: false },
+      pcConfig: {
+        iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }],
+      },
       //'mediaStream': localStream
     };
+    console.log(options);
 
     const userAgent = sipSession.current.ua;
     //outgoingSession = userAgent.call('sip:3000@192.168.40.96:5060', options);
@@ -184,7 +204,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
                  mediaStream MediaStream 传送到另一端。
                  eventHandlers Object事件处理程序的可选项将被注册到每个呼叫事件。为每个要通知的事件定义事件处理程序。
              */
-    userAgent.call(`sip:${sysPhone}${registerUrl}`, options);
+    userAgent.call(`sip:${sysPhone}${jssipInfo.registerUrl}`, options);
   };
 
   // 处理接
@@ -196,15 +216,18 @@ const PhoneCall: React.FC<any> = (props: any) => {
     let { _connection } = session;
     currentSession = session;
     currentConnection = _connection;
-    // 主动接听
-    session.answer({ mediaConstraints: { audio: true, video: false } });
-
+    console.log('等待对方播电话', `stun:${jssipInfo.stun}`);
     session.on('accepted', () => {
       console.log('answer accepted', session);
+      clearTimeFn();
+      pauseMusic(); // 停止铃声
       setStatus('doing');
       handleStreamsSrcObject(session._connection);
     });
 
+    session.on('confirmed', () => {
+      console.log('answer confirmed', session);
+    });
     // 来电=>自定义来电弹窗，让用户选择接听和挂断
     // session.on("progress", () => { });
     // 挂断-来电已挂断
@@ -217,6 +240,13 @@ const PhoneCall: React.FC<any> = (props: any) => {
       console.log('当会话无法建立时触发');
       stop();
     });
+    // 主动接听
+    session.answer({
+      mediaConstraints: { audio: true, video: false },
+      pcConfig: {
+        iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }],
+      },
+    });
   };
 
   // 处理打
@@ -224,6 +254,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     let { _connection } = session;
     currentSession = session;
     currentConnection = _connection;
+    console.log('等待接电话');
     session.on('confirmed', () => {
       setStatus('doing');
       pauseMusic(); // 停止铃声
@@ -236,27 +267,20 @@ const PhoneCall: React.FC<any> = (props: any) => {
   const handleStreamsSrcObject = (connection: any) => {
     console.log('connection: ------------');
     //  console.log(connection) // 输出了RTCPeerConnection 类
-    console.log(connection.getRemoteStreams().length);
-    // if (connection.getRemoteStreams().length > 0) {
-    //   console.log('获取远程媒体流', connection.getLocalStreams().length)
-    //   // 获取远程媒体流
-    //   let srcObject = connection.getRemoteStreams()[0];
+    // if (connection.getLocalStreams().length > 0) {
+    //   console.log('获取本地媒体流', connection.getLocalStreams().length);
+    //   // 获取本地媒体流
+    //   let srcObject = connection.getLocalStreams()[0];
     //   console.log(srcObject);
-    //   remoteAudioRef.current.srcObject = srcObject;
-    // };
-    if (connection.getLocalStreams().length > 0) {
-      console.log('获取本地媒体流', connection.getLocalStreams().length);
-      // 获取本地媒体流
-      let srcObject = connection.getLocalStreams()[0];
-      console.log(srcObject);
-      oursAudioRef.current.srcObject = srcObject;
-      oursAudioRef.current.play();
-    }
+    //   oursAudioRef.current.srcObject = srcObject;
+    //   oursAudioRef.current.play();
+    // }
   };
 
   // 开始播放
   const play = () => {
     if (status === 'waiting') {
+      sipSession.current.status = 'calling';
       musicAudioRef.current.currentTime = 0;
       musicAudioRef.current.play();
       setStatus('calling');
@@ -277,7 +301,11 @@ const PhoneCall: React.FC<any> = (props: any) => {
   // 停止音乐
   const pauseMusic = () => {
     // --------------
-    musicAudioRef.current.pause();
+    if (sipSession.current.status === 'calling') {
+      setTimeout(() => {
+        musicAudioRef.current?.pause();
+      }, 200);
+    }
     setStatus('waiting');
   };
 
@@ -287,7 +315,12 @@ const PhoneCall: React.FC<any> = (props: any) => {
     // ---
     sipSession.current.ua?.unregister?.({ all: true });
     // --------------
-    musicAudioRef.current?.pause?.();
+
+    if (sipSession.current.status === 'calling') {
+      setTimeout(() => {
+        musicAudioRef.current?.pause();
+      }, 200);
+    }
     setStatus('waiting');
 
     onEnd?.();
