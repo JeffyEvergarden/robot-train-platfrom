@@ -124,7 +124,7 @@ export default [
     layout: true,
   },
   {
-    path: '/demo',
+    path: '/front/demo',
     component: './demo',
     name: '语音聊天demo测试',
     access: 'routerAuth',
