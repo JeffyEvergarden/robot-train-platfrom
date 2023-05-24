@@ -38,7 +38,7 @@ const Demo: React.FC = (props: any) => {
   const [conf, setConf] = useState<any>('{}');
 
   const getConfig = async () => {
-    console.log('JSSIP-test: v1.0');
+    console.log('JSSIP-test: v3.0');
     let res = await getCallConfig({});
     console.log(res);
     setJssipInfo(res);
@@ -81,6 +81,7 @@ const Demo: React.FC = (props: any) => {
   // 延时停止
   const timeoutFn = () => {
     sipSession.current.timeFn = setTimeout(() => {
+      console.log('延时停止')
       stop();
     }, 60 * 1000);
   };
@@ -282,7 +283,7 @@ const Demo: React.FC = (props: any) => {
                  mediaStream MediaStream 传送到另一端。
                  eventHandlers Object事件处理程序的可选项将被注册到每个呼叫事件。为每个要通知的事件定义事件处理程序。
              */
-    userAgent.call(`sip:${val2}${jssipInfo.registerUrl}`, options);
+    sipSession.current.outgoingSession = userAgent.call(`sip:${val2}${jssipInfo.registerUrl}`, options);
   };
 
   // 处理回复
@@ -333,7 +334,7 @@ const Demo: React.FC = (props: any) => {
   };
 
   const getAuth = () => {
-    console.log('demo v2.1');
+    console.log('demo v3.0');
     navigator?.mediaDevices?.getUserMedia?.({ audio: true, video: true })
       .then(function (stream) {
         // Media access granted
