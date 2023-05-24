@@ -2,14 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useModel } from 'umi';
 import { Button, Input, message } from 'antd';
 import style from './style.less';
-import JsSIP from 'jssip';
+// import JsSIP from 'jssip';
 import { useChatModel } from '../chat-page/model';
 import config from '@/config';
 import { startCall } from './test';
 import Condition from '@/components/Condition';
 
-const { basePath } = config;
 
+const { basePath } = config;
+const JsSIP = (window as any).JsSIP;
 let currentSession = null;
 
 let currentConnection = null;
@@ -150,11 +151,11 @@ const Demo: React.FC = (props: any) => {
     sipSession.current.currentConnection = null;
 
     // 注册反馈
-    ua.on('registered', function (data) {
+    ua.on('registered', function (data: any) {
       console.info('registered: ', data.response);
     });
     // 注册失败
-    ua.on('registrationFailed', function (data) {
+    ua.on('registrationFailed', function (data: any) {
       console.log('registrationFailed: 注册失败');
       message.warning('信令服务器注册失败');
       stop();
