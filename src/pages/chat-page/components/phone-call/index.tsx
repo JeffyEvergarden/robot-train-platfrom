@@ -154,7 +154,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     let res: any = await onCall?.();
 
     if (!res) {
-      console.log('接口打断')
+      console.log('接口打断');
       stop();
       return;
     }
@@ -183,8 +183,8 @@ const PhoneCall: React.FC<any> = (props: any) => {
       eventHandlers: eventHandlers,
       mediaConstraints: { audio: true, video: false },
       pcConfig: {
-        iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }]
-      }
+        iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }],
+      },
       //'mediaStream': localStream
     };
     console.log(options);
@@ -242,12 +242,11 @@ const PhoneCall: React.FC<any> = (props: any) => {
     });
     // 主动接听
     session.answer({
-      mediaConstraints: { audio: true, video: false }, pcConfig: {
-        iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }]
-      }
+      mediaConstraints: { audio: true, video: false },
+      pcConfig: {
+        iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }],
+      },
     });
-
-
   };
 
   // 处理打
@@ -255,7 +254,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     let { _connection } = session;
     currentSession = session;
     currentConnection = _connection;
-    console.log('等待接电话')
+    console.log('等待接电话');
     session.on('confirmed', () => {
       setStatus('doing');
       pauseMusic(); // 停止铃声
@@ -281,7 +280,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
   // 开始播放
   const play = () => {
     if (status === 'waiting') {
-      sipSession.current.status = 'calling'
+      sipSession.current.status = 'calling';
       musicAudioRef.current.currentTime = 0;
       musicAudioRef.current.play();
       setStatus('calling');
@@ -305,7 +304,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     if (sipSession.current.status === 'calling') {
       setTimeout(() => {
         musicAudioRef.current?.pause();
-      }, 200)
+      }, 200);
     }
     setStatus('waiting');
   };
@@ -320,7 +319,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     if (sipSession.current.status === 'calling') {
       setTimeout(() => {
         musicAudioRef.current?.pause();
-      }, 200)
+      }, 200);
     }
     setStatus('waiting');
 
@@ -331,7 +330,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
     call: startConfig,
     end: stop,
   }));
-
 
   return (
     <div style={{ display: 'inline-flex' }}>

@@ -10,6 +10,14 @@ export default [
   },
   // -----导师端
   {
+    path: '/front/teacher/teacher-home',
+    component: './teacher-web/teacher-home',
+    name: '导师端首页',
+    layout: true,
+    access: 'routerAuth',
+    role: ['admin', 'teacher'],
+  },
+  {
     path: '/front/teacher/course',
     component: './teacher-web/course/home',
     name: '课程管理',
@@ -59,6 +67,14 @@ export default [
       },
     ],
   },
+  {
+    path: '/front/teacher/dataManage',
+    component: './teacher-web/data-manage',
+    name: '数据管理',
+    access: 'routerAuth',
+    role: ['admin', 'teacher'],
+    layout: true,
+  },
   //-------导师端
   {
     path: '/front/teacher/paramsManage',
@@ -100,6 +116,14 @@ export default [
   //   name: '学生端-首页',
   //   layout: true,
   // },
+  {
+    path: '/student/student-home',
+    component: './student-web/student-home',
+    name: '学员端首页',
+    layout: true,
+    access: 'routerAuth',
+    role: ['admin', 'teacher'],
+  },
   {
     path: '/front/student/course',
     component: './student-web/course',

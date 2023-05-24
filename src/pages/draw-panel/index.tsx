@@ -9,6 +9,7 @@ import { useModel } from 'umi';
 import { Button, Dropdown, Menu as AntdMenu, message } from 'antd';
 import style from './style.less';
 import DndDiyPanel from './components/dnd-panel';
+import PlotDndDiyPanel from './components/dnd-panel/plot';
 import { registerNode } from './components/node';
 
 import { setMenuConfig, setControlConfig, checkEdge } from './config';
@@ -34,6 +35,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     openFlowTest,
     loading = false,
     isSilentMode = false,
+    courseType = 0,
   } = props;
 
   // const { initialState, setInitialState } = useModel('@@initialState');
@@ -79,7 +81,7 @@ const DrawPanel: React.FC<any> = (props: any) => {
     // 拖动节点创建
     eventCenter.on('edge:add', async (e: any) => {
       console.log(e);
-      let res = checkEdge(e.data, lf);
+      let res = checkEdge(e.data, lf, courseType);
       if (res) {
         lf.deleteEdge(e.data.id);
         message.warning(res);
@@ -235,7 +237,11 @@ const DrawPanel: React.FC<any> = (props: any) => {
       </div>
       {/* ------ 拖动面板 ------ */}
       <Condition r-if={!isSilentMode}>
-        <DndDiyPanel lf={curLf}></DndDiyPanel>
+        {courseType === 1 ? (
+          <PlotDndDiyPanel lf={curLf}></PlotDndDiyPanel>
+        ) : (
+          <DndDiyPanel lf={curLf}></DndDiyPanel>
+        )}
       </Condition>
 
       <div id="draw-box" ref={drawDomRef} className={style['draw-box']}></div>

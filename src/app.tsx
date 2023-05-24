@@ -11,7 +11,7 @@ import routers from '../config/routes';
 import Page403 from '@/pages/403';
 
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/modelDev/login';
+const loginPath = '/ai-teach/login';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -129,19 +129,19 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     links: isDev
       ? [
-          <a key="antd-component" href="https://pro.ant.design/zh-CN/" target="_blank">
-            <LinkOutlined />
-            <span>业务组组件</span>
-          </a>,
-          <a
-            key="docs"
-            href="https://is35svcbne.feishu.cn/wiki/wikcnmka9a34JEzgLbEhWrcXiJC"
-            target="_blank"
-          >
-            <BookOutlined />
-            <span>需求文档</span>
-          </a>,
-        ]
+        <a key="antd-component" href="https://pro.ant.design/zh-CN/" target="_blank">
+          <LinkOutlined />
+          <span>业务组组件</span>
+        </a>,
+        <a
+          key="docs"
+          href="https://is35svcbne.feishu.cn/wiki/wikcnmka9a34JEzgLbEhWrcXiJC"
+          target="_blank"
+        >
+          <BookOutlined />
+          <span>需求文档</span>
+        </a>,
+      ]
       : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面

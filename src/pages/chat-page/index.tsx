@@ -211,7 +211,6 @@ const ChatPage: any = (props: any) => {
     scoreModalRef.current.open({ studyId: id || recordId, courseId });
   };
 
-
   const getConfig = async () => {
     let res = await getCallConfig({});
 
@@ -219,8 +218,7 @@ const ChatPage: any = (props: any) => {
       console.log(res);
       setJssipInfo(res);
     }
-  }
-
+  };
 
   useEffect(() => {
     // 获取基础信息
@@ -312,7 +310,6 @@ const ChatPage: any = (props: any) => {
               onCall={initSocket}
               onEnd={onEnd}
             ></PhoneCall>
-
           </div>
           <Condition r-if={pageType === 'init'}>
             <div className={style['header-right']}>

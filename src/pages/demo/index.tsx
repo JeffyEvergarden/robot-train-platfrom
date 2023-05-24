@@ -240,7 +240,7 @@ const Demo: React.FC = (props: any) => {
     play();
     timeoutFn();
 
-    var eventHandlers = {
+    let eventHandlers = {
       progress: function (e: any) {
         console.log('call is in progress');
       },
@@ -257,7 +257,7 @@ const Demo: React.FC = (props: any) => {
       },
     };
 
-    var options = {
+    let options = {
       eventHandlers: eventHandlers,
       mediaConstraints: { audio: true, video: false },
       pcConfig: {
@@ -402,10 +402,10 @@ const Demo: React.FC = (props: any) => {
 
       <div className={style['content-second']} style={{ marginTop: '20px' }}>
         {conf}
-      </div>
+      </div >
 
       {/* <video id="video" controls></video> */}
-    </div>
+    </div >
   );
 };
 
