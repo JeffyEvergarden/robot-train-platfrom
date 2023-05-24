@@ -15,16 +15,22 @@ const PlotDrawer: React.FC<any> = (props: any) => {
   const { courseNodeInfo, courseNodeSave } = useDrawModel();
   const [info, setInfo] = useState<any>({});
   const [nodeDetailInfo, setNodeDetailInfo] = useState<any>({});
-  const [intentList, setIntentList] = useState<any>([]);
+  const [studentIntentList, setStudentIntentList] = useState<any>([]);
+  const [customerIntentList, setCustomerIntentList] = useState<any>([]);
 
   const { courseInfo } = useModel('course', (model: any) => ({
     courseInfo: model.courseInfo,
   }));
   const { intentListRequest } = useIntentionModel();
 
-  const getIntentList = async () => {
-    let res = await intentListRequest({ modelId: history?.location?.query?.id });
-    setIntentList(res?.data);
+  const getIntentList = async (intentType: Number) => {
+    if (intentType === 1) {
+      let res = await intentListRequest({ modelId: courseInfo.modelId, intentType: 1 });
+      setStudentIntentList(res?.data);
+    } else {
+      let res = await intentListRequest({ modelId: courseInfo.modelId, intentType: 2 });
+      setCustomerIntentList(res?.data);
+    }
   };
 
   const onCancel = () => {
@@ -79,10 +85,11 @@ const PlotDrawer: React.FC<any> = (props: any) => {
   }));
 
   useEffect(() => {
-    getIntentList();
+    getIntentList(1);
+    getIntentList(2);
   }, []);
 
-  const intentListRender = () => {
+  const intentListRender = (list: any[]) => {
     return (
       <Form.Item
         name="intents"
@@ -96,7 +103,7 @@ const PlotDrawer: React.FC<any> = (props: any) => {
           showSearch
           allowClear
         >
-          {intentList?.map((item: any) => {
+          {list?.map((item: any) => {
             return (
               <Select.Option key={item?.id} value={item?.intentName}>
                 {item?.intentName}
@@ -135,7 +142,9 @@ const PlotDrawer: React.FC<any> = (props: any) => {
         >
           <Input placeholder="请输入节点名称" onKeyPress={handleKeyPress}></Input>
         </Form.Item>
-        <Condition r-if={info?.type == 'customer'}>{intentListRender()}</Condition>
+        <Condition r-if={info?.type == 'customer'}>
+          {intentListRender(customerIntentList)}
+        </Condition>
         <Condition r-if={info?.type == 'finish'}>
           <Form.List name="nodeAction">
             {(fields) =>
@@ -161,7 +170,7 @@ const PlotDrawer: React.FC<any> = (props: any) => {
           </Form.List>
         </Condition>
         <Condition r-if={info?.type == 'student'}>
-          {intentListRender()}
+          {intentListRender(studentIntentList)}
           <Form.List name="nodeAction">
             {(fields, { add, remove }) => {
               const addNew = () => {
