@@ -28,38 +28,46 @@
     height: 40px;
   }
 
-  .title-container {
-    display: flex;
-    align-items: center;
-    margin-left: 8px;
-    // background-color: yellow;
+  .top-rightContainer {
+    width: 100%;
 
-    .task-title {
-      max-width: 210px;
-      overflow: hidden; // 溢出隐藏
-      color: rgba(0, 0, 0, 0.85);
-      color: #000000d9;
-      font-weight: 600;
-      font-size: 16px;
-      font-family: 'PingFang SC';
-      white-space: nowrap; // 强制一行
-      text-overflow: ellipsis; // 文字溢出显示省略号
-    }
-  }
-
-  .process-container {
-    display: flex;
-    align-items: center;
-    padding: 0 8px;
-
-    .process-text {
-      width: 150px;
+    .title-container {
+      display: flex;
+      align-items: center;
       margin-left: 8px;
-      color: #000000d9;
-      font-weight: 400;
-      font-size: 12px;
-      font-family: 'PingFang SC';
-      // background-color: #fff;
+      // background-color: yellow;
+
+      .task-title {
+        max-width: 210px;
+        overflow: hidden; // 溢出隐藏
+        color: rgba(0, 0, 0, 0.85);
+        color: #000000d9;
+        font-weight: 600;
+        font-size: 16px;
+        font-family: 'PingFang SC';
+        white-space: nowrap; // 强制一行
+        text-overflow: ellipsis; // 文字溢出显示省略号
+      }
+    }
+
+    .process-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      // background-color: red;
+      .process-bar {
+        flex: 1;
+      }
+
+      .process-text {
+        margin-left: 8px;
+        color: #000000d9;
+        font-weight: 400;
+        font-size: 12px;
+        font-family: 'PingFang SC';
+        // background-color: #fff;
+      }
     }
   }
 }
