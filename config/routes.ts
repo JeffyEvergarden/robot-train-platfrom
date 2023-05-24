@@ -117,7 +117,7 @@ export default [
   //   layout: true,
   // },
   {
-    path: '/student/student-home',
+    path: '/front/student/student-home',
     component: './student-web/student-home',
     name: '首页',
     layout: true,
