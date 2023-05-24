@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Space, Table, Tag, Avatar, Dropdown, Menu } from 'antd';
 import { UserOutlined, WomanOutlined, ManOutlined, DownOutlined } from '@ant-design/icons';
@@ -59,22 +59,36 @@ const StudentHome: React.FC<any> = (props: any) => {
     setLoading,
     // 排名分组接口
     getStudentGroup,
-    studentGroupInfo,
+    studentGroupData,
     // 成绩排名接口
     getScoreSort,
     scoreSortData,
   } = useStudentRankModel();
 
-  const [courseType, setCourseType] = useState<any>('0');
-  const [courseTypeName, setCourseTypeName] = useState<any>('全部');
-
+  // 用户信息
+  const { initialState } = useModel('@@initialState');
+  const { userInfoAll } = (initialState?.currentUser as any) || {};
+  const { userName, account, groupName, phoneNumber, createTime, groupId, sex } = userInfoAll || {};
+  // 下拉组别选择 数据处理
+  let dropItems = [
+    { label: groupName, key: 'usergroup', queryVal: groupId },
+    { label: '全部', key: 'all', queryVal: undefined },
+  ];
+  const groupItems = studentGroupData?.dropItems;
+  if (groupItems?.length) {
+    const newGroupItems = groupItems.filter((item: any) => {
+      return item.queryVal !== groupId;
+    }); // 过滤掉本人所属组别
+    dropItems = [...dropItems, ...newGroupItems];
+  }
+  // 选中的组别
+  const [selectedGroupInfo, setSelectedGroupInfo] = useState<any>(dropItems[0]);
+  const { label: sgiLabel, key: sgiKey, queryVal } = selectedGroupInfo || {};
   const onMenuClick = (e: any) => {
-    console.log(e);
-    setCourseType(e.key);
-    let obj: any = studentGroupInfo?.dropItems?.find((item: any) => {
+    let obj: any = dropItems?.find((item: any) => {
       return item.key === e.key;
     });
-    obj && setCourseTypeName(obj.label);
+    obj && setSelectedGroupInfo(obj);
   };
 
   const getTableRowClassName = (record: any, index: any) => {
@@ -84,16 +98,17 @@ const StudentHome: React.FC<any> = (props: any) => {
 
   useMount(() => {
     getStudentGroup({});
-    getScoreSort({});
+    getScoreSort({ groupId });
   });
 
   useUpdateEffect(() => {
+    const { queryVal: sgiQueryVal } = selectedGroupInfo || {};
     let params = {};
-    if (courseType === '1') {
-      params = { groupId: studentGroupInfo?.id };
+    if (sgiQueryVal) {
+      params = { groupId: queryVal };
     }
-    getStudentGroup(params);
-  }, [courseTypeName]);
+    getScoreSort(params);
+  }, [selectedGroupInfo]);
 
   return (
     <PageContainer
@@ -106,27 +121,30 @@ const StudentHome: React.FC<any> = (props: any) => {
         <div className={style.leftContainer}>
           <div className={style.leftTopContainer}>
             <div className={style.ltcAvatarContainer}>
-              <Avatar size={40} icon={<UserOutlined />} src={female} />
-              <span className={style.ltcTitle}>张三三</span>
-              <WomanOutlined className={style.womanOutlined} />
-              <ManOutlined className={style.manOutlined} />
+              <Avatar size={40} icon={<UserOutlined />} src={sex === '1' ? male : female} />
+              <span className={style.ltcTitle}>{userName}</span>
+              {sex === '1' ? (
+                <ManOutlined className={style.manOutlined} />
+              ) : (
+                <WomanOutlined className={style.womanOutlined} />
+              )}
             </div>
             <div className={style.ltcInfoContainer}>
               <div className={style.ltcInfoItem}>
                 <div className={style.infoTitle}>组别</div>
-                <div className={style.infoDesc}>M1 4-10</div>
+                <div className={style.infoDesc}>{groupName}</div>
               </div>
               <div className={style.ltcInfoItem}>
                 <div className={style.infoTitle}>手机号码</div>
-                <div className={style.infoDesc}>15512341234</div>
+                <div className={style.infoDesc}>{phoneNumber}</div>
               </div>
               <div className={style.ltcInfoItem}>
                 <div className={style.infoTitle}>账户名称</div>
-                <div className={style.infoDesc}>uzhangsansan</div>
+                <div className={style.infoDesc}>{account}</div>
               </div>
               <div className={style.ltcInfoItem}>
                 <div className={style.infoTitle}>注册时间</div>
-                <div className={style.infoDesc}>2022-12-06</div>
+                <div className={style.infoDesc}>{createTime}</div>
               </div>
             </div>
           </div>
@@ -146,10 +164,10 @@ const StudentHome: React.FC<any> = (props: any) => {
               className={style.rchDropdown}
               overlay={
                 <Menu onClick={onMenuClick}>
-                  {studentGroupInfo?.dropItems?.map((item: any, index: any) => {
+                  {dropItems?.map((item: any, index: any) => {
                     return (
                       <Menu.Item key={item.key}>
-                        {item.key === courseType ? (
+                        {item.key === sgiKey ? (
                           <a style={{ color: '#1890FF' }}>{item.label}</a>
                         ) : (
                           item.label
@@ -168,7 +186,7 @@ const StudentHome: React.FC<any> = (props: any) => {
                   marginRight: '15px',
                 }}
               >
-                <span style={{ marginRight: '3px' }}>{courseTypeName}</span>
+                <span style={{ marginRight: '3px' }}>{sgiLabel}</span>
                 <DownOutlined style={{ marginLeft: '4px', color: 'rgba(0,0,0,0.4)' }} />
               </div>
             </Dropdown>

@@ -12,7 +12,7 @@ export default [
   {
     path: '/front/teacher/teacher-home',
     component: './teacher-web/teacher-home',
-    name: '导师端首页',
+    name: '首页',
     layout: true,
     access: 'routerAuth',
     role: ['admin', 'teacher'],
@@ -119,10 +119,10 @@ export default [
   {
     path: '/student/student-home',
     component: './student-web/student-home',
-    name: '学员端首页',
+    name: '首页',
     layout: true,
     access: 'routerAuth',
-    role: ['admin', 'teacher'],
+    role: ['admin', 'student'],
   },
   {
     path: '/front/student/course',

@@ -101,6 +101,7 @@ export async function getInitialState(): Promise<{
       userName: userMsg?.userName,
       userCode: userMsg?.userCode,
       department: orz,
+      userInfoAll: userMsg,
     }, // 用户信息  部门信息
 
     userAuth: userAuth, // 权限信息   userType 用户类型
