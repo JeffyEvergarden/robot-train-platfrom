@@ -179,17 +179,17 @@ const Demo: React.FC = (props: any) => {
         setText('请接听....');
         play();
         timeoutFn();
-        handleAnswerWebRTCSession(session);
+        handleAnswerWebRTCSession(res);
       } else {
         console.log('打电话啦', originator);
         // 赋值
         sipSession.current.outgoingSession = session;
         clearTimeFn();
-        handleCallWebRTCSession(session);
+        handleCallWebRTCSession(res);
       }
 
       // ----------
-      session.on('accepted', () => {
+      res.session.on('accepted', () => {
         pauseMusic();
         clearTimeFn();
         setText('已接听');
@@ -197,7 +197,7 @@ const Demo: React.FC = (props: any) => {
         handleStreamsSrcObject(session._connection);
       });
 
-      session.on('confirmed', function (c_data: any) {
+      res.session.on('confirmed', function (c_data: any) {
         console.info('onConfirmed - ', c_data, '通话已建立');
         pauseMusic();
         const stream = new MediaStream();
@@ -286,25 +286,24 @@ const Demo: React.FC = (props: any) => {
   };
 
   // 处理回复
-  const handleAnswerWebRTCSession = (session: any) => {
+  const handleAnswerWebRTCSession = (res: any) => {
     /** session 要单独存下，后面接听挂断需要
         挂断: session.terminate();
         接听：session.answer({'mediaConstraints': { 'audio': true, 'video': false }})
     */
-    let { _connection } = session;
-    sipSession.current.currentSession = session;
-    sipSession.current.currentConnection = _connection;
+    sipSession.current.currentSession = res.session;
+    sipSession.current.currentConnection = res.session._connection;
     console.log('等待对方播电话', `stun:${jssipInfo.stun}`);
 
     // 来电=>自定义来电弹窗，让用户选择接听和挂断
     // session.on("progress", () => { });
     // 挂断-来电已挂断
-    session.on('ended', () => {
+    res.session.on('ended', () => {
       console.log('挂断-来电已挂断');
       stop();
     });
     // 当会话无法建立时触发
-    session.on('failed', (error: any) => {
+    res.session.on('failed', (error: any) => {
       console.log('当会话无法建立时触发');
       if (error.cause === 'Canceled') {
         message.warning('对端已取消呼叫');
@@ -317,11 +316,11 @@ const Demo: React.FC = (props: any) => {
   };
 
   // 主动播打
-  const handleCallWebRTCSession = (session: any) => {
-    let { _connection } = session;
-    sipSession.current.currentSession = session;
+  const handleCallWebRTCSession = (res: any) => {
+    let { _connection } = res.session;
+    sipSession.current.currentSession = res.session;
     sipSession.current.currentConnection = _connection;
-    session.on('connecting', function (data: any) {
+    res.session.on('connecting', function (data: any) {
       console.info('onConnecting - ', data.request);
     });
   };
