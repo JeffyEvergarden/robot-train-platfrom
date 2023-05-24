@@ -9,11 +9,11 @@ const shapeList: any = [
   },
   {
     type: 'student',
-    text: '学员意图',
+    text: '学员意图节点',
   },
   {
     type: 'customer',
-    text: '客户意图',
+    text: '客户意图节点',
   },
   {
     type: 'finish',
