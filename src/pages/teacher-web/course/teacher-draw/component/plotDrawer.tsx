@@ -38,9 +38,13 @@ const PlotDrawer: React.FC<any> = (props: any) => {
       let reqData: any = {
         ...info,
         ...valid,
+        nodeIntentAction: valid.intents?.map((intent: string) => {
+          return { intent };
+        }),
         nodeName: valid?.name,
         nodeType: nodeDetailInfo?.nodeType,
       };
+      delete reqData.intents;
       await courseNodeSave(reqData).then((res) => {
         if (res) {
           changeNodeName(info.id, valid?.name);
@@ -61,6 +65,9 @@ const PlotDrawer: React.FC<any> = (props: any) => {
           ...res?.data,
         };
         resData.nodeAction = resData?.nodeAction?.length ? resData?.nodeAction : [{ action: '' }];
+        resData.intents = resData?.nodeIntentAction?.length
+          ? resData?.nodeIntentAction.map((item: any) => item.intent)
+          : [];
         resData.name = resData?.nodeName;
         form.setFieldsValue(resData);
       }
@@ -78,7 +85,7 @@ const PlotDrawer: React.FC<any> = (props: any) => {
   const intentListRender = () => {
     return (
       <Form.Item
-        name="intent"
+        name="intents"
         label={'意图'}
         rules={[{ required: true, message: '请选择意图名称' }]}
       >
@@ -91,7 +98,7 @@ const PlotDrawer: React.FC<any> = (props: any) => {
         >
           {intentList?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.id}>
+              <Select.Option key={item?.id} value={item?.intentName}>
                 {item?.intentName}
               </Select.Option>
             );

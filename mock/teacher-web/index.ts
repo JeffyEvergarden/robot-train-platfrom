@@ -313,6 +313,7 @@ const nodeInfo = (req: any, res: any) => {
       positionInfo: '1,2',
       keyPoints: [{ id: '11', nodeId: '33', keyPoint: '关键点', keyWord: '关键词' }],
       nodeAction: [{ id: '44', nodeId: '22', action: '话术', intent: '' }],
+      nodeIntentAction: [{ intent: '意图名称1' }],
     },
   });
 };
