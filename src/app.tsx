@@ -11,7 +11,7 @@ import routers from '../config/routes';
 import Page403 from '@/pages/403';
 
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/modelDev/login';
+const loginPath = '/ai-teach/login';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {

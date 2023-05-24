@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useModel } from 'umi';
 import { Button, Input, message } from 'antd';
 import style from './style.less';
-import JsSIP from 'jssip';
+// import JsSIP from 'jssip';
 import { useChatModel } from '../chat-page/model';
 import config from '@/config';
 import { startCall } from './test';
 import Condition from '@/components/Condition';
 
 const { basePath } = config;
-
+const JsSIP = (window as any).JsSIP;
 let currentSession = null;
 
 let currentConnection = null;
@@ -22,7 +22,11 @@ const Demo: React.FC = (props: any) => {
 
   const [text, setText] = useState<any>('...'); // waiting / calling /doing
   // 存储会话
-  const sipSession = useRef<any>({});
+  const sipSession = useRef<any>({
+    currentSession: null,
+    incomingSession: null,
+    outgoingSession: null,
+  });
   // 我们的音频
   const oursAudioRef = useRef<any>(null);
   // 远方的音频
@@ -37,7 +41,7 @@ const Demo: React.FC = (props: any) => {
   const [conf, setConf] = useState<any>('{}');
 
   const getConfig = async () => {
-    console.log('JSSIP-test: v1.0');
+    console.log('JSSIP-test: v3.0');
     let res = await getCallConfig({});
     console.log(res);
     setJssipInfo(res);
@@ -80,6 +84,7 @@ const Demo: React.FC = (props: any) => {
   // 延时停止
   const timeoutFn = () => {
     sipSession.current.timeFn = setTimeout(() => {
+      console.log('延时停止');
       stop();
     }, 60 * 1000);
   };
@@ -94,11 +99,14 @@ const Demo: React.FC = (props: any) => {
     }
     setStatus('waiting');
   };
-
+  //挂断
   const stop = () => {
+    console.log('执行stop');
     setText('...');
     // 挂断
-    sipSession.current.ua?.stop?.();
+    // sipSession.current.ua?.stop?.();
+    sipSession.current.session?.terminal?.();
+    // 赋值
     // ---
     // sipSession.current.ua?.unregister?.({ all: true });
     // --------------
@@ -133,7 +141,6 @@ const Demo: React.FC = (props: any) => {
       password: jssipInfo.fsPassword, // 公司freeswitch,
       contact_uri: 'sip:' + val1 + registerUrl + ';transport=WSS',
       outbound_proxy_set: linkUrl,
-      display_name: 'ws_phone_call',
       register: true,
       session_timers: false,
     };
@@ -147,20 +154,17 @@ const Demo: React.FC = (props: any) => {
     sipSession.current.currentSession = null;
     sipSession.current.currentConnection = null;
 
-    ua.start();
-    //播放叮叮叮音频
-
     // 注册反馈
-    ua.on('registered', function (data) {
+    ua.on('registered', function (data: any) {
       console.info('registered: ', data.response);
     });
-
-    ua.on('registrationFailed', function (data) {
+    // 注册失败
+    ua.on('registrationFailed', function (data: any) {
       console.log('registrationFailed: 注册失败');
       message.warning('信令服务器注册失败');
       stop();
     });
-
+    // 注册超时
     ua.on('registrationExpiring', function () {
       console.warn('registrationExpiring: 注册超时');
       message.warning('信令服务器注册超时');
@@ -174,18 +178,22 @@ const Demo: React.FC = (props: any) => {
 
       if (originator === 'remote') {
         console.log('接电话啦', originator);
+        // 赋值
+        sipSession.current.incomingSession = session;
         setText('请接听....');
         play();
         timeoutFn();
-        handleAnswerWebRTCSession(session);
+        handleAnswerWebRTCSession(res);
       } else {
         console.log('打电话啦', originator);
+        // 赋值
+        sipSession.current.outgoingSession = session;
         clearTimeFn();
-        handleCallWebRTCSession(session);
+        handleCallWebRTCSession(res);
       }
 
       // ----------
-      session.on('accepted', () => {
+      res.session.on('accepted', () => {
         pauseMusic();
         clearTimeFn();
         setText('已接听');
@@ -193,8 +201,8 @@ const Demo: React.FC = (props: any) => {
         handleStreamsSrcObject(session._connection);
       });
 
-      session.on('confirmed', function (c_data: any) {
-        console.info('onConfirmed - ', c_data);
+      res.session.on('confirmed', function (c_data: any) {
+        console.info('onConfirmed - ', c_data, '通话已建立');
         pauseMusic();
         const stream = new MediaStream();
         const receivers = session.connection.getReceivers();
@@ -216,6 +224,7 @@ const Demo: React.FC = (props: any) => {
         };
       });
     });
+    ua.start();
   };
 
   //
@@ -225,7 +234,7 @@ const Demo: React.FC = (props: any) => {
     console.log(sipSession.current.currentSession);
     // --------
     sipSession.current.currentSession.answer({
-      mediaConstraints: { audio: true, video: true },
+      mediaConstraints: { audio: true, video: false },
       pcConfig: {
         iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }],
       },
@@ -255,7 +264,7 @@ const Demo: React.FC = (props: any) => {
 
     let options = {
       eventHandlers: eventHandlers,
-      mediaConstraints: { audio: true, video: true },
+      mediaConstraints: { audio: true, video: false },
       pcConfig: {
         iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }],
       },
@@ -277,40 +286,48 @@ const Demo: React.FC = (props: any) => {
                  mediaStream MediaStream 传送到另一端。
                  eventHandlers Object事件处理程序的可选项将被注册到每个呼叫事件。为每个要通知的事件定义事件处理程序。
              */
-    userAgent.call(`sip:${val2}${jssipInfo.registerUrl}`, options);
+    sipSession.current.outgoingSession = userAgent.call(
+      `sip:${val2}${jssipInfo.registerUrl}`,
+      options,
+    );
   };
 
   // 处理回复
-  const handleAnswerWebRTCSession = (session: any) => {
+  const handleAnswerWebRTCSession = (res: any) => {
     /** session 要单独存下，后面接听挂断需要
         挂断: session.terminate();
         接听：session.answer({'mediaConstraints': { 'audio': true, 'video': false }})
     */
-    let { _connection } = session;
-    sipSession.current.currentSession = session;
-    sipSession.current.currentConnection = _connection;
+    sipSession.current.currentSession = res.session;
+    sipSession.current.currentConnection = res.session._connection;
     console.log('等待对方播电话', `stun:${jssipInfo.stun}`);
 
     // 来电=>自定义来电弹窗，让用户选择接听和挂断
     // session.on("progress", () => { });
     // 挂断-来电已挂断
-    session.on('ended', () => {
+    res.session.on('ended', () => {
       console.log('挂断-来电已挂断');
+      stop();
     });
     // 当会话无法建立时触发
-    session.on('failed', (error: any) => {
+    res.session.on('failed', (error: any) => {
       console.log('当会话无法建立时触发');
+      if (error.cause === 'Canceled') {
+        message.warning('对端已取消呼叫');
+      } else if (error.cause === 'Rejected') {
+        message.warning('对端已拒绝接听');
+      }
       console.log(error);
       stop();
     });
   };
 
   // 主动播打
-  const handleCallWebRTCSession = (session: any) => {
-    let { _connection } = session;
-    sipSession.current.currentSession = session;
+  const handleCallWebRTCSession = (res: any) => {
+    let { _connection } = res.session;
+    sipSession.current.currentSession = res.session;
     sipSession.current.currentConnection = _connection;
-    session.on('connecting', function (data: any) {
+    res.session.on('connecting', function (data: any) {
       console.info('onConnecting - ', data.request);
     });
   };
@@ -323,9 +340,9 @@ const Demo: React.FC = (props: any) => {
   };
 
   const getAuth = () => {
-    console.log('demo v2.0');
-    navigator.mediaDevices
-      .getUserMedia({ audio: true, video: true })
+    console.log('demo v3.0');
+    navigator?.mediaDevices
+      ?.getUserMedia?.({ audio: true, video: true })
       .then(function (stream) {
         // Media access granted
         message.success('Media access granted');
@@ -392,8 +409,7 @@ const Demo: React.FC = (props: any) => {
       ></audio>
 
       <div className={style['content-second']} style={{ marginTop: '20px' }}>
-        {' '}
-        {conf}{' '}
+        {conf}
       </div>
 
       {/* <video id="video" controls></video> */}
