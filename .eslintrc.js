@@ -5,6 +5,7 @@ module.exports = {
     page: true,
     REACT_APP_ENV: true,
     API_SUCCESS_CODE: false,
+    JsSIP: 'readonly',
   },
   rules: {
     '@typescript-eslint/naming-convention': 'off',

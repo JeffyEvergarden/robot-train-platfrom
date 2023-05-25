@@ -346,7 +346,6 @@ const UserManage: React.FC = (props: any) => {
 
   // 职场管理 start
   const clickWorkPlaceAdd = () => {
-    console.log('clickWorkPlaceAdd');
     const params = { actType: 'add', addWorkplaceAct: addWorkplaceAction };
     addWorkplaceModalRef.current.showModal(params);
   };
@@ -360,13 +359,20 @@ const UserManage: React.FC = (props: any) => {
   };
 
   const clickWorkplaceEdit = (info: any) => {
-    console.log('clickWorkplaceEdit');
     const params = { actType: 'edit', editWorkplaceAct: editWorkplaceAction, wpInfo: info };
     addWorkplaceModalRef.current.showModal(params);
   };
 
   const editWorkplaceAction = async (params: any) => {
     const isSuccess = await workPlaceEdit(params);
+    if (isSuccess) {
+      workplaceTableRef?.current?.reloadAndRest();
+    }
+    return isSuccess;
+  };
+
+  const deleteWorkplaceAction = async (params: any) => {
+    const isSuccess = await workPlaceDelete(params);
     if (isSuccess) {
       workplaceTableRef?.current?.reloadAndRest();
     }
@@ -457,7 +463,7 @@ const UserManage: React.FC = (props: any) => {
                   showQuickJumper: true,
                 }}
                 search={false}
-                columns={getWorkplaceColumns(clickWorkplaceEdit, workPlaceDelete)}
+                columns={getWorkplaceColumns(clickWorkplaceEdit, deleteWorkplaceAction)}
                 request={async (params = {}, sort, filter) => {
                   return getWorkPlacePage(params);
                 }}

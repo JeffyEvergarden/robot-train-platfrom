@@ -11,7 +11,7 @@ import routers from '../config/routes';
 import Page403 from '@/pages/403';
 
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/modelDev/login';
+const loginPath = '/ai-teach/login';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -101,6 +101,7 @@ export async function getInitialState(): Promise<{
       userName: userMsg?.userName,
       userCode: userMsg?.userCode,
       department: orz,
+      userInfoAll: userMsg,
     }, // 用户信息  部门信息
 
     userAuth: userAuth, // 权限信息   userType 用户类型

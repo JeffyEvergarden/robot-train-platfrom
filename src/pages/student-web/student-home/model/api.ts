@@ -5,7 +5,7 @@ const baseUrl: string = config.basePath;
 
 export async function api_studentGroup(data?: any) {
   return request(`${baseUrl}/services/stu/index/studentGroup`, {
-    method: 'post',
+    method: 'get',
     data: data,
   });
 }

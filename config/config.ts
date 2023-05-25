@@ -7,6 +7,8 @@ import routes from './routes';
 const { REACT_APP_ENV } = process.env;
 
 const isProd = process.env.NODE_ENV === 'production';
+console.log('process.env.MOCK');
+console.log(process.env.MOCK);
 
 export default defineConfig({
   hash: true,
@@ -73,12 +75,8 @@ export default defineConfig({
   define: {
     API_SUCCESS_CODE: '000',
     // 'process.env.API_SUCCESS_CODE': '000',
-    'process.env.mock': !isProd,
+    'process.env.mock': !isProd && process.env.MOCK === 'none',
     'process.env.API_SUCCESS_CODE': '100', // 成功编码
     'process.env.websocket_url': '/ws/teach/study', // websocket服务
-    'process.env.register_url': '@11.112.0.42:5070', // 信令服务器注册
-    'process.env.ws_url': '11.112.0.42:5066', // 语音通讯 ws 服务  页面部署在http的情况
-    'process.env.wss_url': '11.112.0.42:7443', // 语音通讯 wss 服务 页面部署在https的情况
-    'process.env.fs_password': 'yiwise', // freeswitch
   },
 });

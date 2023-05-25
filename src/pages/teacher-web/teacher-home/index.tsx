@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Tabs, Pagination } from 'antd';
-import SearchPage from './list-page';
+import ListPage from './list-page';
 import style from './style.less';
 import { useTaskModel } from './model';
 import TagIcon from './component/TagIcon';
@@ -15,13 +15,6 @@ const tabInfos: any[] = [
   { tabName: '已完成', tabKey: 'completeCount', tabQueryVal: 1 },
   { tabName: '未发布', tabKey: 'upPublishCount', tabQueryVal: 2 },
 ];
-
-// const waitRef = useRef();
-// const doneRef = useRef();
-
-// const query: any = history.location.query || {};
-// let tab: any = query?.tab;
-// tab = isNaN(tab) ? '1' : tab;
 
 const TeacherHome: React.FC<any> = (props: any) => {
   const {
@@ -51,7 +44,7 @@ const TeacherHome: React.FC<any> = (props: any) => {
           <TagIcon isActive={selectTab === tabKey} num={taskCountInfo[tabKey]} />
         </span>
       ),
-      children: <SearchPage courselist={courselist} loading={loading} />,
+      children: <ListPage courselist={courselist} loading={loading} />,
     };
   });
   const tabChange = (key: any) => {
@@ -101,6 +94,7 @@ const TeacherHome: React.FC<any> = (props: any) => {
 
   // 搜索任务名
   useUpdateEffect(() => {
+    getTaskCount({ taskType, queryTaskName: searchText });
     getTeachTaskData({ page, pageSize, taskType, type: tabQueryType, queryTaskName: searchText });
   }, [searchText]);
 
@@ -139,7 +133,7 @@ const TeacherHome: React.FC<any> = (props: any) => {
               pageSize={pageSize}
               // showQuickJumper
               // showSizeChanger
-              // pageSizeOptions={[12, 24, 36]}
+              pageSizeOptions={[12, 24, 36, 72]}
               showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
               onChange={(current: any, size: any) => {
                 // console.log('onChange - ', current, size);

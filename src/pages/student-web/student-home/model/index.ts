@@ -9,7 +9,7 @@ export const useStudentRankModel = () => {
   const [loading, setLoading] = useState<any>(false);
 
   // 排名分组 接口
-  const [studentGroupInfo, setStudentGroupInfo] = useState<any>({});
+  const [studentGroupData, setStudentGroupData] = useState<any>({});
 
   const getStudentGroup = async (params: any) => {
     setLoading(true);
@@ -19,13 +19,12 @@ export const useStudentRankModel = () => {
       message.warning('获取数据失败');
       return;
     }
-    const { data = {} } = res;
-    const dropItems = [
-      { label: '全部', key: '0', queryVal: undefined },
-      { label: data?.groupName, key: '1', queryVal: data?.id },
-    ];
-    const newData = { ...data, dropItems };
-    setStudentGroupInfo(newData);
+    const { data = [] } = res;
+    const mapData = data.map((item: any, index: any) => {
+      return { label: item?.groupName, key: `${index}`, queryVal: item?.id };
+    });
+    const newData = { dropItems: mapData };
+    setStudentGroupData(newData);
   };
 
   // 成绩排名 接口
@@ -40,8 +39,8 @@ export const useStudentRankModel = () => {
       return;
     }
     const { data = {} } = res;
-    const { myRank = {}, rankList = [] } = data;
-    const { userName, rank } = myRank;
+    const { myRank, rankList = [] } = data;
+    const { userName, rank } = myRank || {};
     // 判断我的排名是否在列表中
     const inListIndex = rankList.findIndex(
       (item: any) => item.userName === userName && item.rank === rank,
@@ -71,7 +70,7 @@ export const useStudentRankModel = () => {
     setLoading,
     // 排名分组 接口
     getStudentGroup,
-    studentGroupInfo,
+    studentGroupData,
     // 成绩排名 接口
     getScoreSort,
     scoreSortData,
