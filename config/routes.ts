@@ -69,11 +69,28 @@ export default [
   },
   {
     path: '/front/teacher/dataManage',
-    component: './teacher-web/data-manage',
+    component: './teacher-web/data-manage/home',
     name: '数据管理',
     access: 'routerAuth',
     role: ['admin', 'teacher'],
     layout: true,
+    routes: [
+      {
+        path: '/front/teacher/dataManage/tablepage',
+        component: './teacher-web/data-manage',
+        name: '数据管理',
+        hideInMenu: true,
+      },
+      {
+        path: '/front/teacher/dataManage/detailData',
+        component: './teacher-web/data-manage/detailData',
+        name: '详细数据',
+        hideInMenu: true,
+      },
+      {
+        redirect: '/front/teacher/dataManage/tablepage',
+      },
+    ],
   },
   //-------导师端
   {
