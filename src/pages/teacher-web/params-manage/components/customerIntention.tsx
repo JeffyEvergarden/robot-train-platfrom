@@ -3,12 +3,16 @@ import { Fragment, useRef, useState, useEffect } from 'react';
 import { Divider, Button, Select, message, Space, notification, Popconfirm } from 'antd';
 import { useIntentionModel } from './../model';
 import { CloseCircleOutlined } from '@ant-design/icons';
+import { history } from 'umi';
 import IntenModal from './intenModal';
 
 import config from '@/config';
 const successCode = config.successCode;
 
 export default () => {
+  const query: any = history.location.query || {};
+  const id: any = query?.id;
+
   const actionRef = useRef<any>();
   const intenModalRef = useRef<any>();
 
@@ -22,15 +26,16 @@ export default () => {
   }, []);
 
   const getIntentList = async () => {
-    let res = await intentListRequest({ type: '1' });
+    let res = await intentListRequest({ intentType: 2, modelId: id });
     setIntentList(res?.data);
   };
 
   const getCustomerIntentionList = async (payload: any) => {
     let params = {
       ...payload,
+      modelId: id,
       page: payload?.current,
-      type: '1', //1-客户意图2-学员意图
+      intentType: 2, //2-客户意图1-学员意图
     };
     delete params?.current;
     let res = await customerIntentionList(params);
@@ -54,7 +59,8 @@ export default () => {
     let params = {
       ...formVal,
       id: rowData?.id,
-      modelId: '',
+      modelId: id,
+      intentType: 2,
     };
     let res;
     if (pageType == 'add') {
@@ -109,10 +115,20 @@ export default () => {
         placeholder: '请选择意图名称',
       },
       renderFormItem: () => (
-        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择意图名称">
+        <Select
+          mode="multiple"
+          placeholder="请选择意图名称"
+          showSearch
+          allowClear
+          filterOption={(input, option) =>
+            (option?.item?.intentName as unknown as string)
+              ?.toLowerCase()
+              ?.includes(input.toLowerCase())
+          }
+        >
           {intentList?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.id}>
+              <Select.Option key={item?.id} value={item?.id} item={item}>
                 {item?.intentName}
               </Select.Option>
             );

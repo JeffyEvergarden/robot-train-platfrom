@@ -7,21 +7,17 @@ import CustomerIntention from '../components/customerIntention';
 import StudentIntent from './../components/studentIntent';
 
 export default () => {
-  const actionRef = useRef<any>();
+  const query: any = history.location.query || {};
 
-  const [rowInfo, setRowInfo] = useState<any>({});
+  const title: any = query?.title;
 
-  useEffect(() => {
-    let historyData = history?.location || {};
-    let rowInfo = historyData?.state?.rowInfo || {};
-    setRowInfo(rowInfo);
-  }, [history]);
+  useEffect(() => {}, []);
 
   return (
     <div className={styles.commonTabsSty}>
       <PageContainer
         header={{
-          title: rowInfo?.modelName ?? '',
+          title: title,
           breadcrumb: {},
         }}
       >

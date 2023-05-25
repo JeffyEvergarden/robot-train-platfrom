@@ -8,6 +8,8 @@ import { useDataManageModel } from './model';
 import { useUserManageModel } from '../params-manage/model';
 import { useTaskModel } from '../task/model';
 
+import { formatePercent } from '@/utils';
+
 export default () => {
   const state: any = history.location.state || {};
   const tab: any = state.tab || 'task';
@@ -104,6 +106,9 @@ export default () => {
       key: 'completeRate',
       width: 80,
       search: false,
+      render(t: any, r: any, i: any) {
+        return formatePercent(t);
+      },
     },
     {
       title: '人均练习次数',
@@ -300,10 +305,13 @@ export default () => {
     },
     {
       title: '完成进度',
-      dataIndex: 'completeProgress',
-      key: 'completeProgress',
+      dataIndex: 'completeRate',
+      key: 'completeRate',
       width: 80,
       search: false,
+      render(t: any, r: any, i: any) {
+        return formatePercent(t);
+      },
     },
     {
       title: '历史练习次数',

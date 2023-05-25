@@ -84,8 +84,9 @@ export default () => {
   const toIntentionPage = (r: any) => {
     history.push({
       pathname: '/front/teacher/paramsManage/intention',
-      state: {
-        rowInfo: r,
+      query: {
+        id: r.id,
+        title: r.modelName,
       },
     });
   };
