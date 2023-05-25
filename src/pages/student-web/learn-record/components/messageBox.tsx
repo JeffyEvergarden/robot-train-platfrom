@@ -58,7 +58,7 @@ const MessageBox: React.FC<any> = (props: any) => {
               </div>
               <div className={style['box-bg']}>
                 {/* <DelayTime text={text} delay={delay} /> */}
-                {/* <div className={style.audioBox}>
+                <div className={style.audioBox}>
                   <AudioPlay
                     musicSrc={
                       process.env.mock
@@ -66,7 +66,7 @@ const MessageBox: React.FC<any> = (props: any) => {
                         : `${config.basePath}/services/stu/course/fragment/listen?dialogueId=${item?.id}`
                     }
                   />
-                </div> */}
+                </div>
                 <div className={`${style['box-content']}`}>
                   <DelayTextInput text={text} delay={delay} />
                 </div>

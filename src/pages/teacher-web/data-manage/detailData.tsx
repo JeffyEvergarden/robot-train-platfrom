@@ -248,9 +248,11 @@ const DetailData: any = (props: any) => {
     // key='task'
     let col = columns;
     let req = getTaskReportDetail;
+    let idKey = 'taskId';
     if (key === 'student') {
       col = studentColumns;
       req = getStudentReportDetail;
+      idKey = 'account';
     }
     return (
       <ProTable
@@ -271,7 +273,7 @@ const DetailData: any = (props: any) => {
         columns={col}
         scroll={{ x: col?.length * 100 }}
         request={async (params = {}, sort, filter) => {
-          return req({ ...params });
+          return req({ ...params, [idKey]: id });
         }}
       />
     );

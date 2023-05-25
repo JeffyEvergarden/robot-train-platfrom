@@ -2,11 +2,15 @@ import ProTable from '@ant-design/pro-table';
 import { Fragment, useRef, useState, useEffect } from 'react';
 import { Divider, Button, Select, message, Space, notification, Popconfirm } from 'antd';
 import { useIntentionModel } from './../model';
+import { history } from 'umi';
 
 import config from '@/config';
 const successCode = config.successCode;
 
 export default () => {
+  const query: any = history.location.query || {};
+  const id: any = query?.id;
+
   const actionRef = useRef<any>();
 
   const { intentListRequest, customerIntentionList, intentSync } = useIntentionModel();
@@ -18,17 +22,20 @@ export default () => {
   }, []);
 
   const getIntentList = async () => {
-    let res = await intentListRequest({ type: '2' });
+    let res = await intentListRequest({ intentType: 1, modelId: id });
     setIntentList(res?.data);
   };
 
   const getCustomerIntentionList = async (payload: any) => {
     let params = {
       ...payload,
+      modelId: id,
+      intentIdList: payload?.intentName?.length > 0 ? payload.intentName : undefined,
       page: payload?.current,
-      type: '2', //1-客户意图2-学员意图
+      intentType: 1, //2-客户意图1-学员意图
     };
     delete params?.current;
+    delete params?.intentName;
     let res = await customerIntentionList(params);
     return {
       data: res?.data?.list,
@@ -40,7 +47,7 @@ export default () => {
 
   const syncStudent = async () => {
     let params = {
-      modelId: '',
+      modelId: id,
     };
     let res = await intentSync(params);
     if (res?.resultCode == successCode) {
@@ -62,10 +69,20 @@ export default () => {
         placeholder: '请选择意图名称',
       },
       renderFormItem: () => (
-        <Select optionFilterProp="children" showSearch allowClear placeholder="请选择意图名称">
+        <Select
+          mode="multiple"
+          placeholder="请选择意图名称"
+          showSearch
+          allowClear
+          filterOption={(input, option) =>
+            (option?.item?.intentName as unknown as string)
+              ?.toLowerCase()
+              ?.includes(input.toLowerCase())
+          }
+        >
           {intentList?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.id}>
+              <Select.Option key={item?.id} value={item?.id} item={item}>
                 {item?.intentName}
               </Select.Option>
             );
