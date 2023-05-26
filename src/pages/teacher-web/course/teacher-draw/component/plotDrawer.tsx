@@ -142,7 +142,7 @@ const PlotDrawer: React.FC<any> = (props: any) => {
         >
           <Input placeholder="请输入节点名称" onKeyPress={handleKeyPress}></Input>
         </Form.Item>
-        <Condition r-if={info?.type == 'customer'}>
+        <Condition r-if={info?.type == 'customerIntent'}>
           {intentListRender(customerIntentList)}
         </Condition>
         <Condition r-if={info?.type == 'finish'}>
@@ -169,7 +169,7 @@ const PlotDrawer: React.FC<any> = (props: any) => {
             }
           </Form.List>
         </Condition>
-        <Condition r-if={info?.type == 'student'}>
+        <Condition r-if={info?.type == 'studentIntent'}>
           {intentListRender(studentIntentList)}
           <Form.List name="nodeAction">
             {(fields, { add, remove }) => {
