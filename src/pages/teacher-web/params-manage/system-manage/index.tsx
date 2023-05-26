@@ -84,8 +84,9 @@ export default () => {
   const toIntentionPage = (r: any) => {
     history.push({
       pathname: '/front/teacher/paramsManage/intention',
-      state: {
-        rowInfo: r,
+      query: {
+        id: r.id,
+        title: r.modelName,
       },
     });
   };
@@ -178,10 +179,10 @@ export default () => {
                 编辑
               </Button>
               <Divider type="vertical" />
-              {/* <Button type="link" onClick={() => toIntentionPage(r)}>
+              <Button type="link" onClick={() => toIntentionPage(r)}>
                 意图管理
               </Button>
-              <Divider type="vertical" /> */}
+              <Divider type="vertical" />
               <Popconfirm
                 title="你确定要删除这个模型吗？"
                 okText="确定"

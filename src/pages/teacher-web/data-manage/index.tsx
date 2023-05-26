@@ -1,4 +1,5 @@
 import type { ActionType, FormInstance } from '@ant-design/pro-components';
+import { useModel, history } from 'umi';
 import ProTable from '@ant-design/pro-table';
 import { Fragment, useRef, useState, useEffect } from 'react';
 import { Button, Select, Tabs, Radio } from 'antd';
@@ -7,7 +8,12 @@ import { useDataManageModel } from './model';
 import { useUserManageModel } from '../params-manage/model';
 import { useTaskModel } from '../task/model';
 
+import { formatePercent } from '@/utils';
+
 export default () => {
+  const state: any = history.location.state || {};
+  const tab: any = state.tab || 'task';
+
   const taskFormRef = useRef<FormInstance>();
   const studentFormRef = useRef<FormInstance>();
   const studentActionRef = useRef<ActionType>();
@@ -15,7 +21,7 @@ export default () => {
   const { userList, groupList, userListRequest, groupListRequest } = useUserManageModel();
   const { allTableList, getAllTaskList } = useTaskModel();
 
-  const [tabActiveKey, setTabActiveKey] = useState<string>('task'); //'task'-任务、'student'-学员
+  const [tabActiveKey, setTabActiveKey] = useState<string>(tab); //'task'-任务、'student'-学员
   const [radioValue, setRadioValue] = useState<number>(0); //0-当前、1-历史
 
   const tabList = [
@@ -43,7 +49,11 @@ export default () => {
   }, [radioValue]);
 
   const detailData = (r: any) => {
-    console.log('详细数据');
+    const id = tabActiveKey === 'task' ? r.taskId : r.account;
+    const title = tabActiveKey === 'task' ? r.taskName : r.userName;
+    history.push(
+      `/front/teacher/dataManage/detailData?id=${id}&title=${title}&tab=${tabActiveKey}`,
+    );
   };
 
   const columns: any[] = [
@@ -96,6 +106,9 @@ export default () => {
       key: 'completeRate',
       width: 80,
       search: false,
+      render(t: any, r: any, i: any) {
+        return formatePercent(t);
+      },
     },
     {
       title: '人均练习次数',
@@ -245,7 +258,7 @@ export default () => {
         >
           {groupList?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.groupName} item={item}>
+              <Select.Option key={item?.id} value={item?.id} item={item}>
                 {item?.groupName}
               </Select.Option>
             );
@@ -292,10 +305,13 @@ export default () => {
     },
     {
       title: '完成进度',
-      dataIndex: 'completeProgress',
-      key: 'completeProgress',
+      dataIndex: 'completeRate',
+      key: 'completeRate',
       width: 80,
       search: false,
+      render(t: any, r: any, i: any) {
+        return formatePercent(t);
+      },
     },
     {
       title: '历史练习次数',
@@ -398,6 +414,7 @@ export default () => {
           title: '数据管理',
           breadcrumb: {},
         }}
+        tabActiveKey={tabActiveKey}
         tabList={tabList}
         onTabChange={(key) => setTabActiveKey(key)}
       >

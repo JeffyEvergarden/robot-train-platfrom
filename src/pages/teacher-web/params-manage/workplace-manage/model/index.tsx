@@ -39,18 +39,10 @@ export const getWorkplaceColumns = (editAct: any, deleteAct: any): any[] => {
       render: (t: any, r: any, i: any) => {
         return (
           <Space>
-            <a
-              onClick={() => {
-                console.log('编辑', r, i);
-                editAct(r);
-              }}
-            >
-              编辑
-            </a>
+            <a onClick={() => editAct(r)}>编辑</a>
             <a
               style={{ color: '#FF4D4F' }}
               onClick={() => {
-                console.log('删除', r, i);
                 confirm({
                   title: '确定要删除吗?',
                   icon: <ExclamationCircleOutlined />,
@@ -69,7 +61,7 @@ export const getWorkplaceColumns = (editAct: any, deleteAct: any): any[] => {
                       }
                       message.success('删除数据成功');
                       resolve({});
-                    }).catch(() => console.log('Oops errors!'));
+                    }).catch((e) => console.log('删除数据报错', e));
                   },
                   onCancel() {},
                 });
@@ -89,6 +81,7 @@ export const useWorkPlaceModel = () => {
 
   // 职场分页查询 接口
   const getWorkPlacePage = async (params: any) => {
+    params.page = params.current;
     setLoading(true);
     let res: any = await api_workPlacePage(params);
     setLoading(false);
@@ -97,6 +90,7 @@ export const useWorkPlaceModel = () => {
       return {};
     }
     const { data = {} } = res;
+    // 按 Protable request 格式返回结果
     return {
       data: data?.list,
       total: data?.totalPage,

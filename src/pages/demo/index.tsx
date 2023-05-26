@@ -8,7 +8,6 @@ import config from '@/config';
 import { startCall } from './test';
 import Condition from '@/components/Condition';
 
-
 const { basePath } = config;
 const JsSIP = (window as any).JsSIP;
 let currentSession = null;
@@ -23,7 +22,11 @@ const Demo: React.FC = (props: any) => {
 
   const [text, setText] = useState<any>('...'); // waiting / calling /doing
   // 存储会话
-  const sipSession = useRef<any>({ currentSession: null, incomingSession: null, outgoingSession: null });
+  const sipSession = useRef<any>({
+    currentSession: null,
+    incomingSession: null,
+    outgoingSession: null,
+  });
   // 我们的音频
   const oursAudioRef = useRef<any>(null);
   // 远方的音频
@@ -81,7 +84,7 @@ const Demo: React.FC = (props: any) => {
   // 延时停止
   const timeoutFn = () => {
     sipSession.current.timeFn = setTimeout(() => {
-      console.log('延时停止')
+      console.log('延时停止');
       stop();
     }, 60 * 1000);
   };
@@ -98,7 +101,7 @@ const Demo: React.FC = (props: any) => {
   };
   //挂断
   const stop = () => {
-    console.log('执行stop')
+    console.log('执行stop');
     setText('...');
     // 挂断
     // sipSession.current.ua?.stop?.();
@@ -283,7 +286,10 @@ const Demo: React.FC = (props: any) => {
                  mediaStream MediaStream 传送到另一端。
                  eventHandlers Object事件处理程序的可选项将被注册到每个呼叫事件。为每个要通知的事件定义事件处理程序。
              */
-    sipSession.current.outgoingSession = userAgent.call(`sip:${val2}${jssipInfo.registerUrl}`, options);
+    sipSession.current.outgoingSession = userAgent.call(
+      `sip:${val2}${jssipInfo.registerUrl}`,
+      options,
+    );
   };
 
   // 处理回复
@@ -335,7 +341,8 @@ const Demo: React.FC = (props: any) => {
 
   const getAuth = () => {
     console.log('demo v3.0');
-    navigator?.mediaDevices?.getUserMedia?.({ audio: true, video: true })
+    navigator?.mediaDevices
+      ?.getUserMedia?.({ audio: true, video: true })
       .then(function (stream) {
         // Media access granted
         message.success('Media access granted');
@@ -403,10 +410,10 @@ const Demo: React.FC = (props: any) => {
 
       <div className={style['content-second']} style={{ marginTop: '20px' }}>
         {conf}
-      </div >
+      </div>
 
       {/* <video id="video" controls></video> */}
-    </div >
+    </div>
   );
 };
 

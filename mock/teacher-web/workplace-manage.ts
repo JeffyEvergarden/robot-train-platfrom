@@ -31,6 +31,22 @@ const workPlacePage = (req: any, res: any) => {
     },
   });
 };
+const workPlaceList = (req: any, res: any) => {
+  const items: any = gen(5).map((item: any, index: number) => {
+    return {
+      id: index,
+      name: '职场名' + index,
+      creator: '创建人' + index,
+      createTime: '2023年05月22日 - ' + index,
+    };
+  });
+
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: items,
+  });
+};
 
 const workPlaceAdd = (req: any, res: any) => {
   const { name } = req.body;
@@ -82,6 +98,7 @@ const workPlaceEdit = (req: any, res: any) => {
 
 export default {
   [`POST ${baseUrl}/services/workPlace/workPlacePage`]: workPlacePage,
+  [`POST ${baseUrl}/services/workPlace/workPlaceList`]: workPlaceList,
   [`POST ${baseUrl}/services/workPlace/workPlaceAdd`]: workPlaceAdd,
   [`POST ${baseUrl}/services/workPlace/workPlaceDelete`]: workPlaceDelete,
   [`POST ${baseUrl}/services/workPlace/workPlaceEdit`]: workPlaceEdit,

@@ -153,7 +153,7 @@ class StudentNodeModel extends RectNodeModel {
     // let reg = /^学员节点[0-9]+$/;
     let maxNew = this.graphModel?.nodes //找到当前新增节点最高
       ?.filter((item: any) => reg?.test(item?.text?.value))
-      ?.map((item: any) => item?.text?.value?.slice?.(4))
+      ?.map((item: any) => item?.text?.value?.slice?.(data.properties.text.length))
       ?.sort((a: any, b: any) => b - a)?.[0];
 
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
@@ -205,7 +205,7 @@ class CustomerNodeModel extends RectNodeModel {
     // let reg = /^客户节点[0-9]+$/;
     let maxNew = this.graphModel?.nodes //找到当前新增节点最高
       ?.filter((item: any) => reg?.test(item?.text?.value))
-      ?.map((item: any) => item?.text?.value?.slice?.(4))
+      ?.map((item: any) => item?.text?.value?.slice?.(data.properties.text.length))
       ?.sort((a: any, b: any) => b - a)?.[0];
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
     data.text =

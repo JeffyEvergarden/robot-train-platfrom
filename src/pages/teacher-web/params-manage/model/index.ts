@@ -36,12 +36,15 @@ import {
   intentSyncApi,
 } from './api';
 
+import { api_workPlaceList } from '../workplace-manage/model/api';
+
 //用户管理
 
 export const useUserManageModel = () => {
   const [loading, setLoading] = useState<any>(false);
   const [userList, setUserList] = useState<any>([]);
   const [groupList, setGroupList] = useState<any>([]);
+  const [workPlaceList, setWorkPlaceList] = useState<any>([]);
 
   const userPage = async (params?: any) => {
     setLoading(true);
@@ -62,6 +65,13 @@ export const useUserManageModel = () => {
     let res: any = await groupListApi(params);
     setLoading(false);
     setGroupList(res?.data || []);
+  };
+
+  const workPlaceListRequest = async (params?: any) => {
+    setLoading(true);
+    let res: any = await api_workPlaceList(params);
+    setLoading(false);
+    setWorkPlaceList(res?.data || []);
   };
 
   const sameStepRequest = async (params?: any) => {
@@ -114,6 +124,8 @@ export const useUserManageModel = () => {
     userList,
     groupListRequest,
     groupList,
+    workPlaceListRequest,
+    workPlaceList,
     sameStepRequest,
     editRequest,
     groupPage,

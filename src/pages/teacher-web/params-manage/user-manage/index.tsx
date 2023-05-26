@@ -21,6 +21,8 @@ const UserManage: React.FC = (props: any) => {
     userList,
     groupListRequest,
     groupList,
+    workPlaceListRequest,
+    workPlaceList,
     sameStepRequest,
     editRequest,
     groupPage,
@@ -40,6 +42,7 @@ const UserManage: React.FC = (props: any) => {
   useEffect(() => {
     userListRequest({});
     groupListRequest({});
+    workPlaceListRequest({ type: 1 });
   }, []);
 
   const getUserList = async (payload: any) => {
@@ -199,6 +202,13 @@ const UserManage: React.FC = (props: any) => {
       search: false,
     },
     {
+      title: '职场',
+      dataIndex: 'workPlaceName',
+      key: 'workPlaceName',
+      ellipsis: true,
+      search: false,
+    },
+    {
       title: '部门组别',
       dataIndex: 'groupName',
       key: 'groupName',
@@ -262,6 +272,8 @@ const UserManage: React.FC = (props: any) => {
       fixed: 'right',
       valueType: 'option',
       render: (t: any, r: any, i: any) => {
+        const { roleCode = [] } = r;
+        if (roleCode.length === 1 && roleCode[0] === 'admin') return null;
         return <a onClick={() => editUser(r)}>编辑</a>;
       },
     },
@@ -311,6 +323,13 @@ const UserManage: React.FC = (props: any) => {
       },
     },
     {
+      title: '职场',
+      dataIndex: 'workPlaceName',
+      key: 'workPlaceName',
+      ellipsis: true,
+      search: false,
+    },
+    {
       title: '创建时间',
       dataIndex: 'createTime',
       key: 'createTime',
@@ -346,7 +365,6 @@ const UserManage: React.FC = (props: any) => {
 
   // 职场管理 start
   const clickWorkPlaceAdd = () => {
-    console.log('clickWorkPlaceAdd');
     const params = { actType: 'add', addWorkplaceAct: addWorkplaceAction };
     addWorkplaceModalRef.current.showModal(params);
   };
@@ -360,7 +378,6 @@ const UserManage: React.FC = (props: any) => {
   };
 
   const clickWorkplaceEdit = (info: any) => {
-    console.log('clickWorkplaceEdit');
     const params = { actType: 'edit', editWorkplaceAct: editWorkplaceAction, wpInfo: info };
     addWorkplaceModalRef.current.showModal(params);
   };
@@ -372,7 +389,20 @@ const UserManage: React.FC = (props: any) => {
     }
     return isSuccess;
   };
+
+  const deleteWorkplaceAction = async (params: any) => {
+    const isSuccess = await workPlaceDelete(params);
+    if (isSuccess) {
+      workplaceTableRef?.current?.reloadAndRest();
+    }
+    return isSuccess;
+  };
   // 职场管理 end
+
+  const tabChange = (key: any) => {
+    if (!['1', '2'].includes(key)) return;
+    workPlaceListRequest({ type: +key });
+  };
 
   return (
     <div className={styles.commonTabsSty}>
@@ -382,7 +412,7 @@ const UserManage: React.FC = (props: any) => {
           breadcrumb: {},
         }}
       >
-        <Tabs defaultActiveKey="1">
+        <Tabs defaultActiveKey="1" onChange={tabChange}>
           <Tabs.TabPane tab="用户管理" key="1">
             <Spin spinning={loading}>
               <ProTable
@@ -457,7 +487,7 @@ const UserManage: React.FC = (props: any) => {
                   showQuickJumper: true,
                 }}
                 search={false}
-                columns={getWorkplaceColumns(clickWorkplaceEdit, workPlaceDelete)}
+                columns={getWorkplaceColumns(clickWorkplaceEdit, deleteWorkplaceAction)}
                 request={async (params = {}, sort, filter) => {
                   return getWorkPlacePage(params);
                 }}
@@ -469,6 +499,7 @@ const UserManage: React.FC = (props: any) => {
           cref={editUserRef}
           loading={loading}
           groupList={groupList}
+          workplaceList={workPlaceList}
           comfirmSubmit={comfirmSubmit}
         />
         <AddWorkplaceModal ref={addWorkplaceModalRef} />

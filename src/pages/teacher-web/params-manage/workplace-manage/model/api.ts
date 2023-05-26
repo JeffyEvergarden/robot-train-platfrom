@@ -11,6 +11,14 @@ export async function api_workPlacePage(data?: any) {
   });
 }
 
+// 职场列表查询接口
+export async function api_workPlaceList(data?: any) {
+  return request(`${baseUrl}/services/workPlace/workPlaceList`, {
+    method: 'post',
+    data: data,
+  });
+}
+
 // 职场新增接口
 export async function api_workPlaceAdd(data?: any) {
   return request(`${baseUrl}/services/workPlace/workPlaceAdd`, {
