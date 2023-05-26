@@ -75,6 +75,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     // 注册信息
     const configuration = {
       sockets: [socket],
+      contact_uri: 'sip:' + oursNumber + registerUrl + ';transport=WSS',
       uri: 'sip:' + oursNumber + registerUrl,
       password: jssipInfo.fsPassword, // 公司freeswitch,
       outbound_proxy_set: linkUrl,
