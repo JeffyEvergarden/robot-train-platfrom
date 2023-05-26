@@ -182,21 +182,19 @@ const DrawDemo: React.FC<any> = (props: any) => {
       <SoundDrawer cref={soundDrawerRef} isEdit={courseInfo?.courseStatus}></SoundDrawer>
       <EndDrawer cref={endDrawerRef} isEdit={courseInfo?.courseStatus}></EndDrawer>
       <FlowTestDrawer cref={flowTestDrawerRef}></FlowTestDrawer>
-      <Condition r-if={courseInfo?.courseType}>
-        {courseInfo.courseType === 1 ? (
-          <PlotDrawer
-            cref={nodeDrawerRef}
-            changeNodeName={changeNodeName}
-            isEdit={courseInfo?.courseStatus}
-          ></PlotDrawer>
-        ) : (
-          <NodeDrawer
-            cref={nodeDrawerRef}
-            changeNodeName={changeNodeName}
-            isEdit={courseInfo?.courseStatus}
-          ></NodeDrawer>
-        )}
-      </Condition>
+      {courseInfo.courseType === 1 ? (
+        <PlotDrawer
+          cref={nodeDrawerRef}
+          changeNodeName={changeNodeName}
+          isEdit={courseInfo?.courseStatus}
+        ></PlotDrawer>
+      ) : (
+        <NodeDrawer
+          cref={nodeDrawerRef}
+          changeNodeName={changeNodeName}
+          isEdit={courseInfo?.courseStatus}
+        ></NodeDrawer>
+      )}
     </>
   );
 };

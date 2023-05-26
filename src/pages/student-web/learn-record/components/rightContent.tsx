@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CheckCircleOutlined, CloseCircleOutlined, LoadingOutlined } from '@ant-design/icons';
+import AudioPlay from './audioPlay';
 import robotPhoto from '@/asset/image/ours-avator.png';
 import style from './style.less';
 import styles from './index.less';
+import config from '@/config';
 
 // 关键点提醒
 const KeyTipsHtml: React.FC<any> = (props: any) => {
@@ -35,7 +37,7 @@ const KeyTipsHtml: React.FC<any> = (props: any) => {
 };
 
 const RightChatContent: React.FC<any> = (props: any) => {
-  const { status, text, keysTips, showAvator, errorIndexList } = props;
+  const { status, text, keysTips, showAvator, errorIndexList, id } = props;
 
   return (
     <div className={style['box_system']}>
@@ -44,6 +46,15 @@ const RightChatContent: React.FC<any> = (props: any) => {
         {status === '0' && <CheckCircleOutlined style={{ color: '#20C783', marginRight: '5px' }} />}
       </div>
       <div>
+        <div className={style.audioBox}>
+          <AudioPlay
+            musicSrc={
+              process.env.mock
+                ? '/ai-teach/mp3/story.mp3'
+                : `${config.basePath}/services/stu/course/fragment/listen?dialogueId=${id}`
+            }
+          />
+        </div>
         <div className={style['box-content_sys']}>{text}</div>
         <div className={styles.keyBox}>
           <div>
