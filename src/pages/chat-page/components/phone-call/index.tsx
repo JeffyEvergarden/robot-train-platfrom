@@ -66,7 +66,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
     // 播放音乐
 
     // 单独增加
-    // setStatus('calling');
+    setStatus('calling');
     // timeoutFn(); // 这版本不做清除
     // ----
 
@@ -121,12 +121,33 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
       if (originator === 'remote') {
         console.log('接电话啦');
-        handleAnswerWebRTCSession(session);
+        handleAnswerWebRTCSession(session, res);
       } else if (originator === 'local') {
         console.log('打电话啦');
         clearTimeFn();
         handleCallWebRTCSession(session);
       }
+
+      res.session.on('accepted', () => {
+        pauseMusic();
+        setStatus('doing');
+        clearTimeFn();
+        console.log('answer accepted', session);
+        handleStreamsSrcObject(session._connection);
+      });
+
+      res.session.on('confirmed', function (c_data: any) {
+        console.info('onConfirmed - ', c_data, '通话已建立');
+        pauseMusic();
+        const stream = new MediaStream();
+        const receivers = session.connection.getReceivers();
+        if (receivers) {
+          receivers.forEach((receiver: any) => stream.addTrack(receiver.track));
+        }
+        oursAudioRef.current.srcObject = stream;
+        oursAudioRef.current.play();
+      });
+
       res.session.on('peerconnection', function (data: any) {
         // 触发收到流 ---------
         console.log('peerconnection');
@@ -134,17 +155,6 @@ const PhoneCall: React.FC<any> = (props: any) => {
         data.peerconnection.onaddstream = function (ev: any) {
           console.log('onaddStream');
           console.log(ev);
-          try {
-            remoteAudioRef.current.src = ev.stream;
-          } catch (error) {
-            remoteAudioRef.current.src = URL.createObjectURL(ev.stream);
-          }
-          remoteAudioRef.current.onloadstart = () => {
-            remoteAudioRef.current.play();
-          };
-          remoteAudioRef.current.onerror = () => {
-            alert('录音加载失败...');
-          };
         };
       });
     });
@@ -155,6 +165,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
     if (!res) {
       console.log('接口打断');
+      message.warning('与后端建立连接失败')
       stop();
       return;
     }
@@ -208,7 +219,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
   };
 
   // 处理接
-  const handleAnswerWebRTCSession = (session: any) => {
+  const handleAnswerWebRTCSession = (session: any, res: any) => {
     /** session 要单独存下，后面接听挂断需要
         挂断: session.terminate();
         接听：session.answer({'mediaConstraints': { 'audio': true, 'video': false }})
@@ -217,31 +228,26 @@ const PhoneCall: React.FC<any> = (props: any) => {
     currentSession = session;
     currentConnection = _connection;
     console.log('等待对方播电话', `stun:${jssipInfo.stun}`);
-    session.on('accepted', () => {
-      console.log('answer accepted', session);
-      clearTimeFn();
-      pauseMusic(); // 停止铃声
-      setStatus('doing');
-      handleStreamsSrcObject(session._connection);
-    });
-
-    session.on('confirmed', () => {
-      console.log('answer confirmed', session);
-    });
-    // 来电=>自定义来电弹窗，让用户选择接听和挂断
     // session.on("progress", () => { });
     // 挂断-来电已挂断
     session.on('ended', () => {
-      console.log('挂断-来电已挂断');
+      console.log('结束-来电已挂断');
       stop();
     });
     // 当会话无法建立时触发
-    session.on('failed', () => {
+    session.on('failed', (error: any) => {
       console.log('当会话无法建立时触发');
+      if (error.cause === 'Canceled') {
+        message.warning('对端已取消呼叫');
+      } else if (error.cause === 'Rejected') {
+        message.warning('对端已拒绝接听');
+      } else {
+        message.warning('通话连接失败');
+      }
       stop();
     });
     // 主动接听
-    session.answer({
+    res.session.answer({
       mediaConstraints: { audio: true, video: false },
       pcConfig: {
         iceServers: [{ urls: [`stun:${jssipInfo.stun}`] }],
@@ -256,8 +262,8 @@ const PhoneCall: React.FC<any> = (props: any) => {
     currentConnection = _connection;
     console.log('等待接电话');
     session.on('confirmed', () => {
-      setStatus('doing');
       pauseMusic(); // 停止铃声
+      setStatus('doing');
       console.log('call confirmed');
       handleStreamsSrcObject(session._connection);
     });
@@ -301,28 +307,18 @@ const PhoneCall: React.FC<any> = (props: any) => {
   // 停止音乐
   const pauseMusic = () => {
     // --------------
-    if (sipSession.current.status === 'calling') {
-      setTimeout(() => {
-        musicAudioRef.current?.pause();
-      }, 200);
-    }
+    musicAudioRef.current?.pause();
     setStatus('waiting');
   };
 
   const stop = () => {
     // 挂断
-    sipSession.current.ua?.stop?.();
+    sipSession.current.ua?.terminal?.();
     // ---
-    sipSession.current.ua?.unregister?.({ all: true });
+    // sipSession.current.ua?.unregister?.({ all: true });
     // --------------
-
-    if (sipSession.current.status === 'calling') {
-      setTimeout(() => {
-        musicAudioRef.current?.pause();
-      }, 200);
-    }
+    musicAudioRef.current?.pause();
     setStatus('waiting');
-
     onEnd?.();
   };
 
