@@ -7,6 +7,7 @@ import { ArrowLeftOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useDataManageModel } from './model';
 import { useTaskModel } from '../task/model';
 import { useTableModel } from '../course/model';
+import ChatRecord from '@/pages/student-web/learn-record/components/chatRecord';
 import config from '@/config';
 import style from './style.less';
 
@@ -18,6 +19,7 @@ const DetailData: any = (props: any) => {
   const title: any = query?.title;
   //   const params: any = query?.params; //缓存参数
 
+  const chatRecordRef = useRef<any>();
   const { getTaskReportDetail, getStudentReportDetail } = useDataManageModel();
   const { allTableList, getAllTaskList } = useTaskModel();
   const { allTableList: courseList, getAllTablelist: getCourseList } = useTableModel();
@@ -38,7 +40,7 @@ const DetailData: any = (props: any) => {
   }, []);
 
   const detail = (r: any) => {
-    console.log('分数详情');
+    chatRecordRef?.current?.open(r);
   };
 
   const columns: any[] = [
@@ -297,6 +299,7 @@ const DetailData: any = (props: any) => {
       }
     >
       {renderProTable(tab)}
+      <ChatRecord cref={chatRecordRef} />
     </PageContainer>
   );
 };
