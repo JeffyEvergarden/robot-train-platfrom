@@ -105,7 +105,7 @@ const PlotDrawer: React.FC<any> = (props: any) => {
         >
           {list?.map((item: any) => {
             return (
-              <Select.Option key={item?.id} value={item?.intentName}>
+              <Select.Option key={item?.id} value={item?.id}>
                 {item?.intentName}
               </Select.Option>
             );

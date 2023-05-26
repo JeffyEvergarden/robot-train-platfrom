@@ -34,10 +34,12 @@ export default () => {
     let params = {
       ...payload,
       modelId: id,
+      intentIdList: payload?.intentName?.length > 0 ? payload?.intentName : undefined,
       page: payload?.current,
       intentType: 2, //2-客户意图1-学员意图
     };
     delete params?.current;
+    delete params?.intentName;
     let res = await customerIntentionList(params);
     return {
       data: res?.data?.list,
@@ -72,6 +74,7 @@ export default () => {
       message.success(res?.resultDesc || '成功');
       intenModalRef?.current?.close();
       actionRef?.current?.reloadAndRest();
+      getIntentList();
     } else {
       message.error(res?.resultDesc || '失败');
     }
