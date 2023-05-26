@@ -53,6 +53,7 @@ export default () => {
     if (res?.resultCode == successCode) {
       message.success(res?.resultDesc || '成功');
       actionRef?.current?.reloadAndRest();
+      getIntentList();
     } else {
       message.error(res?.resultDesc || '失败');
     }
