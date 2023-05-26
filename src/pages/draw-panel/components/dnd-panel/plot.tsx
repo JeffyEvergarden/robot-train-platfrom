@@ -8,11 +8,11 @@ const shapeList: any = [
     text: '开始节点',
   },
   {
-    type: 'student',
+    type: 'studentIntent',
     text: '学员意图节点',
   },
   {
-    type: 'customer',
+    type: 'customerIntent',
     text: '客户意图节点',
   },
   {

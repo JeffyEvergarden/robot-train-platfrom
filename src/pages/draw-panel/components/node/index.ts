@@ -149,18 +149,17 @@ class StudentNodeModel extends RectNodeModel {
   }
 
   initNodeData(data: any) {
-    let reg = new RegExp('^' + data.properties.text + '[0-9]+$');
-    // let reg = /^学员节点[0-9]+$/;
+    let reg = /^学员节点[0-9]+$/;
     let maxNew = this.graphModel?.nodes //找到当前新增节点最高
       ?.filter((item: any) => reg?.test(item?.text?.value))
-      ?.map((item: any) => item?.text?.value?.slice?.(data.properties.text.length))
+      ?.map((item: any) => item?.text?.value?.slice?.(4))
       ?.sort((a: any, b: any) => b - a)?.[0];
 
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: `${data.properties.text}${maxNew ? Number?.(maxNew) + 1 : 1}`,
+            value: `学员节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
             x: data.x,
             y: data.y,
             editable: false, // 不可编辑节点名字
@@ -201,17 +200,118 @@ class CustomerNodeModel extends RectNodeModel {
   }
 
   initNodeData(data: any) {
-    let reg = new RegExp('^' + data.properties.text + '[0-9]+$');
-    // let reg = /^客户节点[0-9]+$/;
+    let reg = /^客户节点[0-9]+$/;
     let maxNew = this.graphModel?.nodes //找到当前新增节点最高
       ?.filter((item: any) => reg?.test(item?.text?.value))
-      ?.map((item: any) => item?.text?.value?.slice?.(data.properties.text.length))
+      ?.map((item: any) => item?.text?.value?.slice?.(4))
       ?.sort((a: any, b: any) => b - a)?.[0];
     // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
     data.text =
       !data.text || typeof data.text === 'string'
         ? {
-            value: `${data.properties.text}${maxNew ? Number?.(maxNew) + 1 : 1}`,
+            value: `客户节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
+        : {
+            ...data.text,
+            editable: false,
+          };
+    super.initNodeData(data);
+    this.width = 200;
+    this.height = 74;
+    this.radius = 8;
+  }
+
+  getNodeStyle() {
+    const style = super.getNodeStyle();
+    style.stroke = colors[3];
+    style.strokeDasharray = '3 0';
+    style.radius = 8;
+    return style;
+  }
+
+  getTextStyle() {
+    const style = super.getTextStyle();
+    style.fontSize = 16;
+    style.color = colors[3];
+    // style.color = '#7DAAFF';
+    style.overflowMode = 'ellipsis';
+    return style;
+  }
+}
+
+// 学员意图节点
+class StudentIntentNodeModel extends RectNodeModel {
+  constructor(data: BaseNodeModel, graphModel: GraphModel) {
+    super(data, graphModel);
+    // console.log(data);
+    const property = data.properties;
+  }
+
+  initNodeData(data: any) {
+    let reg = /^学员意图节点[0-9]+$/;
+    let maxNew = this.graphModel?.nodes //找到当前新增节点最高
+      ?.filter((item: any) => reg?.test(item?.text?.value))
+      ?.map((item: any) => item?.text?.value?.slice?.(6))
+      ?.sort((a: any, b: any) => b - a)?.[0];
+
+    // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
+    data.text =
+      !data.text || typeof data.text === 'string'
+        ? {
+            value: `学员意图节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
+            x: data.x,
+            y: data.y,
+            editable: false, // 不可编辑节点名字
+          }
+        : {
+            ...data.text,
+            editable: false,
+          };
+    super.initNodeData(data);
+    this.width = 200;
+    this.height = 74;
+    this.radius = 8;
+  }
+
+  getNodeStyle() {
+    const style = super.getNodeStyle();
+    style.stroke = colors[2];
+    style.strokeDasharray = '3 0';
+    style.radius = 8;
+    return style;
+  }
+
+  getTextStyle() {
+    const style = super.getTextStyle();
+    style.fontSize = 16;
+    style.color = colors[2];
+    style.overflowMode = 'ellipsis';
+    // style.color = '#7DAAFF';
+    return style;
+  }
+}
+// 客户意图节点
+class CustomerIntentNodeModel extends RectNodeModel {
+  constructor(data: BaseNodeModel, graphModel: GraphModel) {
+    super(data, graphModel);
+    // console.log(data);
+    const property = data.properties;
+  }
+
+  initNodeData(data: any) {
+    let reg = /^客户意图节点[0-9]+$/;
+    let maxNew = this.graphModel?.nodes //找到当前新增节点最高
+      ?.filter((item: any) => reg?.test(item?.text?.value))
+      ?.map((item: any) => item?.text?.value?.slice?.(6))
+      ?.sort((a: any, b: any) => b - a)?.[0];
+    // 可以在super之前，强制设置节点文本位置不居中，而且在节点下面
+    data.text =
+      !data.text || typeof data.text === 'string'
+        ? {
+            value: `客户意图节点${maxNew ? Number?.(maxNew) + 1 : 1}`,
             x: data.x,
             y: data.y,
             editable: false, // 不可编辑节点名字
@@ -267,6 +367,16 @@ export function registerNode(lf: any) {
       type: 'customer',
       view: RectNode,
       model: CustomerNodeModel,
+    },
+    {
+      type: 'studentIntent',
+      view: RectNode,
+      model: StudentIntentNodeModel,
+    },
+    {
+      type: 'customerIntent',
+      view: RectNode,
+      model: CustomerIntentNodeModel,
     },
   ]);
 }
