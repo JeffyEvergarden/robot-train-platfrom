@@ -44,8 +44,8 @@ const PhoneCall: React.FC<any> = (props: any) => {
   const startConfig = async () => {
     if (sipSession.current.lastTime) {
       let second = Date.now() - sipSession.current.lastTime;
-      if (second <= 4000) {
-        message.warning('播打太频繁，请稍后尝试');
+      if (second <= 5500) {
+        message.warning('播打过于频繁，请稍后尝试');
         return;
       }
       sipSession.current.lastTime = Date.now();
