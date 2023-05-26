@@ -2,14 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useModel } from 'umi';
 import { Button, Input, message } from 'antd';
 import style from './style.less';
-// import JsSIP from 'jssip';
+import JsSIP from 'jssip';
 import { useChatModel } from '../chat-page/model';
 import config from '@/config';
 import { startCall } from './test';
 import Condition from '@/components/Condition';
 
 const { basePath } = config;
-const JsSIP = (window as any).JsSIP;
 let currentSession = null;
 
 let currentConnection = null;
@@ -104,8 +103,8 @@ const Demo: React.FC = (props: any) => {
     console.log('执行stop');
     setText('...');
     // 挂断
-    // sipSession.current.ua?.stop?.();
-    sipSession.current.session?.terminal?.();
+    sipSession.current.currentSession?.terminal?.();
+    sipSession.current.ua?.stop?.();
     // 赋值
     // ---
     // sipSession.current.ua?.unregister?.({ all: true });

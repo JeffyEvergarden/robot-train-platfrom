@@ -199,7 +199,10 @@ const ChatPage: any = (props: any) => {
   // 结束
   const onEnd = () => {
     setFinishFlag(true); // 主动结束
-    socketRef.current?.sk?.close?.();
+    setTimeout(() => {
+      // 延迟关闭
+      socketRef.current?.sk?.close?.();
+    }, 1000 * 10);
   };
 
   // -------------------- 打开成绩单

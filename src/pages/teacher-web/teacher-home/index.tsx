@@ -83,25 +83,43 @@ const TeacherHome: React.FC<any> = (props: any) => {
   // 页签切换
   useUpdateEffect(() => {
     getTaskCount({ taskType, queryTaskName: searchText });
-    getTeachTaskData({ page, pageSize, taskType, type: tabQueryType, queryTaskName: searchText });
+    getTeachTaskData({
+      page: 1,
+      pageSize,
+      taskType,
+      type: tabQueryType,
+      queryTaskName: searchText,
+    });
   }, [selectTab]);
 
   // 课程类型切换
   useUpdateEffect(() => {
     getTaskCount({ taskType, queryTaskName: searchText });
-    getTeachTaskData({ page, pageSize, taskType, type: tabQueryType, queryTaskName: searchText });
+    getTeachTaskData({
+      page: 1,
+      pageSize,
+      taskType,
+      type: tabQueryType,
+      queryTaskName: searchText,
+    });
   }, [taskType]);
 
   // 搜索任务名
   useUpdateEffect(() => {
     getTaskCount({ taskType, queryTaskName: searchText });
-    getTeachTaskData({ page, pageSize, taskType, type: tabQueryType, queryTaskName: searchText });
+    getTeachTaskData({
+      page: 1,
+      pageSize,
+      taskType,
+      type: tabQueryType,
+      queryTaskName: searchText,
+    });
   }, [searchText]);
 
   // 页码切换
-  useUpdateEffect(() => {
-    getTeachTaskData({ page, pageSize, taskType, type: tabQueryType, queryTaskName: searchText });
-  }, [page, pageSize]);
+  // useUpdateEffect(() => {
+  //   getTeachTaskData({ page, pageSize, taskType, type: tabQueryType, queryTaskName: searchText });
+  // }, [page, pageSize]);
 
   return (
     <PageContainer
@@ -134,10 +152,17 @@ const TeacherHome: React.FC<any> = (props: any) => {
               // showQuickJumper
               // showSizeChanger
               pageSizeOptions={[12, 24, 36, 72]}
-              showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+              showTotal={(total, range) => `第 ${range[0]}-${range[1]} 条/总共 ${total} items`}
               onChange={(current: any, size: any) => {
                 // console.log('onChange - ', current, size);
-                setPage(current);
+                // setPage(current);
+                getTeachTaskData({
+                  page: current,
+                  pageSize,
+                  taskType,
+                  type: tabQueryType,
+                  queryTaskName: searchText,
+                });
               }}
               onShowSizeChange={(current: any, size: any) => {
                 // console.log('onShowSizeChange - ', current, size);
