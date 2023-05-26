@@ -104,8 +104,8 @@ const Demo: React.FC = (props: any) => {
     console.log('执行stop');
     setText('...');
     // 挂断
-    // sipSession.current.ua?.stop?.();
-    sipSession.current.session?.terminal?.();
+    sipSession.current.currentSession?.terminal?.();
+    sipSession.current.ua?.stop?.();
     // 赋值
     // ---
     // sipSession.current.ua?.unregister?.({ all: true });

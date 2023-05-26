@@ -314,7 +314,8 @@ const PhoneCall: React.FC<any> = (props: any) => {
 
   const stop = () => {
     // 挂断
-    sipSession.current.ua?.terminal?.();
+    sipSession.current.currentSession?.terminal?.();
+    sipSession.current.ua?.stop?.();
     // ---
     // sipSession.current.ua?.unregister?.({ all: true });
     // --------------
