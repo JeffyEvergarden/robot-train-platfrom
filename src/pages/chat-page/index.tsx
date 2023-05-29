@@ -34,6 +34,7 @@ const ChatPage: any = (props: any) => {
   const [pageType, setPageType] = useState<any>('init'); // init / doing
   const [title, setTitle] = useState<any>(''); // 标题
   const [tips, setTips] = useState<any>(''); // 提示语
+  const [isShowKeyPoint, setIsShowKeyPoint] = useState<any>(false); // 是否显示关键点
   const [standardMsg, setStandardMsg] = useState<any>(''); // 标准话术
   const [keyPoint, setKeyPoint] = useState<any>(''); // 关键点
   // const [hasResult, setHasResult] = useState<boolean>(false); // 关键点
@@ -70,6 +71,7 @@ const ChatPage: any = (props: any) => {
     let res: any = await getCourseInfo({ courseId, taskId, nodeId });
     setTitle(res.courseName || '--');
     setTips(res.customerInfo || '--');
+    setIsShowKeyPoint(res.courseType === 0);
     setCourseType(res.taskType === 1 ? 'exercise' : 'exam');
     // setStandardMsg(res.standardMsg);
     // setKeyPoint(res.keyPoint);
@@ -342,8 +344,12 @@ const ChatPage: any = (props: any) => {
                 <div className={style['page-tips-box']}>
                   <div className={style['tips-title']}>• 标准话术</div>
                   <div className={style['tips-content']}>{standardMsg || '--'}</div>
-                  <div className={style['tips-title']}>• 关键点</div>
-                  <div className={style['tips-content']}>{keyPoint || '--'}</div>
+                  {isShowKeyPoint ? (
+                    <>
+                      <div className={style['tips-title']}>• 关键点</div>
+                      <div className={style['tips-content']}>{keyPoint || '--'}</div>
+                    </>
+                  ) : undefined}
                 </div>
 
                 <div className={style['page-step-box']}>

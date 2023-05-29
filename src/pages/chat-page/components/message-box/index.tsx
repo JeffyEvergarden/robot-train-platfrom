@@ -47,7 +47,7 @@ const MessageBox: React.FC<any> = (props: any) => {
         // delay 该话读完需要的秒数
         // status  （loading 加载 / success 回答完全答对 / fail 有关键点没提到）
 
-        const { type, text, role, keysTips, delay = 0, status } = item;
+        const { type, text, role, keysTips, intents, delay = 0, status } = item;
 
         if (type === 'customer') {
           //// 左边内容
@@ -75,6 +75,7 @@ const MessageBox: React.FC<any> = (props: any) => {
               status={status}
               text={text}
               keysTips={keysTips}
+              intents={intents}
               showAvator={lastType !== type}
             />
           );
