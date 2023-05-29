@@ -45,7 +45,7 @@ export const useStudentRankModel = () => {
     const inListIndex = rankList.findIndex(
       (item: any) => item.userName === userName && item.rank === rank,
     );
-    if (inListIndex > 0) {
+    if (inListIndex >= 0) {
       // 我的排名是否在列表中
       const newRankList = rankList?.map((item: any, index: any) => {
         const newItem = { ...item, key: `${index}-${item?.userName}` };
