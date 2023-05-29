@@ -80,6 +80,7 @@ const MessageBox: React.FC<any> = (props: any) => {
               key={index}
               errorIndexList={item?.errorIndexList}
               status={item?.actionAccess}
+              id={item?.id}
               text={text}
               keysTips={keyPointList}
               showAvator={lastType !== role}
