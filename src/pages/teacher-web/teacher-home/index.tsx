@@ -121,6 +121,16 @@ const TeacherHome: React.FC<any> = (props: any) => {
   //   getTeachTaskData({ page, pageSize, taskType, type: tabQueryType, queryTaskName: searchText });
   // }, [page, pageSize]);
 
+  const pageOrPageSizeChange = (page: any, pageSize: any) => {
+    getTeachTaskData({
+      page,
+      pageSize,
+      taskType,
+      type: tabQueryType,
+      queryTaskName: searchText,
+    });
+  };
+
   return (
     <PageContainer
       header={{
@@ -155,18 +165,9 @@ const TeacherHome: React.FC<any> = (props: any) => {
               showTotal={(total, range) => `第 ${range[0]}-${range[1]} 条/总共 ${total} items`}
               onChange={(current: any, size: any) => {
                 // console.log('onChange - ', current, size);
-                // setPage(current);
-                getTeachTaskData({
-                  page: current,
-                  pageSize,
-                  taskType,
-                  type: tabQueryType,
-                  queryTaskName: searchText,
-                });
-              }}
-              onShowSizeChange={(current: any, size: any) => {
-                // console.log('onShowSizeChange - ', current, size);
+                if (pageSize !== size) current = 1; // pageSize 发生变化时，默认切换至首页
                 setPageSize(size);
+                pageOrPageSizeChange(current, size);
               }}
             />
           </div>
