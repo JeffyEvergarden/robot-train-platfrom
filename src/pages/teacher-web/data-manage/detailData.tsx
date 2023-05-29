@@ -35,7 +35,7 @@ const DetailData: any = (props: any) => {
   };
 
   useEffect(() => {
-    getAllTaskList({});
+    getAllTaskList({ searchDelete: 1 });
     getCourseList({});
   }, []);
 

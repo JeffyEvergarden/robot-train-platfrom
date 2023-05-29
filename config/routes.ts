@@ -121,7 +121,7 @@ export default [
       {
         path: '/front/teacher/paramsManage/intention',
         component: './teacher-web/params-manage/intention',
-        name: '意图',
+        name: '意图管理',
         hideInMenu: true,
       },
     ],

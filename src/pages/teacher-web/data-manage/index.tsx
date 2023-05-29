@@ -38,7 +38,7 @@ export default () => {
   useEffect(() => {
     userListRequest({});
     groupListRequest({});
-    getAllTaskList({});
+    getAllTaskList({ searchDelete: 1 });
   }, []);
 
   useEffect(() => {
