@@ -8,6 +8,7 @@ import { useDataManageModel } from './model';
 import { useTaskModel } from '../task/model';
 import { useTableModel } from '../course/model';
 import ChatRecord from '@/pages/student-web/learn-record/components/chatRecord';
+import { useUserManageModel } from '../params-manage/model';
 import config from '@/config';
 import style from './style.less';
 
@@ -21,6 +22,7 @@ const DetailData: any = (props: any) => {
 
   const chatRecordRef = useRef<any>();
   const { getTaskReportDetail, getStudentReportDetail } = useDataManageModel();
+  const { userList, userListRequest } = useUserManageModel();
   const { allTableList, getAllTaskList } = useTaskModel();
   const { allTableList: courseList, getAllTablelist: getCourseList } = useTableModel();
   const goBack = () => {
@@ -35,6 +37,7 @@ const DetailData: any = (props: any) => {
   };
 
   useEffect(() => {
+    userListRequest({});
     getAllTaskList({ searchDelete: 1 });
     getCourseList({});
   }, []);
@@ -62,7 +65,31 @@ const DetailData: any = (props: any) => {
       dataIndex: 'userName',
       key: 'userName',
       width: 100,
-      search: false,
+      search: true,
+      fieldProps: {
+        placeholder: '请选择学员名称',
+      },
+      renderFormItem: () => (
+        <Select
+          placeholder="请选择学员名称"
+          mode="multiple"
+          showSearch
+          allowClear
+          filterOption={(input, option) =>
+            (option?.item?.userName as unknown as string)
+              ?.toLowerCase()
+              ?.includes(input.toLowerCase())
+          }
+        >
+          {userList?.map((item: any) => {
+            return (
+              <Select.Option key={item?.id} value={item?.account} item={item}>
+                {item?.userName}
+              </Select.Option>
+            );
+          })}
+        </Select>
+      ),
     },
     {
       title: '课程名称',

@@ -59,10 +59,12 @@ export const useDataManageModel = () => {
     let params = {
       ...payload,
       courseIdList: payload?.taskNodeName?.length > 0 ? payload.taskNodeName : undefined,
+      accountList: payload?.userName?.length > 0 ? payload.userName : undefined,
       page: payload?.current,
     };
     delete params?.current;
     delete params?.taskNodeName;
+    delete params?.userName;
     let res = await taskReportDetailApi(params);
     setLoading(false);
     if (res?.resultCode == successCode) {
