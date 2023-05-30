@@ -39,10 +39,12 @@ export const useDataManageModel = () => {
     let params = {
       ...payload,
       accountList: payload?.userName?.length > 0 ? payload.userName : undefined,
+      groupIdList: payload?.groupList?.length > 0 ? payload.groupList : undefined,
       page: payload?.current,
     };
     delete params?.current;
     delete params?.userName;
+    delete params?.groupList;
     let res = await studentReportApi(params);
     setLoading(false);
     if (res?.resultCode == successCode) {

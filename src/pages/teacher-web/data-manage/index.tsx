@@ -314,7 +314,7 @@ export default () => {
       },
     },
     {
-      title: '历史练习次数',
+      title: radioValue === 1 ? '历史练习次数' : '练习次数',
       dataIndex: 'trainTimes',
       key: 'trainTimes',
       width: 90,
