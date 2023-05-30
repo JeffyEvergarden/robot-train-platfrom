@@ -8,7 +8,7 @@ import config from '@/config';
 
 // 关键点提醒
 const KeyTipsHtml: React.FC<any> = (props: any) => {
-  const { list } = props;
+  const { list, courseTypeName } = props;
 
   if (!Array.isArray(list)) {
     return null;
@@ -27,7 +27,7 @@ const KeyTipsHtml: React.FC<any> = (props: any) => {
         return (
           <div className={style['key-row']} key={i}>
             <div className={style['icon']}>{icon}</div>
-            <div className={style['icon']}>关键点:</div>
+            <div className={style['icon']}>{courseTypeName}</div>
             <div className={style['desc']}>{subItem?.keyPointName || '--'}</div>
           </div>
         );
@@ -37,7 +37,7 @@ const KeyTipsHtml: React.FC<any> = (props: any) => {
 };
 
 const RightChatContent: React.FC<any> = (props: any) => {
-  const { status, text, keysTips, showAvator, errorIndexList, id } = props;
+  const { status, text, keysTips, showAvator, errorIndexList, id, courseTypeName } = props;
 
   return (
     <div className={style['box_system']}>
@@ -66,8 +66,7 @@ const RightChatContent: React.FC<any> = (props: any) => {
               );
             })}
           </div>
-
-          <KeyTipsHtml list={keysTips} />
+          <KeyTipsHtml list={keysTips} courseTypeName={courseTypeName} />
         </div>
       </div>
       <div className={style['box-avator']}>

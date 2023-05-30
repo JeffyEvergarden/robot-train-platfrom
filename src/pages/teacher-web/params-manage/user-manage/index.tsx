@@ -7,6 +7,7 @@ import { useUserManageModel } from './../model';
 import EditUserModal from '../components/editUserModal';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { getWorkplaceColumns, useWorkPlaceModel } from '../workplace-manage/model';
+import { useRoleManageModel } from '../role-manage/model';
 import AddWorkplaceModal from '../workplace-manage/components/addWorkplaceModal';
 
 import config from '@/config';
@@ -32,6 +33,13 @@ const UserManage: React.FC = (props: any) => {
   } = useUserManageModel();
 
   const { getWorkPlacePage, addWorkPlace, workPlaceDelete, workPlaceEdit } = useWorkPlaceModel();
+  const {
+    loading: roleLoading,
+    roleList,
+    getRolePage,
+    getRoleList,
+    roleSameStep,
+  } = useRoleManageModel();
 
   const editUserRef = useRef<any>();
   const userActionRef = useRef<any>();
@@ -42,6 +50,7 @@ const UserManage: React.FC = (props: any) => {
   useEffect(() => {
     userListRequest({});
     groupListRequest({});
+    getRoleList({});
     workPlaceListRequest({ type: 1 });
   }, []);
 
@@ -399,6 +408,77 @@ const UserManage: React.FC = (props: any) => {
   };
   // 职场管理 end
 
+  // 角色管理 start
+  const roleColumns: any[] = [
+    {
+      title: '角色编码',
+      dataIndex: 'id',
+      key: 'id',
+      ellipsis: true,
+      search: false,
+    },
+    {
+      title: '角色名称',
+      dataIndex: 'roleName',
+      key: 'roleName',
+      ellipsis: true,
+      search: true,
+      renderFormItem: () => (
+        <Select
+          optionFilterProp="children"
+          showSearch
+          allowClear
+          placeholder="请选择角色名称"
+          mode="multiple"
+          filterOption={(input, option) =>
+            (option?.item?.roleName as unknown as string)
+              ?.toLowerCase()
+              ?.includes(input.toLowerCase())
+          }
+        >
+          {roleList?.map((item: any) => {
+            return (
+              <Select.Option key={item?.id} value={item?.id}>
+                {item?.roleName}
+              </Select.Option>
+            );
+          })}
+        </Select>
+      ),
+    },
+    {
+      title: '创建人',
+      dataIndex: 'creator',
+      key: 'creator',
+      ellipsis: true,
+      search: false,
+      render: (v: any, r: any) => {
+        return r.creator || '-';
+      },
+    },
+    {
+      title: '同步时间',
+      dataIndex: 'updateTime',
+      key: 'updateTime',
+      ellipsis: true,
+      search: false,
+    },
+    {
+      title: '操作',
+      key: 'option',
+      fixed: 'right',
+      valueType: 'option',
+      render: (t: any, r: any, i: any) => {
+        return (
+          <Space>
+            <a onClick={() => clickWorkplaceEdit(r)}>编辑</a>
+          </Space>
+        );
+      },
+    },
+  ];
+  // 角色管理 end
+
   const tabChange = (key: any) => {
     if (!['1', '2'].includes(key)) return;
     workPlaceListRequest({ type: +key });
@@ -490,6 +570,34 @@ const UserManage: React.FC = (props: any) => {
                 columns={getWorkplaceColumns(clickWorkplaceEdit, deleteWorkplaceAction)}
                 request={async (params = {}, sort, filter) => {
                   return getWorkPlacePage(params);
+                }}
+              />
+            </Spin>
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="角色管理" key="4">
+            <Spin spinning={roleLoading}>
+              <ProTable
+                rowKey={(record: any) => record?.id}
+                actionRef={workplaceTableRef}
+                headerTitle="角色列表"
+                toolBarRender={() => [
+                  <Button type="primary" key="sameStep" onClick={() => roleSameStep()}>
+                    同步
+                  </Button>,
+                ]}
+                options={false}
+                pagination={{
+                  pageSize: 10,
+                  showSizeChanger: true,
+                  showQuickJumper: true,
+                }}
+                search={{
+                  labelWidth: 'auto',
+                }}
+                columns={roleColumns}
+                scroll={{ x: roleColumns?.length * 150 }}
+                request={async (params = {}, sort, filter) => {
+                  return getRolePage(params);
                 }}
               />
             </Spin>

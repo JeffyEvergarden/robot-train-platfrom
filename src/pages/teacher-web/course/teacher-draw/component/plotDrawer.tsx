@@ -199,16 +199,16 @@ const PlotDrawer: React.FC<any> = (props: any) => {
                               />
                             )}
                             <div className={styles['num-circle']}>{index + 1}</div>
-                            <span className={styles['formRedStar']}>*</span>
+                            {/* <span className={styles['formRedStar']}>*</span> */}
                             <div>标准话术</div>
                           </div>
                           <Form.Item
                             name={[field.name, 'action']}
-                            rules={[{ required: true, message: '请输入标准话术' }]}
+                            // rules={[{ required: true, message: '请输入标准话术' }]}
                           >
                             <Input.TextArea
                               showCount
-                              maxLength={200}
+                              maxLength={500}
                               placeholder="请输入标准话术"
                               rows={3}
                             ></Input.TextArea>
