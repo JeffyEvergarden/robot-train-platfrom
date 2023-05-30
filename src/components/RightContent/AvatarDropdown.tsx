@@ -1,6 +1,11 @@
 import { outLogin } from '@/services/ant-design-pro/api';
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Menu, Spin } from 'antd';
+import {
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons';
+import { Avatar, Menu, Spin, Modal } from 'antd';
 import type { ItemType } from 'antd/lib/menu/hooks/useItems';
 import { stringify } from 'querystring';
 import type { MenuInfo } from 'rc-menu/lib/interface';
@@ -11,6 +16,8 @@ import styles from './index.less';
 
 import userPic from './user.png';
 import userPic1 from './user1.png';
+
+const { confirm } = Modal;
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -31,8 +38,15 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       console.log('dropdown menu-click');
       const { key } = event;
       if (key === 'logout') {
-        setInitialState((s: any) => ({ ...s, currentUser: undefined }));
-        loginOut();
+        confirm({
+          title: '是否确认退出登录?',
+          icon: <ExclamationCircleOutlined />,
+          onOk() {
+            setInitialState((s: any) => ({ ...s, currentUser: undefined }));
+            loginOut();
+          },
+          onCancel() {},
+        });
         return;
       } else if (key === 'login') {
         // history.push(`/login`);
