@@ -1,6 +1,6 @@
 import { useState, useImperativeHandle, Fragment } from 'react';
 import { Modal, Form, Input, Select, Button, message, Checkbox, Space } from 'antd';
-import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import styles from './../index.less';
 
 import { useIntentionModel } from './../model';
@@ -132,7 +132,7 @@ export default (props: any) => {
                       }}
                     >
                       <Space>
-                        <PlusOutlined />
+                        <PlusCircleOutlined />
                         <span>添加触发话术</span>
                       </Space>
                     </Button>
