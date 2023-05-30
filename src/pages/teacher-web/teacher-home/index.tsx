@@ -160,7 +160,7 @@ const TeacherHome: React.FC<any> = (props: any) => {
               total={totalPage}
               pageSize={pageSize}
               // showQuickJumper
-              // showSizeChanger
+              showSizeChanger
               pageSizeOptions={[12, 24, 36, 72]}
               showTotal={(total, range) => `第 ${range[0]}-${range[1]} 条/总共 ${total} items`}
               onChange={(current: any, size: any) => {
