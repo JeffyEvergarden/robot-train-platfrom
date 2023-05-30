@@ -16,7 +16,7 @@ export const useTaskModel = () => {
     let res: any = await api_taskCount(params);
     setLoading(false);
     if (res.resultCode !== successCode) {
-      message.warning('获取数据失败');
+      message.warning(res.resultDesc || '获取数据失败');
       return;
     }
     const { data = {} } = res;
@@ -34,7 +34,7 @@ export const useTaskModel = () => {
     let res: any = await api_teachTaskDataPage(params);
     setLoading(false);
     if (res.resultCode !== successCode) {
-      message.warning('获取数据失败');
+      message.warning(res.resultDesc || '获取数据失败');
       return;
     }
     const { data = {} } = res;

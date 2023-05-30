@@ -16,7 +16,7 @@ export const useStudentRankModel = () => {
     let res: any = await api_studentGroup(params);
     setLoading(false);
     if (res.resultCode !== successCode) {
-      message.warning('获取数据失败');
+      message.warning(res.resultDesc || '获取数据失败');
       return;
     }
     const { data = [] } = res;
@@ -35,7 +35,7 @@ export const useStudentRankModel = () => {
     let res: any = await api_scoreSort(params);
     setLoading(false);
     if (res.resultCode !== successCode) {
-      message.warning('获取数据失败');
+      message.warning(res.resultDesc || '获取数据失败');
       return;
     }
     const { data = {} } = res;
