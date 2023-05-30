@@ -8,17 +8,22 @@ export default function access(
   return {
     canAdmin: currentUser && currentUser.access === 'admin',
     routerAuth: (route: any) => {
-      const role: any = route.role;
-      if (!role) {
-        return true;
-      } else if (Array.isArray(role)) {
-        const _item = role.find((item: any) => {
-          return userAuth.includes(item);
-        });
-        return !!_item;
-      } else {
+      // const role: any = route.role;
+      // if (!role) {
+      //   return true;
+      // } else if (Array.isArray(role)) {
+      //   const _item = role.find((item: any) => {
+      //     return userAuth.includes(item);
+      //   });
+      //   return !!_item;
+      // } else {
+      //   return true;
+      // }
+      if (process.env.mock) {
         return true;
       }
+      const path: any = route.path;
+      return path && currentUser?.userInfoAll?.menus?.includes(path);
     },
   };
 }
