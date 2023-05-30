@@ -61,7 +61,7 @@ const IntentsHtml: React.FC<any> = (props: any) => {
           <div className={style['key-row']} key={i}>
             <div className={style['icon']}>{icon}</div>
             <div className={style['icon']}>意图：</div>
-            <div className={style['desc']}>{subItem?.desc || '--'}</div>
+            <div className={style['desc']}>{subItem?.intent || '--'}</div>
           </div>
         );
       })}
