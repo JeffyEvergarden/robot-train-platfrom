@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect, useRef } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { Tabs, Select, Button, message, Spin, Space, notification } from 'antd';
+import { Tabs, Select, Button, message, Spin, Space, notification, Drawer } from 'antd';
 import styles from './../index.less';
 import { useUserManageModel } from './../model';
 import EditUserModal from '../components/editUserModal';
@@ -9,6 +9,7 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 import { getWorkplaceColumns, useWorkPlaceModel } from '../workplace-manage/model';
 import { useRoleManageModel } from '../role-manage/model';
 import AddWorkplaceModal from '../workplace-manage/components/addWorkplaceModal';
+import RoleModal from '../components/roleModal';
 
 import config from '@/config';
 const successCode = config.successCode;
@@ -38,14 +39,17 @@ const UserManage: React.FC = (props: any) => {
     roleList,
     getRolePage,
     getRoleList,
-    roleSameStep,
+    roleSynch,
   } = useRoleManageModel();
 
   const editUserRef = useRef<any>();
+  const roleRef = useRef<any>();
   const userActionRef = useRef<any>();
   const groupActionRef = useRef<any>();
   const addWorkplaceModalRef = useRef<any>();
+  const roleTableRef = useRef<any>();
   const workplaceTableRef = useRef<any>();
+  const [visible, setVisible] = useState<any>(false);
 
   useEffect(() => {
     userListRequest({});
@@ -471,12 +475,25 @@ const UserManage: React.FC = (props: any) => {
       render: (t: any, r: any, i: any) => {
         return (
           <Space>
-            <a onClick={() => clickWorkplaceEdit(r)}>编辑</a>
+            <Button type="link" loading={roleLoading} onClick={() => editRole(r)}>
+              编辑
+            </Button>
           </Space>
         );
       },
     },
   ];
+
+  const editRole = (record: any) => {
+    roleRef?.current?.open(record);
+  };
+
+  const roleSameStep = async () => {
+    const v = await roleSynch();
+    if (v) {
+      roleTableRef?.current?.reloadAndRest();
+    }
+  };
   // 角色管理 end
 
   const tabChange = (key: any) => {
@@ -578,7 +595,7 @@ const UserManage: React.FC = (props: any) => {
             <Spin spinning={roleLoading}>
               <ProTable
                 rowKey={(record: any) => record?.id}
-                actionRef={workplaceTableRef}
+                actionRef={roleTableRef}
                 headerTitle="角色列表"
                 toolBarRender={() => [
                   <Button type="primary" key="sameStep" onClick={() => roleSameStep()}>
@@ -600,6 +617,7 @@ const UserManage: React.FC = (props: any) => {
                   return getRolePage(params);
                 }}
               />
+              <RoleModal cref={roleRef} loading={roleLoading} comfirmSubmit={comfirmSubmit} />
             </Spin>
           </Tabs.TabPane>
         </Tabs>

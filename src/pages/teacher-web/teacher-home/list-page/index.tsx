@@ -19,7 +19,7 @@ const ListPage: React.FC<any> = (props: any) => {
               taskType,
               taskName,
               completeRate,
-              trainUser,
+              taskUserCount,
               timesAvg,
               completeCount,
               scoreAvg,
@@ -64,7 +64,7 @@ const ListPage: React.FC<any> = (props: any) => {
                 <div className={style['bottom-container']}>
                   <div className={style['counter-info-container']}>
                     <div className={style['counter-info-l-text']}>{firstInfoName}</div>
-                    <div className={style['counter-info-r-text']}>{trainUser}</div>
+                    <div className={style['counter-info-r-text']}>{taskUserCount}</div>
                   </div>
                   <div className={style['counter-info-container']}>
                     <div className={style['counter-info-l-text']}>人均训练次数</div>
