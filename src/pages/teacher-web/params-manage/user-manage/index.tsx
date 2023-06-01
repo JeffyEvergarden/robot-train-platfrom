@@ -466,7 +466,7 @@ const UserManage: React.FC = (props: any) => {
       ),
     },
     {
-      title: '创建人',
+      title: '同步者',
       dataIndex: 'creator',
       key: 'creator',
       ellipsis: true,

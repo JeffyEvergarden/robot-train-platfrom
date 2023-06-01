@@ -304,7 +304,7 @@ export default () => {
       hideInTable: radioValue === 1,
     },
     {
-      title: '完成进度',
+      title: radioValue === 1 ? '完成率' : '完成进度',
       dataIndex: 'completeRate',
       key: 'completeRate',
       width: 80,
