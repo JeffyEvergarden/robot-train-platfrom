@@ -331,14 +331,14 @@ export default [
     role: ['admin', 'student'],
     layout: true,
   },
-  {
-    path: '/front/demo',
-    component: './demo',
-    name: '语音聊天demo测试',
-    access: 'routerAuth',
-    role: ['admin'],
-    layout: true,
-  },
+  // {
+  //   path: '/front/demo',
+  //   component: './demo',
+  //   name: '语音聊天demo测试',
+  //   access: 'routerAuth',
+  //   role: ['admin'],
+  //   layout: true,
+  // },
   // {
   //   path: '/front/drawdemo',
   //   component: './draw-demo',

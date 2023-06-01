@@ -309,7 +309,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
   const pauseMusic = () => {
     // --------------
     musicAudioRef.current?.pause();
-    setStatus('waiting');
+    // setStatus('waiting');
   };
 
   const stop = () => {
