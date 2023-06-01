@@ -5,6 +5,7 @@ import { Divider, Button, Select, message, Space, Popconfirm } from 'antd';
 import { useCourceModel } from './../model';
 import CourceModel from '../components/courceModel';
 import { history, useModel } from 'umi';
+import BtnAuth from '@/components/BtnAuth';
 
 import config from '@/config';
 const successCode = config.successCode;
@@ -175,24 +176,30 @@ export default () => {
         return (
           <div>
             <Space>
-              <Button type="link" onClick={() => editCource(r)}>
-                编辑
-              </Button>
-              <Divider type="vertical" />
-              <Button type="link" onClick={() => toIntentionPage(r)}>
-                意图管理
-              </Button>
-              <Divider type="vertical" />
-              <Popconfirm
-                title="你确定要删除这个模型吗？"
-                okText="确定"
-                cancelText="取消"
-                onConfirm={() => deleteModel(r)}
-              >
-                <Button type="link" danger>
-                  删除
+              <BtnAuth authKey={'paramsManage_systemManage_edit_btn'}>
+                <Button type="link" onClick={() => editCource(r)}>
+                  编辑
                 </Button>
-              </Popconfirm>
+              </BtnAuth>
+              <BtnAuth authKey={'paramsManage_systemManage_intention_btn'}>
+                <Divider type="vertical" />
+                <Button type="link" onClick={() => toIntentionPage(r)}>
+                  意图管理
+                </Button>
+              </BtnAuth>
+              <BtnAuth authKey={'paramsManage_systemManage_delete_btn'}>
+                <Divider type="vertical" />
+                <Popconfirm
+                  title="你确定要删除这个模型吗？"
+                  okText="确定"
+                  cancelText="取消"
+                  onConfirm={() => deleteModel(r)}
+                >
+                  <Button type="link" danger>
+                    删除
+                  </Button>
+                </Popconfirm>
+              </BtnAuth>
             </Space>
           </div>
         );
@@ -213,9 +220,11 @@ export default () => {
           actionRef={actionRef}
           headerTitle="课程模型列表"
           toolBarRender={() => [
-            <Button type="primary" key="sameStep" onClick={addCourceModel}>
-              新建
-            </Button>,
+            <BtnAuth authKey={'paramsManage_systemManage_add_btn'}>
+              <Button type="primary" key="sameStep" onClick={addCourceModel}>
+                新建
+              </Button>
+            </BtnAuth>,
           ]}
           options={false}
           pagination={{

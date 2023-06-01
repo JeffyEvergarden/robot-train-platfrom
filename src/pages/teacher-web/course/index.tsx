@@ -5,6 +5,7 @@ import { useTableModel } from './model';
 import { history, useModel } from 'umi';
 import DuplicateForm from './components/duplicateForm';
 import TableForm from './components/tableForm';
+import BtnAuth from '@/components/BtnAuth';
 import style from './style.less';
 
 const TeacherWeb: React.FC<any> = (props: any) => {
@@ -101,88 +102,96 @@ const TeacherWeb: React.FC<any> = (props: any) => {
         return (
           <>
             <div style={{ display: 'flex' }}>
-              <Button
-                type="link"
-                onClick={() => {
-                  tableFormRef?.current?.open('edit', row);
-                }}
-              >
-                信息编辑
-              </Button>
-
-              <Button
-                type="link"
-                onClick={() => {
-                  setCourseInfo(row);
-                  setTimeout(() => {
-                    history.push(
-                      `/front/teacher/course/draw?id=${row?.id}&name=${row?.courseName}`,
-                    );
-                  }, 100);
-                }}
-              >
-                流程编辑
-              </Button>
-
-              <Popconfirm
-                title="确定要发布吗？"
-                okText="确定"
-                cancelText="取消"
-                disabled={row?.courseStatus == 1}
-                onConfirm={async () => {
-                  let res = await coursePublish({ id: row?.id });
-                  if (res) {
-                    tableRef?.current?.reload();
-                  }
-                }}
-              >
-                <Button type="link" disabled={row?.courseStatus == 1}>
-                  发布
+              <BtnAuth authKey={'teacher_course_infoEdit_btn'}>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    tableFormRef?.current?.open('edit', row);
+                  }}
+                >
+                  信息编辑
                 </Button>
-              </Popconfirm>
-
-              <Popconfirm
-                title={
-                  <div>
-                    <div>{'确定要下线吗？'}</div>
-                    <div className={style['title-description']}>{'下线后课程将无法被选择配置'}</div>
-                  </div>
-                }
-                okText="确定"
-                cancelText="取消"
-                disabled={row?.courseStatus == 0}
-                onConfirm={async () => {
-                  let res = await courseDown({ id: row?.id });
-                  if (res) {
-                    tableRef?.current?.reload();
-                  }
-                }}
-              >
-                <Button type="link" disabled={row?.courseStatus == 0}>
-                  下线
+              </BtnAuth>
+              <BtnAuth authKey={'teacher_course_processEdit_btn'}>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    setCourseInfo(row);
+                    setTimeout(() => {
+                      history.push(
+                        `/front/teacher/course/draw?id=${row?.id}&name=${row?.courseName}`,
+                      );
+                    }, 100);
+                  }}
+                >
+                  流程编辑
                 </Button>
-              </Popconfirm>
-
-              <Popconfirm
-                title={
-                  <div>
-                    <div>{'确定要删除吗?'}</div>
-                    <div className={style['title-description']}>{'删除后课程将消失'}</div>
-                  </div>
-                }
-                okText="确定"
-                cancelText="取消"
-                onConfirm={async () => {
-                  let res = await courseDelete({ id: row?.id });
-                  if (res) {
-                    tableRef?.current?.reload();
+              </BtnAuth>
+              <BtnAuth authKey={'teacher_course_publish_btn'}>
+                <Popconfirm
+                  title="确定要发布吗？"
+                  okText="确定"
+                  cancelText="取消"
+                  disabled={row?.courseStatus == 1}
+                  onConfirm={async () => {
+                    let res = await coursePublish({ id: row?.id });
+                    if (res) {
+                      tableRef?.current?.reload();
+                    }
+                  }}
+                >
+                  <Button type="link" disabled={row?.courseStatus == 1}>
+                    发布
+                  </Button>
+                </Popconfirm>
+              </BtnAuth>
+              <BtnAuth authKey={'teacher_course_down_btn'}>
+                <Popconfirm
+                  title={
+                    <div>
+                      <div>{'确定要下线吗？'}</div>
+                      <div className={style['title-description']}>
+                        {'下线后课程将无法被选择配置'}
+                      </div>
+                    </div>
                   }
-                }}
-              >
-                <Button type="link" danger>
-                  删除
-                </Button>
-              </Popconfirm>
+                  okText="确定"
+                  cancelText="取消"
+                  disabled={row?.courseStatus == 0}
+                  onConfirm={async () => {
+                    let res = await courseDown({ id: row?.id });
+                    if (res) {
+                      tableRef?.current?.reload();
+                    }
+                  }}
+                >
+                  <Button type="link" disabled={row?.courseStatus == 0}>
+                    下线
+                  </Button>
+                </Popconfirm>
+              </BtnAuth>
+              <BtnAuth authKey={'teacher_course_delete_btn'}>
+                <Popconfirm
+                  title={
+                    <div>
+                      <div>{'确定要删除吗?'}</div>
+                      <div className={style['title-description']}>{'删除后课程将消失'}</div>
+                    </div>
+                  }
+                  okText="确定"
+                  cancelText="取消"
+                  onConfirm={async () => {
+                    let res = await courseDelete({ id: row?.id });
+                    if (res) {
+                      tableRef?.current?.reload();
+                    }
+                  }}
+                >
+                  <Button type="link" danger>
+                    删除
+                  </Button>
+                </Popconfirm>
+              </BtnAuth>
             </div>
           </>
         );
@@ -207,21 +216,25 @@ const TeacherWeb: React.FC<any> = (props: any) => {
         }}
         toolBarRender={() => {
           return [
-            <Button
-              onClick={() => {
-                duplicateRef?.current?.open();
-              }}
-            >
-              复制
-            </Button>,
-            <Button
-              type="primary"
-              onClick={() => {
-                tableFormRef?.current?.open('add');
-              }}
-            >
-              新建
-            </Button>,
+            <BtnAuth authKey={'teacher_course_copy_btn'}>
+              <Button
+                onClick={() => {
+                  duplicateRef?.current?.open();
+                }}
+              >
+                复制
+              </Button>
+            </BtnAuth>,
+            <BtnAuth authKey={'teacher_course_add_btn'}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  tableFormRef?.current?.open('add');
+                }}
+              >
+                新建
+              </Button>
+            </BtnAuth>,
           ];
         }}
         search={{

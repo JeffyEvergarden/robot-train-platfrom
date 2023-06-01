@@ -5,6 +5,7 @@ import { useIntentionModel } from './../model';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { history } from 'umi';
 import IntenModal from './intenModal';
+import BtnAuth from '@/components/BtnAuth';
 
 import config from '@/config';
 const successCode = config.successCode;
@@ -184,20 +185,24 @@ export default () => {
         return (
           <div>
             <Space>
-              <Button type="link" onClick={() => editIntent(r)}>
-                编辑
-              </Button>
-              <Divider type="vertical" />
-              <Popconfirm
-                title="你确定要删除这个意图吗？"
-                okText="确定"
-                cancelText="取消"
-                onConfirm={() => deleteIntent(r)}
-              >
-                <Button type="link" danger>
-                  删除
+              <BtnAuth authKey={'paramsManage_intention_edit_btn'}>
+                <Button type="link" onClick={() => editIntent(r)}>
+                  编辑
                 </Button>
-              </Popconfirm>
+              </BtnAuth>
+              <BtnAuth authKey={'paramsManage_intention_delete_btn'}>
+                <Divider type="vertical" />
+                <Popconfirm
+                  title="你确定要删除这个意图吗？"
+                  okText="确定"
+                  cancelText="取消"
+                  onConfirm={() => deleteIntent(r)}
+                >
+                  <Button type="link" danger>
+                    删除
+                  </Button>
+                </Popconfirm>
+              </BtnAuth>
             </Space>
           </div>
         );
@@ -211,9 +216,11 @@ export default () => {
         actionRef={actionRef}
         headerTitle="意图列表"
         toolBarRender={() => [
-          <Button type="primary" key="sameStep" onClick={addCustomerIntention}>
-            新建
-          </Button>,
+          <BtnAuth authKey={'paramsManage_intention_add_btn'}>
+            <Button type="primary" key="sameStep" onClick={addCustomerIntention}>
+              新建
+            </Button>
+          </BtnAuth>,
         ]}
         options={false}
         pagination={{

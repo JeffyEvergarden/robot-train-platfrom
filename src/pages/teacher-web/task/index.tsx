@@ -5,6 +5,7 @@ import { useTaskModel } from './model';
 import { history } from 'umi';
 import TableForm from './components/tableForm';
 import { useUserManageModel } from '../params-manage/model';
+import BtnAuth from '@/components/BtnAuth';
 
 const TeacherWeb: React.FC<any> = (props: any) => {
   const {
@@ -163,40 +164,44 @@ const TeacherWeb: React.FC<any> = (props: any) => {
         return (
           <>
             <div style={{ display: 'flex' }}>
-              <Button
-                type="link"
-                onClick={() => {
-                  tableFormRef?.current?.open(row?.taskStatus == 1 ? 'scan' : 'edit', row);
-                }}
-              >
-                {row?.taskStatus == 1 ? '查看' : '编辑'}
-              </Button>
-
-              <Button
-                type="link"
-                onClick={() => {
-                  history.push(`/front/teacher/task/draw?id=${row.id}&name=${row.taskName}`);
-                }}
-              >
-                流程编辑
-              </Button>
-
-              <Popconfirm
-                title="确定要删除吗？"
-                okText="确定"
-                cancelText="取消"
-                disabled={row?.taskStatus}
-                onConfirm={async () => {
-                  let res = await taskDelete({ id: row?.id });
-                  if (res) {
-                    tableRef?.current?.reload();
-                  }
-                }}
-              >
-                <Button type="link" danger disabled={row?.taskStatus}>
-                  删除
+              <BtnAuth authKey={'teacher_task_edit_btn'}>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    tableFormRef?.current?.open(row?.taskStatus == 1 ? 'scan' : 'edit', row);
+                  }}
+                >
+                  {row?.taskStatus == 1 ? '查看' : '编辑'}
                 </Button>
-              </Popconfirm>
+              </BtnAuth>
+              <BtnAuth authKey={'teacher_task_processEdit_btn'}>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    history.push(`/front/teacher/task/draw?id=${row.id}&name=${row.taskName}`);
+                  }}
+                >
+                  流程编辑
+                </Button>
+              </BtnAuth>
+              <BtnAuth authKey={'teacher_task_delete_btn'}>
+                <Popconfirm
+                  title="确定要删除吗？"
+                  okText="确定"
+                  cancelText="取消"
+                  disabled={row?.taskStatus}
+                  onConfirm={async () => {
+                    let res = await taskDelete({ id: row?.id });
+                    if (res) {
+                      tableRef?.current?.reload();
+                    }
+                  }}
+                >
+                  <Button type="link" danger disabled={row?.taskStatus}>
+                    删除
+                  </Button>
+                </Popconfirm>
+              </BtnAuth>
             </div>
           </>
         );
@@ -225,14 +230,16 @@ const TeacherWeb: React.FC<any> = (props: any) => {
         }}
         toolBarRender={() => {
           return [
-            <Button
-              type="primary"
-              onClick={() => {
-                tableFormRef?.current?.open('add');
-              }}
-            >
-              新建
-            </Button>,
+            <BtnAuth authKey={'teacher_task_add_btn'}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  tableFormRef?.current?.open('add');
+                }}
+              >
+                新建
+              </Button>
+            </BtnAuth>,
           ];
         }}
         search={{

@@ -45,6 +45,11 @@ export default {
         userCode: '1000',
         // role: ['admin', 'teacher', 'student'],
         role: ['admin'],
+        menuBtns: [
+          'paramsManage_userManage_rule_btn',
+          'paramsManage_userManage_role_btn',
+          'paramsManage_userManage_role_edit_btn',
+        ],
         organizations: [
           {
             id: 1137,
