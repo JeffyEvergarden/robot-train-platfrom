@@ -19,9 +19,6 @@ export default function access(
       // } else {
       //   return true;
       // }
-      if (process.env.mock) {
-        return true;
-      }
       const path: any = route.path;
       return path && currentUser?.userInfoAll?.menus?.includes(path);
     },

@@ -1,5 +1,5 @@
 console.log(process.env.UMI_ENV);
-
+//  按钮权限以 _btn 结尾
 export default [
   {
     path: '/',
@@ -258,10 +258,10 @@ export default [
           },
           {
             title: '删除',
-            key: 'paramsManage_systemManagee_delete_btn',
+            key: 'paramsManage_systemManage_delete_btn',
           },
           {
-            title: '意图管理',
+            title: '意图',
             key: 'paramsManage_systemManage_intention_btn',
           },
         ],

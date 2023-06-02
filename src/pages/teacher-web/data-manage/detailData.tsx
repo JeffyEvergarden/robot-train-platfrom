@@ -202,8 +202,8 @@ const DetailData: any = (props: any) => {
       key: 'taskType',
       width: 100,
       valueEnum: {
-        1: { text: '培训' },
-        2: { text: '考试' },
+        1: { text: '培训任务' },
+        2: { text: '考试任务' },
       },
     },
     {
