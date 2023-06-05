@@ -18,7 +18,7 @@ const DetailData: any = (props: any) => {
   const id: any = query?.id;
   const tab: any = query?.tab;
   const title: any = query?.title;
-  //   const params: any = query?.params; //缓存参数
+  const radioValue: any = query?.radioValue;
 
   const chatRecordRef = useRef<any>();
   const { getTaskReportDetail, getStudentReportDetail } = useDataManageModel();
@@ -26,13 +26,10 @@ const DetailData: any = (props: any) => {
   const { allTableList, getAllTaskList } = useTaskModel();
   const { allTableList: courseList, getAllTablelist: getCourseList } = useTableModel();
   const goBack = () => {
-    if (!id) {
-      console.log('获取不到id');
-      return;
-    }
     // 回到数据管理列表页面
     history.replace(`/front/teacher/dataManage/tablepage`, {
       tab,
+      radioValue,
     });
   };
 
@@ -202,8 +199,8 @@ const DetailData: any = (props: any) => {
       key: 'taskType',
       width: 100,
       valueEnum: {
-        1: { text: '培训' },
-        2: { text: '考试' },
+        1: { text: '培训任务' },
+        2: { text: '考试任务' },
       },
     },
     {

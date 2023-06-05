@@ -78,10 +78,10 @@ export const useRoleManageModel = () => {
     setLoading(false);
     if (res.resultCode !== successCode) {
       message.error('角色权限查询失败');
-      return [];
+      return { data: [], result: false };
     }
     const { data = [] } = res;
-    return data;
+    return { data: data, result: true };
   };
 
   // 角色编辑 接口

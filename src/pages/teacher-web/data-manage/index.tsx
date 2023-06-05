@@ -11,8 +11,17 @@ import { useTaskModel } from '../task/model';
 import { formatePercent } from '@/utils';
 
 export default () => {
+  // 用户信息
+  const { initialState } = useModel('@@initialState');
+  const { userInfoAll } = (initialState?.currentUser as any) || {};
+  const { menuBtns } = userInfoAll || {};
+
   const state: any = history.location.state || {};
-  const tab: any = state.tab || 'task';
+  const defaultRadioValue: any = state.radioValue ? Number(state.radioValue) : 0;
+  let tab: any = state.tab || 'task';
+  if (tab === 'task' && !menuBtns?.includes('teacher_dataManage_task_btn')) {
+    tab = 'student';
+  }
 
   const taskFormRef = useRef<FormInstance>();
   const studentFormRef = useRef<FormInstance>();
@@ -22,18 +31,24 @@ export default () => {
   const { allTableList, getAllTaskList } = useTaskModel();
 
   const [tabActiveKey, setTabActiveKey] = useState<string>(tab); //'task'-任务、'student'-学员
-  const [radioValue, setRadioValue] = useState<number>(0); //0-当前、1-历史
+  const [radioValue, setRadioValue] = useState<number>(defaultRadioValue); //0-当前、1-历史
 
-  const tabList = [
-    {
-      tab: '任务管理',
-      key: 'task',
-    },
-    {
-      tab: '学员数据',
-      key: 'student',
-    },
-  ];
+  const tabList = () => {
+    let list = [];
+    if (menuBtns?.includes('teacher_dataManage_task_btn')) {
+      list.push({
+        tab: '任务管理',
+        key: 'task',
+      });
+    }
+    if (menuBtns?.includes('teacher_dataManage_student_btn')) {
+      list.push({
+        tab: '学员数据',
+        key: 'student',
+      });
+    }
+    return list;
+  };
 
   useEffect(() => {
     userListRequest({});
@@ -51,9 +66,11 @@ export default () => {
   const detailData = (r: any) => {
     const id = tabActiveKey === 'task' ? r.taskId : r.account;
     const title = tabActiveKey === 'task' ? r.taskName : r.userName;
-    history.push(
-      `/front/teacher/dataManage/detailData?id=${id}&title=${title}&tab=${tabActiveKey}`,
-    );
+    let src = `/front/teacher/dataManage/detailData?id=${id}&title=${title}&tab=${tabActiveKey}`;
+    if (tabActiveKey === 'student') {
+      src += `&radioValue=${radioValue}`;
+    }
+    history.push(src);
   };
 
   const columns: any[] = [
@@ -130,8 +147,8 @@ export default () => {
       key: 'taskType',
       width: 80,
       valueEnum: {
-        1: { text: '培训' },
-        2: { text: '考试' },
+        1: { text: '培训任务' },
+        2: { text: '考试任务' },
       },
     },
     {
@@ -304,7 +321,7 @@ export default () => {
       hideInTable: radioValue === 1,
     },
     {
-      title: '完成进度',
+      title: radioValue === 1 ? '完成率' : '完成进度',
       dataIndex: 'completeRate',
       key: 'completeRate',
       width: 80,
@@ -415,11 +432,11 @@ export default () => {
           breadcrumb: {},
         }}
         tabActiveKey={tabActiveKey}
-        tabList={tabList}
+        tabList={tabList()}
         onTabChange={(key) => setTabActiveKey(key)}
       >
         <Tabs activeKey={tabActiveKey} tabBarStyle={{ display: 'none' }}>
-          {tabList.map((item) => (
+          {tabList().map((item) => (
             <Tabs.TabPane key={item.key}>{renderProTable(item.key)}</Tabs.TabPane>
           ))}
         </Tabs>
