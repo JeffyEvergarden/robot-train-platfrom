@@ -139,6 +139,16 @@ export default [
         redirect: '/front/teacher/dataManage/tablepage',
       },
     ],
+    btnMenu: [
+      {
+        title: '任务管理',
+        key: 'teacher_dataManage_task_btn',
+      },
+      {
+        title: '学员数据',
+        key: 'teacher_dataManage_student_btn',
+      },
+    ],
   },
   //-------导师端
   {
