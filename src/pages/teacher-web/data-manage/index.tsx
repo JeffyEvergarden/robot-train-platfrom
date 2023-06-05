@@ -17,6 +17,7 @@ export default () => {
   const { menuBtns } = userInfoAll || {};
 
   const state: any = history.location.state || {};
+  const defaultRadioValue: any = state.radioValue ? Number(state.radioValue) : 0;
   let tab: any = state.tab || 'task';
   if (tab === 'task' && !menuBtns?.includes('teacher_dataManage_task_btn')) {
     tab = 'student';
@@ -30,7 +31,7 @@ export default () => {
   const { allTableList, getAllTaskList } = useTaskModel();
 
   const [tabActiveKey, setTabActiveKey] = useState<string>(tab); //'task'-任务、'student'-学员
-  const [radioValue, setRadioValue] = useState<number>(0); //0-当前、1-历史
+  const [radioValue, setRadioValue] = useState<number>(defaultRadioValue); //0-当前、1-历史
 
   const tabList = () => {
     let list = [];
@@ -65,9 +66,11 @@ export default () => {
   const detailData = (r: any) => {
     const id = tabActiveKey === 'task' ? r.taskId : r.account;
     const title = tabActiveKey === 'task' ? r.taskName : r.userName;
-    history.push(
-      `/front/teacher/dataManage/detailData?id=${id}&title=${title}&tab=${tabActiveKey}`,
-    );
+    let src = `/front/teacher/dataManage/detailData?id=${id}&title=${title}&tab=${tabActiveKey}`;
+    if (tabActiveKey === 'student') {
+      src += `&radioValue=${radioValue}`;
+    }
+    history.push(src);
   };
 
   const columns: any[] = [
