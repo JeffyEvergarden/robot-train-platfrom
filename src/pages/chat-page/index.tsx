@@ -139,6 +139,9 @@ const ChatPage: any = (props: any) => {
 
   // websocket
   const initSocket = async () => {
+    // 如果有socket // 先关闭
+    socketRef.current?.sk?.close?.();
+
     setFinishFlag(false);
 
     let sessionId: any = await postCall({ courseId, taskId, nodeId });
@@ -204,7 +207,7 @@ const ChatPage: any = (props: any) => {
     setTimeout(() => {
       // 延迟关闭
       socketRef.current?.sk?.close?.();
-    }, 1000 * 10);
+    }, 1000 * 20);
   };
 
   // -------------------- 打开成绩单
