@@ -11,8 +11,16 @@ import { useTaskModel } from '../task/model';
 import { formatePercent } from '@/utils';
 
 export default () => {
+  // 用户信息
+  const { initialState } = useModel('@@initialState');
+  const { userInfoAll } = (initialState?.currentUser as any) || {};
+  const { menuBtns } = userInfoAll || {};
+
   const state: any = history.location.state || {};
-  const tab: any = state.tab || 'task';
+  let tab: any = state.tab || 'task';
+  if (tab === 'task' && !menuBtns?.includes('teacher_dataManage_task_btn')) {
+    tab = 'student';
+  }
 
   const taskFormRef = useRef<FormInstance>();
   const studentFormRef = useRef<FormInstance>();
@@ -24,16 +32,22 @@ export default () => {
   const [tabActiveKey, setTabActiveKey] = useState<string>(tab); //'task'-任务、'student'-学员
   const [radioValue, setRadioValue] = useState<number>(0); //0-当前、1-历史
 
-  const tabList = [
-    {
-      tab: '任务管理',
-      key: 'task',
-    },
-    {
-      tab: '学员数据',
-      key: 'student',
-    },
-  ];
+  const tabList = () => {
+    let list = [];
+    if (menuBtns?.includes('teacher_dataManage_task_btn')) {
+      list.push({
+        tab: '任务管理',
+        key: 'task',
+      });
+    }
+    if (menuBtns?.includes('teacher_dataManage_student_btn')) {
+      list.push({
+        tab: '学员数据',
+        key: 'student',
+      });
+    }
+    return list;
+  };
 
   useEffect(() => {
     userListRequest({});
@@ -415,11 +429,11 @@ export default () => {
           breadcrumb: {},
         }}
         tabActiveKey={tabActiveKey}
-        tabList={tabList}
+        tabList={tabList()}
         onTabChange={(key) => setTabActiveKey(key)}
       >
         <Tabs activeKey={tabActiveKey} tabBarStyle={{ display: 'none' }}>
-          {tabList.map((item) => (
+          {tabList().map((item) => (
             <Tabs.TabPane key={item.key}>{renderProTable(item.key)}</Tabs.TabPane>
           ))}
         </Tabs>
