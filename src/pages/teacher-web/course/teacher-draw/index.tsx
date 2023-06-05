@@ -158,15 +158,24 @@ const DrawDemo: React.FC<any> = (props: any) => {
         }}
         extra={
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Popconfirm
-              placement="bottomLeft"
-              title="如有修改画布内容请确定已保存"
-              onConfirm={() => {
-                history.push('/front/teacher/course');
-              }}
-            >
-              <ArrowLeftOutlined style={{ fontSize: '22px', marginRight: '8px' }} />
-            </Popconfirm>
+            {courseInfo?.courseStatus ? (
+              <ArrowLeftOutlined
+                style={{ fontSize: '22px', marginRight: '8px' }}
+                onClick={() => {
+                  history.push('/front/teacher/course');
+                }}
+              />
+            ) : (
+              <Popconfirm
+                placement="bottomLeft"
+                title="如有修改画布内容请确定已保存"
+                onConfirm={() => {
+                  history.push('/front/teacher/course');
+                }}
+              >
+                <ArrowLeftOutlined style={{ fontSize: '22px', marginRight: '8px' }} />
+              </Popconfirm>
+            )}
             <Tooltip title={history?.location?.query?.name || courseInfo?.courseName}>
               <span className={style['drawTitle']} style={{ fontSize: '20px', fontWeight: '500' }}>
                 {history?.location?.query?.name || courseInfo?.courseName}
