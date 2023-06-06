@@ -162,7 +162,7 @@ const TeacherHome: React.FC<any> = (props: any) => {
               // showQuickJumper
               showSizeChanger
               pageSizeOptions={[12, 24, 36, 72]}
-              showTotal={(total, range) => `第 ${range[0]}-${range[1]} 条/总共 ${total} items`}
+              showTotal={(total, range) => `第 ${range[0]}-${range[1]} 条/总共 ${total} 条`}
               onChange={(current: any, size: any) => {
                 // console.log('onChange - ', current, size);
                 if (pageSize !== size) current = 1; // pageSize 发生变化时，默认切换至首页
