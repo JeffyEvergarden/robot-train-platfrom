@@ -129,6 +129,8 @@ const ChatPage: any = (props: any) => {
         // 打开考试弹窗
         // 对话结束
         phoneCallRef.current?.end?.();
+        clearTimeout(socketRef.current.fn);
+        socketRef.current?.sk?.close?.();
         setFinishFlag(true);
         openScoreModal(socketRef.current.sessionId);
       }
