@@ -207,9 +207,11 @@ const ChatPage: any = (props: any) => {
 
   // 结束
   const onEnd = () => {
+    clearTimeout(socketRef.current.fn);
     setFinishFlag(true); // 主动结束
     socketRef.current.fn = setTimeout(() => {
       // 延迟关闭socket
+      console.log('延时关闭');
       socketRef.current?.sk?.close?.();
     }, 1000 * 15);
   };
