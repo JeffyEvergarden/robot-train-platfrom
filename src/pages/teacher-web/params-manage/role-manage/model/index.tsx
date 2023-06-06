@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { Tabs, Select, Button, Modal, message, Spin, Space, notification } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { api_rolePage, api_roleList, api_roleSynch, api_workPlaceEdit } from './api';
+import {
+  api_rolePage,
+  api_roleList,
+  api_roleSynch,
+  api_savePermission,
+  api_getPermission,
+} from './api';
 
 import config from '@/config';
 
@@ -49,13 +55,11 @@ export const useRoleManageModel = () => {
     const { data = [] } = res;
     // 按 Protable request 格式返回结果
     setRoleList(data);
-    return {
-      data,
-    };
+    return data;
   };
 
   // 角色同步
-  const roleSameStep = async (params?: any) => {
+  const roleSynch = async (params?: any) => {
     setLoading(true);
     let res: any = await api_roleSynch(params);
     setLoading(false);
@@ -67,16 +71,29 @@ export const useRoleManageModel = () => {
     return true;
   };
 
-  // 职场编辑 接口
-  const workPlaceEdit = async (params: any) => {
+  // 角色权限查询 接口
+  const getPermission = async (params: any) => {
     setLoading(true);
-    const res: any = await api_workPlaceEdit(params);
+    const res: any = await api_getPermission(params);
     setLoading(false);
     if (res.resultCode !== successCode) {
-      message.error('编辑数据失败');
+      message.error('角色权限查询失败');
+      return [];
+    }
+    const { data = [] } = res;
+    return data;
+  };
+
+  // 角色编辑 接口
+  const savePermission = async (params: any) => {
+    setLoading(true);
+    const res: any = await api_savePermission(params);
+    setLoading(false);
+    if (res.resultCode !== successCode) {
+      message.error('编辑权限失败');
       return false;
     }
-    message.success('编辑数据成功');
+    message.success('编辑权限成功');
     return true;
   };
 
@@ -86,7 +103,8 @@ export const useRoleManageModel = () => {
     setLoading,
     getRolePage,
     getRoleList,
-    roleSameStep,
-    workPlaceEdit,
+    roleSynch,
+    getPermission,
+    savePermission,
   };
 };

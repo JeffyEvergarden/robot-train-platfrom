@@ -105,6 +105,7 @@ export default [
         path: '/front/teacher/paramsManage/userManage',
         component: './teacher-web/params-manage/user-manage',
         name: '用户管理',
+        access: 'routerAuth',
       },
       {
         path: '/front/teacher/paramsManage/ruleManage',
@@ -117,11 +118,13 @@ export default [
         path: '/front/teacher/paramsManage/systemManage',
         component: './teacher-web/params-manage/system-manage',
         name: '系统管理',
+        access: 'routerAuth',
       },
       {
         path: '/front/teacher/paramsManage/intention',
         component: './teacher-web/params-manage/intention',
         name: '意图管理',
+        access: 'routerAuth',
         hideInMenu: true,
       },
     ],

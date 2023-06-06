@@ -27,9 +27,17 @@ export async function api_roleSynch(data?: Record<string, any>) {
   });
 }
 
-// 职场编辑接口
-export async function api_workPlaceEdit(data?: any) {
-  return request(`${baseUrl}/services/workPlace/workPlaceEdit`, {
+// 角色权限查询
+export async function api_getPermission(data?: any) {
+  return request(`${baseUrl}/services/role/getPermission`, {
+    method: 'post',
+    data: data,
+  });
+}
+
+// 角色权限编辑接口
+export async function api_savePermission(data?: any) {
+  return request(`${baseUrl}/services/role/savePermission`, {
     method: 'post',
     data: data,
   });
