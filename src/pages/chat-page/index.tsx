@@ -129,8 +129,7 @@ const ChatPage: any = (props: any) => {
         // 打开考试弹窗
         // 对话结束
         phoneCallRef.current?.end?.();
-        clearTimeout(socketRef.current.fn);
-        socketRef.current?.sk?.close?.();
+        onPrepare();
         setFinishFlag(true);
         openScoreModal(socketRef.current.sessionId);
       }
@@ -139,12 +138,13 @@ const ChatPage: any = (props: any) => {
     }
   };
   const onPrepare = () => {
+    console.log('清除定时任务以及关闭已有socket');
     clearTimeout(socketRef.current.fn);
+    socketRef.current?.sk?.close?.();
   };
   // websocket
   const initSocket = async () => {
     // 如果有socket // 先关闭
-    socketRef.current?.sk?.close?.();
 
     setFinishFlag(false);
 
@@ -195,7 +195,7 @@ const ChatPage: any = (props: any) => {
       // phoneCallRef.current?.end?.();
     };
     sk.onerror = (event) => {
-      console.log('error');
+      console.log('websocket error');
       setTimeout(() => {
         setFinishFlag(false);
       }, 200);
@@ -209,9 +209,9 @@ const ChatPage: any = (props: any) => {
   const onEnd = () => {
     setFinishFlag(true); // 主动结束
     socketRef.current.fn = setTimeout(() => {
-      // 延迟关闭
+      // 延迟关闭socket
       socketRef.current?.sk?.close?.();
-    }, 1000 * 20);
+    }, 1000 * 15);
   };
 
   // -------------------- 打开成绩单
