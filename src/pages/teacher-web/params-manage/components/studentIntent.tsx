@@ -3,6 +3,7 @@ import { Fragment, useRef, useState, useEffect } from 'react';
 import { Divider, Button, Select, message, Space, notification, Popconfirm } from 'antd';
 import { useIntentionModel } from './../model';
 import { history } from 'umi';
+import BtnAuth from '@/components/BtnAuth';
 
 import config from '@/config';
 const successCode = config.successCode;
@@ -114,9 +115,11 @@ export default () => {
         actionRef={actionRef}
         headerTitle="意图列表"
         toolBarRender={() => [
-          <Button type="primary" key="sameStep" onClick={syncStudent}>
-            同步
-          </Button>,
+          <BtnAuth authKey={'paramsManage_intention_sameStep_btn'}>
+            <Button type="primary" key="sameStep" onClick={syncStudent}>
+              同步
+            </Button>
+          </BtnAuth>,
         ]}
         options={false}
         pagination={{

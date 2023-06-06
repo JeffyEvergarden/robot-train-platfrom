@@ -25,6 +25,7 @@ export default (props: any) => {
   const [rowData, setRowData] = useState<any>({});
 
   const [checkedKeys, setCheckedKeys] = useState<any>([]);
+  const [halfChecked, setHalfChecked] = useState<any>([]);
   const { loading, savePermission, getPermission } = useRoleManageModel();
 
   useImperativeHandle(cref, () => ({
@@ -32,9 +33,12 @@ export default (props: any) => {
       form.resetFields();
       setCheckedKeys([]);
       getPermission({ id: record.id }).then((data) => {
-        setVisible(true);
-        setRowData(record);
-        setCheckedKeys(data);
+        if (data.result) {
+          setVisible(true);
+          setRowData(record);
+          setCheckedKeys(data.data.menuCodes);
+          setHalfChecked(data.data.codes);
+        }
       });
     },
     close: onClose,
@@ -46,7 +50,7 @@ export default (props: any) => {
   };
 
   const roleSave = async () => {
-    const b = await savePermission({ id: rowData.id, menuCodes: checkedKeys });
+    const b = await savePermission({ id: rowData.id, menuCodes: checkedKeys, codes: halfChecked });
     if (b) {
       setVisible(false);
     }
@@ -57,21 +61,16 @@ export default (props: any) => {
     setVisible(false);
   };
 
-  const treeData = (routers: any[]): any[] => {
-    const newRouters = routers.filter((item) => item.access && item.access === 'routerAuth');
-    return newRouters.map((router: any) => {
-      // if (router.mxcAuth) {
-      //     return {
-      //         title: router.name,
-      //         key: router.path,
-      //         children: router.mxcAuth.map((item: any) => {
-      //             return {
-      //                 title: item.name,
-      //                 key: router.path+'_'+item.value,
-      //             }
-      //         })
-      //     }
-      // }
+  const treeData = (menus: any[]): any[] => {
+    const newMenus = menus.filter((item) => item.access && item.access === 'routerAuth');
+    return newMenus.map((router: any) => {
+      if (router.btnMenu) {
+        return {
+          title: router.name,
+          key: router.path,
+          children: router.btnMenu,
+        };
+      }
       return {
         title: router.name,
         key: router.path,
@@ -79,8 +78,9 @@ export default (props: any) => {
       };
     });
   };
-  const onCheck = (checkedKeysValue: any[]) => {
+  const onCheck = (checkedKeysValue: any[], e: any) => {
     setCheckedKeys(checkedKeysValue);
+    setHalfChecked(e.halfCheckedKeys);
   };
 
   return (
@@ -114,7 +114,12 @@ export default (props: any) => {
           />
           <span className={styles['title']}>{rowData.roleName || ''}</span>
         </div>
-        <Tree checkable onCheck={onCheck} checkedKeys={checkedKeys} treeData={treeData(routers)} />
+        <Tree
+          checkable
+          onCheck={onCheck}
+          checkedKeys={{ checked: checkedKeys, halfChecked: halfChecked }}
+          treeData={treeData(routers)}
+        />
       </Drawer>
     </Spin>
   );

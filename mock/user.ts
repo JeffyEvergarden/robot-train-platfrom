@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import config from '../src/config';
-
+import routers from '../config/routes';
 const successCode = config.successCode;
 
 const baseUrl = config.basePath;
@@ -12,6 +12,32 @@ const waitTime = (time: number = 100) => {
     }, time);
   });
 };
+
+let menus: string[] = [];
+let menuBtns: string[] = [];
+const getMenu = (routers: any) => {
+  routers.forEach((item: any) => {
+    if (item.access === 'routerAuth') {
+      menus.push(item.path);
+      if (item.btnMenu) {
+        getMenuBtns(item.btnMenu);
+      }
+      if (item.routes) {
+        getMenu(item.routes);
+      }
+    }
+  });
+  return menus;
+};
+const getMenuBtns = (btnMenu: any) => {
+  btnMenu.forEach((btn: any) => {
+    menuBtns.push(btn.key);
+    if (btn.children) {
+      getMenuBtns(btn.children);
+    }
+  });
+};
+getMenu(routers);
 
 async function getFakeCaptcha(req: Request, res: Response) {
   await waitTime(2000);
@@ -45,6 +71,8 @@ export default {
         userCode: '1000',
         // role: ['admin', 'teacher', 'student'],
         role: ['admin'],
+        menus: menus,
+        menuBtns: menuBtns,
         organizations: [
           {
             id: 1137,

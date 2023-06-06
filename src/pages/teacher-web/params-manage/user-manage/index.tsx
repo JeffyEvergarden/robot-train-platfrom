@@ -9,7 +9,9 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 import { getWorkplaceColumns, useWorkPlaceModel } from '../workplace-manage/model';
 import { useRoleManageModel } from '../role-manage/model';
 import AddWorkplaceModal from '../workplace-manage/components/addWorkplaceModal';
+import { useModel } from 'umi';
 import RoleModal from '../components/roleModal';
+import BtnAuth from '@/components/BtnAuth';
 
 import config from '@/config';
 const successCode = config.successCode;
@@ -41,6 +43,11 @@ const UserManage: React.FC = (props: any) => {
     getRoleList,
     roleSynch,
   } = useRoleManageModel();
+
+  // 用户信息
+  const { initialState } = useModel('@@initialState');
+  const { userInfoAll } = (initialState?.currentUser as any) || {};
+  const { menuBtns } = userInfoAll || {};
 
   const editUserRef = useRef<any>();
   const roleRef = useRef<any>();
@@ -287,7 +294,11 @@ const UserManage: React.FC = (props: any) => {
       render: (t: any, r: any, i: any) => {
         const { roleCode = [] } = r;
         if (roleCode.length === 1 && roleCode[0] === 'admin') return null;
-        return <a onClick={() => editUser(r)}>编辑</a>;
+        return (
+          <BtnAuth authKey={'paramsManage_userManage_user_edit_btn'}>
+            <a onClick={() => editUser(r)}>编辑</a>
+          </BtnAuth>
+        );
       },
     },
   ];
@@ -366,10 +377,14 @@ const UserManage: React.FC = (props: any) => {
       render: (t: any, r: any, i: any) => {
         return (
           <Space>
-            <a onClick={() => editGroup(r)}>编辑</a>
-            <a style={{ color: 'red' }} onClick={() => deleteGroup(r)}>
-              删除
-            </a>
+            <BtnAuth authKey={'paramsManage_userManage_rule_edit_btn'}>
+              <a onClick={() => editGroup(r)}>编辑</a>
+            </BtnAuth>
+            <BtnAuth authKey={'paramsManage_userManage_rule_delete_btn'}>
+              <a style={{ color: 'red' }} onClick={() => deleteGroup(r)}>
+                删除
+              </a>
+            </BtnAuth>
           </Space>
         );
       },
@@ -451,7 +466,7 @@ const UserManage: React.FC = (props: any) => {
       ),
     },
     {
-      title: '创建人',
+      title: '同步者',
       dataIndex: 'creator',
       key: 'creator',
       ellipsis: true,
@@ -474,11 +489,13 @@ const UserManage: React.FC = (props: any) => {
       valueType: 'option',
       render: (t: any, r: any, i: any) => {
         return (
-          <Space>
-            <Button type="link" loading={roleLoading} onClick={() => editRole(r)}>
-              编辑
-            </Button>
-          </Space>
+          <BtnAuth authKey={'paramsManage_userManage_role_edit_btn'}>
+            <Space>
+              <Button type="link" loading={roleLoading} onClick={() => editRole(r)}>
+                编辑
+              </Button>
+            </Space>
+          </BtnAuth>
         );
       },
     },
@@ -510,116 +527,132 @@ const UserManage: React.FC = (props: any) => {
         }}
       >
         <Tabs defaultActiveKey="1" onChange={tabChange}>
-          <Tabs.TabPane tab="用户管理" key="1">
-            <Spin spinning={loading}>
-              <ProTable
-                rowKey={(record: any) => record?.id}
-                actionRef={userActionRef}
-                headerTitle="用户列表"
-                toolBarRender={() => [
-                  <Button type="primary" key="sameStep" onClick={sameStep}>
-                    同步
-                  </Button>,
-                ]}
-                options={false}
-                pagination={{
-                  pageSize: 10,
-                  showSizeChanger: true,
-                  showQuickJumper: true,
-                }}
-                search={{
-                  labelWidth: 'auto',
-                }}
-                columns={userColumns}
-                scroll={{ x: userColumns?.length * 150 }}
-                request={async (params = {}, sort, filter) => {
-                  return getUserList({ ...params });
-                }}
-              />
-            </Spin>
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="组别管理" key="2">
-            <Spin spinning={loading}>
-              <ProTable
-                rowKey={(record: any) => record?.id}
-                actionRef={groupActionRef}
-                headerTitle="组别列表"
-                toolBarRender={() => [
-                  <Button type="primary" key="sameStep" onClick={() => addGroup()}>
-                    新建
-                  </Button>,
-                ]}
-                options={false}
-                pagination={{
-                  pageSize: 10,
-                  showSizeChanger: true,
-                  showQuickJumper: true,
-                }}
-                search={{
-                  labelWidth: 'auto',
-                }}
-                columns={groupColumns}
-                scroll={{ x: groupColumns?.length * 150 }}
-                request={async (params = {}, sort, filter) => {
-                  return getGroupList({ ...params });
-                }}
-              />
-            </Spin>
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="职场管理" key="3">
-            <Spin spinning={loading}>
-              <ProTable
-                rowKey={(record: any) => record?.id}
-                actionRef={workplaceTableRef}
-                headerTitle="职场列表"
-                toolBarRender={() => [
-                  <Button type="primary" key="sameStep" onClick={() => clickWorkPlaceAdd()}>
-                    新建
-                  </Button>,
-                ]}
-                options={false}
-                pagination={{
-                  pageSize: 10,
-                  showSizeChanger: true,
-                  showQuickJumper: true,
-                }}
-                search={false}
-                columns={getWorkplaceColumns(clickWorkplaceEdit, deleteWorkplaceAction)}
-                request={async (params = {}, sort, filter) => {
-                  return getWorkPlacePage(params);
-                }}
-              />
-            </Spin>
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="角色管理" key="4">
-            <Spin spinning={roleLoading}>
-              <ProTable
-                rowKey={(record: any) => record?.id}
-                actionRef={roleTableRef}
-                headerTitle="角色列表"
-                toolBarRender={() => [
-                  <Button type="primary" key="sameStep" onClick={() => roleSameStep()}>
-                    同步
-                  </Button>,
-                ]}
-                options={false}
-                pagination={{
-                  pageSize: 10,
-                  showSizeChanger: true,
-                  showQuickJumper: true,
-                }}
-                search={{
-                  labelWidth: 'auto',
-                }}
-                columns={roleColumns}
-                scroll={{ x: roleColumns?.length * 150 }}
-                request={async (params = {}, sort, filter) => {
-                  return getRolePage(params);
-                }}
-              />
-              <RoleModal cref={roleRef} loading={roleLoading} comfirmSubmit={comfirmSubmit} />
-            </Spin>
-          </Tabs.TabPane>
+          {menuBtns?.includes('paramsManage_userManage_user_btn') ? (
+            <Tabs.TabPane tab="用户管理" key="1">
+              <Spin spinning={loading}>
+                <ProTable
+                  rowKey={(record: any) => record?.id}
+                  actionRef={userActionRef}
+                  headerTitle="用户列表"
+                  toolBarRender={() => [
+                    <BtnAuth authKey={'paramsManage_userManage_user_sameStep_btn'}>
+                      <Button type="primary" key="sameStep" onClick={sameStep}>
+                        同步
+                      </Button>
+                    </BtnAuth>,
+                  ]}
+                  options={false}
+                  pagination={{
+                    pageSize: 10,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                  }}
+                  search={{
+                    labelWidth: 'auto',
+                  }}
+                  columns={userColumns}
+                  scroll={{ x: userColumns?.length * 150 }}
+                  request={async (params = {}, sort, filter) => {
+                    return getUserList({ ...params });
+                  }}
+                />
+              </Spin>
+            </Tabs.TabPane>
+          ) : undefined}
+          {menuBtns?.includes('paramsManage_userManage_rule_btn') ? (
+            <Tabs.TabPane tab="组别管理" key="2">
+              <Spin spinning={loading}>
+                <ProTable
+                  rowKey={(record: any) => record?.id}
+                  actionRef={groupActionRef}
+                  headerTitle="组别列表"
+                  toolBarRender={() => [
+                    <BtnAuth authKey={'paramsManage_userManage_rule_add_btn'}>
+                      <Button type="primary" key="sameStep" onClick={() => addGroup()}>
+                        新建
+                      </Button>
+                    </BtnAuth>,
+                  ]}
+                  options={false}
+                  pagination={{
+                    pageSize: 10,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                  }}
+                  search={{
+                    labelWidth: 'auto',
+                  }}
+                  columns={groupColumns}
+                  scroll={{ x: groupColumns?.length * 150 }}
+                  request={async (params = {}, sort, filter) => {
+                    return getGroupList({ ...params });
+                  }}
+                />
+              </Spin>
+            </Tabs.TabPane>
+          ) : undefined}
+          {menuBtns?.includes('paramsManage_userManage_workplace_btn') ? (
+            <Tabs.TabPane tab="职场管理" key="3">
+              <Spin spinning={loading}>
+                <ProTable
+                  rowKey={(record: any) => record?.id}
+                  actionRef={workplaceTableRef}
+                  headerTitle="职场列表"
+                  toolBarRender={() => [
+                    <BtnAuth authKey={'paramsManage_userManage_workplace_add_btn'}>
+                      <Button type="primary" key="sameStep" onClick={() => clickWorkPlaceAdd()}>
+                        新建
+                      </Button>
+                    </BtnAuth>,
+                  ]}
+                  options={false}
+                  pagination={{
+                    pageSize: 10,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                  }}
+                  search={false}
+                  columns={getWorkplaceColumns(clickWorkplaceEdit, deleteWorkplaceAction)}
+                  request={async (params = {}, sort, filter) => {
+                    return getWorkPlacePage(params);
+                  }}
+                />
+              </Spin>
+            </Tabs.TabPane>
+          ) : undefined}
+          {menuBtns?.includes('paramsManage_userManage_role_btn') ? (
+            <Tabs.TabPane tab="角色管理" key="4">
+              <Spin spinning={roleLoading}>
+                <ProTable
+                  rowKey={(record: any) => record?.id}
+                  actionRef={roleTableRef}
+                  headerTitle="角色列表"
+                  toolBarRender={() => [
+                    <BtnAuth authKey={'paramsManage_userManage_role_sameStep_btn'}>
+                      <Button type="primary" key="sameStep" onClick={() => roleSameStep()}>
+                        同步
+                      </Button>
+                    </BtnAuth>,
+                  ]}
+                  options={false}
+                  pagination={{
+                    pageSize: 10,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                  }}
+                  search={{
+                    labelWidth: 'auto',
+                  }}
+                  columns={roleColumns}
+                  scroll={{ x: roleColumns?.length * 150 }}
+                  request={async (params = {}, sort, filter) => {
+                    return getRolePage(params);
+                  }}
+                />
+                <RoleModal cref={roleRef} loading={roleLoading} comfirmSubmit={comfirmSubmit} />
+              </Spin>
+            </Tabs.TabPane>
+          ) : undefined}
         </Tabs>
         <EditUserModal
           cref={editUserRef}

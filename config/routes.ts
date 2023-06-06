@@ -1,5 +1,5 @@
 console.log(process.env.UMI_ENV);
-
+//  按钮权限以 _btn 结尾
 export default [
   {
     path: '/',
@@ -41,6 +41,36 @@ export default [
         redirect: '/front/teacher/course/tablepage',
       },
     ],
+    btnMenu: [
+      {
+        title: '新增',
+        key: 'teacher_course_add_btn',
+      },
+      {
+        title: '课程复制',
+        key: 'teacher_course_copy_btn',
+      },
+      {
+        title: '信息编辑',
+        key: 'teacher_course_infoEdit_btn',
+      },
+      {
+        title: '流程编辑',
+        key: 'teacher_course_processEdit_btn',
+      },
+      {
+        title: '发布',
+        key: 'teacher_course_publish_btn',
+      },
+      {
+        title: '下线',
+        key: 'teacher_course_down_btn',
+      },
+      {
+        title: '删除',
+        key: 'teacher_course_delete_btn',
+      },
+    ],
   },
   {
     path: '/front/teacher/task',
@@ -64,6 +94,24 @@ export default [
       },
       {
         redirect: '/front/teacher/task/tablepage',
+      },
+    ],
+    btnMenu: [
+      {
+        title: '新增',
+        key: 'teacher_task_add_btn',
+      },
+      {
+        title: '编辑',
+        key: 'teacher_task_edit_btn',
+      },
+      {
+        title: '流程编辑',
+        key: 'teacher_task_processEdit_btn',
+      },
+      {
+        title: '删除',
+        key: 'teacher_task_delete_btn',
       },
     ],
   },
@@ -91,6 +139,16 @@ export default [
         redirect: '/front/teacher/dataManage/tablepage',
       },
     ],
+    btnMenu: [
+      {
+        title: '任务管理',
+        key: 'teacher_dataManage_task_btn',
+      },
+      {
+        title: '学员数据',
+        key: 'teacher_dataManage_student_btn',
+      },
+    ],
   },
   //-------导师端
   {
@@ -106,6 +164,72 @@ export default [
         component: './teacher-web/params-manage/user-manage',
         name: '用户管理',
         access: 'routerAuth',
+        btnMenu: [
+          {
+            title: '用户管理',
+            key: 'paramsManage_userManage_user_btn',
+            children: [
+              {
+                title: '同步',
+                key: 'paramsManage_userManage_user_sameStep_btn',
+              },
+              {
+                title: '编辑',
+                key: 'paramsManage_userManage_user_edit_btn',
+              },
+            ],
+          },
+          {
+            title: '组别管理',
+            key: 'paramsManage_userManage_rule_btn',
+            children: [
+              {
+                title: '新增',
+                key: 'paramsManage_userManage_rule_add_btn',
+              },
+              {
+                title: '编辑',
+                key: 'paramsManage_userManage_rule_edit_btn',
+              },
+              {
+                title: '删除',
+                key: 'paramsManage_userManage_rule_delete_btn',
+              },
+            ],
+          },
+          {
+            title: '职场管理',
+            key: 'paramsManage_userManage_workplace_btn',
+            children: [
+              {
+                title: '新增',
+                key: 'paramsManage_userManage_workplace_add_btn',
+              },
+              {
+                title: '编辑',
+                key: 'paramsManage_userManage_workplace_edit_btn',
+              },
+              {
+                title: '删除',
+                key: 'paramsManage_userManage_workplace_delete_btn',
+              },
+            ],
+          },
+          {
+            title: '角色管理',
+            key: 'paramsManage_userManage_role_btn',
+            children: [
+              {
+                title: '同步',
+                key: 'paramsManage_userManage_role_sameStep_btn',
+              },
+              {
+                title: '编辑',
+                key: 'paramsManage_userManage_role_edit_btn',
+              },
+            ],
+          },
+        ],
       },
       {
         path: '/front/teacher/paramsManage/ruleManage',
@@ -113,12 +237,44 @@ export default [
         name: '规则管理',
         access: 'routerAuth',
         role: ['admin'],
+        btnMenu: [
+          {
+            title: '评分比例配置',
+            key: 'paramsManage_ruleManage_score_btn',
+          },
+          {
+            title: '服务规则配置',
+            key: 'paramsManage_ruleManage_service_btn',
+          },
+          {
+            title: '话术合格配置',
+            key: 'paramsManage_ruleManage_dialogCom_btn',
+          },
+        ],
       },
       {
         path: '/front/teacher/paramsManage/systemManage',
         component: './teacher-web/params-manage/system-manage',
         name: '系统管理',
         access: 'routerAuth',
+        btnMenu: [
+          {
+            title: '新增',
+            key: 'paramsManage_systemManage_add_btn',
+          },
+          {
+            title: '编辑',
+            key: 'paramsManage_systemManage_edit_btn',
+          },
+          {
+            title: '删除',
+            key: 'paramsManage_systemManage_delete_btn',
+          },
+          {
+            title: '意图',
+            key: 'paramsManage_systemManage_intention_btn',
+          },
+        ],
       },
       {
         path: '/front/teacher/paramsManage/intention',
@@ -126,6 +282,24 @@ export default [
         name: '意图管理',
         access: 'routerAuth',
         hideInMenu: true,
+        btnMenu: [
+          {
+            title: '新增',
+            key: 'paramsManage_intention_add_btn',
+          },
+          {
+            title: '编辑',
+            key: 'paramsManage_intention_edit_btn',
+          },
+          {
+            title: '删除',
+            key: 'paramsManage_intention_delete_btn',
+          },
+          {
+            title: '同步',
+            key: 'paramsManage_intention_sameStep_btn',
+          },
+        ],
       },
     ],
   },
@@ -167,14 +341,14 @@ export default [
     role: ['admin', 'student'],
     layout: true,
   },
-  {
-    path: '/front/demo',
-    component: './demo',
-    name: '语音聊天demo测试',
-    access: 'routerAuth',
-    role: ['admin'],
-    layout: true,
-  },
+  // {
+  //   path: '/front/demo',
+  //   component: './demo',
+  //   name: '语音聊天demo测试',
+  //   access: 'routerAuth',
+  //   role: ['admin'],
+  //   layout: true,
+  // },
   // {
   //   path: '/front/drawdemo',
   //   component: './draw-demo',

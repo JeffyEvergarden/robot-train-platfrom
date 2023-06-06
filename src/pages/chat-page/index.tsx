@@ -129,6 +129,8 @@ const ChatPage: any = (props: any) => {
         // 打开考试弹窗
         // 对话结束
         phoneCallRef.current?.end?.();
+        clearTimeout(socketRef.current.fn);
+        socketRef.current?.sk?.close?.();
         setFinishFlag(true);
         openScoreModal(socketRef.current.sessionId);
       }
@@ -136,9 +138,14 @@ const ChatPage: any = (props: any) => {
       console.log('formate-msg error');
     }
   };
-
+  const onPrepare = () => {
+    clearTimeout(socketRef.current.fn);
+  };
   // websocket
   const initSocket = async () => {
+    // 如果有socket // 先关闭
+    socketRef.current?.sk?.close?.();
+
     setFinishFlag(false);
 
     let sessionId: any = await postCall({ courseId, taskId, nodeId });
@@ -185,7 +192,7 @@ const ChatPage: any = (props: any) => {
 
     sk.onclose = (event) => {
       console.log('WebSocket 连接已关闭');
-      phoneCallRef.current?.end?.();
+      // phoneCallRef.current?.end?.();
     };
     sk.onerror = (event) => {
       console.log('error');
@@ -201,10 +208,10 @@ const ChatPage: any = (props: any) => {
   // 结束
   const onEnd = () => {
     setFinishFlag(true); // 主动结束
-    setTimeout(() => {
+    socketRef.current.fn = setTimeout(() => {
       // 延迟关闭
       socketRef.current?.sk?.close?.();
-    }, 1000 * 10);
+    }, 1000 * 20);
   };
 
   // -------------------- 打开成绩单
@@ -313,6 +320,7 @@ const ChatPage: any = (props: any) => {
               oursNumber={jssipInfo.oursNumber}
               sysPhone={jssipInfo.sysPhone}
               onCall={initSocket}
+              onPrepare={onPrepare}
               onEnd={onEnd}
             ></PhoneCall>
           </div>

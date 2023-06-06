@@ -55,25 +55,28 @@ const roleSynch = (req: any, res: any) => {
   });
 };
 
-const workPlaceEdit = (req: any, res: any) => {
-  const { id, name } = req.body;
-  let code = successCode;
-  let msg = '成功';
-  if (id === 1) {
-    code = '400';
-    msg = `修改 ${name} 失败`;
-  }
-  setTimeout(() => {
-    res.json({
-      resultCode: code,
-      resultDesc: msg,
-    });
-  }, 2000);
+const getPermission = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '成功',
+    data: {
+      menuCodes: ['teacher_course_add_btn', 'teacher_course_copy_btn'],
+      codes: ['/front/teacher/course'],
+    },
+  });
+};
+
+const savePermission = (req: any, res: any) => {
+  res.json({
+    resultCode: successCode,
+    resultDesc: '保存成功',
+  });
 };
 
 export default {
   [`POST ${baseUrl}/services/role/rolePage`]: rolePage,
   [`POST ${baseUrl}/services/role/roleList`]: roleList,
+  [`POST ${baseUrl}/services/role/getPermission`]: getPermission,
+  [`POST ${baseUrl}/services/role/savePermission`]: savePermission,
   [`POST ${baseUrl}/services/role/roleSynch`]: roleSynch,
-  [`POST ${baseUrl}/services/workPlace/workPlaceEdit`]: workPlaceEdit,
 };
