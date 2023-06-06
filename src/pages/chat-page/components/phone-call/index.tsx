@@ -14,7 +14,7 @@ let currentSession = null;
 let currentConnection = null;
 
 const PhoneCall: React.FC<any> = (props: any) => {
-  const { oursNumber, sysPhone, onCall, onEnd, cref } = props;
+  const { oursNumber, sysPhone, onCall, onEnd, cref, onPrepare } = props;
 
   const { jssipInfo } = useModel('jssipConfig');
   // oursNumber: 10001,
@@ -42,6 +42,7 @@ const PhoneCall: React.FC<any> = (props: any) => {
   const type = curUrl.includes('http://') ? 'ws' : 'wss';
 
   const startConfig = async () => {
+    onPrepare?.();
     if (sipSession.current.lastTime) {
       let second = Date.now() - sipSession.current.lastTime;
       if (second <= 5500) {

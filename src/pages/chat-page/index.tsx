@@ -136,7 +136,9 @@ const ChatPage: any = (props: any) => {
       console.log('formate-msg error');
     }
   };
-
+  const onPrepare = () => {
+    clearTimeout(socketRef.current.fn);
+  };
   // websocket
   const initSocket = async () => {
     // 如果有socket // 先关闭
@@ -188,7 +190,7 @@ const ChatPage: any = (props: any) => {
 
     sk.onclose = (event) => {
       console.log('WebSocket 连接已关闭');
-      phoneCallRef.current?.end?.();
+      // phoneCallRef.current?.end?.();
     };
     sk.onerror = (event) => {
       console.log('error');
@@ -204,7 +206,7 @@ const ChatPage: any = (props: any) => {
   // 结束
   const onEnd = () => {
     setFinishFlag(true); // 主动结束
-    setTimeout(() => {
+    socketRef.current.fn = setTimeout(() => {
       // 延迟关闭
       socketRef.current?.sk?.close?.();
     }, 1000 * 20);
@@ -316,6 +318,7 @@ const ChatPage: any = (props: any) => {
               oursNumber={jssipInfo.oursNumber}
               sysPhone={jssipInfo.sysPhone}
               onCall={initSocket}
+              onPrepare={onPrepare}
               onEnd={onEnd}
             ></PhoneCall>
           </div>
